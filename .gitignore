@@ -115,9 +115,7 @@ dmypy.json
 .pyre/
 
 #Repo Size
-*.png
-*.pdf
-*.tex
+repository/*
 *.db
 *.aux
 *.toc
