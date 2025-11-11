@@ -7,8 +7,8 @@
 
 ## Generate
 - pdflatex main.tex
-## Uniz symbloic link
+## Unix symbloic link
+mkdir repository
+mkdir resource
+mkdir resource/database
 ln -s ../../../research_developer_experience/resource/database/codebase_start.db codebase_start.db
-
-## Commit of project and GitHub
-wsl resync.sh "message"
