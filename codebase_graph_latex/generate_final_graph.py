@@ -1,0 +1,9 @@
+from codebase_graph_latex.repository_graph.sample_scatter_touched_against_commit import generate_and_save as scatter_sample_commit_knowledge_generate_and_save
+from codebase_graph_latex.repository_graph.repository_average_touched import generate_and_save as repository_average_knowledge_generate_and_save
+from codebase_graph_latex.repository_graph.repository_pull_request import generate_and_save as repository_pull_request_generate_and_save
+
+
+def generate_and_save(number_of_repositories):
+    scatter_sample_commit_knowledge_generate_and_save()
+    repository_average_knowledge_generate_and_save(number_of_repositories)
+    repository_pull_request_generate_and_save(0)

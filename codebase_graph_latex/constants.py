@@ -1,0 +1,35 @@
+import inflect
+word_engine = inflect.engine()
+
+MAX_COMMIT = 5
+DEVELOPER_HAS_NUMNER_OF_COMMITS = 50
+DEVELOPER_PERIOD = 250
+NUMBER_OF_DEVELOPERS = 3
+GRAPHS_PER_PAGE = 6
+DIRECTORY = "repository/"
+LOOKUP_YAXIS = {1: "total", 2: "percentage" } 
+KNOWN_Y_AXIS = 1
+YEAR_PERIOD = 0
+NUMBER_OF_COMMIT = 3
+START_DATE = 4
+CAPTION_LENGTH = 100
+NUMBER_OF_MONTHS = 12
+NUMBER_OF_WEEKS = 52
+UNIT_FREQUENCY = {NUMBER_OF_MONTHS: "Month", NUMBER_OF_WEEKS: "Week"}
+MONTH = "month"
+DEVELOPER = "developer"
+TOUCHED = "touched"
+FOUNDER = "founder"
+JOINER = "joiner"
+SUSTAINED = "sustained"
+TRANSIENT = "transient"
+SUSTAINED_JOINER = SUSTAINED + " later " + JOINER
+SUSTAINED_FOUNDER = SUSTAINED + " " + FOUNDER
+TRANSIENT_JOINER = TRANSIENT + " later " + JOINER
+TRANSIENT_FOUNDER= TRANSIENT + " " + FOUNDER
+SUSTAINED_JOINER_DESC = SUSTAINED_JOINER.capitalize() + " developers "
+SUSTAINED_JOINER_DESC += "joining the project after six months and contributed at least " + str(DEVELOPER_HAS_NUMNER_OF_COMMITS) + " commits "
+SUSTAINED_JOINER_DESC += "over a period of " + str(DEVELOPER_PERIOD) + " days or more. "
+DEVELOPER_IGNORE = "Developers with fewer than " + word_engine.number_to_words(NUMBER_OF_COMMIT) + " commits are excluded. "
+SMALL_FIGURE = (3, 2)
+LARGE_FIGURE = (6, 4)

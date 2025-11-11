@@ -1,0 +1,13 @@
+git+https://git.dcs.gla.ac.uk/DerekSomerville/utility
+git+https://git.dcs.gla.ac.uk/DerekSomerville/class_structure
+git+https://git.dcs.gla.ac.uk/DerekSomerville/repository_save
+git+https://git.dcs.gla.ac.uk/DerekSomerville/codebase_analysis
+inflect==7.5.0
+kaleido==1.1.0
+matplotlib==3.10.1
+pandas==2.3.3
+plotly==6.3.1
+python-dateutil==2.9.0.post0
+seaborn==0.13.2
+scikit-learn==1.7.2
+six==1.17.0
