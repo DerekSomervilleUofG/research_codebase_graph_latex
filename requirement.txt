@@ -1,7 +1,6 @@
-git+https://git.dcs.gla.ac.uk/DerekSomerville/utility
-git+https://git.dcs.gla.ac.uk/DerekSomerville/class_structure
-git+https://git.dcs.gla.ac.uk/DerekSomerville/repository_save
-git+https://git.dcs.gla.ac.uk/DerekSomerville/codebase_analysis
+git+https://github.com/DerekSomervilleUofG/research_utility
+git+https://github.com/DerekSomervilleUofG/research_class_structure
+git+https://github.com/DerekSomervilleUofG/research_repository_save
 inflect==7.5.0
 kaleido==1.1.0
 matplotlib==3.10.1
