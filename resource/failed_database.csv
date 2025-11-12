@@ -1,2 +1,7 @@
 resource/database/codebase_start.db,[WinError 2] The system cannot find the file specified: ''repository/''
 resource/database/codebase_start.db,[WinError 2] The system cannot find the file specified: ''repository/''
+resource/database/codebase_start.db,only integer scalar arrays can be converted to a scalar index
+resource/database/codebase_start.db,''list'' object cannot be interpreted as an integer
+resource/database/codebase_start.db,''float'' object is not subscriptable
+resource/database/codebase_start.db,''list'' object has no attribute ''size''
+resource/database/codebase_start.db,list index out of range

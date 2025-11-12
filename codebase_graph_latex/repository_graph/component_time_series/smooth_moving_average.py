@@ -5,6 +5,8 @@ import plotly.express as px
 FILE_NAME = __name__
 FIGURE_CAPTION = "A smooth moving of total {component} touched on average each {unit} of a year. "
 
+BASE_FILE_NAME = "appendix_2.tex"
+
 def section_sub_heading(repository_id, component):
     latex = get_section_start(FILE_NAME, "sub") + str(repository_id) + " For " + component + " touched for each unit} \n"
     latex += "A smooth moving average " + component + " touched on average each period "

@@ -9,9 +9,9 @@ import math
 
 FILE_NAME = __name__
 GRAPH_CAPTION = "{type} developers ({num}) showing {component} touched"
-FIGURE_CAPTION = "A time series of the average (mean) total {component} touched on average each {unit}, with positive (orange) and negative (red) filled standard deviation. "
+FIGURE_CAPTION = "A time series of the number of {unit} (x-axis) against the average (mean) total {component} touched (y-axis), with positive (orange) and negative (red) filled standard deviation. "
 
-BASE_FILE_NAME = "repository_2.tex"
+BASE_FILE_NAME = "repository_1.tex"
 
 
 
@@ -97,17 +97,38 @@ def calculate_standard_deviation(data, period, mean_touched, above=True):
                 data[j][i] = mean_touched[i]
     return np.nanstd(data, axis=0)
 
+def calculate_std(mean_touched, data, unit):
+    std_above = []
+    std_below = []
+    above = []
+    below =[]
+    for i in range(unit):
+        above = []
+        below =[]
+        for developer in data:
+            if developer[i] > mean_touched[i]:
+                above.append(developer[i])
+            if developer[i] < mean_touched[i]:
+                below.append(developer[i])
+        std_above.append(np.nanstd(above))
+        std_below.append(np.nanstd(below))
+    
+    std_above = np.array(std_above)
+    std_below = np.array(std_below)
+    return std_above, std_below
+
+
 def generate_graph(path, component, data, type, unit=NUMBER_OF_MONTHS):
     plt.figure(figsize=SMALL_FIGURE, dpi=1000)
     data_frame = np.array(data)
     months = np.arange(1, unit + 1)
-    mean_touched = np.mean(data_frame, axis=0)
+    mean_touched = np.nanmean(data_frame, axis=0)
     plt.plot(months, mean_touched, label="Mean " + component + " Touched", color="blue")
-    
-    plt.fill_between(months, mean_touched, mean_touched + np.nanstd(data, axis=0),
+    std_above, std_below = calculate_std(mean_touched, data, unit)
+    plt.fill_between(months, mean_touched, mean_touched + std_above,
                  color='green', alpha=0.3, label='Above (+1 Std Dev)')
 
-    plt.fill_between(months, mean_touched - np.nanstd(data, axis=0), mean_touched,
+    plt.fill_between(months, mean_touched - std_below, mean_touched,
                  color='red', alpha=0.3, label='Below (-1 Std Dev)')
     plt.xticks(get_x_axis_unit(unit))
     plt.xlabel(UNIT_FREQUENCY[unit] + "s")

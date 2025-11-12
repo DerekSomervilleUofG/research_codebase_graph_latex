@@ -1,7 +1,7 @@
 from codebase_graph_latex.repository_graph.master_graph import *
 
 FILE_NAME = __name__
-BASE_FILE_NAME = "repository_1.tex"
+BASE_FILE_NAME = "repository_2.tex"
 PERCENTAGE_TOUCHED = 0.8
 CAPTION = "{type}"
 FIGURE_CAPTION = "A histogram of number of developers that have touched a percentage ({percentage}\%) of {component} each {unit} of a year. "

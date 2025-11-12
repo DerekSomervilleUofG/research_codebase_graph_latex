@@ -72,7 +72,10 @@ def developer_graph(file_name, developers, table_suffix, repository_id, type, pa
         path += str(repository_id) + "/"
     else:
         path += "graph/"
-    x_axis = "Average number of touched " + table_suffix 
+    x_axis = "Average number of "
+    if table_suffix in ["packages", "files", "classes", "methods"]:
+        x_axis += "touched "
+    x_axis += table_suffix
     read_write_file.create_directory(path)
     file_name = path + get_base_file_name(file_name) + "." + table_suffix.lower().replace(" ", ".") 
     if type != "":

@@ -6,8 +6,8 @@ from codebase_graph_latex.select.select_developer_commit import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_1.tex"
-GRAPH_CAPTION = "Average number of new commits by {number} {contributor} developers"
-FIGURE_CAPTION = "  \\caption{The average number of commits made by " + FOUNDER + " and " + JOINER + " developers.}"
+GRAPH_CAPTION = "Average number of new commits by {number} (x-axis) against the number of {contributor} developers (y-axis)"
+FIGURE_CAPTION = "  \\caption{The average number of commits made against the number of " + FOUNDER + " and " + JOINER + " developers.}"
 
 def get_developer_commit_by_contributor_stage(repository_id, contributor_stage):
     developers = []

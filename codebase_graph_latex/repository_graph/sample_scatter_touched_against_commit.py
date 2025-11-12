@@ -9,7 +9,7 @@ X_AXIS = "X_AXIS"
 Y_AXIS = "Y_AXIS"
 
 GRAPH_CAPTION = "{component}"
-FIGURE_CAPTION = "Scatter plots above illustrate the total number of components touched (converted to log) against the number of developer commits. "
+FIGURE_CAPTION = "Scatter plots above illustrate the number of developer commits (x-axis) against the total number of components touched (y-axis converted to log). "
 
 developer_component_knowledge = {}
 

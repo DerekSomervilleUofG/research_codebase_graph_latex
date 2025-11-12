@@ -4,6 +4,8 @@ import seaborn as sns
 FILE_NAME = __name__
 FIGURE_CAPTION = "A box plot of total {component} touched on mean each month, with quartile shading. "
 
+BASE_FILE_NAME = "appendix_1.tex"
+
 def section_sub_heading(repository_id, component):
     latex = get_section_start(FILE_NAME, "sub") + str(repository_id) + " For " + component + " touched for each period} \n"
     latex += "A box plot of " + component + " touched on average each period "

@@ -4,7 +4,7 @@ from codebase_graph_latex.latex_graph import *
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 GRAPH_CAPTION = "New {component}."
-FIGURE_CAPTION = "Average number of new components touched per {freq} for {commit} " + SUSTAINED_JOINER + " developers "
+FIGURE_CAPTION = "Average number of new components touched per {freq} (x-axis) for {commit} against the number of " + SUSTAINED_JOINER + " developers (y-axis) "
 FIGURE_CAPTION += "from {number_of_repository} projects sampled from GitHub."
 
 commit_package_average = []

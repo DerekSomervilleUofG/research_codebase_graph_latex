@@ -5,6 +5,9 @@ FILE_NAME = __name__
 BASE_FILE_NAME = "repository_1.tex"
 GRAPH_CAPTION = "By {freq}."
 
+FIGURE_CAPTION = "Histogram of new {component} touched (x-axis) against number of developers (y-axis)." \
+    " Graphs for {number} {group}" 
+
 
 def generate_summary_histogram(commit_data, daily_data, repository_id, path, component):
     latex_repo = get_section_start(FILE_NAME, "sub") + str(repository_id) + " For " + component + " with total } \n"
@@ -13,8 +16,7 @@ def generate_summary_histogram(commit_data, daily_data, repository_id, path, com
     latex_repo += latex_start_graph()
     latex_repo += developer_graph(FILE_NAME, daily_data, component, repository_id, "Day", "", GRAPH_CAPTION.format(freq="Day")) 
     latex_repo += developer_graph(FILE_NAME, commit_data, component, repository_id, "Commit", "", GRAPH_CAPTION.format(freq="Commit")) 
-    latex_repo += "  \\caption{All graphs are for " + SUSTAINED_JOINER_DESC.lower()
-    latex_repo += "Histogram of average developer counts for average number of new " + component + " touched. Graphs for " + str(len(daily_data)) + " developers. }"
+    latex_repo += "  \\caption{" + FIGURE_CAPTION.format(component=component, group=SUSTAINED_JOINER_DESC.lower(), number=str(len(daily_data))) + "} \n"
     latex_repo += latex_end_graph()
     return latex_repo
 
