@@ -53,8 +53,8 @@ def create_repo_latex_file(repository_id, status):
 
 def run(repository_id, status):
     print("Run for ", repository_id, status)
-    create_repo_latex_file(repository_id, status)
     if status == "B":
+        create_repo_latex_file(repository_id, status)
         developer_commit_generate_and_save(repository_id)
     for component in [ "packages", "classes", "methods"]:
         developers = get_developers(repository_id, component)

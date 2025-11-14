@@ -9,3 +9,7 @@ resource/database/codebase_start.db,name ''sample_text'' is not defined
 resource/database/codebase_start.db,name ''sample_text'' is not defined
 resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
 resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
+resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
+resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
+resource/database/codebase_start.db,cannot access local variable ''latex'' where it is not associated with a value
+resource/database/codebase_start.db,`bins` must be an integer, a string, or an array

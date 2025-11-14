@@ -140,14 +140,15 @@ def generate_graph(path, component, data, type, unit=NUMBER_OF_MONTHS):
     return file_name
     
 def generate_latex(method, path, component, unit, developers, figure_caption):
-    latex  = latex_start_graph()
+    
     all_data = developers[TRANSIENT_FOUNDER] | developers[SUSTAINED_FOUNDER] | developers[TRANSIENT_JOINER] | developers[SUSTAINED_JOINER]
     file_name = method(path + component + "/", component, 
                                   populate_touched_data(all_data, 
                                                 unit), 
                                                 "All",
                                                 unit)
-    latex += latex_add_sub_graph(file_name, GRAPH_CAPTION.format(num=str(len(all_data.keys())), type="All", component=component))
+    latex = latex_add_graph(file_name, GRAPH_CAPTION.format(num=str(len(all_data.keys())), type="All", component=component))
+    latex += latex_start_graph()
     file_name = method(path + component + "/", component, 
                                   populate_touched_data(developers[TRANSIENT_FOUNDER], 
                                                 unit), 
