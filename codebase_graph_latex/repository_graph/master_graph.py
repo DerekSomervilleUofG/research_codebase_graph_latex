@@ -12,13 +12,11 @@ SUSTAINED_FOUNDER_COLOUR = 'Green'
 TRANSIENT_JOINER_COLOUR = 'Orange'
 SUSTAINED_JOINER_COLOUR = 'Red'
 
-FIGURE_CAPTION_NUMBERS = "Key for the four categories of developer: "
-FIGURE_CAPTION_NUMBERS += "\\begin{itemize} "
-FIGURE_CAPTION_NUMBERS += "\\item \\color{" + TRANSIENT_FOUNDER_COLOUR + "}" + TRANSIENT_FOUNDER_COLOUR + ": " + TRANSIENT_FOUNDER.title() + " - Sample size NUM1 developers. "
-FIGURE_CAPTION_NUMBERS += "\\item \\color{" + SUSTAINED_FOUNDER_COLOUR + "}" + SUSTAINED_FOUNDER_COLOUR + ": " + SUSTAINED_FOUNDER.title() + " - Sample size NUM2 developers. "
-FIGURE_CAPTION_NUMBERS += "\\item \\color{" + TRANSIENT_JOINER_COLOUR + "}" + TRANSIENT_JOINER_COLOUR + ": " + TRANSIENT_JOINER.title() + " - Sample size NUM3 developers. "
-FIGURE_CAPTION_NUMBERS += "\\item \\color{" + SUSTAINED_JOINER_COLOUR + "}" + SUSTAINED_JOINER_COLOUR + ": " + SUSTAINED_JOINER.title() + " - Sample size NUM4 developers. "
-FIGURE_CAPTION_NUMBERS += "\\end{itemize} "
+FIGURE_CAPTION_NUMBERS = "samples of developers capped at NUM4 from four categories: "
+FIGURE_CAPTION_NUMBERS += "\\color{" + TRANSIENT_FOUNDER_COLOUR + "}" + TRANSIENT_FOUNDER.title() + " (" + TRANSIENT_FOUNDER_COLOUR + ", NUM1), "
+FIGURE_CAPTION_NUMBERS += "\\color{" + SUSTAINED_FOUNDER_COLOUR + "}" ": " + SUSTAINED_FOUNDER.title() + " (" + SUSTAINED_FOUNDER_COLOUR + ", NUM2), "
+FIGURE_CAPTION_NUMBERS += "\\color{" + TRANSIENT_JOINER_COLOUR + "}" ": " + TRANSIENT_JOINER.title() + " (" + TRANSIENT_JOINER_COLOUR + ", NUM3), "
+FIGURE_CAPTION_NUMBERS += "\\color{" + SUSTAINED_JOINER_COLOUR + "}" ": " + SUSTAINED_JOINER.title() + " (" + SUSTAINED_JOINER_COLOUR + ", NUM4). "
 FIGURE_CAPTION_NUMBERS += "\\color{Black}"
 
 def get_figure_caption_numbers_suffix(caption, numbers):

@@ -9,7 +9,8 @@ X_AXIS = "X_AXIS"
 Y_AXIS = "Y_AXIS"
 
 GRAPH_CAPTION = "{component}"
-FIGURE_CAPTION = "Scatter plots above illustrate the number of developer commits (x-axis) against the total number of components touched (y-axis converted to log). "
+FIGURE_CAPTION = "Scatter plots of the log total number of components touched (y-axis) " \
+                "against the number of commits (x-axis) made by "
 
 developer_component_knowledge = {}
 
@@ -126,11 +127,6 @@ def compare_developers(path, component, founder_transient_developers, founder_su
     file_name = save_graph(path, component, file_name_suffix, x_axis=x_axis)
     return file_name
 
-def sample_text(number):
-    latex = "The sample size was capped at " + str(number) + " developers (The total number of " + SUSTAINED_JOINER 
-    latex += ", as this is the most important category). "
-    return latex 
-
 def save_graph(path, component, file_suffix="", log_switch=True, x_axis="Number of commits"):
     read_write_file.create_directory(path)
     plt.subplots_adjust(left=0.15)
@@ -181,7 +177,6 @@ def generate_compare_for_component(path):
     latex += "\\begin{minipage}[t]{\\linewidth}" 
     founder_transient, founder_sustained, joiner_transient, joiner_sustained = get_total_sample_numbers(component)
     latex += FIGURE_CAPTION
-    latex += sample_text(len(get_joiner_sustained_component(component).values())) 
     latex += get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [founder_transient, founder_sustained, joiner_transient, joiner_sustained]) 
     latex += "\\end{minipage}"
     latex += "} \n"
@@ -193,7 +188,6 @@ def merge_knowledge(component, developers):
    
 def generate_and_save():
     latex = section_heading(FILE_NAME)
-    latex += sample_text(len(get_joiner_sustained_component("packages").values()))
     latex += generate_compare_for_component(DIRECTORY + "graph/")
     read_write_file.write_file(get_file_name(FILE_NAME), latex, DIRECTORY) 
     latex = "\\input{repository/" + get_base_file_name(FILE_NAME) + "}\n"
@@ -206,7 +200,6 @@ def repository_generate_and_save(repository_id, component,
     latex_repo = ""
     if component == "packages":
         latex_repo += section_heading(FILE_NAME, "sub", "Repository: " + str(repository_id)) 
-        latex_repo += sample_text(len(developers[SUSTAINED_JOINER].values()))
         latex_repo += latex_start_graph()
     elif component == "classes":
         latex_repo += latex_new_row()
@@ -230,7 +223,7 @@ def repository_generate_and_save(repository_id, component,
         latex_repo += "\\caption[Short]{"
         latex_repo += "\\begin{minipage}[t]{\\linewidth}" 
         latex_repo += FIGURE_CAPTION
-        latex_repo += sample_text(joiner_transient_no) + get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [founder_transient_no, 
+        latex_repo += get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [founder_transient_no, 
                                                         founder_sustained_no, 
                                                         joiner_transient_no, 
                                                         joiner_sustained_no])

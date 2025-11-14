@@ -5,3 +5,6 @@ resource/database/codebase_start.db,''list'' object cannot be interpreted as an 
 resource/database/codebase_start.db,''float'' object is not subscriptable
 resource/database/codebase_start.db,''list'' object has no attribute ''size''
 resource/database/codebase_start.db,list index out of range
+resource/database/codebase_start.db,name ''sample_text'' is not defined
+resource/database/codebase_start.db,name ''sample_text'' is not defined
+resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
