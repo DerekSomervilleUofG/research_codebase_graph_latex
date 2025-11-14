@@ -4,8 +4,8 @@ from codebase_graph_latex.latex_graph import *
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 GRAPH_CAPTION = "{period} new {component}."
-FIGURE_CAPTION = "Average number of new components touched per {freq} (x-axis) for {commit} against the number of " + SUSTAINED_JOINER + " developers (y-axis) "
-FIGURE_CAPTION += "from {number_of_repository} projects sampled from GitHub."
+FIGURE_CAPTION = "Average number of new components touched per day and per commit (x-axis) for {num} " + SUSTAINED_JOINER + " developers (y-axis) "
+FIGURE_CAPTION += "from {number_of_repository_word} ({number_of_repository}) projects sampled from GitHub."
 
 commit_package_average = []
 commit_file_average = []
@@ -41,7 +41,7 @@ def generate_average(number_of_repository):
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), daily_class_average, "classes", 0, "Daily", "", param_caption=GRAPH_CAPTION.format(period="Daily", component="classes"), bins=commit_class_average[-1])
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), commit_method_average, "methods", 0, "Commit", "", param_caption=GRAPH_CAPTION.format(period="Commit", component="methods"), bins=commit_method_average[-1])
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), daily_method_average, "methods", 0, "Daily", "", param_caption=GRAPH_CAPTION.format(period="Daily", component="methods"), bins=commit_method_average[-1])
-    latex_repo += "    \\caption{" + FIGURE_CAPTION.format(freq="day",commit=len(commit_package_average), number_of_repository=word_engine.number_to_words(number_of_repository)) +"} \n"
+    latex_repo += "    \\caption{" + FIGURE_CAPTION.format(num=len(commit_package_average), number_of_repository_word=word_engine.number_to_words(number_of_repository), number_of_repository=number_of_repository) +"} \n"
     latex_repo += latex_end_graph()
     read_write_file.write_file(get_file_name(FILE_NAME), latex_repo, DIRECTORY)
 
