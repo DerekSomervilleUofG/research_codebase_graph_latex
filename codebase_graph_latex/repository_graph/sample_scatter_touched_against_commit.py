@@ -1,5 +1,6 @@
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
+from codebase_graph_latex.store_developer_data import *
 import numpy
 
 FILE_NAME = __name__
@@ -11,48 +12,6 @@ Y_AXIS = "Y_AXIS"
 GRAPH_CAPTION = "{component}"
 FIGURE_CAPTION = "Scatter plots of the log total number of components touched (y-axis) " \
                 "against the number of commits (x-axis) made by "
-
-developer_component_knowledge = {}
-
-def setup_component():
-    global developer_component_knowledge
-    if len(developer_component_knowledge.values()) == 0:
-        developer_component_knowledge[FOUNDER] = {}
-        developer_component_knowledge[FOUNDER][TRANSIENT] = {}
-        developer_component_knowledge[FOUNDER][SUSTAINED] = {}
-        developer_component_knowledge[JOINER] = {}
-        developer_component_knowledge[JOINER][TRANSIENT] = {}
-        developer_component_knowledge[JOINER][SUSTAINED] = {}
-        for component in ["packages", "files", "classes", "methods"]:
-            developer_component_knowledge[FOUNDER][TRANSIENT][component] = {}
-            developer_component_knowledge[FOUNDER][SUSTAINED][component] = {}
-            developer_component_knowledge[JOINER][TRANSIENT][component] = {}
-            developer_component_knowledge[JOINER][SUSTAINED][component] = {}        
-
-
-def get_founder_transient_component(component):
-    global developer_component_knowledge
-    return developer_component_knowledge[FOUNDER][TRANSIENT][component]
-
-def get_founder_sustained_component(component):
-    global developer_component_knowledge
-    return developer_component_knowledge[FOUNDER][SUSTAINED][component]
-
-def get_joiner_transient_component(component):
-    global developer_component_knowledge
-    return developer_component_knowledge[JOINER][TRANSIENT][component]
-
-def get_joiner_sustained_component(component):
-    global developer_component_knowledge
-    return developer_component_knowledge[JOINER][SUSTAINED][component]
-
-def record_merge_knowledge(component, starter_transient_developers, starter_sustained_developers, joiner_transient_developers, joiner_sustained_developers):
-    global developer_component_knowledge
-    setup_component()
-    get_founder_transient_component(component).update(starter_transient_developers)
-    get_founder_sustained_component(component).update(starter_sustained_developers)
-    get_joiner_transient_component(component).update(joiner_transient_developers)
-    get_joiner_sustained_component(component).update(joiner_sustained_developers)
 
 def section_heading(file_name, sub_section="", title="", x_axis="commits"):
     latex =  get_section_start(file_name, sub_section) + title 
@@ -183,9 +142,6 @@ def generate_compare_for_component(path):
     latex += latex_end_graph()
     return latex
 
-def merge_knowledge(component, developers):
-    record_merge_knowledge(component, developers[TRANSIENT_FOUNDER], developers[SUSTAINED_FOUNDER], developers[TRANSIENT_JOINER], developers[SUSTAINED_JOINER])
-   
 def generate_and_save():
     latex = section_heading(FILE_NAME)
     latex += generate_compare_for_component(DIRECTORY + "graph/")

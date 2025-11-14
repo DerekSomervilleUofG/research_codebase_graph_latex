@@ -13,3 +13,5 @@ resource/database/codebase_start.db,`bins` must be an integer, a string, or an a
 resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
 resource/database/codebase_start.db,cannot access local variable ''latex'' where it is not associated with a value
 resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
+resource/database/codebase_start.db,name ''get_base_file_name'' is not defined
+resource/database/codebase_start.db,name ''get_section_start'' is not defined

@@ -1,4 +1,5 @@
 from codebase_graph_latex.repository_graph.master_graph import *
+from codebase_graph_latex.latex_graph import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_2.tex"

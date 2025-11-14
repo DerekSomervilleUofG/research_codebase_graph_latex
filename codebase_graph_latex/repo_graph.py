@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
-from codebase_graph_latex.repository_graph.sample_scatter_touched_against_commit import merge_knowledge as scatter_knowledge_merge_knowledge
+from codebase_graph_latex.store_developer_data import merge_knowledge as store_developer_data_merge_knowledge
 from codebase_graph_latex.repository_summary_table import generate_and_save as repository_summary_table_generate_and_save
-from codebase_graph_latex.repository_graph.component_graph.developer_commit import generate_and_save as developer_commit_generate_and_save
 from codebase_graph_latex.generate_final_graph import generate_and_save as generate_final_graph_generate_and_save
 from codebase_graph_latex.generate_repo_component_graph import generate_and_save as generate_repo_component_graph_generate_and_save
 from codebase_graph_latex.latex_graph import *
@@ -55,10 +54,9 @@ def run(repository_id, status):
     print("Run for ", repository_id, status)
     if status == "B":
         create_repo_latex_file(repository_id, status)
-        developer_commit_generate_and_save(repository_id)
     for component in [ "packages", "classes", "methods"]:
         developers = get_developers(repository_id, component)
-        scatter_knowledge_merge_knowledge(component, developers)
+        store_developer_data_merge_knowledge(component, developers)
         if len(developers[SUSTAINED_JOINER].keys()) >= NUMBER_OF_DEVELOPERS:
             create_repository_directory(repository_id, component)
             generate_repo_component_graph_generate_and_save(repository_id, status, component, developers, developer_total_commit, max_total_known)

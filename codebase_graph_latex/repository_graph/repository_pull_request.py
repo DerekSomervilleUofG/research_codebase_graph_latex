@@ -1,6 +1,7 @@
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.population_mapping.retrieve_batch_data import *
 from codebase_graph_latex.select.select_repositpory_pull_request import *
+from codebase_graph_latex.latex_graph import *
 import matplotlib.pyplot as plt
 
 FILE_NAME = __name__
