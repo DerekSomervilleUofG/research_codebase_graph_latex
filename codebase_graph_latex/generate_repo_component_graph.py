@@ -1,5 +1,4 @@
 from codebase_graph_latex.repository_graph.sample_scatter_touched_against_commit import repository_generate_and_save as scatter_sample_commit_knowledge_repository_generate_and_save
-from codebase_graph_latex.repository_graph.component_graph.developer_touched import generate_and_save as developer_knowledge_generate_and_save
 from codebase_graph_latex.repository_graph.repository_average_touched import merge_average as repository_average_knowledge_merge_average
 from codebase_graph_latex.repository_graph.component_graph.repository_histogram_commit import generate_and_save as repository_histogram_commit_generate_and_save
 from codebase_graph_latex.repository_graph.component_graph.scatter_developer import generate_and_save as scatter_developer_generate_and_save
@@ -21,7 +20,6 @@ def get_commit_and_daily(developers):
 def generate_and_save(repository_id, status, component, developers, developer_total_commit, max_total_known):
     commit_data, daily_data = get_commit_and_daily(developers[SUSTAINED_JOINER])
     repository_average_knowledge_merge_average(daily_data, commit_data, component)
-    developer_knowledge_generate_and_save(developers[SUSTAINED_JOINER], repository_id, component, KNOWN_Y_AXIS, developer_total_commit, max_total_known)
     if status == "B":
         repository_histogram_commit_generate_and_save(commit_data, daily_data, repository_id, component)
         scatter_sample_commit_knowledge_repository_generate_and_save(repository_id, component, developers)        
