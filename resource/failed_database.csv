@@ -15,3 +15,5 @@ resource/database/codebase_start.db,cannot access local variable ''latex'' where
 resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
 resource/database/codebase_start.db,name ''get_base_file_name'' is not defined
 resource/database/codebase_start.db,name ''get_section_start'' is not defined
+resource/database/codebase_start.db,''pacakages''
+resource/database/codebase_start.db,''int'' object is not subscriptable

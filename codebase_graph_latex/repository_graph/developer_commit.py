@@ -12,12 +12,12 @@ FIGURE_CAPTION = "  \\caption{The average number of commits made against the num
 MAX_Y_AXIS = 700
 MAX_X_AXIS = 1500
 MINIMUM_COMMITS = 10
-component = "pacakages"
+component = "packages"
 
 def get_developer_commit_by_contributor_stage(contributor_stage):
     stage_developers = developer_component_knowledge[contributor_stage][component]
     developers = []
-    for developer in stage_developers:
+    for id, developer in stage_developers.items():
         if developer[NUMBER_OF_COMMIT][-1] >= MINIMUM_COMMITS:
             developers.append(developer[NUMBER_OF_COMMIT][-1])
     return developers
@@ -32,8 +32,8 @@ def generate_developer_commit():
     latex_content = get_section_start(FILE_NAME, "sub") + " Developer Commits } \n" 
     latex_content += latex_start_graph()
     latex_content += generate_developer_commit_latex(TRANSIENT_FOUNDER)
-    latex_content += generate_developer_commit_latex(SUSTAINED_FOUNDER)
     latex_content += generate_developer_commit_latex(TRANSIENT_JOINER)
+    latex_content += generate_developer_commit_latex(SUSTAINED_FOUNDER)
     latex_content += generate_developer_commit_latex(SUSTAINED_JOINER)
     latex_content += FIGURE_CAPTION
     latex_content += latex_end_graph()
