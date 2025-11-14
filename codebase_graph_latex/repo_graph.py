@@ -57,7 +57,7 @@ def run(repository_id, status):
     for component in [ "packages", "classes", "methods"]:
         developers = get_developers(repository_id, component)
         store_developer_data_merge_knowledge(component, developers)
-        if len(developers[SUSTAINED_JOINER].keys()) >= NUMBER_OF_DEVELOPERS:
+        if len(developers[SUSTAINED_JOINER].keys()) >= MINIMUM_NUMBER_OF_COMMTIS:
             create_repository_directory(repository_id, component)
             generate_repo_component_graph_generate_and_save(repository_id, status, component, developers, developer_total_commit, max_total_known)
             

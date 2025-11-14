@@ -3,23 +3,23 @@ from codebase_graph_latex.developer_data import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_1.tex"
-NUMBER_OF_DEVELOPERS = 20
+MINIMUM_NUMBER_OF_COMMTIS = 20
 DEFAULT_COLOURS = ["Purple", "Blue", "Green", "Red", "Orange", "Salmon", "Cyan", 
                    "Magenta", "Yellow", "Black", "Brown", "Pink", "Gray", "Violet",
                    "Olive", "Teal", "Navy", "Maroon", "Lime", "Coral"]
 
-FIGURE_CAPTION = "First " + word_engine.number_to_words(NUMBER_OF_DEVELOPERS) + " " + SUSTAINED_JOINER + " "
+FIGURE_CAPTION = "First " + word_engine.number_to_words(MINIMUM_NUMBER_OF_COMMTIS) + " " + SUSTAINED_JOINER + " "
 FIGURE_CAPTION += " developers from this repository. The number of {x_axis} against the number of components touched. " 
 
 def section_heading(repository_id, x_axis):
     latex = get_section_start(FILE_NAME, "sub") + str(repository_id) + " For developer " + AXIS_NAME[x_axis] + " and components touched.} \n"
-    latex += "A scatter plot for the first " + str(NUMBER_OF_DEVELOPERS) 
+    latex += "A scatter plot for the first " + str(MINIMUM_NUMBER_OF_COMMTIS) 
     latex += " " + SUSTAINED + " late " + JOINER + " developers showing "
     latex += "the number of " + AXIS_NAME[x_axis] + " to components touched. \n"
     return latex
 
 def generate_scatter(path, component, developers, x_axis=NUMBER_OF_COMMIT):
-    first_developers = list(developers.items())[:NUMBER_OF_DEVELOPERS]
+    first_developers = list(developers.items())[:MINIMUM_NUMBER_OF_COMMTIS]
     plt.figure(figsize=SMALL_FIGURE, dpi=1000)
     colours = DEFAULT_COLOURS.copy()
     latex = ""

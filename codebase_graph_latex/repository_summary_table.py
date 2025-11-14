@@ -19,7 +19,7 @@ def section_heading(number_of_repository):
     section += "\\begin{table}[h!]\n"
     section += "\\centering\n"
     section += "\\caption{Summary of " + word_engine.number_to_words(number_of_repository) + " open-source repositories identified from GitHub"
-    section += " that have at least 1000 pull requests and at least " + word_engine.number_to_words(NUMBER_OF_DEVELOPERS) 
+    section += " that have at least 1000 pull requests and at least " + word_engine.number_to_words(MINIMUM_NUMBER_OF_COMMTIS) 
     section += " " + SUSTAINED + " late " + JOINER + " developers. " + SUSTAINED_JOINER_DESC
     section += DEVELOPER_IGNORE 
     section += "Please note that five developers each worked on two repositories. "

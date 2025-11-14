@@ -4,34 +4,32 @@ developer_component_knowledge = {}
 def setup_component():
     global developer_component_knowledge
     if len(developer_component_knowledge.values()) == 0:
-        developer_component_knowledge[FOUNDER] = {}
-        developer_component_knowledge[FOUNDER][TRANSIENT] = {}
-        developer_component_knowledge[FOUNDER][SUSTAINED] = {}
-        developer_component_knowledge[JOINER] = {}
-        developer_component_knowledge[JOINER][TRANSIENT] = {}
-        developer_component_knowledge[JOINER][SUSTAINED] = {}
+        developer_component_knowledge[TRANSIENT_FOUNDER] = {}
+        developer_component_knowledge[SUSTAINED_FOUNDER] = {}
+        developer_component_knowledge[TRANSIENT_JOINER] = {}
+        developer_component_knowledge[SUSTAINED_JOINER] = {}
         for component in ["packages", "files", "classes", "methods"]:
-            developer_component_knowledge[FOUNDER][TRANSIENT][component] = {}
-            developer_component_knowledge[FOUNDER][SUSTAINED][component] = {}
-            developer_component_knowledge[JOINER][TRANSIENT][component] = {}
-            developer_component_knowledge[JOINER][SUSTAINED][component] = {}        
+            developer_component_knowledge[TRANSIENT_FOUNDER][component] = {}
+            developer_component_knowledge[SUSTAINED_FOUNDER][component] = {}
+            developer_component_knowledge[TRANSIENT_JOINER][component] = {}
+            developer_component_knowledge[SUSTAINED_JOINER][component] = {}        
 
 
 def get_founder_transient_component(component):
     global developer_component_knowledge
-    return developer_component_knowledge[FOUNDER][TRANSIENT][component]
+    return developer_component_knowledge[TRANSIENT_FOUNDER][component]
 
 def get_founder_sustained_component(component):
     global developer_component_knowledge
-    return developer_component_knowledge[FOUNDER][SUSTAINED][component]
+    return developer_component_knowledge[SUSTAINED_FOUNDER][component]
 
 def get_joiner_transient_component(component):
     global developer_component_knowledge
-    return developer_component_knowledge[JOINER][TRANSIENT][component]
+    return developer_component_knowledge[TRANSIENT_JOINER][component]
 
 def get_joiner_sustained_component(component):
     global developer_component_knowledge
-    return developer_component_knowledge[JOINER][SUSTAINED][component]
+    return developer_component_knowledge[SUSTAINED_JOINER][component]
 
 def record_merge_knowledge(component, starter_transient_developers, starter_sustained_developers, joiner_transient_developers, joiner_sustained_developers):
     global developer_component_knowledge
