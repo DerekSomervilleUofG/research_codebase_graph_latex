@@ -67,7 +67,7 @@ def latex_add_sub_graph(file_path, caption):
     return latex
 
 def developer_graph(file_name, developers, table_suffix, repository_id, 
-                    type, param_x_axis, param_caption, 
+                    type, param_x_axis="", param_caption="", 
                     sub_graph=True, max_x_axis=0, max_y_axis=0, bins=BINS):
     path = DIRECTORY
     if repository_id > 0:
