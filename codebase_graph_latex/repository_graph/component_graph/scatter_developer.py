@@ -26,8 +26,6 @@ def generate_scatter(path, component, developers, x_axis=NUMBER_OF_COMMIT):
     counter = 0
     for key, value in first_developers:
         colour = colours.pop()
-        if counter % 2 == 0:
-            latex += "\\item "  
         latex += "\\color{" + colour + "}Developer: " + str(key) + " in colour " + colour + ". "
         plt.plot(value[x_axis], value[KNOWN_Y_AXIS], color=colour)
         counter += 1
@@ -52,9 +50,7 @@ def generate_and_save(repository_id, component, developers, x_axis=NUMBER_OF_COM
         latex += "\\caption[Short]{"
         latex += "\\begin{minipage}[t]{\\linewidth}" 
         latex += FIGURE_CAPTION.format(x_axis=AXIS_NAME[x_axis])
-        latex += "\\begin{itemize} "
         latex += latex_colour 
-        latex += "\\end{itemize} "
         latex += "\\end{minipage}"
         latex += "} \n"
         latex += latex_end_graph()    

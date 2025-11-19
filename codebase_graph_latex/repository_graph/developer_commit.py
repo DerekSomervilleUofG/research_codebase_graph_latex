@@ -8,12 +8,15 @@ import math
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
-MINIMUM_COMMITS = 10
+MINIMUM_COMMITS = 3
 GRAPH_CAPTION = "{contributor} {number}"
-FIGURE_CAPTION = "  \\caption{Histomagram of number of commits made by four categories of developers, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ")}"
-MAX_Y_AXIS = 100
-MAX_Y_AXIS_ALL = 550
+FIGURE_CAPTION = "Histomagram of number of commits made by six categories of developers in {number__of_repositories} sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ")"
+ALL_FIGURE_CAPTION = "Histogram of number of commits made by all developers {number} in {number__of_repositories} sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ")"
+MAX_Y_AXIS = 70
+MAX_Y_AXIS_TRANSIENT = 325
+MAX_Y_AXIS_ALL = 1600
 MAX_X_AXIS = 1200
+MAX_X_AXIS_TRANSIENT = 55
 component = "packages"
 
 def get_developer_data(stage_developers):
@@ -27,47 +30,50 @@ def get_developer_commit_by_contributor_stage(contributor_stage):
     stage_developers = developer_component_knowledge[contributor_stage][component]
     return get_developer_data(stage_developers)
 
-def generate_developer_commit_latex(contributor_stage, developers, bins):
+def generate_developer_commit_latex(contributor_stage, developers, bins, max_x_axis=MAX_X_AXIS, max_y_axis=MAX_Y_AXIS):
     title = "Number of commits"
     return developer_graph(FILE_NAME, developers, title, 0, contributor_stage,
                            param_caption=GRAPH_CAPTION.format(contributor=contributor_stage, number=len(developers)), 
                            param_x_axis=title, 
-                           max_x_axis=MAX_X_AXIS, 
-                           max_y_axis=MAX_Y_AXIS,
+                           max_x_axis=max_x_axis, 
+                           max_y_axis=max_y_axis,
                            bins=bins)
 
-def generate_all_developer_commit(transient_founder, transient_joiner, sustained_founder, sustained_joiner):
-    all_developers = transient_founder + transient_joiner + sustained_founder + sustained_joiner
+def generate_all_developer_commit(number_of_repositories, transient_founder, transient_joiner, moderate_founder, moderate_joiner, sustained_founder, sustained_joiner):
+    all_developers = transient_founder + transient_joiner + sustained_founder + sustained_joiner + moderate_founder + moderate_joiner, 
     title = "Number of commits"
     return developer_graph(FILE_NAME, all_developers, title, 0, title,
                            sub_graph=False,
-                           param_caption=GRAPH_CAPTION.format(contributor="All", number=len(all_developers)), 
+                           param_caption=ALL_FIGURE_CAPTION.format(number=len(all_developers), number__of_repositories=number_of_repositories), 
                            param_x_axis=title, 
                            max_x_axis=MAX_X_AXIS, 
                            max_y_axis=MAX_Y_AXIS_ALL)    
 
 
-def generate_developer_commit():
+def generate_developer_commit(number_of_repositories):
     transient_founder = get_developer_commit_by_contributor_stage(TRANSIENT_FOUNDER)
     transient_joiner = get_developer_commit_by_contributor_stage(TRANSIENT_JOINER)
+    moderate_founder = get_developer_commit_by_contributor_stage(MODERATE_FOUNDER)
+    moderate_joiner = get_developer_commit_by_contributor_stage(MODERATE_JOINER)
     sustained_founder = get_developer_commit_by_contributor_stage(SUSTAINED_FOUNDER)
     sustained_joiner = get_developer_commit_by_contributor_stage(SUSTAINED_JOINER)
 
-    latex_graph = generate_all_developer_commit(transient_founder, transient_joiner, sustained_founder, sustained_joiner)
-    
+    latex_graph = generate_all_developer_commit(number_of_repositories, transient_founder, transient_joiner, moderate_founder, moderate_joiner, sustained_founder, sustained_joiner)
     latex_graph += latex_start_graph()
-    latex_graph += generate_developer_commit_latex(TRANSIENT_FOUNDER, transient_founder, math.ceil(BINS * (max(transient_founder)/max(transient_joiner))))
-    latex_graph += generate_developer_commit_latex(TRANSIENT_JOINER, transient_joiner, BINS)
+    latex_graph += generate_developer_commit_latex(TRANSIENT_FOUNDER, transient_founder, math.ceil(BINS * (max(transient_founder)/max(transient_joiner))), max_x_axis=MAX_X_AXIS_TRANSIENT, max_y_axis=MAX_Y_AXIS_TRANSIENT)
+    latex_graph += generate_developer_commit_latex(TRANSIENT_JOINER, transient_joiner, BINS, max_x_axis=MAX_X_AXIS_TRANSIENT, max_y_axis=MAX_Y_AXIS_TRANSIENT)
+    latex_graph += generate_developer_commit_latex(MODERATE_FOUNDER, moderate_founder, math.ceil(BINS * (max(moderate_founder)/max(moderate_joiner))))
+    latex_graph += generate_developer_commit_latex(MODERATE_JOINER, moderate_joiner, BINS)
     latex_graph += generate_developer_commit_latex(SUSTAINED_FOUNDER, sustained_founder, math.ceil(BINS * (max(sustained_founder)/max(sustained_joiner))))
     latex_graph += generate_developer_commit_latex(SUSTAINED_JOINER, sustained_joiner, BINS)
-    latex_graph += FIGURE_CAPTION
+    latex_graph += "\\caption{" + FIGURE_CAPTION.format(number__of_repositories=number_of_repositories) + "} \n"
     latex_graph += latex_end_graph()
     return latex_graph
 
-def generate_and_save():
+def generate_and_save(number_of_repositories):
     path = DIRECTORY 
     latex = get_section_start(FILE_NAME, "sub") + " Developer Commits } \n" 
-    latex += generate_developer_commit()
+    latex += generate_developer_commit(number_of_repositories)
     read_write_file.write_file(get_file_name(FILE_NAME), latex, path)
     latex = "\\input{" + path + get_base_file_name(FILE_NAME) + "}\n"
     read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY)

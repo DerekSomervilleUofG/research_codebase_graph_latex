@@ -27,13 +27,15 @@ def section_heading(number_of_repository):
     return section
 
 def summary_table_start():
-    table = "\\begin{tabular}{rlrrrrrrr}\n"
+    table = "\\begin{tabular}{rlrrrrrrrrr}\n"
     table += "\\toprule\n"
     table += "\\textbf{ID} & \\textbf{Repo Name} "
-    table += " & \\makecell{\\textbf{" + FOUNDER.capitalize() + "} \\\\ \\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{Contributor}} " 
-    table += " & \\makecell{\\textbf{" + FOUNDER.capitalize() + "} \\\\ \\textbf{" + SUSTAINED.capitalize() + "} \\\\ \\textbf{Contributor}} " 
-    table += " & \\makecell{\\textbf{" + JOINER.capitalize() + "} \\\\ \\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{Contributor}} " 
-    table += " & \\makecell{\\textbf{" + JOINER.capitalize() + "} \\\\ \\textbf{" + SUSTAINED.capitalize() + "} \\\\ \\textbf{Contributor}} " 
+    table += " & \\makecell{\\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
+    table += " & \\makecell{\\textbf{" + MODERATE.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
+    table += " & \\makecell{\\textbf{" + SUSTAINED.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
+    table += " & \\makecell{\\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{" + JOINER.capitalize() + "} } " 
+    table += " & \\makecell{\\textbf{" + MODERATE.capitalize() + "} \\\\ \\textbf{" + JOINER.capitalize() + "} } " 
+    table += " & \\makecell{\\textbf{" + SUSTAINED.capitalize() + "} \\\\ \\textbf{" + JOINER.capitalize() + "} } " 
     table += " & \\textbf{Commit} & \\textbf{Start} & \\textbf{End} \\\\ \n"
     table += "\\midrule\n"
     return table
@@ -46,34 +48,40 @@ def summary_table_end():
     table += "\\newpage \n"
     return table
 
-def total_row(total_transient_founder, total_sustained_founder, total_transient_joiner, total_sustained_joiner, total_commit):
+def total_row(total_transient_founder, total_moderate_founder, total_sustained_founder, total_transient_joiner, total_moderate_joiner, total_sustained_joiner, total_commit):
     latex = "\\hline \n"
-    latex += " & Total & " + str(total_transient_founder) + " & " + str(total_sustained_founder)
-    latex += " & " +  str(total_transient_joiner) + " & " + str(total_sustained_joiner) 
+    latex += " & Total & " + str(total_transient_founder) + " & " + str(total_moderate_founder) + " & " + str(total_sustained_founder)
+    latex += " & " +  str(total_transient_joiner) + " & " + str(total_moderate_joiner) + " & " + str(total_sustained_joiner) 
     latex += " & " + str(total_commit) + " &  & \\\\ \n"
     latex += "\\hline \n"
     return latex
 
-def create_repository_summary_page(repositories, joiner_sustained_contributor, founder_sustained_contributor):
+def create_repository_summary_page(repositories, repo_contribution):
     global number_of_repository
     total_trainsient_founder = 0
+    total_moderate_founder = 0
     total_sustained_founder = 0
     total_transient_joiner = 0
+    total_moderate_joiner = 0
     total_sustained_joiner = 0
     total_commit = 0
     latex_table = ""
     number_of_repository = 0
     for repository in repositories:
+        total_trainsient_founder += repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_FOUNDER]
+        total_moderate_founder += repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_FOUNDER]
+        total_sustained_founder += repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_FOUNDER]
+        total_transient_joiner += repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_JOINER]
+        total_moderate_joiner += repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_JOINER]
+        total_sustained_joiner += repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_JOINER]
         latex_table +=  str(repository[REPOSITORY_ID]) 
         latex_table += " & " + repository[REPO_NAME]
-        latex_table += " & " + str(repository[FOUNDER_DEVELOPER_COUNT] - founder_sustained_contributor.get(repository[REPOSITORY_ID],0))
-        total_trainsient_founder += repository[FOUNDER_DEVELOPER_COUNT] - founder_sustained_contributor.get(repository[REPOSITORY_ID],0)
-        latex_table += " & " + str(founder_sustained_contributor.get(repository[REPOSITORY_ID],0))
-        total_sustained_founder += founder_sustained_contributor.get(repository[REPOSITORY_ID],0)
-        latex_table += " & " + str(int(repository[JOINER_DEVELOPER_COUNT]) - joiner_sustained_contributor.get(repository[REPOSITORY_ID],0))
-        total_transient_joiner += int(repository[JOINER_DEVELOPER_COUNT]) - joiner_sustained_contributor.get(repository[REPOSITORY_ID], 0)
-        latex_table += " & " + str(joiner_sustained_contributor.get(repository[REPOSITORY_ID],0))
-        total_sustained_joiner += joiner_sustained_contributor.get(repository[REPOSITORY_ID],0)
+        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_FOUNDER])
+        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_FOUNDER])
+        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_FOUNDER])
+        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_JOINER])
+        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_JOINER])
+        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_JOINER])
         latex_table += " & " + str(repository[COMMIT_COUNT])
         total_commit += repository[COMMIT_COUNT]
         latex_table += " & " + get_date_time(repository[MIN_DATE]).strftime('%Y-%b-%d')
@@ -83,11 +91,11 @@ def create_repository_summary_page(repositories, joiner_sustained_contributor, f
             latex_table += " & On going"
         latex_table += " \\\\ \n"
         number_of_repository += 1
-    latex_table += total_row(total_trainsient_founder, total_sustained_founder, total_transient_joiner, total_sustained_joiner, total_commit)
+    latex_table += total_row(total_trainsient_founder, total_moderate_founder, total_sustained_founder, total_transient_joiner, total_moderate_joiner, total_sustained_joiner, total_commit)
     return latex_table, number_of_repository
 
-def generate_and_save(joiner_sustained_contributors, founder_sustained_contributor):
-    latex_table, number_of_repository = create_repository_summary_page(get_all_data(query()), joiner_sustained_contributors, founder_sustained_contributor)
+def generate_and_save(repo_contribution):
+    latex_table, number_of_repository = create_repository_summary_page(get_all_data(query()), repo_contribution)
     latex_table = section_heading(number_of_repository) + summary_table_start() + latex_table
     latex_table += summary_table_end()
     read_write_file.write_file(get_file_name(FILE_NAME), latex_table, DIRECTORY)  

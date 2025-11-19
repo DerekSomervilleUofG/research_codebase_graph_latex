@@ -7,6 +7,6 @@ from codebase_graph_latex.repository_graph.developer_commit import generate_and_
 def generate_and_save(number_of_repositories):
     scatter_sample_commit_knowledge_generate_and_save()
     repository_average_touched_generate_and_save(number_of_repositories)
-    developer_commit_generate_and_save()
+    developer_commit_generate_and_save(number_of_repositories)
     repository_pull_request_generate_and_save(0)
     

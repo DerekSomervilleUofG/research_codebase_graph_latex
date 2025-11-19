@@ -4,6 +4,8 @@ from codebase_graph_latex.latex_graph import *
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_1.tex"
 GRAPH_CAPTION = "By {freq}."
+MAX_X_AXIS = 4
+MAX_Y_AXIS = 8
 
 FIGURE_CAPTION = "Histogram of new {component} touched (x-axis) against number of developers (y-axis)." \
     " Graphs for {number} {group}" 
@@ -14,8 +16,8 @@ def generate_summary_histogram(commit_data, daily_data, repository_id, path, com
     latex_repo += "\n"
     read_write_file.create_directory(path)
     latex_repo += latex_start_graph()
-    latex_repo += developer_graph(FILE_NAME, daily_data, component, repository_id, "Day", "", GRAPH_CAPTION.format(freq="Day")) 
-    latex_repo += developer_graph(FILE_NAME, commit_data, component, repository_id, "Commit", "", GRAPH_CAPTION.format(freq="Commit")) 
+    latex_repo += developer_graph(FILE_NAME, daily_data, component, repository_id, "Day", "", GRAPH_CAPTION.format(freq="Day"), max_x_axis=max(max(daily_data),max(commit_data)) + 1, max_y_axis=MAX_Y_AXIS) 
+    latex_repo += developer_graph(FILE_NAME, commit_data, component, repository_id, "Commit", "", GRAPH_CAPTION.format(freq="Commit"), max_x_axis=max(max(daily_data),max(commit_data)) + 1, max_y_axis=MAX_Y_AXIS) 
     latex_repo += "  \\caption{" + FIGURE_CAPTION.format(component=component, group=SUSTAINED_JOINER_DESC.lower(), number=str(len(daily_data))) + "} \n"
     latex_repo += latex_end_graph()
     return latex_repo

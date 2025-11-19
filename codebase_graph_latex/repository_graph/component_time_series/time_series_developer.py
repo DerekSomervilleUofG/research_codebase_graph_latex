@@ -3,14 +3,16 @@ from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.developer_data import *
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import pandas as pd
 import numpy as np
 import math
 
 FILE_NAME = __name__
 GRAPH_CAPTION = "{type} developers ({num}) showing {component} touched"
-FIGURE_CAPTION = "A time series of the number of {unit} (x-axis) against the average (mean) total {component} touched (y-axis), with positive (orange) and negative (red) filled standard deviation. "
-
+FIGURE_CAPTION = "A time series of the number of {unit} (x-axis) against the average (mean) total {component} touched (y-axis) for six categories of developer, " 
+ALL_FIGURE_CAPTION = "A time series of the number of {unit} (x-axis) against the average (mean) total {component} touched (y-axis) for all developers {num}, "
+FIGURE_SUFFIX = "with \\color{Orange} positive (orange) \\color{Black} and \\color{Red} negative (red) \\color{Black} filled standard deviation. "
 BASE_FILE_NAME = "repository_1.tex"
 
 
@@ -130,7 +132,7 @@ def generate_graph(path, component, data, type, unit=NUMBER_OF_MONTHS):
 
     plt.fill_between(months, mean_touched - std_below, mean_touched,
                  color='red', alpha=0.3, label='Below (-1 Std Dev)')
-    plt.xticks(get_x_axis_unit(unit))
+    plt.xticks(get_x_axis_unit(unit), fontsize=7)
     plt.xlabel(UNIT_FREQUENCY[unit] + "s")
     plt.ylabel(component.capitalize() + " touched")
     plt.tight_layout() 
@@ -138,6 +140,14 @@ def generate_graph(path, component, data, type, unit=NUMBER_OF_MONTHS):
     plt.savefig(file_name, bbox_inches='tight')
     plt.close()
     return file_name
+
+def get_data_and_generate_graph(method, path, component, developers, stage, unit=NUMBER_OF_MONTHS):
+    file_name = method(path + component + "/", component, 
+                                  populate_touched_data(developers, 
+                                                unit), 
+                                                stage,
+                                                unit)
+    return latex_add_sub_graph(file_name, GRAPH_CAPTION.format(num=str(len(developers.keys())), type=stage.capitalize(), component=component))
     
 def generate_latex(method, path, component, unit, developers, figure_caption):
     
@@ -147,32 +157,26 @@ def generate_latex(method, path, component, unit, developers, figure_caption):
                                                 unit), 
                                                 "All",
                                                 unit)
-    latex = latex_add_graph(file_name, GRAPH_CAPTION.format(num=str(len(all_data.keys())), type="All", component=component))
+    latex = latex_add_graph(file_name, ALL_FIGURE_CAPTION.format(num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY[unit].lower() + "s"))
     latex += latex_start_graph()
-    file_name = method(path + component + "/", component, 
-                                  populate_touched_data(developers[TRANSIENT_FOUNDER], 
-                                                unit), 
-                                                TRANSIENT_FOUNDER,
-                                                unit)
-    latex += latex_add_sub_graph(file_name, GRAPH_CAPTION.format(num=str(len(developers[TRANSIENT_FOUNDER].keys())), type=TRANSIENT_FOUNDER.capitalize(), component=component))
-    file_name = method(path + component + "/", component, 
-                                  populate_touched_data(developers[SUSTAINED_FOUNDER], 
-                                                unit), 
-                                                SUSTAINED_FOUNDER,
-                                                unit)
-    latex += latex_add_sub_graph(file_name, GRAPH_CAPTION.format(num=str(len(developers[SUSTAINED_FOUNDER].keys())), type=SUSTAINED_FOUNDER.capitalize(), component=component))
-    file_name = method(path + component + "/", component, 
-                                  populate_touched_data(developers[TRANSIENT_JOINER], 
-                                                unit), 
-                                                TRANSIENT_JOINER,
-                                                unit)
-    latex += latex_add_sub_graph(file_name, GRAPH_CAPTION.format(num=str(len(developers[TRANSIENT_JOINER].keys())), type=TRANSIENT_JOINER.capitalize(), component=component))
-    file_name = method(path + component + "/", component, 
-                                  populate_touched_data(developers[SUSTAINED_JOINER], 
-                                                unit), 
-                                                SUSTAINED_JOINER,
-                                                unit)
-    latex += latex_add_sub_graph(file_name, GRAPH_CAPTION.format(num=str(len(developers[SUSTAINED_JOINER])), type=SUSTAINED_JOINER.capitalize(), component=component))
+    stage_developers = developers[TRANSIENT_FOUNDER]
+    if len(stage_developers.keys()) > 0:
+        latex += get_data_and_generate_graph(method, path, component, stage_developers, TRANSIENT_FOUNDER, unit)
+    stage_developers = developers[TRANSIENT_JOINER]
+    if len(stage_developers.keys()) > 0:
+        latex += get_data_and_generate_graph(method, path, component, stage_developers, TRANSIENT_JOINER, unit)
+    stage_developers = developers[MODERATE_FOUNDER]
+    if len(stage_developers.keys()) > 0:
+        latex += get_data_and_generate_graph(method, path, component, stage_developers, MODERATE_FOUNDER, unit)
+    stage_developers = developers[MODERATE_JOINER]
+    if len(stage_developers.keys()) > 0:
+        latex += get_data_and_generate_graph(method, path, component, stage_developers, MODERATE_JOINER, unit)
+    stage_developers = developers[SUSTAINED_FOUNDER]
+    if len(stage_developers.keys()) > 0:
+        latex += get_data_and_generate_graph(method, path, component, stage_developers, SUSTAINED_FOUNDER, unit)
+    stage_developers = developers[SUSTAINED_JOINER]
+    if len(stage_developers.keys()) > 0:
+        latex += get_data_and_generate_graph(method, path, component, stage_developers, SUSTAINED_JOINER, unit)
     latex += "\\caption{" + figure_caption.format(component=component, unit=UNIT_FREQUENCY[unit].lower()) + "} \n"
     latex += latex_end_graph()        
     return latex

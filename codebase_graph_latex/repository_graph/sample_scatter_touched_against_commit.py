@@ -30,27 +30,33 @@ def get_developer_knowledge(developers):
     return commit_number, developer_knowledge
 
 def get_total_sample_numbers(component):
-    founder_transient_num = len(get_founder_transient_component(component))
-    founder_sustained_num = len(get_founder_sustained_component(component))
-    joiner_transient_num = len(get_joiner_transient_component(component))
-    joiner_sustained_num = len(get_joiner_sustained_component(component))
-    return get_sample_numbers(founder_transient_num, founder_sustained_num, joiner_transient_num, joiner_sustained_num)
+    founder_transient_num = len(get_transient_founder_component(component))
+    founder_moderate_num = len(get_moderate_founder_component(component))
+    founder_sustained_num = len(get_sustained_founder_component(component))
+    joiner_transient_num = len(get_transient_joiner_component(component))
+    joiner_moderate_num = len(get_moderate_joiner_component(component))
+    joiner_sustained_num = len(get_sustained_joiner_component(component))
+    return get_sample_numbers(founder_transient_num, founder_moderate_num, founder_sustained_num, joiner_transient_num, joiner_moderate_num, joiner_sustained_num)
 
-def get_figure_caption(num1, num2, num3, num4):
-    return FIGURE_CAPTION.format(number=num4) + get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [num1, num2, num3, num4])
+def get_figure_caption(num1, num2, num3, num4, num5=0, num6=0):
+    return FIGURE_CAPTION.format(number=num4) + get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [num1, num2, num3, num4, num5, num6])
 
 def get_figure_caption_with_numbers(component):
-    founder_transient, founder_sustained, joiner_transient, joiner_sustained = get_total_sample_numbers(component)
-    return get_figure_caption(founder_transient, founder_sustained, joiner_transient, joiner_sustained)
+    founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained = get_total_sample_numbers(component)
+    return get_figure_caption(founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained)
 
-def get_sample_numbers(founder_transient_num, founder_sustained_num, joiner_transient_num, joiner_sustained_num):
+def get_sample_numbers(founder_transient_num, founder_moderate_num,founder_sustained_num, joiner_transient_num, joiner_moderate_num, joiner_sustained_num):
     if founder_transient_num > joiner_sustained_num:
         founder_transient_num = joiner_sustained_num
+    if founder_moderate_num > joiner_sustained_num:
+        founder_moderate_num = joiner_sustained_num
     if founder_sustained_num > joiner_sustained_num:
         founder_sustained_num = joiner_sustained_num
+    if joiner_moderate_num > joiner_sustained_num: 
+        joiner_moderate_num = joiner_sustained_num
     if joiner_transient_num > joiner_sustained_num:
         joiner_transient_num = joiner_sustained_num
-    return founder_transient_num, founder_sustained_num, joiner_transient_num, joiner_sustained_num
+    return founder_transient_num, founder_moderate_num, founder_sustained_num, joiner_transient_num, joiner_moderate_num, joiner_sustained_num
 
 def get_sample_first_or_last(transient_developers, sustained_developers, colour, sample_of_developers):
     number_of_records = -1
@@ -69,17 +75,30 @@ def get_sample_first_or_last(transient_developers, sustained_developers, colour,
     return_developers[Y_AXIS] = sustained_developers[Y_AXIS][0:number_of_records] 
     return return_developers
 
-def compare_developers(path, component, founder_transient_developers, founder_sustained_developers, 
-                       joiner_transient_developers, joiner_sustained_developers, 
+def compare_developers(path, component, 
+                       transient_founder_developers, 
+                       moderate_founder_developers,
+                       sustained_founder_developers, 
+                       transient_joiner_developers, 
+                       moderate_joiner_developers,
+                       sustained_joiner_developers, 
                        file_name_suffix, sample_of_developers, x_axis="Number of commits"):
     plt.figure(figsize=SMALL_FIGURE, dpi=1000)
-    knowledge = get_sample_first_or_last(joiner_transient_developers, 
-                                         joiner_sustained_developers, 
+    knowledge = get_sample_first_or_last(moderate_founder_developers, 
+                                         sustained_joiner_developers, 
+                                         MODERATE_FOUNDER_COLOUR, 
+                                         sample_of_developers)    
+    knowledge = get_sample_first_or_last(moderate_joiner_developers, 
+                                         sustained_joiner_developers, 
+                                         MODERATE_JOINER_COLOUR, 
+                                         sample_of_developers)    
+    knowledge = get_sample_first_or_last(transient_joiner_developers, 
+                                         sustained_joiner_developers, 
                                          TRANSIENT_JOINER_COLOUR, 
                                          sample_of_developers)    
     plt.scatter(knowledge[X_AXIS], knowledge[Y_AXIS], color=SUSTAINED_JOINER_COLOUR, alpha=1.0, s=1.0)
-    knowledge = get_sample_first_or_last(founder_transient_developers, 
-                                         founder_sustained_developers, 
+    knowledge = get_sample_first_or_last(transient_founder_developers, 
+                                         sustained_founder_developers, 
                                          TRANSIENT_FOUNDER_COLOUR, 
                                          sample_of_developers)    
     plt.scatter(knowledge[X_AXIS], knowledge[Y_AXIS], color=SUSTAINED_FOUNDER_COLOUR, alpha=1.0, s=1.0)
@@ -120,23 +139,27 @@ def generate_compare_for_component(path):
     latex = latex_start_graph()
     for component in ["packages", "classes", "methods"]:
         latex += latex_add_sub_graph(compare_developers(path, component, 
-                                                        generate_x_axis_and_y_axis(get_founder_transient_component(component), 
+                                                        generate_x_axis_and_y_axis(get_transient_founder_component(component), 
                                                                                    get_developer_knowledge), 
-                                                        generate_x_axis_and_y_axis(get_founder_sustained_component(component), 
+                                                        generate_x_axis_and_y_axis(get_moderate_founder_component(component), 
                                                                                    get_developer_knowledge),
-                                                        generate_x_axis_and_y_axis(get_joiner_transient_component(component), 
+                                                        generate_x_axis_and_y_axis(get_sustained_founder_component(component), 
                                                                                    get_developer_knowledge),
-                                                        generate_x_axis_and_y_axis(get_joiner_sustained_component(component), 
+                                                        generate_x_axis_and_y_axis(get_transient_joiner_component(component), 
+                                                                                   get_developer_knowledge),
+                                                        generate_x_axis_and_y_axis(get_moderate_joiner_component(component), 
+                                                                                   get_developer_knowledge),
+                                                        generate_x_axis_and_y_axis(get_sustained_joiner_component(component), 
                                                                                    get_developer_knowledge),
                                                         "sample.first",
-                                                        len(get_joiner_sustained_component(component).values())
+                                                        len(get_sustained_joiner_component(component).values())
                                                         ), 
                                                         GRAPH_CAPTION.format(component=component).capitalize())
     latex += "\\caption[Short]{"
     latex += "\\begin{minipage}[t]{\\linewidth}" 
-    founder_transient, founder_sustained, joiner_transient, joiner_sustained = get_total_sample_numbers(component)
+    founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained = get_total_sample_numbers(component)
     latex += FIGURE_CAPTION
-    latex += get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [founder_transient, founder_sustained, joiner_transient, joiner_sustained]) 
+    latex += get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained]) 
     latex += "\\end{minipage}"
     latex += "} \n"
     latex += latex_end_graph()
@@ -162,9 +185,13 @@ def repository_generate_and_save(repository_id, component,
     latex_repo += latex_add_sub_graph(compare_developers(path + component + "/", component, 
                                                          generate_x_axis_and_y_axis(developers[TRANSIENT_JOINER], 
                                                                                     get_developer_knowledge),
+                                                         generate_x_axis_and_y_axis(developers[MODERATE_FOUNDER], 
+                                                                                    get_developer_knowledge),
                                                          generate_x_axis_and_y_axis(developers[SUSTAINED_FOUNDER], 
                                                                                     get_developer_knowledge),
                                                          generate_x_axis_and_y_axis(developers[TRANSIENT_JOINER], 
+                                                                                    get_developer_knowledge),
+                                                         generate_x_axis_and_y_axis(developers[MODERATE_JOINER], 
                                                                                     get_developer_knowledge),
                                                          generate_x_axis_and_y_axis(developers[SUSTAINED_JOINER], 
                                                                                     get_developer_knowledge),
@@ -172,16 +199,20 @@ def repository_generate_and_save(repository_id, component,
                                                          len(developers[SUSTAINED_FOUNDER].values())),
                                                         GRAPH_CAPTION.format(component=component))
     if component == "methods":
-        founder_transient_no, founder_sustained_no, joiner_transient_no, joiner_sustained_no = get_sample_numbers(len(developers[TRANSIENT_FOUNDER].values()), 
+        founder_transient_no, founder_moderate_no, founder_sustained_no, joiner_transient_no, joiner_moderate_no, joiner_sustained_no = get_sample_numbers(len(developers[TRANSIENT_FOUNDER].values()), 
+                                                                                                                  len(developers[MODERATE_FOUNDER].values()), 
                                                                                                                     len(developers[SUSTAINED_FOUNDER].values()),
                                                                                                                     len(developers[TRANSIENT_JOINER].values()),
+                                                                                                                    len(developers[MODERATE_JOINER].values()),
                                                                                                                     len(developers[SUSTAINED_JOINER].values()))
         latex_repo += "\\caption[Short]{"
         latex_repo += "\\begin{minipage}[t]{\\linewidth}" 
         latex_repo += FIGURE_CAPTION
         latex_repo += get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [founder_transient_no, 
+                                                        founder_moderate_no,
                                                         founder_sustained_no, 
-                                                        joiner_transient_no, 
+                                                        joiner_transient_no,
+                                                        joiner_moderate_no, 
                                                         joiner_sustained_no])
         latex_repo += "\\end{minipage}"
         latex_repo += "} \n"

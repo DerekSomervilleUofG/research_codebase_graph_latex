@@ -15,11 +15,14 @@ from utility.ReadWriteFile import ReadWriteFile
 from utility.DictUtility import DictUtility
 
 read_write_file = ReadWriteFile()
-sustained_joiner_contributor = {}
-sustained_founder_contributor = {}
+repo_contribution = {}
 
 def filter_developers(developers):
     return {key: value for key, value in developers.items() if len(value[NUMBER_OF_COMMIT]) >= DEVELOPER_HAS_NUMNER_OF_COMMITS and value[YEAR_PERIOD][-1] >= DEVELOPER_PERIOD}
+
+def filter_developers_by_commits(developers):
+    return {key: value for key, value in developers.items() if len(value[NUMBER_OF_COMMIT]) >= TRANSIENT_COMMITS}
+
 
 def create_repository_directory(repository_id, component):
     path = "repository/" + str(repository_id) + "/" + component + "/"
@@ -30,14 +33,25 @@ def get_developers(repository_id, component):
     founder_developers, developer_total_commit, max_total_known = get_data_from_database(repository_id, component, FOUNDER)
     sustained_founder_developers = filter_developers(founder_developers)
     transient_founder_developers = DictUtility.dict_remove_items(founder_developers, sustained_founder_developers)
+    moderate_founder_developers = filter_developers_by_commits(transient_founder_developers)
+    transient_founder_developers = DictUtility.dict_remove_items(transient_founder_developers, moderate_founder_developers)
     joiner_developers, developer_total_commit, max_total_known  = get_data_from_database(repository_id, component, JOINER)
     sustained_joiner_developers = filter_developers(joiner_developers)
     transient_joiner_developers = DictUtility.dict_remove_items(joiner_developers, sustained_joiner_developers)
-    sustained_joiner_contributor[repository_id] = len(sustained_joiner_developers.values())
-    sustained_founder_contributor[repository_id] = len(sustained_founder_developers.values())
+    moderate_joiner = filter_developers_by_commits(transient_joiner_developers)
+    transient_joiner_developers = DictUtility.dict_remove_items(transient_joiner_developers, moderate_joiner)   
+    repo_contribution[repository_id] = {}
+    repo_contribution[repository_id][SUSTAINED_JOINER] = len(sustained_joiner_developers.values())
+    repo_contribution[repository_id][SUSTAINED_FOUNDER] = len(sustained_founder_developers.values())
+    repo_contribution[repository_id][MODERATE_FOUNDER] = len(moderate_founder_developers.values())
+    repo_contribution[repository_id][MODERATE_JOINER] = len(moderate_joiner.values())
+    repo_contribution[repository_id][TRANSIENT_FOUNDER] = len(transient_founder_developers.values())
+    repo_contribution[repository_id][TRANSIENT_JOINER] = len(transient_joiner_developers.values())
     developers = {}
     developers[SUSTAINED_JOINER] = sustained_joiner_developers
     developers[SUSTAINED_FOUNDER] = sustained_founder_developers
+    developers[MODERATE_FOUNDER] = moderate_founder_developers
+    developers[MODERATE_JOINER] = moderate_joiner
     developers[TRANSIENT_FOUNDER] = transient_founder_developers
     developers[TRANSIENT_JOINER] = transient_joiner_developers
     return developers
@@ -79,7 +93,7 @@ def start_generate_repo_latex(control_populate):
     latex_repository()
 
 def finish_repo_latex():
-    number_of_repositories = repository_summary_table_generate_and_save(sustained_joiner_contributor, sustained_founder_contributor)
+    number_of_repositories = repository_summary_table_generate_and_save(repo_contribution)
     generate_final_graph_generate_and_save(number_of_repositories)
 
 def get_repository(repository_id):

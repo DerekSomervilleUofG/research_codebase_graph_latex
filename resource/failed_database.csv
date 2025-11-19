@@ -20,3 +20,14 @@ resource/database/codebase_start.db,''int'' object is not subscriptable
 resource/database/codebase_start.db,developer_graph() got multiple values for argument ''param_x_axis''
 resource/database/codebase_start.db,cannot access local variable ''latex_graph'' where it is not associated with a value
 resource/database/codebase_start.db,cannot convert dictionary update sequence element #0 to a sequence
+resource/database/codebase_start.db,max() iterable argument is empty
+resource/database/codebase_start.db,max() iterable argument is empty
+resource/database/codebase_start.db,x and y must have same first dimension, but have shapes (12,) and (1,)
+resource/database/codebase_start.db,x and y must have same first dimension, but have shapes (12,) and (1,)
+resource/database/codebase_start.db,''transient founder''
+resource/database/codebase_start.db,''transient founder''
+resource/database/codebase_start.db,unexpected ''{'' in field name
+resource/database/codebase_start.db,compare_developers() missing 2 required positional arguments: ''file_name_suffix'' and ''sample_of_developers''
+resource/database/codebase_start.db,get_sample_numbers() missing 2 required positional arguments: ''joiner_moderate_num'' and ''joiner_sustained_num''
+resource/database/codebase_start.db,too many values to unpack (expected 4)
+resource/database/codebase_start.db,''unit''
