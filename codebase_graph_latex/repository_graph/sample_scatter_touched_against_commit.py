@@ -137,7 +137,7 @@ def generate_x_axis_and_y_axis(developers, method, param=""):
 
 def generate_compare_for_component(path):
     latex = latex_start_graph()
-    for component in ["packages", "classes", "methods"]:
+    for component in COMPONENTS:
         latex += latex_add_sub_graph(compare_developers(path, component, 
                                                         generate_x_axis_and_y_axis(get_transient_founder_component(component), 
                                                                                    get_developer_knowledge), 

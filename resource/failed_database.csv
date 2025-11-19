@@ -31,3 +31,6 @@ resource/database/codebase_start.db,compare_developers() missing 2 required posi
 resource/database/codebase_start.db,get_sample_numbers() missing 2 required positional arguments: ''joiner_moderate_num'' and ''joiner_sustained_num''
 resource/database/codebase_start.db,too many values to unpack (expected 4)
 resource/database/codebase_start.db,''unit''
+resource/database/codebase_start.db,''NoneType'' object is not subscriptable
+resource/database/codebase_start.db,''NoneType'' object is not subscriptable
+resource/database/codebase_start.db,''NoneType'' object is not subscriptable

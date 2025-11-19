@@ -68,29 +68,30 @@ def create_repository_summary_page(repositories, repo_contribution):
     latex_table = ""
     number_of_repository = 0
     for repository in repositories:
-        total_trainsient_founder += repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_FOUNDER]
-        total_moderate_founder += repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_FOUNDER]
-        total_sustained_founder += repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_FOUNDER]
-        total_transient_joiner += repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_JOINER]
-        total_moderate_joiner += repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_JOINER]
-        total_sustained_joiner += repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_JOINER]
-        latex_table +=  str(repository[REPOSITORY_ID]) 
-        latex_table += " & " + repository[REPO_NAME]
-        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_FOUNDER])
-        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_FOUNDER])
-        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_FOUNDER])
-        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_JOINER])
-        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_JOINER])
-        latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_JOINER])
-        latex_table += " & " + str(repository[COMMIT_COUNT])
-        total_commit += repository[COMMIT_COUNT]
-        latex_table += " & " + get_date_time(repository[MIN_DATE]).strftime('%Y-%b-%d')
-        if get_integer(repository[MAX_DATE]) < 20240300000000:
-            latex_table += " & " + get_date_time(repository[MAX_DATE]).strftime('%Y-%b-%d')
-        else:
-            latex_table += " & On going"
-        latex_table += " \\\\ \n"
-        number_of_repository += 1
+        if repository[REPOSITORY_ID] in repo_contribution:
+            total_trainsient_founder += repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_FOUNDER]
+            total_moderate_founder += repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_FOUNDER]
+            total_sustained_founder += repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_FOUNDER]
+            total_transient_joiner += repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_JOINER]
+            total_moderate_joiner += repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_JOINER]
+            total_sustained_joiner += repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_JOINER]
+            latex_table +=  str(repository[REPOSITORY_ID]) 
+            latex_table += " & " + repository[REPO_NAME]
+            latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_FOUNDER])
+            latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_FOUNDER])
+            latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_FOUNDER])
+            latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_JOINER])
+            latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_JOINER])
+            latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_JOINER])
+            latex_table += " & " + str(repository[COMMIT_COUNT])
+            total_commit += repository[COMMIT_COUNT]
+            latex_table += " & " + get_date_time(repository[MIN_DATE]).strftime('%Y-%b-%d')
+            if get_integer(repository[MAX_DATE]) < 20240300000000:
+                latex_table += " & " + get_date_time(repository[MAX_DATE]).strftime('%Y-%b-%d')
+            else:
+                latex_table += " & On going"
+            latex_table += " \\\\ \n"
+            number_of_repository += 1
     latex_table += total_row(total_trainsient_founder, total_moderate_founder, total_sustained_founder, total_transient_joiner, total_moderate_joiner, total_sustained_joiner, total_commit)
     return latex_table, number_of_repository
 
