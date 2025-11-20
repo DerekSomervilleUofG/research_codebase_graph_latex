@@ -7,12 +7,16 @@ from codebase_graph_latex.constants import *
 
 figure_counter = FigureCounter()
 BINS = 50
+NUMBER_GRAPHS_TO_PAGE = 6
+NUMBER_GRAPHS_TO_ROW = 2
 graph_number = None
 read_write_file = ReadWriteFile()
 
 def set_graph_number(number):
     global graph_number
     graph_number = number
+def get_graph_number():
+    return graph_number
 
 def latex_start_graph():
     latex = "\\begin{figure}[!htbp]\n"
@@ -57,10 +61,13 @@ def latex_add_sub_graph(file_path, caption):
     global graph_number, figure_counter
     figure_counter.increment_sub_graph()
     latex = ""
-    if graph_number is not None and graph_number > 0 and graph_number % 6 == 0:
+    if graph_number is not None and graph_number > 0 and graph_number % NUMBER_GRAPHS_TO_PAGE == 0:
+        latex += "\\caption{Part " + str(graph_number// NUMBER_GRAPHS_TO_PAGE) + " continued on next page.}\n"
+        local_graph_number = graph_number
         latex += latex_end_graph()
         latex += latex_start_graph()
-    elif graph_number is not None and graph_number > 0 and graph_number % 2 == 0:
+        set_graph_number(local_graph_number)
+    elif graph_number is not None and graph_number > 0 and graph_number % NUMBER_GRAPHS_TO_ROW == 0:
         latex += latex_new_row()
     latex += __add_graph_latex(file_path, caption)
     if graph_number is not None:

@@ -1,6 +1,7 @@
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.store_developer_data import * 
+import math
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
@@ -35,8 +36,13 @@ def generate_component_summary_historgram(component, number_of_repositories):
         latex += generate_summary_histogram(commit_data, daily_data, component, category)
     commit_data, daily_data = get_commit_and_daily(all_developers)
     latex_start = generate_summary_histogram(commit_data, daily_data, component, "All")
+    local_graph_number = get_graph_number()
     latex = latex_start_graph() + latex_start + latex
-    latex += "  \\caption{" + FIGURE_CAPTION.format(component=component, number_of_repositories=number_of_repositories) + "} \n"
+    latex += "  \\caption{" 
+    if local_graph_number > NUMBER_GRAPHS_TO_PAGE:
+        latex += "Part " + str(math.ceil(local_graph_number/ NUMBER_GRAPHS_TO_PAGE)) + ". "
+    latex += FIGURE_CAPTION.format(component=component, number_of_repositories=number_of_repositories) 
+    latex += "} \n"
     latex += latex_end_graph()
     return latex
 
