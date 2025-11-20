@@ -38,4 +38,4 @@ SUSTAINED_JOINER_DESC += "joining the project after six months and contributed a
 SUSTAINED_JOINER_DESC += "over a period of " + str(DEVELOPER_PERIOD) + " days or more. "
 DEVELOPER_IGNORE = "Developers with fewer than " + word_engine.number_to_words(NUMBER_OF_COMMIT) + " commits are excluded. "
 SMALL_FIGURE = (3, 2)
-LARGE_FIGURE = (6, 4)
+LARGE_FIGURE = (15, 15)

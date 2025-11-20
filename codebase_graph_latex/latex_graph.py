@@ -11,6 +11,7 @@ graph_number = None
 read_write_file = ReadWriteFile()
 
 def set_graph_number(number):
+    global graph_number
     graph_number = number
 
 def latex_start_graph():

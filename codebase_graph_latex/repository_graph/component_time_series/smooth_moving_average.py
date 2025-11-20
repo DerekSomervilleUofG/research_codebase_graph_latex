@@ -1,4 +1,4 @@
-from codebase_graph_latex.repository_graph.component_time_series.time_series_developer import *
+from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import *
 import seaborn as sns
 import plotly.express as px
 

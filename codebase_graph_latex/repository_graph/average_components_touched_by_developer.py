@@ -35,7 +35,7 @@ def merge_average(daily, commit, component):
         daily_method_average += daily
 
 def generate_average(number_of_repository):
-    latex_repo = get_section_start(FILE_NAME) + "By commit and by day} \n"
+    latex_repo = get_section_start(FILE_NAME, "sub") + "By commit and by day} \n"
     latex_repo += latex_start_graph()
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), commit_package_average, "packages", 0, "Commit", "", param_caption=GRAPH_CAPTION.format(period="Commit", component="packages"), max_x_axis=math.ceil(max(commit_package_average)), max_y_axis=MAX_Y_AXIS)
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), daily_package_average, "packages", 0, "Daily", "", param_caption=GRAPH_CAPTION.format(period="Daily", component="packages"), max_x_axis=math.ceil(max(commit_package_average)), max_y_axis=MAX_Y_AXIS, bins=math.ceil(BINS*(max(daily_package_average)/max(commit_package_average))))

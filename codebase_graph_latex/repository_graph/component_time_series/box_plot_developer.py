@@ -1,10 +1,10 @@
-from codebase_graph_latex.repository_graph.component_time_series.time_series_developer import *
+from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import *
 import seaborn as sns
 
 FILE_NAME = __name__
 FIGURE_CAPTION = "A box plot of total {component} touched on mean each month, with quartile shading. "
 
-BASE_FILE_NAME = "appendix_1.tex"
+BASE_FILE_NAME = "repository_2.tex"
 
 def section_sub_heading(repository_id, component):
     latex = get_section_start(FILE_NAME, "sub") + str(repository_id) + " For " + component + " touched for each period} \n"

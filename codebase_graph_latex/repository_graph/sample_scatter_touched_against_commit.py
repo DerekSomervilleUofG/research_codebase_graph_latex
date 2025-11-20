@@ -166,7 +166,7 @@ def generate_compare_for_component(path):
     return latex
 
 def generate_and_save():
-    latex = section_heading(FILE_NAME)
+    latex = get_section_start(FILE_NAME, "sub") + "} \n" 
     latex += generate_compare_for_component(DIRECTORY + "graph/")
     read_write_file.write_file(get_file_name(FILE_NAME), latex, DIRECTORY) 
     latex = "\\input{repository/" + get_base_file_name(FILE_NAME) + "}\n"
