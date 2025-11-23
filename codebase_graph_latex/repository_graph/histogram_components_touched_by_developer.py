@@ -5,7 +5,7 @@ import math
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
-GRAPH_CAPTION = "By {freq} for {category} {number} developers."
+GRAPH_CAPTION = "By {freq} for {category} {number} developers. "
 MAX_X_AXIS = 4
 MAX_Y_AXIS = {"All": 1250, TRANSIENT_FOUNDER: 20, MODERATE_FOUNDER: 20, SUSTAINED_FOUNDER: 20, TRANSIENT_JOINER: 1000, MODERATE_JOINER: 250, SUSTAINED_JOINER: 100}
 

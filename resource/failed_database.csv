@@ -49,3 +49,8 @@ resource/database/codebase_start.db,''Peach'' is not a valid value for color: su
 resource/database/codebase_start.db,cannot access local variable ''latex_table'' where it is not associated with a value
 resource/database/codebase_start.db,''tab''
 resource/database/codebase_start.db,''packages''
+resource/database/codebase_start.db,cannot unpack non-iterable Figure object
+resource/database/codebase_start.db,too many values to unpack (expected 2)
+resource/database/codebase_start.db,ufunc ''add'' did not contain a loop with signature matching types (dtype(''int64''), dtype(''<U1'')) -> None
+resource/database/codebase_start.db,ufunc ''isfinite'' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''''safe''''
+resource/database/codebase_start.db,''numpy.float64'' object is not iterable

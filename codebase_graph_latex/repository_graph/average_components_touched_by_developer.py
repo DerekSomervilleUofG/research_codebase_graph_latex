@@ -4,7 +4,7 @@ import math
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
-GRAPH_CAPTION = "{period} new {component}."
+GRAPH_CAPTION = "{period} new {component}. "
 FIGURE_CAPTION = "Average number of new components touched per day and per commit (x-axis) for {num} " + SUSTAINED_JOINER + " developers (y-axis) "
 FIGURE_CAPTION += "from {number_of_repository_word} ({number_of_repository}) projects sampled from GitHub."
 

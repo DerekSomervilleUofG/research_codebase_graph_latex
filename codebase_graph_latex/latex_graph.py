@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.ticker import MaxNLocator
 from codebase_graph_latex.FigureCounter import FigureCounter
 from codebase_graph_latex.repository_graph.master_graph import *
@@ -93,6 +94,7 @@ def developer_graph(file_name, developers, table_suffix, repository_id,
     file_name += ".pdf"
     plt.figure(figsize=SMALL_FIGURE)
     plt.hist(developers, bins=bins)
+    max_height = max([patch.get_height() for patch in plt.gca().patches])
     if max_x_axis > 0:
         plt.xlim(0, max_x_axis)
     if max_y_axis > 0:
@@ -106,6 +108,7 @@ def developer_graph(file_name, developers, table_suffix, repository_id,
     plt.tight_layout() 
     plt.savefig(file_name, bbox_inches='tight')
     plt.close()
+    param_caption += "The maximum number of developers is " + str(int(max_height)) + "."
     if sub_graph:
         latex = latex_add_sub_graph(file_name, param_caption)
     else:
