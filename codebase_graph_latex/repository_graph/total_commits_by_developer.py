@@ -9,9 +9,9 @@ import math
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 MINIMUM_COMMITS = 3
-GRAPH_CAPTION = "{contributor} {number}. "
-FIGURE_CAPTION = "Histomagram of number of commits made by " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " " + str(len(DEVELOPER_CATEGORY)) + " categories of developers in {number__of_repositories} sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ")"
-ALL_FIGURE_CAPTION = "Histogram of number of commits made by all developers {number} in {number__of_repositories} sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  "). "
+GRAPH_CAPTION = "{contributor} (n={number}). "
+FIGURE_CAPTION = "Histogram of number of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits."
+ALL_FIGURE_CAPTION = "Histogram of the number from all developers (n={number}) (y-axis) against the total number of commits in {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits. "
 MAX_Y_AXIS = 70
 MAX_Y_AXIS_TRANSIENT = 325
 MAX_Y_AXIS_ALL = 1600
@@ -33,7 +33,7 @@ def get_developer_commit_by_contributor_stage(contributor_stage):
 def generate_developer_commit_latex(contributor_stage, developers, bins, max_x_axis=MAX_X_AXIS, max_y_axis=MAX_Y_AXIS):
     title = "Number of commits"
     return developer_graph(FILE_NAME, developers, title, 0, contributor_stage,
-                           param_caption=GRAPH_CAPTION.format(contributor=contributor_stage, number=len(developers)), 
+                           param_caption=GRAPH_CAPTION.format(contributor=contributor_stage.capitalize(), number=len(developers)), 
                            param_x_axis=title, 
                            max_x_axis=max_x_axis, 
                            max_y_axis=max_y_axis,
@@ -44,7 +44,7 @@ def generate_all_developer_commit(number_of_repositories, transient_founder, tra
     title = "Number of commits"
     return developer_graph(FILE_NAME, all_developers, title, 0, title,
                            sub_graph=False,
-                           param_caption=ALL_FIGURE_CAPTION.format(number=len(all_developers), number__of_repositories=number_of_repositories), 
+                           param_caption=ALL_FIGURE_CAPTION.format(number=len(all_developers[0]), number__of_repositories=number_of_repositories), 
                            param_x_axis=title, 
                            max_x_axis=MAX_X_AXIS, 
                            max_y_axis=MAX_Y_AXIS_ALL)    

@@ -54,3 +54,20 @@ resource/database/codebase_start.db,too many values to unpack (expected 2)
 resource/database/codebase_start.db,ufunc ''add'' did not contain a loop with signature matching types (dtype(''int64''), dtype(''<U1'')) -> None
 resource/database/codebase_start.db,ufunc ''isfinite'' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''''safe''''
 resource/database/codebase_start.db,''numpy.float64'' object is not iterable
+resource/database/codebase_start.db,save_graph() got multiple values for argument ''x_axis''
+resource/database/codebase_start.db,generate_graph() missing 1 required positional argument: ''y_axis_max''
+resource/database/codebase_start.db,unhashable type: ''list''
+resource/database/codebase_start.db,0
+resource/database/codebase_start.db,generate_graph() missing 1 required positional argument: ''y_axis_max''
+resource/database/codebase_start.db,module ''numpy'' has no attribute ''arrange''
+resource/database/codebase_start.db,generate_graph() takes from 4 to 5 positional arguments but 6 were given
+resource/database/codebase_start.db,generate_graph() takes from 4 to 5 positional arguments but 6 were given
+resource/database/codebase_start.db,''transient founder''
+resource/database/codebase_start.db,''all''
+resource/database/codebase_start.db,''str'' object has no attribute ''capitilize''
+resource/database/codebase_start.db,section_heading() takes 3 positional arguments but 4 were given
+resource/database/codebase_start.db,unsupported operand type(s) for +: ''builtin_function_or_method'' and ''str''
+resource/database/codebase_start.db,affine_transform(): incompatible function arguments. The following argument types are supported:    1. (points: numpy.ndarray[numpy.float64], trans: trans_affine) -> objectInvoked with: [(0.0, -7.59375)], array([[1., 0., 0.],       [0., 1., 0.],       [0., 0., 1.]])
+resource/database/codebase_start.db,float division by zero
+resource/database/codebase_start.db,developer_graph() got an unexpected keyword argument ''x_axis''
+resource/database/codebase_start.db,developer_graph() got multiple values for argument ''param_x_axis''

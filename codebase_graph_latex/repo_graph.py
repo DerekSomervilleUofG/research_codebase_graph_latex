@@ -66,8 +66,7 @@ def create_repo_latex_file(repository_id, status):
 
 def run(repository_id, status):
     print("Run for ", repository_id, status)
-    if status == "B":
-        create_repo_latex_file(repository_id, status)
+    create_repo_latex_file(repository_id, status)
     for component in [ "packages", "classes", "methods"]:
         developers = get_developers(repository_id, component)
         store_developer_data_merge_knowledge(component, developers)

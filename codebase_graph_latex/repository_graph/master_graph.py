@@ -14,7 +14,7 @@ MODERATE_JOINER_COLOUR = 'Cyan'
 TRANSIENT_JOINER_COLOUR = 'Orange'
 SUSTAINED_JOINER_COLOUR = 'Red'
 
-FIGURE_CAPTION_NUMBERS = "samples of developers capped at NUM4 from six categories: "
+FIGURE_CAPTION_NUMBERS = "samples of developers capped at NUM4 from six (6) categories: "
 FIGURE_CAPTION_NUMBERS += "\\color{" + TRANSIENT_FOUNDER_COLOUR + "}" + TRANSIENT_FOUNDER.title() + " (" + TRANSIENT_FOUNDER_COLOUR + ", NUM1), "
 FIGURE_CAPTION_NUMBERS += "\\color{" + MODERATE_FOUNDER_COLOUR + "}" + MODERATE_FOUNDER.title() + " (" + MODERATE_FOUNDER_COLOUR + ", NUM2), "
 FIGURE_CAPTION_NUMBERS += "\\color{" + SUSTAINED_FOUNDER_COLOUR + "}" " " + SUSTAINED_FOUNDER.title() + " (" + SUSTAINED_FOUNDER_COLOUR + ", NUM3), "

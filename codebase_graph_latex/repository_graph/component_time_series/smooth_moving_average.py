@@ -3,7 +3,7 @@ import seaborn as sns
 import plotly.express as px
 
 FILE_NAME = __name__
-FIGURE_CAPTION = "A smooth moving of total {component} touched on average each {unit} of a year. "
+FIGURE_CAPTION = "Repository: {repo}. A smooth moving of total {component} touched on average each {unit} of a year. "
 
 BASE_FILE_NAME = "appendix_2.tex"
 
@@ -13,7 +13,7 @@ def section_sub_heading(repository_id, component):
     latex += "the number of commits to components touched. \n"
     return latex
 
-def generate_graph(path, component, data, type, unit=NUMBER_OF_MONTHS):
+def generate_graph(path, component, data, type, unit, y_axis_max):
     plt.figure(figsize=SMALL_FIGURE, dpi=1000)
 
     mean_touched = np.mean(data, axis=0)

@@ -2,7 +2,7 @@ from codebase_graph_latex.repository_graph.component_time_series.time_series_com
 import seaborn as sns
 
 FILE_NAME = __name__
-FIGURE_CAPTION = "A box plot of total {component} touched on mean each month, with quartile shading. "
+FIGURE_CAPTION = "Repository: {repo}. A box plot of total {component} touched on mean each month, with quartile shading. "
 
 BASE_FILE_NAME = "repository_2.tex"
 
@@ -23,7 +23,7 @@ def developer_mean_data(data, unit):
     return median_data
 
 
-def generate_graph(path, component, data, type, unit=NUMBER_OF_MONTHS):
+def generate_graph(path, component, data, type, unit, y_axis_max):
     plt.figure(figsize=SMALL_FIGURE, dpi=1000)
     period = list(range(1, unit + 1))
     period_list = period * len(data)
@@ -36,7 +36,7 @@ def generate_graph(path, component, data, type, unit=NUMBER_OF_MONTHS):
     p1 = sns.boxplot(x='Period', y='Touched', data=data_frame, showfliers=False, patch_artist=True)
 
     plt.xticks(get_x_axis_unit(unit))
-
+    plt.yticks(np.arange(0, y_axis_max + 1))
     plt.xlabel(UNIT_FREQUENCY[unit])
     plt.ylabel(component.capitalize() + " touched")
     plt.tight_layout() 

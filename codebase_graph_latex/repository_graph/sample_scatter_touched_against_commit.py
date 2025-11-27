@@ -105,7 +105,7 @@ def compare_developers(path, component,
     file_name = save_graph(path, component, file_name_suffix, x_axis=x_axis)
     return file_name
 
-def save_graph(path, component, file_suffix="", log_switch=True, x_axis="Number of commits"):
+def save_graph(path, component, file_suffix="", log_switch=False, x_axis="Number of commits"):
     read_write_file.create_directory(path)
     plt.subplots_adjust(left=0.15)
     if log_switch:
@@ -155,12 +155,10 @@ def generate_compare_for_component(path):
                                                         len(get_sustained_joiner_component(component).values())
                                                         ), 
                                                         GRAPH_CAPTION.format(component=component).capitalize())
-    latex += "\\caption[Short]{"
-    latex += "\\begin{minipage}[t]{\\linewidth}" 
+    latex += "\\caption{"
     founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained = get_total_sample_numbers(component)
     latex += FIGURE_CAPTION
     latex += get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained]) 
-    latex += "\\end{minipage}"
     latex += "} \n"
     latex += latex_end_graph()
     return latex

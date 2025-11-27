@@ -49,7 +49,7 @@ def __add_graph_latex(file_path, caption, figure="subfigure", size=0.48, placeme
     latex += "  \\begin{" + figure + "}["+ placement + "] \n"
     if size > 0:
         latex += "{" + str(size) + "\\textwidth}\n"
-    latex += "    \\includegraphics[width=\\linewidth]{" + file_path + "}\n"
+    latex += "    \\includegraphics{" + file_path + "}\n"
     latex += "    \\caption{" + caption.replace("_", " ") + "}\n"
     latex += "    \\label{" + label + "}\n"
     latex += "  \\end{" + figure + "}\n"
@@ -108,7 +108,7 @@ def developer_graph(file_name, developers, table_suffix, repository_id,
     plt.tight_layout() 
     plt.savefig(file_name, bbox_inches='tight')
     plt.close()
-    param_caption += "The maximum number of developers is " + str(int(max_height)) + "."
+    #param_caption += "The maximum number of developers is " + str(int(max_height)) + "."
     if sub_graph:
         latex = latex_add_sub_graph(file_name, param_caption)
     else:
