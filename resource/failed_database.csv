@@ -71,3 +71,5 @@ resource/database/codebase_start.db,affine_transform(): incompatible function ar
 resource/database/codebase_start.db,float division by zero
 resource/database/codebase_start.db,developer_graph() got an unexpected keyword argument ''x_axis''
 resource/database/codebase_start.db,developer_graph() got multiple values for argument ''param_x_axis''
+resource/database/codebase_start.db,x and y must have same first dimension, but have shapes (52,) and (1,)
+resource/database/codebase_start.db,max() iterable argument is empty

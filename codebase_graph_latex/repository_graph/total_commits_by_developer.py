@@ -11,7 +11,7 @@ BASE_FILE_NAME = "repository_summary_1.tex"
 MINIMUM_COMMITS = 3
 GRAPH_CAPTION = "{contributor} (n={number}). "
 FIGURE_CAPTION = "Histogram of number of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits."
-ALL_FIGURE_CAPTION = "Histogram of the number from all developers (n={number}) (y-axis) against the total number of commits in {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits. "
+ALL_FIGURE_CAPTION = "Histogram of the number from all developers (n={number}) (y-axis) against the total number of commits (x-axis) in {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits. "
 MAX_Y_AXIS = 70
 MAX_Y_AXIS_TRANSIENT = 325
 MAX_Y_AXIS_ALL = 1600

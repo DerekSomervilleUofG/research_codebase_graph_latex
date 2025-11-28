@@ -86,7 +86,7 @@ def get_x_axis_unit(unit):
     if unit == NUMBER_OF_MONTHS:
         x_axis = np.arange(1, unit + 1)
     else:
-        x_axis = np.arange(1, unit + 1, 9)
+        x_axis = np.arange(0, unit + 1, 5)
     return x_axis
 
 def calculate_standard_deviation(data, period, mean_touched, above=True):
@@ -121,14 +121,15 @@ def generate_graph(path, component, data, type, unit, y_axis_max):
     plt.figure(figsize=SMALL_FIGURE, dpi=1000)
     data_frame = np.array(data)
     months = np.arange(1, unit + 1)
-    mean_touched = np.nanmean(data_frame, axis=0)
-    plt.plot(months, mean_touched, label="Mean " + component + " Touched", color="blue")
-    std_above, std_below = calculate_std(mean_touched, data, unit)
-    plt.fill_between(months, mean_touched, mean_touched + std_above,
-                 color='green', alpha=0.3, label='Above (+1 Std Dev)')
+    if len(data) > 0:
+        mean_touched = np.nanmean(data_frame, axis=0)
+        plt.plot(months, mean_touched, label="Mean " + component + " Touched", color="blue")
+        std_above, std_below = calculate_std(mean_touched, data, unit)
+        plt.fill_between(months, mean_touched, mean_touched + std_above,
+                    color='green', alpha=0.3, label='Above (+1 Std Dev)')
 
-    plt.fill_between(months, mean_touched - std_below, mean_touched,
-                 color='red', alpha=0.3, label='Below (-1 Std Dev)')
+        plt.fill_between(months, mean_touched - std_below, mean_touched,
+                    color='red', alpha=0.3, label='Below (-1 Std Dev)')
     plt.xticks(get_x_axis_unit(unit), fontsize=7)
     if y_axis_max > 0:
         plt.yticks(np.arange(0, y_axis_max + 1, y_axis_max//10))
@@ -165,14 +166,11 @@ def generate_latex(repository_id, method, path, component, unit, developers, fig
                                                 y_axis_max)
     latex = latex_add_graph(file_name, ALL_FIGURE_CAPTION.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY[unit].lower() + "s"))
     latex += latex_start_graph()
-    counter = 0
     
     for category in DEVELOPER_CATEGORY:
         stage_developers = developers[category]
-        if len(stage_developers.keys()) > 0:
-            latex += get_data_and_generate_graph(method, path, component, stage_developers, category, unit, y_axis_max)
-        counter += 1
-        set_graph_number(counter)       
+        latex += get_data_and_generate_graph(method, path, component, stage_developers, category, unit, y_axis_max)
+  
     latex += "\\caption{" + figure_caption.format(repo=repository_id, component=component, unit=UNIT_FREQUENCY[unit].lower()) + "} \n"
     latex += latex_end_graph()        
     return latex
