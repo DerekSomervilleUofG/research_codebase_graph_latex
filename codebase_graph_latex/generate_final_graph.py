@@ -3,12 +3,16 @@ from codebase_graph_latex.repository_graph.average_components_touched_by_develop
 from codebase_graph_latex.repository_graph.repository_pull_request import generate_and_save as repository_pull_request_generate_and_save
 from codebase_graph_latex.repository_graph.total_commits_by_developer import generate_and_save as developer_commit_generate_and_save
 from codebase_graph_latex.repository_graph.histogram_components_touched_by_developer import generate_and_save as repository_histogram_commit_generate_and_save
-
+from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import generate_and_save as time_series_components_touched_generate_and_save
+from codebase_graph_latex.constants import *
+from codebase_graph_latex.store_developer_data import *
 
 def generate_and_save(number_of_repositories):
     scatter_sample_commit_knowledge_generate_and_save()
     developer_commit_generate_and_save(number_of_repositories)
     repository_histogram_commit_generate_and_save(number_of_repositories)
     #average_components_touched_by_developer_generate_and_save(number_of_repositories)
+    for component in COMPONENTS:
+        time_series_components_touched_generate_and_save(0, component, developer_component_knowledge, "repsoitory_summary.tex")
     repository_pull_request_generate_and_save(0)
     

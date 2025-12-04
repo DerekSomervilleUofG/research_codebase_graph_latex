@@ -13,14 +13,16 @@ GRAPH_CAPTION = "{type} developers (n={num})"
 FIGURE_CAPTION = "Repository: {repo}. A time series the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis) for " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developer. " 
 ALL_FIGURE_CAPTION = "Repository: {repo}. A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis)  for all developers (n={num}). "
 FIGURE_SUFFIX = "with \\color{Orange} positive (orange) \\color{Black} and \\color{Red} negative (red) \\color{Black} filled standard deviation. "
-BASE_FILE_NAME = "repository_1.tex"
 
 def section_heading(repository_id):
     latex = "\\section{ Repository - "+ str(repository_id) + "} \n"
     return latex
 
 def section_sub_heading(repository_id, component):
-    latex = get_section_start(FILE_NAME, "sub") + str(repository_id) + " For " + component + " touched for each period} \n"
+    latex = get_section_start(FILE_NAME, "sub") 
+    if repository_id > 0:
+        latex += str(repository_id) + " "
+    latex += "For " + component + " touched for each period} \n"
     latex += "A time series of " + component + " touched on average each month. \n"
     return latex
 
@@ -187,10 +189,12 @@ def default_generate_save(method, base_file_name, file_name, repository_id, comp
         latex += generate_latex(repository_id, method, path, component, unit, developers, figure_caption)
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex, path)
 
-def generate_and_save(repository_id, component, developers):
+def generate_and_save(repository_id, component, developers, base_file_name):
     if component == "packages":
-        path = "repository/" + str(repository_id) + "/" 
+        path = "repository/" 
+        if repository_id > 0:
+            path+= str(repository_id) + "/" 
         read_write_file.write_file(get_base_file_name(FILE_NAME) + ".tex", 
                                section_sub_heading(repository_id, component), path)
-    default_generate_save(generate_graph, BASE_FILE_NAME, FILE_NAME, repository_id, component, developers, figure_caption=FIGURE_CAPTION, units=[NUMBER_OF_WEEKS])
+    default_generate_save(generate_graph, base_file_name, FILE_NAME, repository_id, component, developers, figure_caption=FIGURE_CAPTION, units=[NUMBER_OF_WEEKS])
     

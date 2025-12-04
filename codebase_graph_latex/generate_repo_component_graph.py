@@ -9,11 +9,11 @@ from codebase_graph_latex.repository_graph.component_graph.percentage_touched_re
 from codebase_graph_latex.repository_graph.histogram_components_touched_by_developer import get_commit_and_daily
 from codebase_graph_latex.constants import *
 
-def generate_and_save(repository_id, status, component, developers, developer_total_commit, max_total_known):
+def generate_and_save(repository_id, status, component, developers):
     commit_data, daily_data = get_commit_and_daily(developers[SUSTAINED_JOINER])
     repository_average_knowledge_merge_average(daily_data, commit_data, component)
-    time_series_components_touched_generate_and_save(repository_id, component, developers)
     if status == "B":
+        time_series_components_touched_generate_and_save(repository_id, component, developers, "repsoitory_1.tex")
         scatter_sample_commit_knowledge_repository_generate_and_save(repository_id, component, developers)        
         box_plot_developer_generate_and_save(repository_id, component, developers)
         smooth_moving_average_generate_and_save(repository_id, component, developers)

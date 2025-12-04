@@ -84,6 +84,7 @@ def compare_developers(path, component,
                        sustained_joiner_developers, 
                        file_name_suffix, sample_of_developers, x_axis="Number of commits"):
     plt.figure(figsize=SMALL_FIGURE, dpi=1000)
+    plt.yticks(range(0, 5), [f'$10^{{{n}}}$' for n in range(0, 5)])
     knowledge = get_sample_first_or_last(moderate_founder_developers, 
                                          sustained_joiner_developers, 
                                          MODERATE_FOUNDER_COLOUR, 
@@ -108,12 +109,9 @@ def compare_developers(path, component,
 def save_graph(path, component, file_suffix="", log_switch=False, x_axis="Number of commits"):
     read_write_file.create_directory(path)
     plt.subplots_adjust(left=0.15)
-    if log_switch:
-        plt.yscale('log')
     plt.xlabel(x_axis)
     y_axis = component.capitalize() + " touched "
-    if log_switch:
-        y_axis += "(log)"
+    y_axis += "(log)"
     plt.ylabel(y_axis)
     plt.grid(True)
     file_name = path + get_base_file_name(FILE_NAME) + "." + component 

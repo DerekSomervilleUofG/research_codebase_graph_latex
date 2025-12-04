@@ -73,3 +73,7 @@ resource/database/codebase_start.db,developer_graph() got an unexpected keyword 
 resource/database/codebase_start.db,developer_graph() got multiple values for argument ''param_x_axis''
 resource/database/codebase_start.db,x and y must have same first dimension, but have shapes (52,) and (1,)
 resource/database/codebase_start.db,max() iterable argument is empty
+resource/database/codebase_start.db,''tuple'' object is not callable
+resource/database/codebase_start.db,name ''time_series_components_touched_generate_and_save'' is not defined
+resource/database/codebase_start.db,7
+resource/database/codebase_start.db,max() iterable argument is empty
