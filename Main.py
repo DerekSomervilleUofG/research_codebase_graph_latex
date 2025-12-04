@@ -25,7 +25,7 @@ if __name__ == "__main__":
         main.repository_id = int(sys.argv[1])
     #Is debugging
     elif sys.gettrace() is not None or 'debugpy' in sys.modules: 
-        main.repository_id = 21
+        main.repository_id = 14
     else:
         main.repository_id = 0
     directory = "resource/database/codebase_start.db"  

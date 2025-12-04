@@ -13,6 +13,9 @@ def generate_and_save(number_of_repositories):
     repository_histogram_commit_generate_and_save(number_of_repositories)
     #average_components_touched_by_developer_generate_and_save(number_of_repositories)
     for component in COMPONENTS:
-        time_series_components_touched_generate_and_save(0, component, developer_component_knowledge, "repsoitory_summary.tex")
+        developers = {}
+        for category in DEVELOPER_CATEGORY:
+            developers[category] = developer_component_knowledge[category][component]
+        time_series_components_touched_generate_and_save(0, component, developers, "repsoitory_summary.tex")
     repository_pull_request_generate_and_save(0)
     

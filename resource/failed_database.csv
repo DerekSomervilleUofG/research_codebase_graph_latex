@@ -77,3 +77,9 @@ resource/database/codebase_start.db,''tuple'' object is not callable
 resource/database/codebase_start.db,name ''time_series_components_touched_generate_and_save'' is not defined
 resource/database/codebase_start.db,7
 resource/database/codebase_start.db,max() iterable argument is empty
+resource/database/codebase_start.db,7
+resource/database/codebase_start.db,7
+resource/database/codebase_start.db,''packages''
+resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repository/packages/time_series_components_touched.all.week.pdf''
+resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repository/0/packages/time_series_components_touched.all.week.pdf''
+resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repository/14/packages/packages/time_series_components_touched.packages.transient.founder.week.pdf''

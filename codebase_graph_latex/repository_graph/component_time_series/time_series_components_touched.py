@@ -121,6 +121,7 @@ def calculate_std(mean_touched, data, unit):
 
 def generate_graph(path, component, data, type, unit, y_axis_max):
     plt.figure(figsize=SMALL_FIGURE, dpi=1000)
+    read_write_file.create_directory(path)
     data_frame = np.array(data)
     months = np.arange(1, unit + 1)
     if len(data) > 0:
@@ -138,7 +139,7 @@ def generate_graph(path, component, data, type, unit, y_axis_max):
     plt.xlabel(UNIT_FREQUENCY[unit] + "s")
     plt.ylabel(component.capitalize() + " touched")
     plt.tight_layout() 
-    file_name = path + get_base_file_name(FILE_NAME) + "." + type.lower().replace(" ",".") + "." + UNIT_FREQUENCY[unit].lower() + ".pdf"
+    file_name = path + get_base_file_name(FILE_NAME) + "." + component + "." + type.lower().replace(" ",".") + "." + UNIT_FREQUENCY[unit].lower() + ".pdf"
     plt.savefig(file_name, bbox_inches='tight')
     plt.close()
     return file_name
@@ -179,6 +180,7 @@ def generate_latex(repository_id, method, path, component, unit, developers, fig
 
 def default_generate_save(method, base_file_name, file_name, repository_id, component, developers, units=[NUMBER_OF_MONTHS, NUMBER_OF_WEEKS], figure_caption=FIGURE_CAPTION):
     path = "repository/" + str(repository_id) + "/" 
+    read_write_file.create_directory(path)
     latex = ""
     if component == "packages":
         base_latex =  "\\input{" + path + get_base_file_name(file_name)  + "}\n"
