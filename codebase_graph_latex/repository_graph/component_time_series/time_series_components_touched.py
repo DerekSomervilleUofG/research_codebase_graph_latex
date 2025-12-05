@@ -10,13 +10,9 @@ import math
 
 FILE_NAME = __name__
 GRAPH_CAPTION = "{type} developers (n={num})"
-FIGURE_CAPTION = "Repository: {repo}. A time series the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis) for " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developer. " 
+FIGURE_CAPTION = "Repository: {repo}. A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis) for " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developer. " 
 ALL_FIGURE_CAPTION = "Repository: {repo}. A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis)  for all developers (n={num}). "
 FIGURE_SUFFIX = "with \\color{Orange} positive (orange) \\color{Black} and \\color{Red} negative (red) \\color{Black} filled standard deviation. "
-
-def section_heading(repository_id):
-    latex = "\\section{ Repository - "+ str(repository_id) + "} \n"
-    return latex
 
 def section_sub_heading(repository_id, component):
     latex = get_section_start(FILE_NAME, "sub") 
@@ -119,8 +115,8 @@ def calculate_std(mean_touched, data, unit):
     return std_above, std_below
 
 
-def generate_graph(path, component, data, type, unit, y_axis_max):
-    plt.figure(figsize=SMALL_FIGURE, dpi=1000)
+def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SMALL_FIGURE):
+    plt.figure(figsize=figure_size, dpi=1000)
     read_write_file.create_directory(path)
     data_frame = np.array(data)
     months = np.arange(1, unit + 1)
@@ -136,6 +132,7 @@ def generate_graph(path, component, data, type, unit, y_axis_max):
     plt.xticks(get_x_axis_unit(unit), fontsize=7)
     if y_axis_max > 0:
         plt.yticks(np.arange(0, y_axis_max + 1, y_axis_max//10))
+        
     plt.xlabel(UNIT_FREQUENCY[unit] + "s")
     plt.ylabel(component.capitalize() + " touched")
     plt.tight_layout() 
@@ -153,9 +150,17 @@ def get_data_and_generate_graph(method, path, component, developers, stage, unit
                                                 y_axis_max)
     return latex_add_sub_graph(file_name, GRAPH_CAPTION.format(num=str(len(developers.keys())), type=stage.capitalize()))
 
+
+def round_to_x_minus_1_digits_nearest_5(num):
+    x = len(str(abs(num)))
+    step = 5 * 10**(x-2)
+    return round(num / step) * step
+
+
 def get_y_axis_max(developers, unit):
     max_values = [max(dev[find_developer_unit(unit) + 1]) for dev in developers.values()]
-    return max(max_values) * 0.5
+    max_value = max(max_values) * 0.5
+    return round_to_x_minus_1_digits_nearest_5(max_value)
 
 def generate_latex(repository_id, method, path, component, unit, developers, figure_caption):
     
@@ -166,7 +171,8 @@ def generate_latex(repository_id, method, path, component, unit, developers, fig
                                                 unit), 
                                                 "All",
                                                 unit,
-                                                y_axis_max)
+                                                y_axis_max,
+                                                figure_size=WIDE_FIGURE)
     latex = latex_add_graph(file_name, ALL_FIGURE_CAPTION.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY[unit].lower() + "s"))
     latex += latex_start_graph()
     
@@ -179,7 +185,9 @@ def generate_latex(repository_id, method, path, component, unit, developers, fig
     return latex
 
 def default_generate_save(method, base_file_name, file_name, repository_id, component, developers, units=[NUMBER_OF_MONTHS, NUMBER_OF_WEEKS], figure_caption=FIGURE_CAPTION):
-    path = "repository/" + str(repository_id) + "/" 
+    path = "repository/"
+    if repository_id > 0:
+            path+= str(repository_id) + "/"
     read_write_file.create_directory(path)
     latex = ""
     if component == "packages":
@@ -192,11 +200,15 @@ def default_generate_save(method, base_file_name, file_name, repository_id, comp
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex, path)
 
 def generate_and_save(repository_id, component, developers, base_file_name):
+    path = "repository/" 
+    if repository_id > 0:
+        path+= str(repository_id) + "/" 
     if component == "packages":
-        path = "repository/" 
-        if repository_id > 0:
-            path+= str(repository_id) + "/" 
+        
         read_write_file.write_file(get_base_file_name(FILE_NAME) + ".tex", 
+                               section_sub_heading(repository_id, component), path)
+    else:
+        read_write_file.append_to_file(get_base_file_name(FILE_NAME) + ".tex", 
                                section_sub_heading(repository_id, component), path)
     default_generate_save(generate_graph, base_file_name, FILE_NAME, repository_id, component, developers, figure_caption=FIGURE_CAPTION, units=[NUMBER_OF_WEEKS])
     

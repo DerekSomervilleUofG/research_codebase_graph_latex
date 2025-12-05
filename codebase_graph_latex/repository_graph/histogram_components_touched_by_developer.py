@@ -4,11 +4,11 @@ from codebase_graph_latex.store_developer_data import *
 import math
 
 FILE_NAME = __name__
-BASE_FILE_NAME = "repository_summary_1.tex"
+BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
 GRAPH_CAPTION = "{category} (n={number}). "
 ALL_GRAPH_CAPTION = "By {freq}. "
 MAX_X_AXIS = 4
-MAX_Y_AXIS = {"all": 1300, TRANSIENT: 100, MODERATE: 75, SUSTAINED: 25}
+MAX_Y_AXIS = {"all": 1300, TRANSIENT: 100, MODERATE: 80, SUSTAINED: 24}
 
 FIGURE_CAPTION = "Histogram of the number of developers (y-axis) against the average {component} touched by {freq} (x-axis) from " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developers from {number_of_repositories} repositories sampled from GitHub." 
 ALL_FIGURE_CAPTION = "Histogram of the number of developers (y-axis) against the average {component} touched by day and commit (x-axis) from all {num} developers from {number_of_repositories} repositories sampled from GitHub." 

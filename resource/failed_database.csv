@@ -83,3 +83,6 @@ resource/database/codebase_start.db,''packages''
 resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repository/packages/time_series_components_touched.all.week.pdf''
 resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repository/0/packages/time_series_components_touched.all.week.pdf''
 resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repository/14/packages/packages/time_series_components_touched.packages.transient.founder.week.pdf''
+resource/database/codebase_start.db,cannot access local variable ''path'' where it is not associated with a value
+resource/database/codebase_start.db,''>'' not supported between instances of ''NoneType'' and ''int''
+resource/database/codebase_start.db,''>'' not supported between instances of ''NoneType'' and ''int''

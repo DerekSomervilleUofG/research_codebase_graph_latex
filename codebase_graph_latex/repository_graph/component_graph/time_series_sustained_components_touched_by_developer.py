@@ -2,7 +2,7 @@ from codebase_graph_latex.repository_graph.sample_scatter_touched_against_commit
 from codebase_graph_latex.developer_data import *
 
 FILE_NAME = __name__
-BASE_FILE_NAME = "repository_1.tex"
+BASE_FILE_NAME = REPOSITORY_1_FILE
 DEFAULT_COLOURS = [
     "Purple", "Blue", "Green", "Red", "Orange", "Salmon", "Cyan", "Magenta", "Yellow", "Black",
     "Brown", "Pink", "Gray", "Violet", "Olive", "Teal", "Navy", "Maroon", "Lime", "Coral",

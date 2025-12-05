@@ -77,7 +77,11 @@ def latex_add_sub_graph(file_path, caption):
 
 def developer_graph(file_name, developers, table_suffix, repository_id, 
                     type, param_x_axis="", param_caption="", 
-                    sub_graph=True, max_x_axis=0, max_y_axis=0, bins=BINS):
+                    sub_graph=True, 
+                    max_x_axis=0, 
+                    max_y_axis=0, 
+                    bins=BINS,
+                    figure_size=SMALL_FIGURE):
     path = DIRECTORY
     if repository_id > 0:
         path += str(repository_id) + "/"
@@ -92,7 +96,7 @@ def developer_graph(file_name, developers, table_suffix, repository_id,
     if type != "":
         file_name += "." + type.lower().replace(" ", ".")
     file_name += ".pdf"
-    plt.figure(figsize=SMALL_FIGURE)
+    plt.figure(figsize=figure_size)
     plt.hist(developers, bins=bins)
     max_height = max([patch.get_height() for patch in plt.gca().patches])
     if max_x_axis > 0:

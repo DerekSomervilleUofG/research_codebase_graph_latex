@@ -4,7 +4,7 @@ from codebase_graph_latex.store_developer_data import *
 import numpy
 
 FILE_NAME = __name__
-BASE_FILE_NAME = "repository_summary_1.tex"
+BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
 
 X_AXIS = "X_AXIS"
 Y_AXIS = "Y_AXIS"

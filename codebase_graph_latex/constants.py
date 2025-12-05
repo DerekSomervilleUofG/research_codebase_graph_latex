@@ -1,6 +1,9 @@
 import inflect
 word_engine = inflect.engine()
 
+REPOSITORY_SUMMARY_1_FILE = "repository_summary_1.tex"
+REPOSITORY_1_FILE = "repository_1.tex"
+REPOSITORY_2_FILE = "repository_2.tex"
 MAX_COMMIT = 5
 DEVELOPER_HAS_NUMNER_OF_COMMITS = 50
 TRANSIENT_COMMITS = 10
@@ -38,4 +41,5 @@ SUSTAINED_JOINER_DESC += "joining the project after six months and contributed a
 SUSTAINED_JOINER_DESC += "over a period of " + str(DEVELOPER_PERIOD) + " days or more. "
 DEVELOPER_IGNORE = "Developers with fewer than " + word_engine.number_to_words(NUMBER_OF_COMMIT) + " commits are excluded. "
 SMALL_FIGURE = (3, 2)
+WIDE_FIGURE = (6, 2)
 LARGE_FIGURE = (15, 15)

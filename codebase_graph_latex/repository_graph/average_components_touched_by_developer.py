@@ -3,7 +3,7 @@ from codebase_graph_latex.latex_graph import *
 import math
 
 FILE_NAME = __name__
-BASE_FILE_NAME = "repository_summary_1.tex"
+BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
 GRAPH_CAPTION = "{period} new {component}. "
 FIGURE_CAPTION = "Average number of new components touched per day and per commit (x-axis) for {num} " + SUSTAINED_JOINER + " developers (y-axis) "
 FIGURE_CAPTION += "from {number_of_repository_word} ({number_of_repository}) repositories sampled from GitHub."

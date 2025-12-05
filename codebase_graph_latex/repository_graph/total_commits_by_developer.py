@@ -7,16 +7,16 @@ from codebase_graph_latex.store_developer_data import *
 import math
 
 FILE_NAME = __name__
-BASE_FILE_NAME = "repository_summary_1.tex"
+BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
 MINIMUM_COMMITS = 3
 GRAPH_CAPTION = "{contributor} (n={number}). "
 FIGURE_CAPTION = "Histogram of number of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits."
 ALL_FIGURE_CAPTION = "Histogram of the number from all developers (n={number}) (y-axis) against the total number of commits (x-axis) in {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits. "
-MAX_Y_AXIS = 70
-MAX_Y_AXIS_TRANSIENT = 325
+MAX_Y_AXIS = 80
+MAX_Y_AXIS_TRANSIENT = 200
 MAX_Y_AXIS_ALL = 1600
 MAX_X_AXIS = 1200
-MAX_X_AXIS_TRANSIENT = 55
+MAX_X_AXIS_TRANSIENT = 20
 component = "packages"
 
 def get_developer_data(stage_developers):
@@ -47,7 +47,8 @@ def generate_all_developer_commit(number_of_repositories, transient_founder, tra
                            param_caption=ALL_FIGURE_CAPTION.format(number=len(all_developers[0]), number__of_repositories=number_of_repositories), 
                            param_x_axis=title, 
                            max_x_axis=MAX_X_AXIS, 
-                           max_y_axis=MAX_Y_AXIS_ALL)    
+                           max_y_axis=MAX_Y_AXIS_ALL,
+                           figure_size=WIDE_FIGURE)    
 
 
 def generate_developer_commit(number_of_repositories):
