@@ -10,6 +10,7 @@ figure_counter = FigureCounter()
 BINS = 50
 NUMBER_GRAPHS_TO_PAGE = 6
 NUMBER_GRAPHS_TO_ROW = 2
+MAX_Y_AXIS = 40
 graph_number = None
 read_write_file = ReadWriteFile()
 
@@ -113,6 +114,46 @@ def developer_graph(file_name, developers, table_suffix, repository_id,
     plt.savefig(file_name, bbox_inches='tight')
     plt.close()
     #param_caption += "The maximum number of developers is " + str(int(max_height)) + "."
+    if sub_graph:
+        latex = latex_add_sub_graph(file_name, param_caption)
+    else:
+        latex = latex_add_graph(file_name, param_caption)
+    return latex
+
+def developer_percentage_graph(file_name, developers, weights, table_suffix, repository_id, 
+                    type, param_x_axis="", param_caption="", 
+                    sub_graph=True, 
+                    max_x_axis=0, 
+                    bins=BINS,
+                    figure_size=SMALL_FIGURE):
+    path = DIRECTORY
+    if repository_id > 0:
+        path += str(repository_id) + "/"
+    else:
+        path += "graph/"
+    x_axis = "Average number of "
+    if table_suffix in ["packages", "files", "classes", "methods"]:
+        x_axis += "touched "
+    x_axis += table_suffix
+    read_write_file.create_directory(path)
+    file_name = path + get_base_file_name(file_name) + "." + table_suffix.lower().replace(" ", ".") 
+    if type != "":
+        file_name += "." + type.lower().replace(" ", ".")
+    file_name += ".pdf"
+    plt.figure(figsize=figure_size)
+    plt.hist(developers, bins=bins, weights=weights)
+    if max_x_axis > 0:
+        plt.xlim(0, max_x_axis)
+    plt.ylim(0, MAX_Y_AXIS)
+    plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))
+    if param_x_axis != "":
+        x_axis = param_x_axis
+    plt.subplots_adjust(left=0.15)
+    plt.xlabel(x_axis, fontsize=7)
+    plt.ylabel('Percentage of Developers', fontsize=8)
+    plt.tight_layout() 
+    plt.savefig(file_name, bbox_inches='tight')
+    plt.close()
     if sub_graph:
         latex = latex_add_sub_graph(file_name, param_caption)
     else:

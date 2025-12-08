@@ -86,3 +86,6 @@ resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repos
 resource/database/codebase_start.db,cannot access local variable ''path'' where it is not associated with a value
 resource/database/codebase_start.db,''>'' not supported between instances of ''NoneType'' and ''int''
 resource/database/codebase_start.db,''>'' not supported between instances of ''NoneType'' and ''int''
+resource/database/codebase_start.db,developer_percentage_graph() got an unexpected keyword argument ''max_y_axis''. Did you mean ''max_x_axis''?
+resource/database/codebase_start.db,''transient founder''
+resource/database/codebase_start.db,''transient''

@@ -10,12 +10,11 @@ FILE_NAME = __name__
 BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
 MINIMUM_COMMITS = 3
 GRAPH_CAPTION = "{contributor} (n={number}). "
-FIGURE_CAPTION = "Histogram of number of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits."
+FIGURE_CAPTION = "Histogram of percentage of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits."
 ALL_FIGURE_CAPTION = "Histogram of the number from all developers (n={number}) (y-axis) against the total number of commits (x-axis) in {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits. "
-MAX_Y_AXIS = 80
-MAX_Y_AXIS_TRANSIENT = 200
 MAX_Y_AXIS_ALL = 1600
-MAX_X_AXIS = 1200
+MAX_X_AXIS = 200
+MAX_X_AXIS_MODERATE = 150
 MAX_X_AXIS_TRANSIENT = 20
 component = "packages"
 
@@ -30,13 +29,15 @@ def get_developer_commit_by_contributor_stage(contributor_stage):
     stage_developers = developer_component_knowledge[contributor_stage][component]
     return get_developer_data(stage_developers)
 
-def generate_developer_commit_latex(contributor_stage, developers, bins, max_x_axis=MAX_X_AXIS, max_y_axis=MAX_Y_AXIS):
+
+
+def generate_developer_commit_latex(contributor_stage, developers, bins, max_x_axis=MAX_X_AXIS):
     title = "Number of commits"
-    return developer_graph(FILE_NAME, developers, title, 0, contributor_stage,
+    weights = np.ones_like(developers) * (100.0 / len(developers))
+    return developer_percentage_graph(FILE_NAME, developers, weights, title, 0, contributor_stage,
                            param_caption=GRAPH_CAPTION.format(contributor=contributor_stage.capitalize(), number=len(developers)), 
                            param_x_axis=title, 
                            max_x_axis=max_x_axis, 
-                           max_y_axis=max_y_axis,
                            bins=bins)
 
 def generate_all_developer_commit(number_of_repositories, transient_founder, transient_joiner, moderate_founder, moderate_joiner, sustained_founder, sustained_joiner):
@@ -61,10 +62,10 @@ def generate_developer_commit(number_of_repositories):
 
     latex_graph = generate_all_developer_commit(number_of_repositories, transient_founder, transient_joiner, moderate_founder, moderate_joiner, sustained_founder, sustained_joiner)
     latex_graph += latex_start_graph()
-    latex_graph += generate_developer_commit_latex(TRANSIENT_FOUNDER, transient_founder, math.ceil(BINS * (max(transient_founder)/max(transient_joiner))), max_x_axis=MAX_X_AXIS_TRANSIENT, max_y_axis=MAX_Y_AXIS_TRANSIENT)
-    latex_graph += generate_developer_commit_latex(TRANSIENT_JOINER, transient_joiner, BINS, max_x_axis=MAX_X_AXIS_TRANSIENT, max_y_axis=MAX_Y_AXIS_TRANSIENT)
-    latex_graph += generate_developer_commit_latex(MODERATE_FOUNDER, moderate_founder, math.ceil(BINS * (max(moderate_founder)/max(moderate_joiner))))
-    latex_graph += generate_developer_commit_latex(MODERATE_JOINER, moderate_joiner, BINS)
+    latex_graph += generate_developer_commit_latex(TRANSIENT_FOUNDER, transient_founder, math.ceil(BINS * (max(transient_founder)/max(transient_joiner))), max_x_axis=MAX_X_AXIS_TRANSIENT)
+    latex_graph += generate_developer_commit_latex(TRANSIENT_JOINER, transient_joiner, BINS, max_x_axis=MAX_X_AXIS_TRANSIENT)
+    latex_graph += generate_developer_commit_latex(MODERATE_FOUNDER, moderate_founder, math.ceil(BINS * (max(moderate_founder)/max(moderate_joiner))), max_x_axis=MAX_X_AXIS_MODERATE)
+    latex_graph += generate_developer_commit_latex(MODERATE_JOINER, moderate_joiner, BINS, max_x_axis=MAX_X_AXIS_MODERATE)
     latex_graph += generate_developer_commit_latex(SUSTAINED_FOUNDER, sustained_founder, math.ceil(BINS * (max(sustained_founder)/max(sustained_joiner))))
     latex_graph += generate_developer_commit_latex(SUSTAINED_JOINER, sustained_joiner, BINS)
     latex_graph += "\\caption{" + FIGURE_CAPTION.format(number__of_repositories=number_of_repositories) + "} \n"
