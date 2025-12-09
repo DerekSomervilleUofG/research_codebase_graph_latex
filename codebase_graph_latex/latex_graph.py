@@ -124,6 +124,7 @@ def developer_percentage_graph(file_name, developers, weights, table_suffix, rep
                     type, param_x_axis="", param_caption="", 
                     sub_graph=True, 
                     max_x_axis=0, 
+                    max_y_axis=MAX_Y_AXIS,
                     bins=BINS,
                     figure_size=SMALL_FIGURE):
     path = DIRECTORY
@@ -144,7 +145,7 @@ def developer_percentage_graph(file_name, developers, weights, table_suffix, rep
     plt.hist(developers, bins=bins, weights=weights)
     if max_x_axis > 0:
         plt.xlim(0, max_x_axis)
-    plt.ylim(0, MAX_Y_AXIS)
+    plt.ylim(0, max_y_axis)
     plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))
     if param_x_axis != "":
         x_axis = param_x_axis

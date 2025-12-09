@@ -12,10 +12,11 @@ MINIMUM_COMMITS = 3
 GRAPH_CAPTION = "{contributor} (n={number}). "
 FIGURE_CAPTION = "Histogram of percentage of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits."
 ALL_FIGURE_CAPTION = "Histogram of the number from all developers (n={number}) (y-axis) against the total number of commits (x-axis) in {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits. "
-MAX_Y_AXIS_ALL = 1600
-MAX_X_AXIS = 200
+MAX_Y_AXIS_ALL = 75
+MAX_X_AXIS = 500
 MAX_X_AXIS_MODERATE = 150
 MAX_X_AXIS_TRANSIENT = 20
+BAN_ALL = 100
 component = "packages"
 
 def get_developer_data(stage_developers):
@@ -43,12 +44,14 @@ def generate_developer_commit_latex(contributor_stage, developers, bins, max_x_a
 def generate_all_developer_commit(number_of_repositories, transient_founder, transient_joiner, moderate_founder, moderate_joiner, sustained_founder, sustained_joiner):
     all_developers = transient_founder + transient_joiner + sustained_founder + sustained_joiner + moderate_founder + moderate_joiner, 
     title = "Number of commits"
-    return developer_graph(FILE_NAME, all_developers, title, 0, title,
+    weights = np.ones_like(all_developers[0]) * (100.0 / len(all_developers[0]))
+    return developer_percentage_graph(FILE_NAME, all_developers[0], weights, title, 0, title,
                            sub_graph=False,
                            param_caption=ALL_FIGURE_CAPTION.format(number=len(all_developers[0]), number__of_repositories=number_of_repositories), 
                            param_x_axis=title, 
                            max_x_axis=MAX_X_AXIS, 
                            max_y_axis=MAX_Y_AXIS_ALL,
+                           bins=BAN_ALL,
                            figure_size=WIDE_FIGURE)    
 
 
