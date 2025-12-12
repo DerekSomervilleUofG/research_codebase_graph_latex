@@ -13,7 +13,9 @@ DEV_MONTH = 4
 DEV_MONTH_TOUCHED = 5
 DEV_WEEK = 6
 DEV_WEEK_TOUCHED = 7
-START_DATE = 8
+DEV_COMMIT = 8
+DEV_COMMIT_TOUCHED = 9
+START_DATE = 10
 AXIS_NAME = {YEAR_PERIOD: "day", KNOWN_Y_AXIS: "component touched", NUMBER_OF_COMMIT: "commits"}
 PERIOD = "period"
 
@@ -43,8 +45,10 @@ def get_data_from_database(repository_id, module, contributor_stage):
 def find_developer_unit(unit):
     if unit == NUMBER_OF_MONTHS:
         return DEV_MONTH
-    else:
+    elif unit == NUMBER_OF_WEEKS:
         return DEV_WEEK
+    elif unit == TIME_SERIES_NUMBER_OF_COMMIT:
+        return DEV_COMMIT
 
 def populate_period_touched(value, period_touched, unit):
     previous_mean = 0
@@ -69,6 +73,12 @@ def populate_period(value, period_touched, unit):
     last_period = value[find_developer_unit(unit)][-1]
     for period in range(last_period + 1, unit + 1):
         value[find_developer_unit(unit)].append(period)
+        
+def populate_commit(value, unit):
+    for counter in range(0, unit):
+        value[find_developer_unit(unit) + 1].append(mean)
+    for counter in range(0, unit + 1):
+        value[find_developer_unit(unit)].append()
 
 def populate_remaining_periods(value, period_touched):
     populate_period(value, period_touched, NUMBER_OF_MONTHS)
@@ -76,9 +86,9 @@ def populate_remaining_periods(value, period_touched):
 
 def generate_data(commits, developers, developers_start, start_known):
     global max_commits, developer_total_commit, max_total_known
-    template = [[1],[],[],[1],[1],[],[1],[], "" ]
+    template = [[1],[],[],[1],[1],[],[1],[],[1],[], "" ]
     developer_id = 0
-    period_touched = {NUMBER_OF_WEEKS:[], NUMBER_OF_MONTHS:[], str(NUMBER_OF_WEEKS) + PERIOD:0, str(NUMBER_OF_MONTHS) + PERIOD:0}
+    period_touched = {NUMBER_OF_WEEKS:[], NUMBER_OF_MONTHS:[], TIME_SERIES_NUMBER_OF_COMMIT:[], str(NUMBER_OF_WEEKS) + PERIOD:0, str(NUMBER_OF_MONTHS) + PERIOD:0}
     previous_day = 1
     previous_knowledge = 1
     for row in commits:
@@ -114,7 +124,8 @@ def generate_data(commits, developers, developers_start, start_known):
                             developers[developer_id][find_developer_unit(unit) + 1].append(mean)
                         developers[developer_id][find_developer_unit(unit)].append(current_period)
                     period_touched[unit].append(previous_knowledge)
-                    
+                developers[developer_id][find_developer_unit(TIME_SERIES_NUMBER_OF_COMMIT)] = developers[developer_id][NUMBER_OF_COMMIT]
+                developers[developer_id][find_developer_unit(TIME_SERIES_NUMBER_OF_COMMIT) + 1] = developers[developer_id][KNOWN_Y_AXIS]
                 max_commits += 1
                 if max_commits > DEVELOPER_HAS_NUMNER_OF_COMMITS and row[PACKAGE_KNOWN_COL] > max_total_known:
                     max_total_known = row[PACKAGE_KNOWN_COL]

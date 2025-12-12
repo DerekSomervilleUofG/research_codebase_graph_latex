@@ -91,3 +91,26 @@ resource/database/codebase_start.db,''transient founder''
 resource/database/codebase_start.db,''transient''
 resource/database/codebase_start.db,weights should have the same shape as x
 resource/database/codebase_start.db,weights should have the same shape as x
+resource/database/codebase_start.db,float division by zero
+resource/database/codebase_start.db,float division by zero
+resource/database/codebase_start.db,name ''section_sub_heading'' is not defined
+resource/database/codebase_start.db,unsupported operand type(s) for /: ''dict'' and ''int''
+resource/database/codebase_start.db,float division by zero
+resource/database/codebase_start.db,''transient_founder''
+resource/database/codebase_start.db,''transientfounder''
+resource/database/codebase_start.db,cannot convert float NaN to integer
+resource/database/codebase_start.db,cannot convert float NaN to integer
+resource/database/codebase_start.db,max() iterable argument is empty
+resource/database/codebase_start.db,object of type ''numpy.float64'' has no len()
+resource/database/codebase_start.db,cannot convert float NaN to integer
+resource/database/codebase_start.db,max() iterable argument is empty
+resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
+resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
+resource/database/codebase_start.db,0
+resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
+resource/database/codebase_start.db,list assignment index out of range
+resource/database/codebase_start.db,list index out of range
+resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
+resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
+resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
+resource/database/codebase_start.db,list index out of range

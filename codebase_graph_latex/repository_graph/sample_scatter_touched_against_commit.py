@@ -103,7 +103,7 @@ def compare_developers(path, component,
                                          TRANSIENT_FOUNDER_COLOUR, 
                                          sample_of_developers)    
     plt.scatter(knowledge[X_AXIS], knowledge[Y_AXIS], color=SUSTAINED_FOUNDER_COLOUR, alpha=1.0, s=1.0)
-    file_name = save_graph(path, component, file_name_suffix, x_axis=x_axis)
+    file_name = save_graph(path, component, file_name_suffix, log_switch=True, x_axis=x_axis)
     return file_name
 
 def save_graph(path, component, file_suffix="", log_switch=False, x_axis="Number of commits"):
@@ -111,7 +111,8 @@ def save_graph(path, component, file_suffix="", log_switch=False, x_axis="Number
     plt.subplots_adjust(left=0.15)
     plt.xlabel(x_axis)
     y_axis = component.capitalize() + " touched "
-    y_axis += "(log)"
+    if log_switch:
+        y_axis += "(log)"
     plt.ylabel(y_axis)
     plt.grid(True)
     file_name = path + get_base_file_name(FILE_NAME) + "." + component 

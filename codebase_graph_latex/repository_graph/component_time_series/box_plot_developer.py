@@ -2,7 +2,7 @@ from codebase_graph_latex.repository_graph.component_time_series.time_series_com
 import seaborn as sns
 
 FILE_NAME = __name__
-FIGURE_CAPTION = "Repository: {repo}. A box plot of total {component} touched on mean each month, with quartile shading. "
+FIGURE_CAPTION = "A box plot of total {component} touched on mean each month, with quartile shading. "
 
 BASE_FILE_NAME = REPOSITORY_2_FILE
 
@@ -50,4 +50,4 @@ def generate_and_save(repository_id, component, developers):
         path = "repository/" + str(repository_id) + "/" 
         read_write_file.write_file(get_base_file_name(FILE_NAME) + ".tex", 
                                section_sub_heading(repository_id, component), path)
-    default_generate_save(generate_graph, BASE_FILE_NAME, FILE_NAME, repository_id, component, developers, units=[NUMBER_OF_WEEKS], figure_caption=FIGURE_CAPTION)
+    default_generate_save(generate_graph, BASE_FILE_NAME, FILE_NAME, repository_id, component, developers, units=[NUMBER_OF_WEEKS], figure_caption=FIGURE_CAPTION, figure_caption_all=FIGURE_CAPTION)

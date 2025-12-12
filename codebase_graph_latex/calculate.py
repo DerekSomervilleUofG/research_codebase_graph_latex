@@ -33,3 +33,7 @@ def merge_dictionary(first_dictionary, second_dictionary, third_dictionary={}, f
     merged_dictionary.update(fourth_dicictionary)
     merged_dictionary.update(fifth_dictionary)      
     return merge_dictionary
+
+def add_extra(list, number_extra, value=0):
+    for counter in range(0, number_extra):
+        list.append(value)

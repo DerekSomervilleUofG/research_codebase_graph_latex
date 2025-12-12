@@ -1,32 +1,12 @@
-import csv
+import math
 
-def printTable(fileName):
-    with open(fileName) as f:
-        readingList=csv.reader(f)
-        readingList=list(readingList)
-   
-    NoOfColumns=len(readingList[0])
-    WidthOfColumns=[0]*NoOfColumns
-
-    for row in readingList:
-        for i, cell in enumerate(row):
-                  WidthOfColumns[i] = max(WidthOfColumns[i], len(cell))
+def round_to_x_minus_1_digits_nearest_5(num):
+    x = len(str(abs(int(num)))) if num != 0 else 1  # ensure x≥1 even for 0
+    step = 5 * 10**(x - 2)
+    return math.ceil(num / step) * step
 
 
-    def horizontal():
-        return '+'  + '+'.join('-') + '+'
-   
-    def vertical():
-        return '|' + '|'.join(f'{cell}')
+print(round_to_x_minus_1_digits_nearest_5(4))
+print(round_to_x_minus_1_digits_nearest_5(147))
 
-       
-       
-    print(horizontal())
-    print(vertical(readingList[0]))
-
-    print(horizontal())
-    for row in readingList[:1]:
-        print(vertical(row))
-    print(horizontal())
-
-printTable('games.txt')
+print(round_to_x_minus_1_digits_nearest_5(1147))
