@@ -1,116 +1,15 @@
 resource/database/codebase_start.db,[WinError 2] The system cannot find the file specified: ''repository/''
-resource/database/codebase_start.db,[WinError 2] The system cannot find the file specified: ''repository/''
-resource/database/codebase_start.db,only integer scalar arrays can be converted to a scalar index
-resource/database/codebase_start.db,''list'' object cannot be interpreted as an integer
-resource/database/codebase_start.db,''float'' object is not subscriptable
-resource/database/codebase_start.db,''list'' object has no attribute ''size''
-resource/database/codebase_start.db,list index out of range
-resource/database/codebase_start.db,name ''sample_text'' is not defined
-resource/database/codebase_start.db,name ''sample_text'' is not defined
-resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
-resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
-resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
-resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
-resource/database/codebase_start.db,cannot access local variable ''latex'' where it is not associated with a value
-resource/database/codebase_start.db,`bins` must be an integer, a string, or an array
-resource/database/codebase_start.db,name ''get_base_file_name'' is not defined
-resource/database/codebase_start.db,name ''get_section_start'' is not defined
-resource/database/codebase_start.db,''pacakages''
-resource/database/codebase_start.db,''int'' object is not subscriptable
-resource/database/codebase_start.db,developer_graph() got multiple values for argument ''param_x_axis''
-resource/database/codebase_start.db,cannot access local variable ''latex_graph'' where it is not associated with a value
-resource/database/codebase_start.db,cannot convert dictionary update sequence element #0 to a sequence
-resource/database/codebase_start.db,max() iterable argument is empty
-resource/database/codebase_start.db,max() iterable argument is empty
-resource/database/codebase_start.db,x and y must have same first dimension, but have shapes (12,) and (1,)
-resource/database/codebase_start.db,x and y must have same first dimension, but have shapes (12,) and (1,)
-resource/database/codebase_start.db,''transient founder''
-resource/database/codebase_start.db,''transient founder''
-resource/database/codebase_start.db,unexpected ''{'' in field name
-resource/database/codebase_start.db,compare_developers() missing 2 required positional arguments: ''file_name_suffix'' and ''sample_of_developers''
-resource/database/codebase_start.db,get_sample_numbers() missing 2 required positional arguments: ''joiner_moderate_num'' and ''joiner_sustained_num''
-resource/database/codebase_start.db,too many values to unpack (expected 4)
-resource/database/codebase_start.db,''unit''
-resource/database/codebase_start.db,''NoneType'' object is not subscriptable
-resource/database/codebase_start.db,''NoneType'' object is not subscriptable
-resource/database/codebase_start.db,''NoneType'' object is not subscriptable
-resource/database/codebase_start.db,''Peach'' is not a valid value for color: supported inputs are (r, g, b) and (r, g, b, a) 0-1 float tuples; ''#rrggbb'', ''#rrggbbaa'', ''#rgb'', ''#rgba'' strings; named color strings; string reprs of 0-1 floats for grayscale values; ''C0'', ''C1'', ... strings for colors of the color cycle; and pairs combining one of the above with an alpha value
-resource/database/codebase_start.db,''Peach'' is not a valid value for color: supported inputs are (r, g, b) and (r, g, b, a) 0-1 float tuples; ''#rrggbb'', ''#rrggbbaa'', ''#rgb'', ''#rgba'' strings; named color strings; string reprs of 0-1 floats for grayscale values; ''C0'', ''C1'', ... strings for colors of the color cycle; and pairs combining one of the above with an alpha value
-resource/database/codebase_start.db,''Peach'' is not a valid value for color: supported inputs are (r, g, b) and (r, g, b, a) 0-1 float tuples; ''#rrggbb'', ''#rrggbbaa'', ''#rgb'', ''#rgba'' strings; named color strings; string reprs of 0-1 floats for grayscale values; ''C0'', ''C1'', ... strings for colors of the color cycle; and pairs combining one of the above with an alpha value
-resource/database/codebase_start.db,cannot access local variable ''component'' where it is not associated with a value
-resource/database/codebase_start.db,cannot access local variable ''developers'' where it is not associated with a value
-resource/database/codebase_start.db,cannot access local variable ''latex_repo'' where it is not associated with a value
-resource/database/codebase_start.db,name ''path'' is not defined
-resource/database/codebase_start.db,''Peach'' is not a valid value for color: supported inputs are (r, g, b) and (r, g, b, a) 0-1 float tuples; ''#rrggbb'', ''#rrggbbaa'', ''#rgb'', ''#rgba'' strings; named color strings; string reprs of 0-1 floats for grayscale values; ''C0'', ''C1'', ... strings for colors of the color cycle; and pairs combining one of the above with an alpha value
-resource/database/codebase_start.db,''Peach'' is not a valid value for color: supported inputs are (r, g, b) and (r, g, b, a) 0-1 float tuples; ''#rrggbb'', ''#rrggbbaa'', ''#rgb'', ''#rgba'' strings; named color strings; string reprs of 0-1 floats for grayscale values; ''C0'', ''C1'', ... strings for colors of the color cycle; and pairs combining one of the above with an alpha value
-resource/database/codebase_start.db,''Mint'' is not a valid value for color: supported inputs are (r, g, b) and (r, g, b, a) 0-1 float tuples; ''#rrggbb'', ''#rrggbbaa'', ''#rgb'', ''#rgba'' strings; named color strings; string reprs of 0-1 floats for grayscale values; ''C0'', ''C1'', ... strings for colors of the color cycle; and pairs combining one of the above with an alpha value
-resource/database/codebase_start.db,''Mint'' is not a valid value for color: supported inputs are (r, g, b) and (r, g, b, a) 0-1 float tuples; ''#rrggbb'', ''#rrggbbaa'', ''#rgb'', ''#rgba'' strings; named color strings; string reprs of 0-1 floats for grayscale values; ''C0'', ''C1'', ... strings for colors of the color cycle; and pairs combining one of the above with an alpha value
-resource/database/codebase_start.db,''Peach'' is not a valid value for color: supported inputs are (r, g, b) and (r, g, b, a) 0-1 float tuples; ''#rrggbb'', ''#rrggbbaa'', ''#rgb'', ''#rgba'' strings; named color strings; string reprs of 0-1 floats for grayscale values; ''C0'', ''C1'', ... strings for colors of the color cycle; and pairs combining one of the above with an alpha value
-resource/database/codebase_start.db,cannot access local variable ''latex_table'' where it is not associated with a value
-resource/database/codebase_start.db,''tab''
-resource/database/codebase_start.db,''packages''
-resource/database/codebase_start.db,cannot unpack non-iterable Figure object
-resource/database/codebase_start.db,too many values to unpack (expected 2)
-resource/database/codebase_start.db,ufunc ''add'' did not contain a loop with signature matching types (dtype(''int64''), dtype(''<U1'')) -> None
-resource/database/codebase_start.db,ufunc ''isfinite'' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''''safe''''
-resource/database/codebase_start.db,''numpy.float64'' object is not iterable
-resource/database/codebase_start.db,save_graph() got multiple values for argument ''x_axis''
-resource/database/codebase_start.db,generate_graph() missing 1 required positional argument: ''y_axis_max''
-resource/database/codebase_start.db,unhashable type: ''list''
-resource/database/codebase_start.db,0
-resource/database/codebase_start.db,generate_graph() missing 1 required positional argument: ''y_axis_max''
-resource/database/codebase_start.db,module ''numpy'' has no attribute ''arrange''
-resource/database/codebase_start.db,generate_graph() takes from 4 to 5 positional arguments but 6 were given
-resource/database/codebase_start.db,generate_graph() takes from 4 to 5 positional arguments but 6 were given
-resource/database/codebase_start.db,''transient founder''
-resource/database/codebase_start.db,''all''
-resource/database/codebase_start.db,''str'' object has no attribute ''capitilize''
-resource/database/codebase_start.db,section_heading() takes 3 positional arguments but 4 were given
-resource/database/codebase_start.db,unsupported operand type(s) for +: ''builtin_function_or_method'' and ''str''
-resource/database/codebase_start.db,affine_transform(): incompatible function arguments. The following argument types are supported:    1. (points: numpy.ndarray[numpy.float64], trans: trans_affine) -> objectInvoked with: [(0.0, -7.59375)], array([[1., 0., 0.],       [0., 1., 0.],       [0., 0., 1.]])
-resource/database/codebase_start.db,float division by zero
-resource/database/codebase_start.db,developer_graph() got an unexpected keyword argument ''x_axis''
-resource/database/codebase_start.db,developer_graph() got multiple values for argument ''param_x_axis''
-resource/database/codebase_start.db,x and y must have same first dimension, but have shapes (52,) and (1,)
-resource/database/codebase_start.db,max() iterable argument is empty
-resource/database/codebase_start.db,''tuple'' object is not callable
-resource/database/codebase_start.db,name ''time_series_components_touched_generate_and_save'' is not defined
-resource/database/codebase_start.db,7
-resource/database/codebase_start.db,max() iterable argument is empty
-resource/database/codebase_start.db,7
-resource/database/codebase_start.db,7
-resource/database/codebase_start.db,''packages''
-resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repository/packages/time_series_components_touched.all.week.pdf''
-resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repository/0/packages/time_series_components_touched.all.week.pdf''
-resource/database/codebase_start.db,[Errno 2] No such file or directory: ''repository/14/packages/packages/time_series_components_touched.packages.transient.founder.week.pdf''
-resource/database/codebase_start.db,cannot access local variable ''path'' where it is not associated with a value
-resource/database/codebase_start.db,''>'' not supported between instances of ''NoneType'' and ''int''
-resource/database/codebase_start.db,''>'' not supported between instances of ''NoneType'' and ''int''
-resource/database/codebase_start.db,developer_percentage_graph() got an unexpected keyword argument ''max_y_axis''. Did you mean ''max_x_axis''?
-resource/database/codebase_start.db,''transient founder''
-resource/database/codebase_start.db,''transient''
-resource/database/codebase_start.db,weights should have the same shape as x
-resource/database/codebase_start.db,weights should have the same shape as x
-resource/database/codebase_start.db,float division by zero
-resource/database/codebase_start.db,float division by zero
-resource/database/codebase_start.db,name ''section_sub_heading'' is not defined
-resource/database/codebase_start.db,unsupported operand type(s) for /: ''dict'' and ''int''
-resource/database/codebase_start.db,float division by zero
-resource/database/codebase_start.db,''transient_founder''
-resource/database/codebase_start.db,''transientfounder''
-resource/database/codebase_start.db,cannot convert float NaN to integer
-resource/database/codebase_start.db,cannot convert float NaN to integer
-resource/database/codebase_start.db,max() iterable argument is empty
-resource/database/codebase_start.db,object of type ''numpy.float64'' has no len()
-resource/database/codebase_start.db,cannot convert float NaN to integer
-resource/database/codebase_start.db,max() iterable argument is empty
-resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
-resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
-resource/database/codebase_start.db,0
-resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
-resource/database/codebase_start.db,list assignment index out of range
-resource/database/codebase_start.db,list index out of range
-resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
-resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
-resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
-resource/database/codebase_start.db,list index out of range
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,''Axes'' object has no attribute ''xticks''
+resource/database/codebase_start.db,Incorrect use of keyword argument ''fontsize''. Keyword arguments other than ''minor'' modify the text labels and can only be used if ''labels'' are passed as well.
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
