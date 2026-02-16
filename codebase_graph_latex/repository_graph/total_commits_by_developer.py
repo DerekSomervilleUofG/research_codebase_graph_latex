@@ -10,8 +10,8 @@ FILE_NAME = __name__
 BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
 MINIMUM_COMMITS = 3
 GRAPH_CAPTION = "{contributor} (n={number}). "
-FIGURE_CAPTION = "Histogram of percentage of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits."
-ALL_FIGURE_CAPTION = "Histogram of the number from all developers (n={number}) (y-axis) against the total number of commits (x-axis) in {number__of_repositories} repositories sampled from GitHub, excluding developers with less than " + word_engine.number_to_words(MINIMUM_COMMITS) + " (" + str(MINIMUM_COMMITS) +  ") commits. "
+FIGURE_CAPTION = "Histogram of percentage of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub."
+ALL_FIGURE_CAPTION = "Histogram of the number from all developers (n={number}) (y-axis) against the total number of commits (x-axis) in {number__of_repositories} repositories sampled from GitHub. "
 MAX_Y_AXIS_ALL = 75
 MAX_X_AXIS = 500
 MAX_X_AXIS_MODERATE = 150

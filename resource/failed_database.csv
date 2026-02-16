@@ -1,4 +1,5 @@
 resource/database/codebase_start.db,[WinError 2] The system cannot find the file specified: ''repository/''
+<<<<<<< HEAD
 resource/database/codebase_start.db,[WinError 2] The system cannot find the file specified: ''repository/''
 resource/database/codebase_start.db,only integer scalar arrays can be converted to a scalar index
 resource/database/codebase_start.db,''list'' object cannot be interpreted as an integer
@@ -116,3 +117,20 @@ resource/database/codebase_start.db,setting an array element with a sequence. Th
 resource/database/codebase_start.db,list index out of range
 resource/database/codebase_start.db,0
 resource/database/codebase_start.db,max() iterable argument is empty
+=======
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,''Axes'' object has no attribute ''xticks''
+resource/database/codebase_start.db,Incorrect use of keyword argument ''fontsize''. Keyword arguments other than ''minor'' modify the text labels and can only be used if ''labels'' are passed as well.
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+>>>>>>> b7eba2a36b0be5bab252da0c8b60cf8c0fa72e2e
+resource/database/codebase_start.db,cannot access local variable ''developer_total_commit'' where it is not associated with a value

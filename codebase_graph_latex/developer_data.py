@@ -78,7 +78,7 @@ def populate_remaining_periods(value, period_touched):
     populate_period(value, period_touched, NUMBER_OF_MONTHS)
     populate_period(value, period_touched, NUMBER_OF_WEEKS)
 
-def generate_data(commits, developers, developers_start, start_known, start_month=0, last_month=11):
+def generate_data(commits, developers, developers_start, start_known, from_month = 0, to_month = NUMBER_OF_MONTHS):
     global max_commits, developer_total_commit, max_total_known
     template = [[1],[],[],[1],[1],[],[1],[],[1],[], "" ]
     developer_id = 0
@@ -97,8 +97,8 @@ def generate_data(commits, developers, developers_start, start_known, start_mont
                     previous_day = days_difference(row[AUTHORED_DATE_COL], developers_start)
                 else:
                     previous_day = developers[developer_id][YEAR_PERIOD][-1]
-                number_of_months = (previous_day // NUMBER_OF_DAYS) * NUMBER_OF_MONTHS
-                if number_of_months >= start_month and number_of_months <= last_month:
+                number_of_months = math.ceil((previous_day // NUMBER_OF_DAYS) * NUMBER_OF_MONTHS)
+                if number_of_months >= from_month and number_of_months <= to_month:
                     developers[developer_id][YEAR_PERIOD].append(previous_day)
                     if developers[developer_id][KNOWN_Y_AXIS][-1] > row[PACKAGE_KNOWN_COL]:
                         previous_knowledge = developers[developer_id][KNOWN_Y_AXIS][-1]

@@ -124,32 +124,33 @@ def calculate_std(mean_touched, data, unit):
 
 
 def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SMALL_FIGURE):
-    plt.figure(figsize=figure_size, dpi=1000)
+    plt.close('all')
+    fig, ax = plt.subplots(figsize=figure_size, dpi=300)
     read_write_file.create_directory(path)
     data_frame = np.array(data)
     months = np.arange(1, unit + 1)
     if len(data) > 0:
         mean_touched = np.nanmean(data_frame, axis=0)
-        plt.plot(months, mean_touched, label="Mean " + component + " Touched", color="blue")
+        ax.plot(months, mean_touched, label="Mean " + component + " Touched", color="blue")
         std_above, std_below = calculate_std(mean_touched, data, unit)
-        plt.fill_between(months, mean_touched, mean_touched + std_above,
+        ax.fill_between(months, mean_touched, mean_touched + std_above,
                     color='green', alpha=0.3, label='Above (+1 Std Dev)')
 
-        plt.fill_between(months, mean_touched - std_below, mean_touched,
+        ax.fill_between(months, mean_touched - std_below, mean_touched,
                     color='red', alpha=0.3, label='Below (-1 Std Dev)')
-    plt.xticks(get_x_axis_unit(unit), fontsize=7)
+    ax.set_xticks(get_x_axis_unit(unit))
     if y_axis_max > 0:
         step = y_axis_max//10
         if step < 1:
             step = 1
-        plt.yticks(np.arange(0, y_axis_max + 1, step))
-        plt.ylim(0, y_axis_max)
+        ax.set_yticks(np.arange(0, y_axis_max + 1, step))
+        ax.set_ylim(0, y_axis_max)
         
-    plt.xlabel(UNIT_FREQUENCY[unit] + "s")
-    plt.ylabel(component.capitalize() + " touched")
-    plt.tight_layout() 
+    ax.set_xlabel(UNIT_FREQUENCY[unit] + "s")
+    ax.set_ylabel(component.capitalize() + " touched")
+    fig.tight_layout() 
     file_name = path + get_base_file_name(FILE_NAME) + "." + component + "." + type.lower().replace(" ",".") + "." + UNIT_FREQUENCY[unit].lower() + ".pdf"
-    plt.savefig(file_name, bbox_inches='tight')
+    fig.savefig(file_name, bbox_inches='tight')
     plt.close()
     return file_name
 

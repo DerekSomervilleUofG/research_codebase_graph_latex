@@ -6,7 +6,7 @@
 - https://miktex.org/
 
 ## Generate
-- pdflatex main.tex
+- pdflatex main_1.tex
 ## Unix symbloic link
 mkdir repository
 mkdir resource
