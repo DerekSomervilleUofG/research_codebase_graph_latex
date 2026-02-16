@@ -16,8 +16,6 @@ FIGURE_CAPTION = "Scatter plots of the log total number of components touched (y
 def section_heading(file_name, sub_section="", title="", x_axis="commits"):
     latex =  get_section_start(file_name, sub_section) + title 
     latex += "} \n"
-    latex += "A scatter plot of touched components by number of " + x_axis + ". \n "
-    latex += DEVELOPER_IGNORE + " \n"
     return latex    
 
 def get_developer_knowledge(developers):

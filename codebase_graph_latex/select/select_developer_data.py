@@ -15,7 +15,7 @@ def query(repository_id, module, type):
     select_statement += " developer_" + type + " dn "
     select_statement += " WHERE dc.commit_id = ptc.commit_id "
     select_statement += " AND dc.repository_id = dn.repository_id "
-    select_statement += " AND dc.status = 'A' "
+    select_statement += " AND dc.status  in ('A', 'L')  "
     select_statement += " AND dn.number_of_commits >= " + str(NUMBER_OF_COMMIT)
     select_statement += " AND dc.developer_id = dn.developer_id "
     select_statement += " AND dc.repository_id = " + str(repository_id)

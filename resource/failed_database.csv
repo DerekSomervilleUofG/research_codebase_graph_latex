@@ -114,3 +114,5 @@ resource/database/codebase_start.db,setting an array element with a sequence. Th
 resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
 resource/database/codebase_start.db,setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (244,) + inhomogeneous part.
 resource/database/codebase_start.db,list index out of range
+resource/database/codebase_start.db,0
+resource/database/codebase_start.db,max() iterable argument is empty
