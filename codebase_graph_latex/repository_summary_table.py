@@ -4,14 +4,13 @@ from codebase_graph_latex.select.select_repository_summary_table import *
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.calculate import *
-import inflect
 
 BATCH_SIZE = 100
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex" 
 
 read_write_file = ReadWriteFile()
-word_engine = inflect.engine()
+
 
 def section_heading(number_of_repository):
     section = "\\begin{landscape}"

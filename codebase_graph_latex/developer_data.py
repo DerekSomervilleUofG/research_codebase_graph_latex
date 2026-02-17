@@ -49,6 +49,8 @@ def find_developer_unit(unit):
         return DEV_WEEK
     elif unit == TIME_SERIES_NUMBER_OF_COMMIT:
         return DEV_COMMIT
+    else:
+        return DEV_COMMIT
 
 def populate_period_touched(value, period_touched, unit):
     previous_mean = 0

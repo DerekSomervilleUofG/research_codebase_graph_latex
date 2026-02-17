@@ -93,6 +93,8 @@ def get_x_axis_unit(unit):
         x_axis = np.arange(0, unit + 1, 5)
     elif unit == TIME_SERIES_NUMBER_OF_COMMIT:
         x_axis = np.arange(0, unit + 1, 100)
+    else:
+        x_axis = np.arange(0, unit + 1)
     return x_axis
 
 def calculate_standard_deviation(data, period, mean_touched, above=True):
@@ -146,7 +148,7 @@ def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SM
         ax.set_yticks(np.arange(0, y_axis_max + 1, step))
         ax.set_ylim(0, y_axis_max)
         
-    ax.set_xlabel(UNIT_FREQUENCY[unit] + "s")
+    ax.set_xlabel(UNIT_FREQUENCY[unit])
     ax.set_ylabel(component.capitalize() + " touched")
     fig.tight_layout() 
     file_name = path + get_base_file_name(FILE_NAME) + "." + component + "." + type.lower().replace(" ",".") + "." + UNIT_FREQUENCY[unit].lower() + ".pdf"
@@ -170,7 +172,7 @@ def round_to_x_minus_1_digits_nearest_5(num):
     else:
         x = len(str(abs(int(num)))) if num != 0 else 1  # ensure x≥1 even for 0
         step = 5 * 10**(x - 2)
-    return math.ceil(num / step) * step
+    return (math.ceil(num / step) * step) + step
 
 def get_y_axis_for_a_category(developers, category, unit):
     founder_y_axis_max = get_y_axis_max(developers[category + " " + FOUNDER], unit )
@@ -233,17 +235,25 @@ def default_generate_save(method, base_file_name, file_name, repository_id, comp
         latex += generate_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption)
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex, path)
 
-def generate_and_save(repository_id, component, developers, base_file_name):
+def generate_and_save(repository_id, component, developers, base_file_name, number_of_commits=0):
     path = "repository/" 
+    file_name = FILE_NAME
+    commit_prefix = "commit"
+    time_series_commits = TIME_SERIES_NUMBER_OF_COMMIT
     if repository_id > 0:
         path+= str(repository_id) + "/" 
+    if number_of_commits > 0:
+        file_name += "_" + str(number_of_commits)
+        commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
+        time_series_commits = number_of_commits
     if component == "packages":
-        read_write_file.write_file(get_base_file_name(FILE_NAME) + ".tex", 
-                               section_sub_heading(repository_id, component, "each period"), path)
+        read_write_file.write_file(get_base_file_name(file_name) + ".tex", 
+                               section_sub_heading(repository_id, component, commit_prefix), path)
     else:
-        read_write_file.append_to_file(get_base_file_name(FILE_NAME) + ".tex", 
-                               section_sub_heading(repository_id, component, "each period"), path)
-    default_generate_save(generate_graph, base_file_name, FILE_NAME, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[NUMBER_OF_WEEKS])
-    read_write_file.append_to_file(get_base_file_name(FILE_NAME) + ".tex", 
-                               section_sub_heading(repository_id, component, "commit"), path)
-    default_generate_save(generate_graph, base_file_name, FILE_NAME, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[TIME_SERIES_NUMBER_OF_COMMIT])
+        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
+                               section_sub_heading(repository_id, component, commit_prefix), path)
+    default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[time_series_commits])
+    if number_of_commits == 0:
+        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
+                                section_sub_heading(repository_id, component, "each period"), path)
+        default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[NUMBER_OF_WEEKS])
