@@ -35,6 +35,6 @@ def generate_and_save(number_of_repositories):
         developers = {}
         for category in DEVELOPER_CATEGORY:
             developers[category] = developer_component_knowledge[category][component]
-        time_series_components_touched_generate_and_save(0, component, developers, REPOSITORY_SUMMARY_1_FILE)
         filtered_developers = filter_developer_commits(developers, NUMBER_OF_COMMITS)
+        time_series_components_touched_generate_and_save(0, component, developers, REPOSITORY_SUMMARY_1_FILE)
         time_series_components_touched_generate_and_save(0, component, filtered_developers, REPOSITORY_SUMMARY_1_FILE, NUMBER_OF_COMMITS)

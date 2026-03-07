@@ -10,7 +10,6 @@ from codebase_graph_latex.population_mapping.retrieve_batch_data import *
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.calculate import *
 from codebase_graph_latex.developer_data import get_data_from_database
-
 from utility.ReadWriteFile import ReadWriteFile
 from utility.DictUtility import DictUtility
 
