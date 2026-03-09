@@ -3,6 +3,7 @@ from codebase_graph_latex.repository_graph.average_components_touched_by_develop
 from codebase_graph_latex.repository_graph.total_commits_by_developer import generate_and_save as developer_commit_generate_and_save
 from codebase_graph_latex.repository_graph.histogram_components_touched_by_developer import generate_and_save as repository_histogram_commit_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import generate_and_save as time_series_components_touched_generate_and_save
+from codebase_graph_latex.repository_graph.component_time_series.anova_generate import generate_and_save  as anova_generate_and_save 
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.store_developer_data import *
 from codebase_graph_latex.developer_data import *
@@ -39,3 +40,4 @@ def generate_and_save(number_of_repositories):
         time_series_components_touched_generate_and_save(0, component, developers, REPOSITORY_SUMMARY_1_FILE)
         filtered_developers = filter_developer_commits(developers, NUMBER_OF_COMMITS)
         time_series_components_touched_generate_and_save(0, component, filtered_developers, REPOSITORY_SUMMARY_1_FILE, NUMBER_OF_COMMITS)
+        anova_generate_and_save(component, developers)

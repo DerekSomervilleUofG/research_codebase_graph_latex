@@ -2,6 +2,7 @@ git+https://github.com/DerekSomervilleUofG/research_utility
 git+https://github.com/DerekSomervilleUofG/research_class_structure
 git+https://github.com/DerekSomervilleUofG/research_repository_save
 inflect==7.5.0
+Jinja2==3.1.6
 kaleido==1.1.0
 matplotlib==3.10.1
 pandas==2.3.3
@@ -10,3 +11,4 @@ python-dateutil==2.9.0.post0
 seaborn==0.13.2
 scikit-learn==1.7.2
 six==1.17.0
+statsmodels==0.14.6
