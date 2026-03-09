@@ -19,6 +19,7 @@ def filter_developer_commits(developers, number_of_commits):
             new_developer = []
             for item in developer:
                 if isinstance(item, list):
+                    item = item.copy()
                     new_developer.append(item[:number_of_commits])
                 else:
                     new_developer.append(item)
@@ -35,6 +36,6 @@ def generate_and_save(number_of_repositories):
         developers = {}
         for category in DEVELOPER_CATEGORY:
             developers[category] = developer_component_knowledge[category][component]
-        filtered_developers = filter_developer_commits(developers, NUMBER_OF_COMMITS)
         time_series_components_touched_generate_and_save(0, component, developers, REPOSITORY_SUMMARY_1_FILE)
+        filtered_developers = filter_developer_commits(developers, NUMBER_OF_COMMITS)
         time_series_components_touched_generate_and_save(0, component, filtered_developers, REPOSITORY_SUMMARY_1_FILE, NUMBER_OF_COMMITS)

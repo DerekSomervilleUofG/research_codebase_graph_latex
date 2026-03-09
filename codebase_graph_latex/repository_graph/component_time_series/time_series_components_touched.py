@@ -86,7 +86,21 @@ def populate_touched_data(developers, unit=NUMBER_OF_MONTHS):
 def max_days(developers):
     return len(max(developers.values(), key=lambda dev: len(dev[YEAR_PERIOD]))[YEAR_PERIOD])
 
-def get_x_axis_unit(unit):
+def get_step(x_axis_size):
+    if x_axis_size >= 500:
+        step = 100
+    elif x_axis_size > 250:
+        step = 50
+    elif x_axis_size > 30:
+        step = 5
+    elif x_axis_size > 100:
+        step = 10
+    else:
+        step = 1
+    return step
+    
+    
+def get_x_axis_unit(unit, x_axis_size):
     if unit == NUMBER_OF_MONTHS:
         x_axis = np.arange(1, unit + 1)
     elif unit == NUMBER_OF_WEEKS:
@@ -94,7 +108,7 @@ def get_x_axis_unit(unit):
     elif unit == TIME_SERIES_NUMBER_OF_COMMIT:
         x_axis = np.arange(0, unit + 1, 100)
     else:
-        x_axis = np.arange(0, unit + 1)
+        x_axis = np.arange(0, x_axis_size + 1, get_step(x_axis_size))
     return x_axis
 
 def calculate_standard_deviation(data, period, mean_touched, above=True):
@@ -125,14 +139,16 @@ def calculate_std(mean_touched, data, unit):
     return std_above, std_below
 
 
-def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SMALL_FIGURE):
+def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SMALL_FIGURE, number_of_commits=0):
     plt.close('all')
+    x_axis_size = unit
     fig, ax = plt.subplots(figsize=figure_size, dpi=300)
     read_write_file.create_directory(path)
     data_frame = np.array(data)
     months = np.arange(1, unit + 1)
     if len(data) > 0:
         mean_touched = np.nanmean(data_frame, axis=0)
+        x_axis_size = len(mean_touched)
         ax.plot(months, mean_touched, label="Mean " + component + " Touched", color="blue")
         std_above, std_below = calculate_std(mean_touched, data, unit)
         ax.fill_between(months, mean_touched, mean_touched + std_above,
@@ -140,7 +156,7 @@ def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SM
 
         ax.fill_between(months, mean_touched - std_below, mean_touched,
                     color='red', alpha=0.3, label='Below (-1 Std Dev)')
-    ax.set_xticks(get_x_axis_unit(unit))
+    ax.set_xticks(get_x_axis_unit(unit, x_axis_size))
     if y_axis_max > 0:
         step = y_axis_max//10
         if step < 1:
@@ -151,7 +167,7 @@ def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SM
     ax.set_xlabel(UNIT_FREQUENCY[unit])
     ax.set_ylabel(component.capitalize() + " touched")
     fig.tight_layout() 
-    file_name = path + get_base_file_name(FILE_NAME) + "." + component + "." + type.lower().replace(" ",".") + "." + UNIT_FREQUENCY[unit].lower() + ".pdf"
+    file_name = path + get_base_file_name(FILE_NAME) + "." + component + "." + type.lower().replace(" ",".") + "." + UNIT_FREQUENCY[unit].lower() + "_" + str(number_of_commits) + ".pdf"
     fig.savefig(file_name, bbox_inches='tight')
     plt.close()
     return file_name
@@ -197,7 +213,7 @@ def get_y_axis_max(developers, unit):
     else:
         return 1
 
-def generate_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption):
+def generate_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption, number_of_commits):
     
     all_data = developers[TRANSIENT_FOUNDER] | developers[SUSTAINED_FOUNDER] | developers[TRANSIENT_JOINER] | developers[SUSTAINED_JOINER] | developers[MODERATE_FOUNDER] | developers[MODERATE_JOINER]
     y_axis_max = get_y_axis_max(all_data, unit)
@@ -207,7 +223,8 @@ def generate_latex(repository_id, method, path, component, unit, developers, fig
                                                 "All",
                                                 unit,
                                                 y_axis_max,
-                                                figure_size=WIDE_FIGURE)
+                                                figure_size=WIDE_FIGURE,
+                                                number_of_commits=number_of_commits)
     latex = latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY[unit].lower() + "s"))
     latex += latex_start_graph()
     max_y_axis = get_y_axis_max_for_categories(developers, unit)
@@ -218,7 +235,7 @@ def generate_latex(repository_id, method, path, component, unit, developers, fig
     latex += latex_end_graph()        
     return latex
 
-def default_generate_save(method, base_file_name, file_name, repository_id, component, developers, units=[NUMBER_OF_MONTHS, NUMBER_OF_WEEKS], figure_caption_all=ALL_FIGURE_CAPTION, figure_caption=FIGURE_CAPTION):
+def default_generate_save(method, base_file_name, file_name, repository_id, component, developers, units=[NUMBER_OF_MONTHS, NUMBER_OF_WEEKS], figure_caption_all=ALL_FIGURE_CAPTION, figure_caption=FIGURE_CAPTION, number_of_commits=0):
     path = "repository/"
     if repository_id > 0:
             path+= str(repository_id) + "/"
@@ -232,7 +249,7 @@ def default_generate_save(method, base_file_name, file_name, repository_id, comp
                                    base_latex, 
                                     DIRECTORY)
     for unit in units:
-        latex += generate_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption)
+        latex += generate_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption, number_of_commits)
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex, path)
 
 def generate_and_save(repository_id, component, developers, base_file_name, number_of_commits=0):
@@ -252,8 +269,8 @@ def generate_and_save(repository_id, component, developers, base_file_name, numb
     else:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                section_sub_heading(repository_id, component, commit_prefix), path)
-    default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[time_series_commits])
+    default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[time_series_commits], number_of_commits=number_of_commits)
     if number_of_commits == 0:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                 section_sub_heading(repository_id, component, "each period"), path)
-        default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[NUMBER_OF_WEEKS])
+        default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[NUMBER_OF_WEEKS], number_of_commits=number_of_commits)
