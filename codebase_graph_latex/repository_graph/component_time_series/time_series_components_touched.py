@@ -167,7 +167,7 @@ def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SM
     ax.set_xlabel(UNIT_FREQUENCY[unit])
     ax.set_ylabel(component.capitalize() + " touched")
     fig.tight_layout() 
-    file_name = path + get_base_file_name(FILE_NAME) + "." + component + "." + type.lower().replace(" ",".") + "." + UNIT_FREQUENCY[unit].lower() + "_" + str(number_of_commits) + ".pdf"
+    file_name = path + get_base_file_name(FILE_NAME) + "." + component + "." + type.lower().replace(" ",".") + "." + UNIT_FREQUENCY[unit].lower() + "_" + str(x_axis_size) + ".pdf"
     fig.savefig(file_name, bbox_inches='tight')
     plt.close()
     return file_name
