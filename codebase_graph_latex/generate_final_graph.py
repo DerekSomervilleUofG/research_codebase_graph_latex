@@ -4,6 +4,8 @@ from codebase_graph_latex.repository_graph.total_commits_by_developer import gen
 from codebase_graph_latex.repository_graph.histogram_components_touched_by_developer import generate_and_save as repository_histogram_commit_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import generate_and_save as time_series_components_touched_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.anova_generate import generate_and_save  as anova_generate_and_save 
+from codebase_graph_latex.repository_graph.component_time_series.welch_t_test import generate_and_save  as welch_generate_and_save
+from codebase_graph_latex.repository_graph.component_time_series.strategy_logistic_regression import generate_and_save  as strategy_generate_and_save
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.store_developer_data import *
 from codebase_graph_latex.developer_data import *
@@ -37,7 +39,11 @@ def generate_and_save(number_of_repositories):
         developers = {}
         for category in DEVELOPER_CATEGORY:
             developers[category] = developer_component_knowledge[category][component]
-        time_series_components_touched_generate_and_save(0, component, developers, REPOSITORY_SUMMARY_1_FILE)
-        filtered_developers = filter_developer_commits(developers, NUMBER_OF_COMMITS)
-        time_series_components_touched_generate_and_save(0, component, filtered_developers, REPOSITORY_SUMMARY_1_FILE, NUMBER_OF_COMMITS)
-        anova_generate_and_save(component, developers)
+        filtered_developers = developers
+        for unit in [0, 10, 20, 50]:
+            if unit > 0:
+                filtered_developers = filter_developer_commits(developers, unit)
+            time_series_components_touched_generate_and_save(0, component, filtered_developers, REPOSITORY_SUMMARY_1_FILE, unit)
+            welch_generate_and_save(component, filtered_developers, unit)
+            anova_generate_and_save(component, filtered_developers, unit)
+            strategy_generate_and_save(component, filtered_developers, unit)

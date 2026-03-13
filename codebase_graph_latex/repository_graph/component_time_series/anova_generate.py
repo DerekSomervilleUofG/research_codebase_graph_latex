@@ -9,9 +9,15 @@ from codebase_graph_latex.repository_graph.component_time_series.time_series_com
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
-def section_sub_heading(component, time_series):
+def section_sub_heading(time_series):
     latex = get_section_start(FILE_NAME, "sub") 
-    latex += "For " + component + " touched for " + time_series + "} \n"
+    latex += "For all components touched for " + time_series + "} \n"
+    latex += "An Anova table for all components touched on average. \n"
+    return latex
+
+def section_sub_sub_heading(component, time_series):
+    latex = get_section_start(FILE_NAME, "subsub") 
+    latex += "For " + component + " touched for a " + time_series + "} \n"
     latex += "An Anova table for " + component + " touched on average. \n"
     return latex
 
@@ -90,19 +96,23 @@ def generate_anova_latex(developers_dict, unit, component):
     
     return latex_table.replace("sum_sq", "Sum Sq").replace("PR(>F)", "p-Value")
 
-def generate_and_save(component, developers):
+def generate_and_save(component, developers, number_of_commits):
     path = "repository/" 
     file_name = FILE_NAME
-    commit_prefix = "commit"
-    time_series_commits = TIME_SERIES_NUMBER_OF_COMMIT
+    commit_prefix = "all commits"
+    if number_of_commits > 0:
+        file_name += "_" + str(number_of_commits)
+        commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
     if component == "packages":
+        latex = section_sub_heading(commit_prefix)
+        latex += section_sub_sub_heading(component, commit_prefix)
         read_write_file.write_file(get_base_file_name(file_name) + ".tex", 
-                               section_sub_heading(component, commit_prefix), path)
-        latex = "\\input{" + path + get_base_file_name(FILE_NAME) + "}\n"
+                               latex, path)
+        latex = "\\input{" + path + get_base_file_name(file_name) + "}\n"
         read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY)
     else:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
-                               section_sub_heading(component, commit_prefix), path)
+                               section_sub_sub_heading(component, commit_prefix), path)
     latex_table = generate_anova_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component).replace("_", "\\_")
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
     if component == "methods":
