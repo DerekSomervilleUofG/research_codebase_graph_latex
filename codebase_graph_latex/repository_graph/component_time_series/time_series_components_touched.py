@@ -13,7 +13,7 @@ FILE_NAME = __name__
 GRAPH_CAPTION = "{type} developers (n={num} \& $\mu$={mean})"
 FIGURE_CAPTION_START = "Repository {repo} "
 FIGURE_CAPTION = "A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis) for " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developer. " 
-ALL_FIGURE_CAPTION = "A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis)  for all developers (n={num}). "
+ALL_FIGURE_CAPTION = "A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis)  for {all} developers (n={num}). "
 FIGURE_SUFFIX = "with \\color{Orange} positive (orange) \\color{Black} and \\color{Red} negative (red) \\color{Black} filled standard deviation. "
 
 def section_sub_heading(repository_id, touched_by):
@@ -237,7 +237,26 @@ def generate_latex(repository_id, method, path, component, unit, developers, fig
                                                 unit,
                                                 y_axis_max,
                                                 figure_size=WIDE_FIGURE)
-    latex = latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s"))
+    latex = latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s", all="All"))
+    all_data = developers[TRANSIENT_FOUNDER] | developers[SUSTAINED_FOUNDER] | developers[MODERATE_FOUNDER] 
+    file_name, graph_caption = method(path + component + "/", component, 
+                                  populate_touched_data(all_data, 
+                                                unit), 
+                                                "All Founders",
+                                                unit,
+                                                y_axis_max,
+                                                figure_size=WIDE_FIGURE)
+    latex += latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s", all="All Founders"))
+    all_data = developers[TRANSIENT_JOINER] | developers[SUSTAINED_JOINER] | developers[MODERATE_JOINER] 
+    file_name, graph_caption = method(path + component + "/", component, 
+                                  populate_touched_data(all_data, 
+                                                unit), 
+                                                "All Joiners",
+                                                unit,
+                                                y_axis_max,
+                                                figure_size=WIDE_FIGURE)
+    latex += latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s", all="All Joiners"))
+    latex += "\\newpage \n"
     latex += latex_start_graph()
     max_y_axis = get_y_axis_max_for_categories(developers, unit)
     for category in DEVELOPER_CATEGORY:

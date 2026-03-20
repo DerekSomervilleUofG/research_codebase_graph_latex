@@ -5,6 +5,7 @@ import pandas as pd
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import populate_touched_data
+from codebase_graph_latex.latex_table import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"

@@ -146,3 +146,6 @@ resource/database/codebase_start.db,maximum recursion depth exceeded
 resource/database/codebase_start.db,maximum recursion depth exceeded
 resource/database/codebase_start.db,maximum recursion depth exceeded
 resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,maximum recursion depth exceeded
+resource/database/codebase_start.db,cannot access local variable ''section'' where it is not associated with a value
+resource/database/codebase_start.db,''all''

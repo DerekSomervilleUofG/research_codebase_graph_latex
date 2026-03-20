@@ -4,7 +4,8 @@ git+https://github.com/DerekSomervilleUofG/research_repository_save
 inflect==7.5.0
 Jinja2==3.1.6
 kaleido==1.1.0
-matplotlib==3.10.1
+matplotlib==3.9.1
+numpy==2.1.0
 pandas==2.3.3
 plotly==6.3.1
 python-dateutil==2.9.0.post0

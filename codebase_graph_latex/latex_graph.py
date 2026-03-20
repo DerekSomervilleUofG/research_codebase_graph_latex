@@ -57,7 +57,7 @@ def __add_graph_latex(file_path, caption, figure="subfigure", size=0.48, placeme
     return latex
 
 def latex_add_graph(file_path, caption):
-    return __add_graph_latex(file_path, caption, "figure", 0, "h!") + "\n \\newpage \n"
+    return __add_graph_latex(file_path, caption, "figure", 0, "h!") + "\n "
 
 def latex_add_sub_graph(file_path, caption):
     global graph_number, figure_counter

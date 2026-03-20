@@ -3,15 +3,17 @@ import pandas as pd
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import populate_touched_data
-
+from codebase_graph_latex.latex_table import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
 def section_sub_heading(time_series):
-    latex = get_section_start(FILE_NAME, "sub") 
+    latex = "\\begin{landscape}\n"
+    latex += get_section_start(FILE_NAME, "sub") 
     latex += "For all components touched for " + time_series + "} \n"
-    latex += "A Welch T Test table for all components touched on average. \n"
+    latex += "A Welch T Test and Mann-Whitney U Test for all components touched on average. "
+    latex += "\n"
     return latex
 
 def section_sub_sub_heading(component, time_series):
@@ -20,40 +22,35 @@ def section_sub_sub_heading(component, time_series):
     latex += "A Welch T Test table for " + component + " touched on average. \n"
     return latex
 
-def generate_simple_comparison_latex(developers_dict, unit, component):
-    founders_values = []
-    joiners_values = []
+def generate_simple_comparison_latex(developers_dict, unit, component, samples):
+    sample_a_values = []
+    sample_b_values = []
 
     for cat_name, dev_data in developers_dict.items():
         touched_data = populate_touched_data(dev_data, unit)
         final_values = [series[-1] for series in touched_data]
         
-        if "founder" in cat_name.lower():
-            founders_values.extend(final_values)
-        else:
-            joiners_values.extend(final_values)
+        if samples[0] in cat_name.lower():
+            sample_a_values.extend(final_values)
+        elif samples[1]:
+            sample_b_values.extend(final_values)
 
     # 1. Welch's T-Test (Parametric)
-    t_stat, t_p = stats.ttest_ind(founders_values, joiners_values, equal_var=False)
+    t_stat, t_p = stats.ttest_ind(sample_a_values, sample_b_values, equal_var=False)
     
     # 2. Mann-Whitney U (Non-Parametric)
-    u_stat, u_p = stats.mannwhitneyu(founders_values, joiners_values)
+    u_stat, u_p = stats.mannwhitneyu(sample_a_values, sample_b_values)
+
+    mean_a = np.mean(sample_a_values) if sample_a_values else 0
+    mean_b = np.mean(sample_b_values) if sample_b_values else 0
 
     # Build a simple DataFrame for the LaTeX table
-    results = pd.DataFrame({
-        "Metric": ["Welch's t-test", "Mann-Whitney U"],
-        "Statistic": [t_stat, u_stat],
-        "p-Value": [t_p, u_p]
-    })
-
-    component_clean = component.replace("_", "-")
-    return results.to_latex(
-        position="h!",
-        index=False,
-        caption=f"Comparison of Founders vs Late Joiners for {component_clean}",
-        label=f"tab:compare-{component_clean}",
-        float_format="%.4f"
-    )
+    component_clean = component.replace("_", "-").capitalize() + " " + " compared to ".join(samples)
+    latex =  f"{component_clean} & "
+    latex += f" {mean_a:.2f} & {mean_b:.2f} & "
+    latex += f"{t_stat:.2f} & {t_p:.4f} & "
+    latex += f"{u_stat:.1f} & {u_p:.4f}  \\\\ \n"
+    return latex
 
 def generate_statistical_formula_latex():
     """
@@ -96,6 +93,16 @@ The degrees of freedom ($\nu$) for this test are calculated using the Welch-Satt
 """
     return latex
 
+
+
+def table_end():
+    table = "\\bottomrule\n"
+    table += "\\end{tabular}\n"
+    table += "\\end{table}\n"
+    table += "\\end{landscape}\n"
+    table += "\\newpage \n"
+    return table
+
 def generate_and_save(component, developers, number_of_commits):
     path = "repository/" 
     file_name = FILE_NAME
@@ -105,16 +112,16 @@ def generate_and_save(component, developers, number_of_commits):
         commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
     if component == "packages":
         latex = section_sub_heading(commit_prefix)
-        latex += section_sub_sub_heading(component, commit_prefix)
+        headings = ["Component", "Sample A $\mu$", "Sample B $\mu$", "Welch Statistic", "Welch $P$", "Mann-Whitney U Statistic", "Mann-Whitney U $P$" ]
+        latex += start_latex_table("Welch t-test and Mann-Whitney U Results for Components", headings)
         read_write_file.write_file(get_base_file_name(file_name) + ".tex", 
                                latex, path)
         latex = "\\input{" + path + get_base_file_name(file_name) + "}\n"
         read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY)
-    else:
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
-                               section_sub_sub_heading(component, commit_prefix), path)
-    latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component).replace("_", "\\_")
+
+    latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, [FOUNDER, "late " + JOINER]).replace("_", "\\_")
+    latex_table += generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, [MODERATE, SUSTAINED]).replace("_", "\\_")
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
     if component == "methods":
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", generate_statistical_formula_latex() + "\n \\newpage \n", path)
+        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", table_end() + generate_statistical_formula_latex() + "\n \\newpage \n", path)
          
