@@ -2,24 +2,17 @@ from scipy import stats
 import pandas as pd
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
-from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import populate_touched_data
 from codebase_graph_latex.latex_table import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
-def section_sub_heading(time_series):
+def section_sub_sub_heading(time_series):
     latex = "\\begin{landscape}\n"
-    latex += get_section_start(FILE_NAME, "sub") 
+    latex += get_section_start(FILE_NAME, "subsub") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += "A Welch T Test and Mann-Whitney U Test for all components touched on average. "
     latex += "\n"
-    return latex
-
-def section_sub_sub_heading(component, time_series):
-    latex = get_section_start(FILE_NAME, "subsub") 
-    latex += "For " + component + " touched for a " + time_series + "} \n"
-    latex += "A Welch T Test table for " + component + " touched on average. \n"
     return latex
 
 def generate_simple_comparison_latex(developers_dict, unit, component, samples):
@@ -52,28 +45,18 @@ def generate_simple_comparison_latex(developers_dict, unit, component, samples):
     latex += f"{u_stat:.1f} & {u_p:.4f}  \\\\ \n"
     return latex
 
-def generate_statistical_formula_latex():
+def generate_statistical_formula_latex(sample_a_b):
     """
     Returns a LaTeX string defining both the Two-Way ANOVA and 
     Welch's t-test models for developer analysis.
     """
+    group_a = sample_a_b[0].capitalize()
+    group_b = sample_a_b[1].capitalize()
     latex = r"""
 \subsubsection*{Statistical Models}
 
-\paragraph{Two-Way ANOVA with Interaction}
-The differences across all categories are assessed using a Two-Way ANOVA. The value for an individual developer metric ($Y_{ijk}$) is modeled as:
-
-\begin{equation}
-    Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \epsilon_{ijk}
-\end{equation}
-
-Where $\mu$ is the grand mean, $\alpha_i$ is the \textbf{Role} effect, $\beta_j$ is the \textbf{Tenure} effect, $(\alpha\beta)_{ij}$ is the interaction, and $\epsilon_{ijk}$ is the residual error. The significance is determined by the $F$-statistic:
-\begin{equation}
-    F = \frac{MS_{factor}}{MS_{residual}}
-\end{equation}
-
 \paragraph{Welch's t-test}
-To specifically compare the two primary roles (\textbf{Founders} vs. \textbf{Late Joiners}) without assuming equal variances or sample sizes, Welch's $t$-test is employed. The $t$-statistic is defined as:
+To specifically compare the two primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming equal variances or sample sizes, Welch's $t$-test is employed. The $t$-statistic is defined as:
 
 \begin{equation}
     t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1^2}{N_1} + \frac{s_2^2}{N_2}}}
@@ -81,7 +64,7 @@ To specifically compare the two primary roles (\textbf{Founders} vs. \textbf{Lat
 
 Where:
 \begin{itemize}
-    \item $\bar{X}_1, \bar{X}_2$ are the sample means of Founders and Late Joiners.
+    \item $\bar{X}_1, \bar{X}_2$ are the sample means of Sample A and Sample B.
     \item $s_1^2, s_2^2$ are the sample variances.
     \item $N_1, N_2$ are the sample sizes.
 \end{itemize}
@@ -103,25 +86,25 @@ def table_end():
     table += "\\newpage \n"
     return table
 
-def generate_and_save(component, developers, number_of_commits):
+def generate_and_save(component, developers, number_of_commits, sample_a_b):
     path = "repository/" 
     file_name = FILE_NAME
     commit_prefix = "all commits"
     if number_of_commits > 0:
         file_name += "_" + str(number_of_commits)
         commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
+    file_name = get_base_file_name(file_name) + "_" + sample_a_b[0].replace(" ", "_") + "_" + sample_a_b[1].replace(" ", "_")
     if component == "packages":
-        latex = section_sub_heading(commit_prefix)
-        headings = ["Component", "Sample A $\mu$", "Sample B $\mu$", "Welch Statistic", "Welch $P$", "Mann-Whitney U Statistic", "Mann-Whitney U $P$" ]
+        latex = section_sub_sub_heading(commit_prefix + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize())
+        headings = ["Component", sample_a_b[0].capitalize() + " $\mu$", sample_a_b[1].capitalize()  + " $\mu$", "Welch Statistic", "Welch $P$", "Mann-Whitney U Statistic", "Mann-Whitney U $P$" ]
         latex += start_latex_table("Welch t-test and Mann-Whitney U Results for Components", headings)
-        read_write_file.write_file(get_base_file_name(file_name) + ".tex", 
+        read_write_file.write_file(file_name + ".tex", 
                                latex, path)
-        latex = "\\input{" + path + get_base_file_name(file_name) + "}\n"
+        latex = "\\input{" + path + file_name + "}\n"
         read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY)
 
-    latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, [FOUNDER, "late " + JOINER]).replace("_", "\\_")
-    latex_table += generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, [MODERATE, SUSTAINED]).replace("_", "\\_")
-    read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
+    latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, sample_a_b).replace("_", "\\_")
+    read_write_file.append_to_file(file_name + ".tex", latex_table, path)
     if component == "methods":
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", table_end() + generate_statistical_formula_latex() + "\n \\newpage \n", path)
+        read_write_file.append_to_file(file_name + ".tex", table_end() + generate_statistical_formula_latex(sample_a_b) + "\n \\newpage \n", path)
          

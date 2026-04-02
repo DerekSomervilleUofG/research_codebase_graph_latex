@@ -44,6 +44,6 @@ def generate_and_save(number_of_repositories):
             if unit > 0:
                 filtered_developers = filter_developer_commits(developers, unit)
             time_series_components_touched_generate_and_save(0, component, filtered_developers, REPOSITORY_SUMMARY_1_FILE, unit)
-            welch_generate_and_save(component, filtered_developers, unit)
+            #welch_generate_and_save(component, filtered_developers, unit)
             anova_generate_and_save(component, filtered_developers, unit)
             strategy_generate_and_save(component, filtered_developers, unit)

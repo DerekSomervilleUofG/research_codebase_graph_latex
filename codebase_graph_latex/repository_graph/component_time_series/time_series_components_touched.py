@@ -3,6 +3,7 @@ from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.calculate import *
 from codebase_graph_latex.developer_data import *
+from codebase_graph_latex.repository_graph.component_time_series.welch_t_test import generate_and_save  as welch_generate_and_save
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pandas as pd
@@ -21,7 +22,6 @@ def section_sub_heading(repository_id, touched_by):
     if repository_id > 0:
         latex += str(repository_id) + " "
     latex += "For all components touched for " + touched_by + " } \n"
-    latex += "A time series of all components touched on average. \n"
     return latex
 
 def section_sub_sub_heading(repository_id, component, time_series):
@@ -29,7 +29,6 @@ def section_sub_sub_heading(repository_id, component, time_series):
     if repository_id > 0:
         latex += str(repository_id) + " "
     latex += "For " + component + " touched for " + time_series + "} \n"
-    latex += "A time series of " + component + " touched on average. \n"
     return latex
 
 def instansiate_data():
@@ -75,20 +74,6 @@ def populate_total_data(developers, unit=NUMBER_OF_MONTHS):
                 current_touched = float(touched[i])
             data[TOUCHED].append(current_touched)
             previous_touched = current_touched
-    return data
-
-def populate_touched_data(developers, unit=NUMBER_OF_MONTHS):
-    data = []
-    data_to_append = []
-    for id, values in developers.items():
-        data_to_append = values[find_developer_unit(unit) + 1].copy()
-        if len(data_to_append) < unit:
-            if len(data_to_append) >= 1:
-                last_item = data_to_append[-1]
-            else:
-                last_item = 0
-            add_extra(data_to_append, unit - len(data_to_append), last_item)
-        data.append(data_to_append[:unit])
     return data
 
 def max_days(developers):
@@ -226,8 +211,7 @@ def get_y_axis_max(developers, unit):
     else:
         return 1
 
-def generate_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption):
-    
+def generate_repo_graph(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption):
     all_data = developers[TRANSIENT_FOUNDER] | developers[SUSTAINED_FOUNDER] | developers[TRANSIENT_JOINER] | developers[SUSTAINED_JOINER] | developers[MODERATE_FOUNDER] | developers[MODERATE_JOINER]
     y_axis_max = get_y_axis_max(all_data, unit)
     file_name, graph_caption = method(path + component + "/", component, 
@@ -257,7 +241,10 @@ def generate_latex(repository_id, method, path, component, unit, developers, fig
                                                 figure_size=WIDE_FIGURE)
     latex += latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s", all="All Joiners"))
     latex += "\\newpage \n"
-    latex += latex_start_graph()
+    return latex
+
+def generate_component_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption, commit_prefix):
+    latex = latex_start_graph()
     max_y_axis = get_y_axis_max_for_categories(developers, unit)
     for category in DEVELOPER_CATEGORY:
         stage_developers = developers[category]
@@ -266,7 +253,7 @@ def generate_latex(repository_id, method, path, component, unit, developers, fig
     latex += latex_end_graph()        
     return latex
 
-def default_generate_save(method, base_file_name, file_name, repository_id, component, developers, units=[NUMBER_OF_MONTHS, NUMBER_OF_WEEKS], figure_caption_all=ALL_FIGURE_CAPTION, figure_caption=FIGURE_CAPTION):
+def default_generate_save(method, base_file_name, file_name, repository_id, component, developers, unit=NUMBER_OF_WEEKS, figure_caption_all=ALL_FIGURE_CAPTION, figure_caption=FIGURE_CAPTION, commit_prefix="commit"):
     path = "repository/"
     if repository_id > 0:
             path+= str(repository_id) + "/"
@@ -274,9 +261,11 @@ def default_generate_save(method, base_file_name, file_name, repository_id, comp
             figure_caption = FIGURE_CAPTION_START.format(repo=repository_id) + figure_caption
     read_write_file.create_directory(path)
     latex = ""
-    for unit in units:
-        latex += generate_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption)
-    read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex, path)
+    latex_component = ""
+    latex += generate_repo_graph(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption)
+    latex_component += generate_component_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption, commit_prefix)
+    read_write_file.append_to_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(unit, "commit") + ".tex", latex, path)
+    read_write_file.append_to_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(unit, "commit") + "_component.tex", latex_component, path)
 
 def generate_and_save(repository_id, component, developers, base_file_name, number_of_commits=0):
     path = "repository/" 
@@ -292,17 +281,49 @@ def generate_and_save(repository_id, component, developers, base_file_name, numb
     if component == "packages":
         latex = section_sub_heading(repository_id, commit_prefix + " and for each period")
         latex += section_sub_sub_heading(repository_id, component, commit_prefix)
-        read_write_file.write_file(get_base_file_name(file_name) + ".tex", 
+        read_write_file.write_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + ".tex", 
                                latex, path)
-        base_latex =  "\\input{" + path + get_base_file_name(file_name)  + "}\n"
+        
+        latex = section_sub_sub_heading(repository_id, component, " each week")
+        read_write_file.write_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_component.tex", 
+                               latex, path)
+        
+        base_latex =  "\\input{" + path + get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "}\n"
+        read_write_file.append_to_file(base_file_name, 
+                                   base_latex, 
+                                    DIRECTORY)
+        if repository_id == 0:
+            welch_generate_and_save(component, developers, number_of_commits, [FOUNDER, "late " + JOINER])
+        base_latex =  "\\input{" + path + get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_component}\n"
+        read_write_file.append_to_file(base_file_name, 
+                                   base_latex, 
+                                    DIRECTORY)
+        if repository_id == 0:
+            welch_generate_and_save(component, developers, number_of_commits, [MODERATE, SUSTAINED])
+            #welch_generate_and_save(component, developers, number_of_commits, [MODERATE + " " + FOUNDER, SUSTAINED + " " + FOUNDER])
+            #welch_generate_and_save(component, developers, number_of_commits, [MODERATE + " later " + JOINER, SUSTAINED + " later " + JOINER])
+        read_write_file.write_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + ".tex", 
+                               latex, path)
+        
+        base_latex =  "\\input{" + path + get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "}\n"
+        read_write_file.append_to_file(base_file_name, 
+                                   base_latex, 
+                                    DIRECTORY)
+        read_write_file.write_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "_component.tex", 
+                               latex, path)
+        
+        base_latex =  "\\input{" + path + get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "_component}\n"
         read_write_file.append_to_file(base_file_name, 
                                    base_latex, 
                                     DIRECTORY)
     else:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                section_sub_sub_heading(repository_id, component, commit_prefix), path)
-    default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[time_series_commits])
+    default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=time_series_commits, commit_prefix=commit_prefix)
+    if component != "packages":
+        welch_generate_and_save(component, developers, number_of_commits, [FOUNDER, "late " + JOINER])
+        welch_generate_and_save(component, developers, number_of_commits, [MODERATE, SUSTAINED])
     if number_of_commits == 0:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                 section_sub_sub_heading(repository_id, component, "each period"), path)
-        default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, units=[NUMBER_OF_WEEKS])
+        default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=NUMBER_OF_WEEKS, commit_prefix=commit_prefix)

@@ -4,6 +4,7 @@ from matplotlib.ticker import MaxNLocator
 from codebase_graph_latex.FigureCounter import FigureCounter
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.constants import *
+from codebase_graph_latex.calculate import *
 
 
 figure_counter = FigureCounter()
@@ -166,3 +167,22 @@ def get_base_file_name(file_name):
 
 def get_file_name(file_name):
     return get_base_file_name(file_name) + ".tex"
+
+def add_extra(list, number_extra, value=0):
+    for counter in range(0, number_extra):
+        list.append(value)
+
+def populate_touched_data(developers, unit=NUMBER_OF_MONTHS):
+    data = []
+    data_to_append = []
+    for id, values in developers.items():
+        data_to_append = values[find_developer_unit(unit) + 1].copy()
+        if len(data_to_append) < unit:
+            if len(data_to_append) >= 1:
+                last_item = data_to_append[-1]
+            else:
+                last_item = 0
+            add_extra(data_to_append, unit - len(data_to_append), last_item)
+        data.append(data_to_append[:unit])
+    return data
+

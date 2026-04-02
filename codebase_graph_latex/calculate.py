@@ -1,5 +1,5 @@
 import datetime
-
+from codebase_graph_latex.constants import *
 CAPTION_LENGTH = 100
 
 
@@ -33,6 +33,16 @@ def merge_dictionary(first_dictionary, second_dictionary, third_dictionary={}, f
     merged_dictionary.update(fourth_dicictionary)
     merged_dictionary.update(fifth_dictionary)      
     return merge_dictionary
+
+def find_developer_unit(unit):
+    if unit == NUMBER_OF_MONTHS:
+        return DEV_MONTH
+    elif unit == NUMBER_OF_WEEKS:
+        return DEV_WEEK
+    elif unit == TIME_SERIES_NUMBER_OF_COMMIT:
+        return DEV_COMMIT
+    else:
+        return DEV_COMMIT
 
 def add_extra(list, number_extra, value=0):
     for counter in range(0, number_extra):

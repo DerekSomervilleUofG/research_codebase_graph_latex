@@ -5,16 +5,9 @@ from codebase_graph_latex.select.select_developer_data import *
 import copy
 import math
 
-YEAR_PERIOD = 0
-KNOWN_Y_AXIS = 1
+
 PERCENTAGE_KNOWN = 2
 NUMBER_OF_COMMIT = 3
-DEV_MONTH = 4
-DEV_MONTH_TOUCHED = 5
-DEV_WEEK = 6
-DEV_WEEK_TOUCHED = 7
-DEV_COMMIT = 8
-DEV_COMMIT_TOUCHED = 9
 START_DATE = 10
 AXIS_NAME = {YEAR_PERIOD: "day", KNOWN_Y_AXIS: "component touched", NUMBER_OF_COMMIT: "commits"}
 PERIOD = "period"
@@ -41,16 +34,6 @@ def get_data_from_database(repository_id, module, contributor_stage):
         commits = next_batch_select()
         developers, developers_start, start_known = generate_data(commits, developers, developers_start, start_known)
     return developers, developer_total_commit, max_total_known 
-
-def find_developer_unit(unit):
-    if unit == NUMBER_OF_MONTHS:
-        return DEV_MONTH
-    elif unit == NUMBER_OF_WEEKS:
-        return DEV_WEEK
-    elif unit == TIME_SERIES_NUMBER_OF_COMMIT:
-        return DEV_COMMIT
-    else:
-        return DEV_COMMIT
 
 def populate_period_touched(value, period_touched, unit):
     previous_mean = 0
