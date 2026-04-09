@@ -292,13 +292,13 @@ def generate_and_save(repository_id, component, developers, base_file_name, numb
         read_write_file.append_to_file(base_file_name, 
                                    base_latex, 
                                     DIRECTORY)
-        if repository_id == 0:
+        if repository_id == 0 and number_of_commits > 0:
             welch_generate_and_save(component, developers, number_of_commits, [FOUNDER, "late " + JOINER])
         base_latex =  "\\input{" + path + get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_component}\n"
         read_write_file.append_to_file(base_file_name, 
                                    base_latex, 
                                     DIRECTORY)
-        if repository_id == 0:
+        if repository_id == 0 and number_of_commits > 0:
             welch_generate_and_save(component, developers, number_of_commits, [MODERATE, SUSTAINED])
             #welch_generate_and_save(component, developers, number_of_commits, [MODERATE + " " + FOUNDER, SUSTAINED + " " + FOUNDER])
             #welch_generate_and_save(component, developers, number_of_commits, [MODERATE + " later " + JOINER, SUSTAINED + " later " + JOINER])
@@ -320,7 +320,7 @@ def generate_and_save(repository_id, component, developers, base_file_name, numb
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                section_sub_sub_heading(repository_id, component, commit_prefix), path)
     default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=time_series_commits, commit_prefix=commit_prefix)
-    if component != "packages":
+    if component != "packages" and number_of_commits > 0:
         welch_generate_and_save(component, developers, number_of_commits, [FOUNDER, "late " + JOINER])
         welch_generate_and_save(component, developers, number_of_commits, [MODERATE, SUSTAINED])
     if number_of_commits == 0:

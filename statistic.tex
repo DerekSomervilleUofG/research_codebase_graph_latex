@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{caption}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{Azure}{RGB}{240,255,255}
+\definecolor{Beige}{RGB}{245,245,220}
+\definecolor{Chocolate}{RGB}{210,105,30}
+\definecolor{Coral}{HTML}{FF7F50}
+\definecolor{Crimson}{RGB}{220,20,60}
+\definecolor{DarkCyan}{RGB}{0,139,139}
+\definecolor{DarkOrange}{RGB}{255,140,0}
+\definecolor{DodgerBlue}{RGB}{30,144,255}
+\definecolor{FireBrick}{RGB}{178,34,34}
+\definecolor{Gold}{RGB}{255,215,0}
+\definecolor{HotPink}{RGB}{255,105,180}
+\definecolor{Indigo}{RGB}{75,0,130}
+\definecolor{Ivory}{RGB}{255,255,240}
+\definecolor{Khaki}{RGB}{240,230,140}
+\definecolor{LightCoral}{RGB}{240,128,128}
+\definecolor{LightSkyBlue}{RGB}{135,206,250}
+\definecolor{Lime}{RGB}{0,255,0} 
+\definecolor{MediumPurple}{RGB}{147,112,219}
+\definecolor{Navy}{RGB}{0, 0, 128}
+\definecolor{Olive}{RGB}{128,128,0}
+\definecolor{Pink}{RGB}{255,192,203}
+\definecolor{RosyBrown}{RGB}{188,143,143}
+\definecolor{Sienna}{RGB}{160,82,45}
+\definecolor{Silver}{RGB}{192,192,192}
+\definecolor{SlateGray}{RGB}{112,128,144}
+\definecolor{SteelBlue}{RGB}{70,130,180}
+\definecolor{Tan}{RGB}{210,180,140}
+\definecolor{Teal}{HTML}{008080}
+\definecolor{Tomato}{RGB}{255,99,71}
+\usepackage{pdflscape}
+
+\title{Learning a Codebase}
+\author{Derek Somerville}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\newpage 
+\tableofcontents  % Generates the Table of Contents
+\newpage 
+\section{Welsh $t$-test}
+\subsection{Founder vs Late Joiner}
+\input{repository/welch_t_test_founder_late_joiner}
+\subsection{Moderate vs Sustained}
+\input{repository/welch_t_test_moderate_sustained}
+\section{Strategy Logistic Regression}
+\input{repository/strategy_logistic_regression_5}
+\input{repository/strategy_logistic_regression_10}
+\input{repository/strategy_logistic_regression_20}
+\input{repository/strategy_logistic_regression}
+\input{statistical_findings}
+\end{document}

@@ -6,16 +6,18 @@ from codebase_graph_latex.latex_table import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
+START_COMMIT_NUMBER = 5
+END_COMMIT_NUMBER = 20
 
 def section_sub_sub_heading(time_series):
     latex = "\\begin{landscape}\n"
     latex += get_section_start(FILE_NAME, "subsub") 
     latex += "For all components touched for " + time_series + "} \n"
-    latex += "A Welch T Test and Mann-Whitney U Test for all components touched on average. "
+    latex += "A Welch $t$-test and Mann-Whitney $U$ Test for all components touched on average. "
     latex += "\n"
     return latex
 
-def generate_simple_comparison_latex(developers_dict, unit, component, samples):
+def generate_simple_comparison_latex(developers_dict, unit, component, samples, number_of_commits):
     sample_a_values = []
     sample_b_values = []
 
@@ -38,8 +40,8 @@ def generate_simple_comparison_latex(developers_dict, unit, component, samples):
     mean_b = np.mean(sample_b_values) if sample_b_values else 0
 
     # Build a simple DataFrame for the LaTeX table
-    component_clean = component.replace("_", "-").capitalize() + " " + " compared to ".join(samples)
-    latex =  f"{component_clean} & "
+    component_clean = component.replace("_", "-").capitalize() 
+    latex =  f"{number_of_commits} & {component_clean} & "
     latex += f" {mean_a:.2f} & {mean_b:.2f} & "
     latex += f"{t_stat:.2f} & {t_p:.4f} & "
     latex += f"{u_stat:.1f} & {u_p:.4f}  \\\\ \n"
@@ -90,21 +92,20 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b):
     path = "repository/" 
     file_name = FILE_NAME
     commit_prefix = "all commits"
-    if number_of_commits > 0:
-        file_name += "_" + str(number_of_commits)
-        commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
     file_name = get_base_file_name(file_name) + "_" + sample_a_b[0].replace(" ", "_") + "_" + sample_a_b[1].replace(" ", "_")
-    if component == "packages":
+    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_sub_heading(commit_prefix + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize())
-        headings = ["Component", sample_a_b[0].capitalize() + " $\mu$", sample_a_b[1].capitalize()  + " $\mu$", "Welch Statistic", "Welch $P$", "Mann-Whitney U Statistic", "Mann-Whitney U $P$" ]
-        latex += start_latex_table("Welch t-test and Mann-Whitney U Results for Components", headings)
+        headings = ["Number of First Commits", "Component", sample_a_b[0].capitalize() + " $\mu$", sample_a_b[1].capitalize()  + " $\mu$", "Welch Statistic", "Welch $P$", "Mann-Whitney U Statistic", "Mann-Whitney U $P$" ]
+        latex += start_latex_table("Welch t-test and Mann-Whitney U Results for Components and number of commits " + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize(), headings)
         read_write_file.write_file(file_name + ".tex", 
                                latex, path)
         latex = "\\input{" + path + file_name + "}\n"
         read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY)
 
-    latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, sample_a_b).replace("_", "\\_")
+    latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, sample_a_b, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
-    if component == "methods":
-        read_write_file.append_to_file(file_name + ".tex", table_end() + generate_statistical_formula_latex(sample_a_b) + "\n \\newpage \n", path)
+    if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
+        read_write_file.append_to_file(file_name + ".tex", table_end() + "\n \\newpage \n", path)
+    if component == "methods" and number_of_commits == END_COMMIT_NUMBER and "moderate" in sample_a_b[0]:
+        read_write_file.append_to_file(file_name + ".tex", generate_statistical_formula_latex(sample_a_b) + "\n \\newpage \n", path)
          

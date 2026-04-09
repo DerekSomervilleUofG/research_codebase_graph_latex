@@ -40,7 +40,7 @@ def generate_and_save(number_of_repositories):
         for category in DEVELOPER_CATEGORY:
             developers[category] = developer_component_knowledge[category][component]
         filtered_developers = developers
-        for unit in [0, 5, 10, 20]:
+        for unit in [5, 10, 20, 0]:
             if unit > 0:
                 filtered_developers = filter_developer_commits(developers, unit)
             time_series_components_touched_generate_and_save(0, component, filtered_developers, REPOSITORY_SUMMARY_1_FILE, unit)

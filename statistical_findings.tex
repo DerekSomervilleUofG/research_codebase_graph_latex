@@ -1,0 +1,49 @@
+\section{Overall Findings}
+The study analyzes developer behaviors to predict long-term retention[cite: 1, 4]. It consistently finds that \textbf{Founders} and \textbf{Moderate} contributors interact with significantly more components than \textbf{Late Joiners} and \textbf{Sustained} contributors[cite: 13, 30, 84, 101]. Early-stage metrics are statistically significant predictors of a developer becoming a "Sustained" contributor[cite: 157, 188, 220, 252].
+
+\subsection{Welch's t-test Analysis}
+This section compares the average components touched between different developer roles using Welch's $t$-test and Mann-Whitney $U$ tests[cite: 11, 82].
+
+\subsubsection{Founder vs. Late Joiner}
+\begin{itemize}
+    \item \textbf{First 5 Commits:} Welch $t$-test showed no significance for packages ($p=0.1063$) or methods ($p=0.0618$), though Mann-Whitney $U$ indicated distributional differences ($p < 0.001$)[cite: 13].
+    \item \textbf{First 10 \& 20 Commits:} Founders showed significantly higher interaction with classes ($p=0.0019$ at 10 commits) [cite: 30] and methods ($p=0.0015$ at 20 commits)[cite: 48].
+    \item \textbf{All Commits:} The gap widened substantially, with Founders averaging 309.92 classes vs. 74.68 for Late Joiners ($p=0.0000$)[cite: 64].
+\end{itemize}
+
+\subsubsection{Moderate vs. Sustained}
+\begin{itemize}
+    \item \textbf{First 10 Commits:} Moderate contributors touched significantly more components, averaging 43.22 classes compared to 20.98 for Sustained contributors ($p=0.0000$)[cite: 101].
+    \item \textbf{All Commits:} Moderate contributors touched more packages (10.99 vs. 5.74)[cite: 136]. However, differences in class ($p=0.3033$) and method counts ($p=0.5939$) were not statistically significant[cite: 136].
+\end{itemize}
+
+\subsection{Strategy Logistic Regression}
+Logistic regression was used to model the probability $P$ of a developer becoming a Sustained Contributor[cite: 167, 168]:
+
+\begin{equation}
+\ln\left(\frac{P}{1-P}\right) = \beta_0 + \beta_1 X_1 + \dots + \beta_n X_n + \epsilon [cite: 170]
+\end{equation}
+
+\subsubsection{Predictive Performance}
+\begin{itemize}
+    \item \textbf{Early Commits (5, 10, 20):} Every component count was a statistically significant predictor ($p=0.0000$)[cite: 157, 188, 220].
+    \item \textbf{Odds Ratios (OR):} All models showed $OR > 1$, indicating higher activity increases retention likelihood[cite: 179, 188, 220].
+    \item \textbf{All Commits:} Packages showed an $OR=1.0600$, Classes $OR=1.0147$, and Methods $OR=1.0033$[cite: 252, 256, 260].
+\end{itemize}
+
+
+
+[Image of logistic regression curve]
+
+
+\subsection{Statistical Models Used}
+\paragraph{Welch's $t$-test} Used to compare means without assuming equal variances[cite: 15]:
+\begin{equation}
+t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1^2}{N_1} + \frac{s_2^2}{N_2}}} [cite: 18]
+\end{equation}
+
+\paragraph{Degrees of Freedom} Calculated via Welch-Satterthwaite[cite: 22]:
+\begin{equation}
+\nu \approx \frac{(\frac{s_1^2}{N_1} + \frac{s_2^2}{N_2})^2}{\frac{(s_1^2/N_1)^2}{N_1-1} + \frac{(s_2^2/N_2)^2}{N_2-1}} [cite: 23]
+\end{equation}
+
