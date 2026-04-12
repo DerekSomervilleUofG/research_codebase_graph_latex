@@ -10,7 +10,7 @@ def generate_and_save(repository_id, status, component, developers):
     commit_data, daily_data = get_commit_and_daily(developers[SUSTAINED_JOINER])
     repository_average_knowledge_merge_average(daily_data, commit_data, component)
     if status == "B":
-        time_series_components_touched_generate_and_save(repository_id, component, developers, REPOSITORY_1_FILE)
+        time_series_components_touched_generate_and_save(repository_id, component, developers)
         scatter_sample_commit_knowledge_repository_generate_and_save(repository_id, component, developers)        
         #box_plot_developer_generate_and_save(repository_id, component, developers)
         timeseries_components_touched_by_developer_generate_and_save(repository_id, component, developers[SUSTAINED_FOUNDER], developers[SUSTAINED_JOINER], NUMBER_OF_COMMIT)

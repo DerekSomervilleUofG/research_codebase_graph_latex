@@ -4,20 +4,16 @@ import numpy as np
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import populate_touched_data
+from codebase_graph_latex.latex_table import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
 def section_sub_heading(time_series):
-    latex = get_section_start(FILE_NAME, "sub") 
+    latex = "\\begin{landscape}\n"
+    latex += get_section_start(FILE_NAME, "sub") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += "A Strategy Logistic Regression table for all components touched on average. \n"
-    return latex
-
-def section_sub_sub_heading(component, time_series):
-    latex = get_section_start(FILE_NAME, "subsub") 
-    latex += "For " + component + " touched for a " + time_series + "} \n"
-    latex += "A Strategy Logistic Regression table for " + component + " touched on average. \n"
     return latex
 
 def generate_predictive_model_latex():
@@ -52,7 +48,7 @@ The predictive power is evaluated using the Area Under the Receiver Operating Ch
 """
     return latex
 
-def generate_predictive_identification_latex(developers_dict, unit, component):
+def generate_predictive_identification_latex(developers_dict, unit, component, number_of_commits):
     rows = []
     
     # 1. Prepare the data: Binary classification (Sustained vs Not)
@@ -93,33 +89,33 @@ def generate_predictive_identification_latex(developers_dict, unit, component):
 
     # 4. Generate LaTeX
     component_clean = component.replace("_", "-")
-    return results_df.to_latex(
-        position="h!",
-        index=True,
-        caption=f"Logistic Regression: Predicting Sustained Contribution via {component_clean} (First Commits)",
-        label=f"tab:predict-{component_clean}",
-        float_format="%.4f"
-    )
+    if number_of_commits == 0:
+        number_of_commits = "All"
+    latex_rows = ""
+    for index, row in summary.iterrows():
+        
+        # Build the columns: Commits & Label & Coeff & OR & StdErr & P
+        latex_rows += f"{number_of_commits} & {component_clean} & {index} & "
+        latex_rows += f"{row['Coef.']:.4f} & {row['Odds Ratio']:.4f} & "
+        latex_rows += f"{row['Std.Err.']:.4f} & {row['P>|z|']:.4f} \\\\ \n"
+    return latex_rows
 
 def generate_and_save(component, developers, number_of_commits):
     path = "repository/" 
     file_name = FILE_NAME
     commit_prefix = "all commits"
     if number_of_commits > 0:
-        file_name += "_" + str(number_of_commits)
         commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
-    if component == "packages":
+    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(commit_prefix)
-        latex += section_sub_sub_heading(component, commit_prefix)
-        read_write_file.write_file(get_base_file_name(file_name) + ".tex", 
+        headings = ["Number of First Commits", "Component", "Type", "Coefficient", "Odds Ratio", "Std. Err", "p-Value"]
+        latex += start_latex_table("Strategy Logistic Regression", headings)
+        save_to_latex_file(get_base_file_name(file_name), 
+                           BASE_FILE_NAME,
                                latex, path)
-        latex = "\\input{" + path + get_base_file_name(file_name) + "}\n"
-        read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY)
-    else:
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
-                               section_sub_sub_heading(component, commit_prefix), path)
-    latex_table = generate_predictive_identification_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component).replace("_", "\\_")
+
+    latex_table = generate_predictive_identification_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
-    if component == "methods":
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", generate_predictive_model_latex() + "\n \\newpage \n", path)
+    if component == "methods" and number_of_commits == 0:
+        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", table_end() + generate_predictive_model_latex() + "\n \\newpage \n", path)
          

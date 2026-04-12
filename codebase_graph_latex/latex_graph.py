@@ -186,3 +186,7 @@ def populate_touched_data(developers, unit=NUMBER_OF_MONTHS):
         data.append(data_to_append[:unit])
     return data
 
+def save_to_latex_file(file_name, base_file_name, latex, path):
+    read_write_file.write_file(file_name + ".tex", latex, path)
+    latex = "\\input{" + path + file_name + "}\n"
+    read_write_file.append_to_file(base_file_name, latex, path)

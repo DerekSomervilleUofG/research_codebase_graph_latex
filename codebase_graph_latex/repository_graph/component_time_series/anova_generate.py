@@ -100,17 +100,17 @@ def generate_anova_latex(developers_dict, unit, component):
 def generate_and_save(component, developers, number_of_commits):
     path = "repository/" 
     file_name = FILE_NAME
+    base_file_name = FILE_NAME
     commit_prefix = "all commits"
+    file_name += "_" + str(number_of_commits)
     if number_of_commits > 0:
-        file_name += "_" + str(number_of_commits)
         commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
-    if component == "packages":
+    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(commit_prefix)
-        latex += section_sub_sub_heading(component, commit_prefix)
-        read_write_file.write_file(get_base_file_name(file_name) + ".tex", 
-                               latex, path)
-        latex = "\\input{" + path + get_base_file_name(file_name) + "}\n"
-        read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY)
+        save_to_latex_file(get_base_file_name(base_file_name), BASE_FILE_NAME, latex, path)
+    if component == "packages":
+        latex = section_sub_sub_heading(component, commit_prefix)
+        save_to_latex_file(get_base_file_name(file_name), get_base_file_name(base_file_name) + ".tex", latex, path)
     else:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                section_sub_sub_heading(component, commit_prefix), path)

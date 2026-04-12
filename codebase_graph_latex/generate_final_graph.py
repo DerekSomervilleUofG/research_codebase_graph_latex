@@ -40,10 +40,12 @@ def generate_and_save(number_of_repositories):
         for category in DEVELOPER_CATEGORY:
             developers[category] = developer_component_knowledge[category][component]
         filtered_developers = developers
-        for unit in [5, 10, 20, 0]:
-            if unit > 0:
-                filtered_developers = filter_developer_commits(developers, unit)
-            time_series_components_touched_generate_and_save(0, component, filtered_developers, REPOSITORY_SUMMARY_1_FILE, unit)
-            #welch_generate_and_save(component, filtered_developers, unit)
-            anova_generate_and_save(component, filtered_developers, unit)
-            strategy_generate_and_save(component, filtered_developers, unit)
+        for number_of_commits in [5, 10, 20, 0]:
+            if number_of_commits > 0:
+                filtered_developers = filter_developer_commits(developers, number_of_commits)
+            time_series_components_touched_generate_and_save(0, component, filtered_developers, number_of_commits)
+            if number_of_commits > 0:
+                welch_generate_and_save(component, developers, number_of_commits, [FOUNDER, "late " + JOINER])
+                welch_generate_and_save(component, developers, number_of_commits, [MODERATE, SUSTAINED])
+            anova_generate_and_save(component, filtered_developers, number_of_commits)
+            strategy_generate_and_save(component, filtered_developers, number_of_commits)

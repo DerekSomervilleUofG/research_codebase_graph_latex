@@ -3,7 +3,6 @@ from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.calculate import *
 from codebase_graph_latex.developer_data import *
-from codebase_graph_latex.repository_graph.component_time_series.welch_t_test import generate_and_save  as welch_generate_and_save
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pandas as pd
@@ -11,6 +10,7 @@ import numpy as np
 import math
 
 FILE_NAME = __name__
+BASE_FILE_NAME = "repository_summary_1.tex"
 GRAPH_CAPTION = "{type} developers (n={num} \& $\mu$={mean})"
 FIGURE_CAPTION_START = "Repository {repo} "
 FIGURE_CAPTION = "A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis) for " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developer. " 
@@ -267,62 +267,45 @@ def default_generate_save(method, base_file_name, file_name, repository_id, comp
     read_write_file.append_to_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(unit, "commit") + ".tex", latex, path)
     read_write_file.append_to_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(unit, "commit") + "_component.tex", latex_component, path)
 
-def generate_and_save(repository_id, component, developers, base_file_name, number_of_commits=0):
+def generate_and_save(repository_id, component, developers, number_of_commits=0):
     path = "repository/" 
     file_name = FILE_NAME
+    base_file_name = FILE_NAME
     commit_prefix = "commit"
     time_series_commits = TIME_SERIES_NUMBER_OF_COMMIT
     if repository_id > 0:
         path+= str(repository_id) + "/" 
-    if number_of_commits > 0:
-        file_name += "_" + str(number_of_commits)
+    file_name += "_" + str(number_of_commits)
+    if number_of_commits > 0:        
         commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
         time_series_commits = number_of_commits
-    if component == "packages":
+    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(repository_id, commit_prefix + " and for each period")
-        latex += section_sub_sub_heading(repository_id, component, commit_prefix)
-        read_write_file.write_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + ".tex", 
-                               latex, path)
+        save_to_latex_file(get_base_file_name(base_file_name), BASE_FILE_NAME, latex, path)
+
+    if component == "packages":
+        latex = section_sub_sub_heading(repository_id, component, commit_prefix)
+        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit"), 
+                           get_base_file_name(base_file_name) + ".tex",
+                           latex, path)
         
         latex = section_sub_sub_heading(repository_id, component, " each week")
-        read_write_file.write_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_component.tex", 
-                               latex, path)
-        
-        base_latex =  "\\input{" + path + get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "}\n"
-        read_write_file.append_to_file(base_file_name, 
-                                   base_latex, 
-                                    DIRECTORY)
-        if repository_id == 0 and number_of_commits > 0:
-            welch_generate_and_save(component, developers, number_of_commits, [FOUNDER, "late " + JOINER])
-        base_latex =  "\\input{" + path + get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_component}\n"
-        read_write_file.append_to_file(base_file_name, 
-                                   base_latex, 
-                                    DIRECTORY)
-        if repository_id == 0 and number_of_commits > 0:
-            welch_generate_and_save(component, developers, number_of_commits, [MODERATE, SUSTAINED])
-            #welch_generate_and_save(component, developers, number_of_commits, [MODERATE + " " + FOUNDER, SUSTAINED + " " + FOUNDER])
-            #welch_generate_and_save(component, developers, number_of_commits, [MODERATE + " later " + JOINER, SUSTAINED + " later " + JOINER])
-        read_write_file.write_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + ".tex", 
-                               latex, path)
-        
-        base_latex =  "\\input{" + path + get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "}\n"
-        read_write_file.append_to_file(base_file_name, 
-                                   base_latex, 
-                                    DIRECTORY)
-        read_write_file.write_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "_component.tex", 
-                               latex, path)
-        
-        base_latex =  "\\input{" + path + get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "_component}\n"
-        read_write_file.append_to_file(base_file_name, 
-                                   base_latex, 
-                                    DIRECTORY)
+        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit"), 
+                           get_base_file_name(base_file_name) + ".tex",
+                           latex, path)
+        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_componet", 
+                           get_base_file_name(base_file_name) + ".tex",
+                           latex, path)
+        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "_componet", 
+                           get_base_file_name(base_file_name) + ".tex",
+                           latex, path)
     else:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                section_sub_sub_heading(repository_id, component, commit_prefix), path)
+
+    
+       
     default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=time_series_commits, commit_prefix=commit_prefix)
-    if component != "packages" and number_of_commits > 0:
-        welch_generate_and_save(component, developers, number_of_commits, [FOUNDER, "late " + JOINER])
-        welch_generate_and_save(component, developers, number_of_commits, [MODERATE, SUSTAINED])
     if number_of_commits == 0:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                 section_sub_sub_heading(repository_id, component, "each period"), path)

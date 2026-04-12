@@ -17,3 +17,11 @@ def start_latex_table(caption, headings):
     section += generate_latex_heading(headings)
     section += "\\midrule\n"
     return section
+
+def table_end():
+    table = "\\bottomrule\n"
+    table += "\\end{tabular}\n"
+    table += "\\end{table}\n"
+    table += "\\end{landscape}\n"
+    table += "\\newpage \n"
+    return table

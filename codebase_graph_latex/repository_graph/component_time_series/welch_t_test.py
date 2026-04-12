@@ -6,12 +6,10 @@ from codebase_graph_latex.latex_table import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
-START_COMMIT_NUMBER = 5
-END_COMMIT_NUMBER = 20
 
-def section_sub_sub_heading(time_series):
+def section_sub_heading(time_series):
     latex = "\\begin{landscape}\n"
-    latex += get_section_start(FILE_NAME, "subsub") 
+    latex += get_section_start(FILE_NAME, "sub") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += "A Welch $t$-test and Mann-Whitney $U$ Test for all components touched on average. "
     latex += "\n"
@@ -78,34 +76,21 @@ The degrees of freedom ($\nu$) for this test are calculated using the Welch-Satt
 """
     return latex
 
-
-
-def table_end():
-    table = "\\bottomrule\n"
-    table += "\\end{tabular}\n"
-    table += "\\end{table}\n"
-    table += "\\end{landscape}\n"
-    table += "\\newpage \n"
-    return table
-
 def generate_and_save(component, developers, number_of_commits, sample_a_b):
     path = "repository/" 
     file_name = FILE_NAME
     commit_prefix = "all commits"
     file_name = get_base_file_name(file_name) + "_" + sample_a_b[0].replace(" ", "_") + "_" + sample_a_b[1].replace(" ", "_")
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_sub_sub_heading(commit_prefix + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize())
+        latex = section_sub_heading(commit_prefix + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize())
         headings = ["Number of First Commits", "Component", sample_a_b[0].capitalize() + " $\mu$", sample_a_b[1].capitalize()  + " $\mu$", "Welch Statistic", "Welch $P$", "Mann-Whitney U Statistic", "Mann-Whitney U $P$" ]
         latex += start_latex_table("Welch t-test and Mann-Whitney U Results for Components and number of commits " + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize(), headings)
-        read_write_file.write_file(file_name + ".tex", 
-                               latex, path)
-        latex = "\\input{" + path + file_name + "}\n"
-        read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY)
+        save_to_latex_file(file_name, BASE_FILE_NAME, latex, path)
 
     latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, sample_a_b, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(file_name + ".tex", table_end() + "\n \\newpage \n", path)
+        read_write_file.append_to_file(file_name + ".tex", table_end(), path)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER and "moderate" in sample_a_b[0]:
         read_write_file.append_to_file(file_name + ".tex", generate_statistical_formula_latex(sample_a_b) + "\n \\newpage \n", path)
          
