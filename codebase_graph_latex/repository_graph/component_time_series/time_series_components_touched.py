@@ -11,7 +11,7 @@ import math
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
-GRAPH_CAPTION = "{type} developers (n={num} \& $\mu$={mean})"
+GRAPH_CAPTION = "{type} (n={num} \& $\mu$={mean})"
 FIGURE_CAPTION_START = "Repository {repo} "
 FIGURE_CAPTION = "A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis) for " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developer. " 
 ALL_FIGURE_CAPTION = "A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis)  for {all} developers (n={num}). "
@@ -288,17 +288,16 @@ def generate_and_save(repository_id, component, developers, number_of_commits=0)
         save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit"), 
                            get_base_file_name(base_file_name) + ".tex",
                            latex, path)
-        
-        latex = section_sub_sub_heading(repository_id, component, " each week")
+        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_component", 
+                           get_base_file_name(base_file_name) + ".tex",
+                           "", path)
+        latex = section_sub_sub_heading(repository_id, component, " each week " + commit_prefix)
         save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit"), 
                            get_base_file_name(base_file_name) + ".tex",
                            latex, path)
-        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_componet", 
+        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "_component", 
                            get_base_file_name(base_file_name) + ".tex",
-                           latex, path)
-        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "_componet", 
-                           get_base_file_name(base_file_name) + ".tex",
-                           latex, path)
+                           "", path)
     else:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                section_sub_sub_heading(repository_id, component, commit_prefix), path)

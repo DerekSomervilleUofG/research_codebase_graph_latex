@@ -7,6 +7,10 @@
 \usepackage{booktabs}
 \usepackage{makecell}
 \usepackage[dvipsnames]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{geometry}
 \definecolor{Azure}{RGB}{240,255,255}
 \definecolor{Beige}{RGB}{245,245,220}
 \definecolor{Chocolate}{RGB}{210,105,30}
@@ -49,12 +53,9 @@
 \newpage 
 \tableofcontents  % Generates the Table of Contents
 \newpage 
-\section{Welsh $t$-test}
-\subsection{Founder vs Late Joiner}
-\input{repository/welch_t_test_founder_late_joiner}
-\subsection{Moderate vs Sustained}
-\input{repository/welch_t_test_moderate_sustained}
-\section{Strategy Logistic Regression}
+\section{Statistics}
+\input{repository/welch_t_test}
+\input{repository/anova_generate}
 \input{repository/strategy_logistic_regression}
 \input{statistical_findings}
 \end{document}

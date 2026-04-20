@@ -104,18 +104,16 @@ def generate_and_save(component, developers, number_of_commits):
     path = "repository/" 
     file_name = FILE_NAME
     commit_prefix = "all commits"
-    if number_of_commits > 0:
-        commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
-    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
+    if component == "packages" and number_of_commits == 0:
         latex = section_sub_heading(commit_prefix)
         headings = ["Number of First Commits", "Component", "Type", "Coefficient", "Odds Ratio", "Std. Err", "p-Value"]
-        latex += start_latex_table("Strategy Logistic Regression", headings)
+        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits", headings)
         save_to_latex_file(get_base_file_name(file_name), 
                            BASE_FILE_NAME,
                                latex, path)
 
     latex_table = generate_predictive_identification_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
-    if component == "methods" and number_of_commits == 0:
+    if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", table_end() + generate_predictive_model_latex() + "\n \\newpage \n", path)
          

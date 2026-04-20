@@ -58,7 +58,7 @@ The $F$-statistic for each factor is calculated by:
 # read_write_file.write_file("anova_formula.tex", formula_tex, "repository/")
 
 
-def generate_anova_latex(developers_dict, unit, component):
+def generate_anova_latex(developers_dict, unit, component, commit_prefix):
     rows = []
     component = component.replace("_", "-")
     # 1. Flatten the nested dictionary into a DataFrame
@@ -89,7 +89,7 @@ def generate_anova_latex(developers_dict, unit, component):
     latex_table = anova_table.to_latex(
         position="h!",
         index=True, 
-        caption=f"Two-Way ANOVA for {component} touched by Developer Category",
+        caption=f"Two-Way ANOVA for {component} touched by Developer Category for {commit_prefix}",
         label = f"tab:anova-{component}",
         float_format="%.4f",
         column_format="lrrrr"
@@ -114,8 +114,8 @@ def generate_and_save(component, developers, number_of_commits):
     else:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
                                section_sub_sub_heading(component, commit_prefix), path)
-    latex_table = generate_anova_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component).replace("_", "\\_")
+    latex_table = generate_anova_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, commit_prefix).replace("_", "\\_")
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
-    if component == "methods":
+    if component == "methods" and number_of_commits == 0:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", generate_statistical_formula_latex() + "\n \\newpage \n", path)
          

@@ -8,10 +8,27 @@ FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
 def section_sub_heading(time_series):
-    latex = "\\begin{landscape}\n"
-    latex += get_section_start(FILE_NAME, "sub") 
-    latex += "For all components touched for " + time_series + "} \n"
-    latex += "A Welch $t$-test and Mann-Whitney $U$ Test for all components touched on average. "
+    latex = get_section_start(FILE_NAME, "sub") 
+    latex += "For all components touched for " + time_series + "} \n\n"
+    latex += "A Welch $t$-test was employed to determine if the mean contributions of Group A "
+    latex += "differ significantly from Group B. This test is appropriate for continuous data "
+    latex += "and is robust to unequal variances. A Welch Statistic magnitude greater than 2.0 "
+    latex += "generally indicates a significant difference ($p < 0.05$). \n\n"
+    
+    latex += "Complementarily, the Mann-Whitney $U$ (MWU) test was used to assess stochastic dominance "
+    latex += "by ranking data points. This non-parametric approach does not require a normal distribution "
+    latex += "and is highly resistant to outliers. The MWU Statistic represents the number of pairwise "
+    latex += "comparisons where one group outranks the other, with the total possible pairs provided in brackets. "
+    latex += "A $p$-value less than 0.05 is considered statistically significant. \n"
+    
+    latex += "\n"
+    return latex
+
+def section_sub_sub_heading(time_series):
+    # Use raw strings (r"") to avoid issues with backslashes
+    latex = r"\begin{landscape}" + "\n"
+    latex += get_section_start(FILE_NAME, "subsub") 
+    latex += "For all components touched for " + time_series + "} \n\n"    
     latex += "\n"
     return latex
 
@@ -27,7 +44,7 @@ def generate_simple_comparison_latex(developers_dict, unit, component, samples, 
             sample_a_values.extend(final_values)
         elif samples[1]:
             sample_b_values.extend(final_values)
-
+    total_pairs = len(sample_a_values) * len(sample_b_values)
     # 1. Welch's T-Test (Parametric)
     t_stat, t_p = stats.ttest_ind(sample_a_values, sample_b_values, equal_var=False)
     
@@ -42,7 +59,7 @@ def generate_simple_comparison_latex(developers_dict, unit, component, samples, 
     latex =  f"{number_of_commits} & {component_clean} & "
     latex += f" {mean_a:.2f} & {mean_b:.2f} & "
     latex += f"{t_stat:.2f} & {t_p:.4f} & "
-    latex += f"{u_stat:.1f} & {u_p:.4f}  \\\\ \n"
+    latex += f"{u_stat:,.1f} ({total_pairs:,d}) & {u_p:.4f}  \\\\ \n"
     return latex
 
 def generate_statistical_formula_latex(sample_a_b):
@@ -76,17 +93,14 @@ The degrees of freedom ($\nu$) for this test are calculated using the Welch-Satt
 """
     return latex
 
-def generate_and_save(component, developers, number_of_commits, sample_a_b):
+def generate_and_save(component, developers, number_of_commits, sample_a_b, file_name):
     path = "repository/" 
-    file_name = FILE_NAME
     commit_prefix = "all commits"
-    file_name = get_base_file_name(file_name) + "_" + sample_a_b[0].replace(" ", "_") + "_" + sample_a_b[1].replace(" ", "_")
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_sub_heading(commit_prefix + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize())
-        headings = ["Number of First Commits", "Component", sample_a_b[0].capitalize() + " $\mu$", sample_a_b[1].capitalize()  + " $\mu$", "Welch Statistic", "Welch $P$", "Mann-Whitney U Statistic", "Mann-Whitney U $P$" ]
+        latex = section_sub_sub_heading(commit_prefix + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize())
+        headings = ["Number of First Commits", "Component", sample_a_b[0].capitalize() + " $\mu$", sample_a_b[1].capitalize()  + " $\mu$", "Welch Statistic", "Welch $P$", "MWU Statistic (Number of Pairs)", "MWU $P$" ]
         latex += start_latex_table("Welch t-test and Mann-Whitney U Results for Components and number of commits " + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize(), headings)
-        save_to_latex_file(file_name, BASE_FILE_NAME, latex, path)
-
+        read_write_file.append_to_file(file_name + ".tex", latex, path)
     latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, sample_a_b, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
