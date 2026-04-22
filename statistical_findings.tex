@@ -1,34 +1,27 @@
-\section{Results}
-This report provides a master's level critical analysis of the statistical findings regarding developer behavior within a codebase. The research investigates how developer roles (\textit{Founder} vs. \textit{Late Joiner}) and tenure (\textit{Transient, Moderate, Sustained}) influence the breadth of their technical footprint, measured through packages, classes, and methods touched.
-
-\subsection{Analysis of Welch's t-test Results}
-The study utilizes Welch's t-test and the Mann-Whitney U test to account for unequal variances and sample sizes between primary roles.
-
-\begin{itemize}
-    \item \textbf{Founder vs. Late Joiner:} There is a statistically significant difference ($p < 0.005$) across all components (packages, classes, and methods). Founders consistently demonstrate a higher mean ($\mu$) of components touched compared to Late Joiners. 
-    \item \textbf{Moderate vs. Sustained:} While packages showed significant differences ($p < 0.0001$), the differences in classes and methods were not statistically significant ($p > 0.05$ for Welch's test). This suggests that while "Sustained" contributors stay longer, their breadth of impact on specific code structures in early stages may mimic that of "Moderate" contributors.
-\end{itemize}
-
-\subsection{Two-Way ANOVA: Interaction of Role and Tenure}
-The ANOVA models evaluate the effects of \textit{Role}, \textit{Tenure}, and their interaction $(\alpha\beta)_{ij}$.
-
-\begin{itemize}
-    \item \textbf{Breadth of Impact:} For the first five commits, the interaction between Role and Tenure significantly impacts classes ($p = 0.0345$) and methods ($p = 0.0079$), but not packages. 
-    \item \textbf{Temporal Consistency:} As the commit history increases to 20 commits, the significance of Tenure as a standalone factor increases (e.g., $p = 0.0000$ for classes and methods), indicating that long-term retention is a stronger predictor of code breadth than initial role alone.
-\end{itemize}
-
-\subsection{Predictive Strategy: Logistic Regression}
-The logistic regression model identifies whether early-stage behaviors can predict if a developer will become a \textit{Sustained Contributor}.
-
-\begin{itemize}
-    \item \textbf{Odds Ratios (OR):} All analyzed components yielded an $OR > 1$. For example, the Packages Count at 5 commits has an OR of approximately $1.0578$.
-    \item \textbf{Interpretation:} Since $OR > 1$, an increase in the number of components touched during the initial stages of joining a codebase significantly increases the likelihood of long-term developer retention. The high predictive accuracy is further validated by AUC-ROC metrics.
-\end{itemize}
-
 \section{Summary of Findings}
-The synthesis of these results suggests a "breadth-first" indicator for developer retention. 
-\begin{enumerate}
-    \item \textbf{Foundational Dominance:} Founders maintain a significantly wider technical footprint than those who join later.
-    \item \textbf{Early Indicators:} The variety of methods and classes touched within the first 5 to 10 commits is a statistically significant predictor of whether a developer will transition into a sustained contributor.
-    \item \textbf{Managerial Implication:} To encourage long-term retention, onboarding processes should perhaps focus on exposing developers to a wider variety of system components early in their tenure.
-\end{enumerate}
+
+\subsection{Comparative Analysis (Welch's t-test and Mann-Whitney U)}
+The comparative analysis across Tables 1 through 4 reveals distinct behavioral patterns based on project entry timing (Role) and long-term engagement (Tenure):
+
+\begin{itemize}
+    \item \textbf{Founder vs. Late Joiner (Table 1):} Founders generally exhibit higher mean architectural exploration than Late Joiners. While early differences in \textit{Packages} and \textit{Methods} are not always significant via Welch's t-test at 5 commits, the Mann-Whitney U test shows significant stochastic dominance across all components and windows ($p < 0.001$), suggesting a fundamental difference in how early and late contributors engage with the system \cite{cite: 29}.
+    \item \textbf{Moderate vs. Sustained (Table 2):} There is a highly significant difference ($p < 0.001$) between Moderate and Sustained developers across every metric \cite{cite: 33}. Sustained developers touch significantly more packages, classes, and methods even within their first 5 to 20 commits, identifying early-stage breadth as a primary differentiator for long-term retention \cite{cite: 33}.
+    \item \textbf{Role impact within Tenure Groups (Tables 3-4):} Both Moderate and Sustained Founders outpace their Late Joiner counterparts \cite{cite: 36, 39}. The difference is particularly pronounced in \textit{Classes} and \textit{Methods} at the 20-commit mark ($p < 0.01$), indicating that Founders, regardless of their eventual stay, typically operate with a broader architectural scope than those joining later \cite{cite: 36, 39}.
+\end{itemize}
+
+\subsection{Variance and Interaction (Two-Way ANOVA)}
+The ANOVA results (Tables 5 and 6) clarify the drivers of this architectural variation:
+
+\begin{itemize}
+    \item \textbf{Effect of Transients (Table 5 vs. 6):} Including Transient developers (those with $\le 10$ commits) significantly inflates the significance of \textit{Tenure} as a main effect \cite{cite: 66}. When Transients are excluded, the \textit{Tenure} effect often becomes non-significant for \textit{Packages} ($p = 0.825$ at 5 commits), suggesting that the primary behavioral gap exists between one-off contributors and everyone else, rather than between Moderate and Sustained regulars \cite{cite: 90}.
+    \item \textbf{Component Sensitivity:} \textit{Methods} and \textit{Classes} consistently show significant main effects for \textit{Role} ($p < 0.05$) even after excluding transients \cite{cite: 90}. This confirms that the timing of project entry has a robust, lasting impact on how developers explore the code at a granular level \cite{cite: 90}.
+\end{itemize}
+
+\subsection{Predictive Power (Logistic Regression)}
+The Logistic Regression model (Table 7) identifies architectural engagement as a viable predictor for long-term project commitment:
+
+\begin{itemize}
+    \item \textbf{Effect Sizes:} All architectural components (Packages, Classes, and Methods) have Odds Ratios $> 1.0$, confirming that every additional unique component touched increases the likelihood of a developer becoming "Sustained" \cite{cite: 124, 126}.
+    \item \textbf{Identification Thresholds:} Using a 30\% probability threshold, \textit{Classes} and \textit{Methods} at 20 commits prove to be high-recall predictors, identifying approximately 63.7\% and 58.6\% of future Sustained developers, respectively \cite{cite: 126}.
+    \item \textbf{Model Accuracy:} The low "Moderate Met Threshold" rates ($\approx 2.3\%$) suggest the model is highly specific, rarely misidentifying Moderate developers as Sustained based on early-stage exploration \cite{cite: 126}.
+\end{itemize}

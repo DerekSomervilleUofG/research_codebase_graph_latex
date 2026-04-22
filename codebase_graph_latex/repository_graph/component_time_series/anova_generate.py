@@ -16,10 +16,35 @@ def section_sub_heading(time_series):
     latex += "An Anova table for all components touched on average. \n"
     return latex
 
-def section_sub_sub_heading(component, time_series):
-    latex = get_section_start(FILE_NAME, "subsub") 
-    latex += "For " + component + " touched for a " + time_series + "} \n"
-    latex += "An Anova table for " + component + " touched on average. \n"
+def section_sub_sub_heading(commit_prefix):
+    latex = r"\begin{landscape}" + "\n"
+    latex += get_section_start(FILE_NAME, "subsub") 
+    latex += "For all components touched for a " + commit_prefix + "} \n"
+    latex += generate_anova_explanation_latex()
+    return latex
+
+def generate_anova_explanation_latex():
+    latex = r"""
+The Two-Way ANOVA evaluates the influence of two independent categorical variables—\textit{Role} (Founder vs. Late Joiner) and \textit{Tenure} (Moderate vs. Sustained)—on the number of unique architectural components touched. The analysis excludes and includes Transient developers to isolate the behaviors of contributors with established project engagement.
+
+\paragraph{Explanation of Table Columns:}
+\begin{itemize}
+    \item \textbf{Sum Sq (Sum of Squares):} Represents the total variation explained by that specific factor. A higher Sum Sq relative to the Residual indicates that the factor has a strong influence on the outcome.
+    \item \textbf{df (Degrees of Freedom):} The number of independent values that can vary in the calculation. For categorical variables, this is typically $N-1$ levels.
+    \item \textbf{F (F-statistic):} The ratio of the variance explained by the factor to the variance unexplained (Residual). A larger F-value suggests the factor is more likely to be significant.
+    \item \textbf{p-Value ($PR(>F)$):} The probability that the observed differences occurred by chance. Using a significance threshold of $\alpha = 0.05$, values above this indicate no statistically significant effect.
+    \item \textbf{ETA Sq} The effect size, quantifies the proportion of the total variance in your dependent variable. 
+\end{itemize}
+
+\paragraph{Explanation of Table Rows:}
+\begin{itemize}
+    \item \textbf{Intercept:} Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.
+    \item \textbf{Role(F/L):} Tests the \textit{Main Effect} of being a Founder versus a Late Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage package exploration.
+    \item \textbf{Tenure(M/S):} Tests the \textit{Main Effect} of the eventual contributor catregory (Transient vs Moderate vs. Sustained). 
+    \item \textbf{Interaction:} Tests the \textit{Interaction Effect}. It evaluates if the effect of being a Founder is different for the different categories. 
+    \item \textbf{Residual:} Represents the ``noise'' or variance within the groups that cannot be explained by Role or Tenure. 
+\end{itemize}
+"""
     return latex
 
 def generate_statistical_formula_latex():
@@ -58,11 +83,14 @@ The $F$-statistic for each factor is calculated by:
 # read_write_file.write_file("anova_formula.tex", formula_tex, "repository/")
 
 
-def generate_anova_latex(developers_dict, unit, component, commit_prefix):
+def generate_anova_latex(developers_dict, unit, component, commit_prefix, number_of_commits, include_transient):
     rows = []
     component = component.replace("_", "-")
+
     # 1. Flatten the nested dictionary into a DataFrame
     for cat_name, dev_data in developers_dict.items():
+        if not include_transient and TRANSIENT in cat_name:
+            continue
         # Identify Role and Tenure from your key names
         role = "Founder" if "founder" in cat_name.lower() else "Late Joiner"
         tenure = cat_name.split(" ")[0].capitalize() # Transient, Moderate, Sustained
@@ -85,37 +113,66 @@ def generate_anova_latex(developers_dict, unit, component, commit_prefix):
     model = ols('Value ~ C(Role) * C(Tenure)', data=df).fit()
     anova_table = sm.stats.anova_lm(model, typ=3)
     
-    # 3. Format the table for LaTeX
-    latex_table = anova_table.to_latex(
-        position="h!",
-        index=True, 
-        caption=f"Two-Way ANOVA for {component} touched by Developer Category for {commit_prefix}",
-        label = f"tab:anova-{component}",
-        float_format="%.4f",
-        column_format="lrrrr"
-    )
-    
-    return latex_table.replace("sum_sq", "Sum Sq").replace("PR(>F)", "p-Value")
+    ss_total = anova_table['sum_sq'].sum()
+    anova_table['eta_sq'] = anova_table['sum_sq'] / ss_total
 
-def generate_and_save(component, developers, number_of_commits):
+    # 3. Manually Generate LaTeX Rows
+    # Mapping statsmodels names to readable labels
+    name_map = {
+        'C(Role)': 'Role (F/L)',
+        'C(Tenure)': 'Tenure (M/S)',
+        'C(Role):C(Tenure)': 'Interaction',
+        'Residual': 'Residual'
+    }
+
+    latex_output = ""
+    for index, row in anova_table.iterrows():
+        if index == 'Intercept': continue # Usually omitted in final papers to save space
+        
+        label = name_map.get(index, index)
+        p_val = row['PR(>F)']
+        
+        # Follows your requested format: Component & Window & Label & SumSq & df & F & P & EtaSq
+        latex =  f"{component} & {number_of_commits} & {label} & "
+        latex += f"{row['sum_sq']:.2f} & {row['df']:.0f} & "
+        latex += f"{row['F']:.2f} & {p_val:.4f} & "
+        
+        # Handle the Residual row (which has no F or P)
+        if index == 'Residual':
+            latex = f"{component} & {commit_prefix} & {label} & {row['sum_sq']:.2f} & {row['df']:.0f} & - & -  \\\\ \n"
+        else:
+            latex += f"{row['eta_sq']:.4f} \\\\ \n"
+            
+        latex_output += latex
+
+    return latex_output
+
+def generate_and_save(component, developers, number_of_commits, include_transent=False):
     path = "repository/" 
-    file_name = FILE_NAME
-    base_file_name = FILE_NAME
+    base_file_name = get_base_file_name(FILE_NAME)
+    file_name = base_file_name + "_transient"
+    table_name = "Anova results for compents and number of commits"
+    if not include_transent:
+        file_name += "_not"
     commit_prefix = "all commits"
-    file_name += "_" + str(number_of_commits)
-    if number_of_commits > 0:
-        commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
-    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
+    if component == "packages" and number_of_commits == START_COMMIT_NUMBER and include_transent:
         latex = section_sub_heading(commit_prefix)
-        save_to_latex_file(get_base_file_name(base_file_name), BASE_FILE_NAME, latex, path)
-    if component == "packages":
-        latex = section_sub_sub_heading(component, commit_prefix)
-        save_to_latex_file(get_base_file_name(file_name), get_base_file_name(base_file_name) + ".tex", latex, path)
-    else:
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
-                               section_sub_sub_heading(component, commit_prefix), path)
-    latex_table = generate_anova_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, commit_prefix).replace("_", "\\_")
-    read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
-    if component == "methods" and number_of_commits == 0:
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", generate_statistical_formula_latex() + "\n \\newpage \n", path)
+        save_to_latex_file(base_file_name, BASE_FILE_NAME, latex, path)
+    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
+        headings = ["Component", "Number of First Commits", "Factor", "Sum Squared", "df", "F-Stat", "$P$ Value", "ETA Sq"]
+        if include_transent:
+            commit_prefix += " including transient"
+            table_name += " including transient"
+        else:
+            commit_prefix += " excluding tranient" 
+            table_name += " excluding transient"
+        latex = section_sub_sub_heading(commit_prefix)
+        latex += start_latex_table(table_name, headings, "l r l r r r r r")
+        save_to_latex_file(file_name, base_file_name + ".tex", latex, path)
+    latex_table = generate_anova_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, commit_prefix, number_of_commits, include_transent).replace("_", "\\_")
+    read_write_file.append_to_file(file_name + ".tex", latex_table, path)
+    if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
+        read_write_file.append_to_file(file_name + ".tex", table_end() + "\n \\newpage \n", path)
+    if component == "methods" and number_of_commits == END_COMMIT_NUMBER and not include_transent:
+        read_write_file.append_to_file(base_file_name + ".tex", generate_statistical_formula_latex() + "\n \\newpage \n", path)
          

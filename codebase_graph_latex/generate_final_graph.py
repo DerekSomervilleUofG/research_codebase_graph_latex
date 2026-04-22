@@ -38,18 +38,19 @@ def generate_welch_file_name(file_name, sample_a_b):
     return file_name + "_" + sample_a_b[0] + "_" + sample_a_b[1]
 
 def generate_welch_t_test(component, filtered_developers, number_of_commits):
-    found_joiner = [FOUNDER, "late " + JOINER]
-    moderate_sustained = [MODERATE, SUSTAINED]
     file_name = get_base_file_name(welch_file_name)
     latex = welch_section_sub_heading("all commits")
+    samples = [[FOUNDER, "late " + JOINER], 
+               [MODERATE, SUSTAINED],
+               [MODERATE + " " + FOUNDER, MODERATE + " late " + JOINER],
+               [SUSTAINED + " " + FOUNDER, SUSTAINED + " late " + JOINER]]
+    
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         save_to_latex_file(file_name, BASE_FILE_NAME, latex, DIRECTORY)
-        save_to_latex_file(generate_welch_file_name(file_name, found_joiner),file_name + ".tex", "", DIRECTORY)
-        save_to_latex_file(generate_welch_file_name(file_name, moderate_sustained), file_name + ".tex", "", DIRECTORY)
-
-    welch_generate_and_save(component, filtered_developers, number_of_commits, found_joiner, generate_welch_file_name(file_name, found_joiner))
-    welch_generate_and_save(component, filtered_developers, number_of_commits, moderate_sustained, generate_welch_file_name(file_name, moderate_sustained))
-
+        for sample in samples:
+            save_to_latex_file(generate_welch_file_name(file_name, sample),file_name + ".tex", "", DIRECTORY)
+    for sample in samples:
+        welch_generate_and_save(component, filtered_developers, number_of_commits, sample, generate_welch_file_name(file_name, sample))
 
 def generate_and_save(number_of_repositories):
     scatter_sample_commit_knowledge_generate_and_save()
@@ -60,12 +61,14 @@ def generate_and_save(number_of_repositories):
         developers = {}
         for category in DEVELOPER_CATEGORY:
             developers[category] = developer_component_knowledge[category][component]
-        filtered_developers = developers
-        for number_of_commits in [0, 5, 10, 20]:
+        for number_of_commits in [5, 10, 20, 0]:
             if number_of_commits > 0:
                 filtered_developers = filter_developer_commits(developers, number_of_commits)
+            else:
+                filtered_developers = developers 
             time_series_components_touched_generate_and_save(0, component, filtered_developers, number_of_commits)
             if number_of_commits > 0:
                 generate_welch_t_test(component, filtered_developers, number_of_commits)
-                anova_generate_and_save(component, filtered_developers, number_of_commits)
-            strategy_generate_and_save(component, filtered_developers, number_of_commits)
+                anova_generate_and_save(component, filtered_developers, number_of_commits, True)
+                anova_generate_and_save(component, filtered_developers, number_of_commits, False)
+                strategy_generate_and_save(component, filtered_developers, number_of_commits)

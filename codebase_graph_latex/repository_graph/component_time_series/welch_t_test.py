@@ -56,7 +56,7 @@ def generate_simple_comparison_latex(developers_dict, unit, component, samples, 
 
     # Build a simple DataFrame for the LaTeX table
     component_clean = component.replace("_", "-").capitalize() 
-    latex =  f"{number_of_commits} & {component_clean} & "
+    latex =  f"{component_clean} & {number_of_commits} & "
     latex += f" {mean_a:.2f} & {mean_b:.2f} & "
     latex += f"{t_stat:.2f} & {t_p:.4f} & "
     latex += f"{u_stat:,.1f} ({total_pairs:,d}) & {u_p:.4f}  \\\\ \n"
@@ -98,13 +98,13 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
     commit_prefix = "all commits"
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_sub_heading(commit_prefix + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize())
-        headings = ["Number of First Commits", "Component", sample_a_b[0].capitalize() + " $\mu$", sample_a_b[1].capitalize()  + " $\mu$", "Welch Statistic", "Welch $P$", "MWU Statistic (Number of Pairs)", "MWU $P$" ]
-        latex += start_latex_table("Welch t-test and Mann-Whitney U Results for Components and number of commits " + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize(), headings)
+        headings = ["Component", "Number of First Commits", sample_a_b[0].capitalize() + " $\mu$", sample_a_b[1].capitalize()  + " $\mu$", "Welch Statistic", "Welch $P$", "MWU Statistic (Number of Pairs)", "MWU $P$" ]
+        latex += start_latex_table("Welch t-test and Mann-Whitney U results for components and number of commits " + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize(), headings, "l r r r r r r r")
         read_write_file.append_to_file(file_name + ".tex", latex, path)
     latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, sample_a_b, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(file_name + ".tex", table_end(), path)
-    if component == "methods" and number_of_commits == END_COMMIT_NUMBER and "moderate" in sample_a_b[0]:
+    if component == "methods" and number_of_commits == END_COMMIT_NUMBER and SUSTAINED + " late " + JOINER in sample_a_b[0]:
         read_write_file.append_to_file(file_name + ".tex", generate_statistical_formula_latex(sample_a_b) + "\n \\newpage \n", path)
          

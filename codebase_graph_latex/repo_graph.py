@@ -78,13 +78,13 @@ def run(repository_id, status):
 
 def latex_repository():
     latex = "\\section{Repository}\n"
-    latex += generate_glossary()
     file_suffix = ["_1.tex", "_2.tex"]
     base_summary_file_name = "repository_summary"
     base_file_name = "repository"
     appendix_file_name = "appendix"
     for suffix in file_suffix:    
         read_write_file.write_file(base_summary_file_name + suffix, latex, DIRECTORY)
+        generate_glossary()
         read_write_file.write_file(base_file_name + suffix, "", DIRECTORY) 
         read_write_file.write_file(appendix_file_name + suffix, "", DIRECTORY) 
 
