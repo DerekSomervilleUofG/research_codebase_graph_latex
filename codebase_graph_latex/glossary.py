@@ -4,7 +4,6 @@ import inflect
 
 word_engine = inflect.engine()
 FILE_NAME = __name__
-BASE_FILE_NAME = "repository_summary_1.tex"
 
 def glossary_latex():
     latex = get_section_start(FILE_NAME, "sub") + "Summary} \n"
@@ -22,6 +21,6 @@ def glossary_latex():
     latex += "\\newpage \n"
     return latex
 
-def generate_glossary():
+def generate_glossary(base_file_name):
     latex = glossary_latex()
-    save_to_latex_file(get_base_file_name(FILE_NAME), BASE_FILE_NAME, latex, DIRECTORY)
+    save_to_latex_file(get_base_file_name(FILE_NAME), base_file_name, latex, DIRECTORY)

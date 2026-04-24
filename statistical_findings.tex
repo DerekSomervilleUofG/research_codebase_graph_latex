@@ -40,7 +40,15 @@ The Two-Way ANOVA evaluates the influence of Role (Founder vs. Late Joiner) and 
     \item \textbf{Shift}: The Category effect (Moderate vs. Sustained) often loses significance for Packages and specific Class/Method thresholds when only established contributors are considered.
 \end{itemize}
 
-\section{Strategy Logistic Regression (Table 7)}
+\section{Key Observations from Pairwise Comparisons}
+The Tukey HSD results clarify the interactions identified in the ANOVA. Notably, for class exploration at 20 commits, significant differences persist between:
+\begin{itemize}
+    \item \textbf{Role within Tenure}: Founder Sustained developers touch significantly more classes than Late Joiner Sustained developers (Adj P = 0.0467).
+    \item \textbf{Tenure within Role}: Late Joiner Moderate developers touch significantly more classes than Late Joiner Sustained developers (Adj P = 0.0005).
+    \item \textbf{Transient Disparity}: Comparisons against both Founder and Late Joiner Transients show the most extreme mean differences, confirming their limited architectural engagement.
+\end{itemize}
+
+\section{Strategy Logistic Regression}
 The logistic regression model identifies early-stage predictors for a developer becoming a "Sustained" contributor.
 
 \begin{itemize}

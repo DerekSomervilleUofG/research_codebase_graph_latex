@@ -239,7 +239,7 @@ def generate_repo_graph(repository_id, method, path, component, unit, developers
                                                 unit,
                                                 y_axis_max,
                                                 figure_size=WIDE_FIGURE)
-    latex += latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s", all="All Joiners"))
+    latex += latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s", all="All Late Joiners"))
     latex += "\\newpage \n"
     return latex
 
@@ -253,24 +253,22 @@ def generate_component_latex(repository_id, method, path, component, unit, devel
     latex += latex_end_graph()        
     return latex
 
-def default_generate_save(method, base_file_name, file_name, repository_id, component, developers, unit=NUMBER_OF_WEEKS, figure_caption_all=ALL_FIGURE_CAPTION, figure_caption=FIGURE_CAPTION, commit_prefix="commit"):
+def default_generate_save(method, file_name, repository_id, component, developers, unit=NUMBER_OF_WEEKS, figure_caption_all=ALL_FIGURE_CAPTION, figure_caption=FIGURE_CAPTION, commit_prefix="commit"):
     path = "repository/"
     if repository_id > 0:
             path+= str(repository_id) + "/"
             figure_caption_all = FIGURE_CAPTION_START.format(repo=repository_id) + figure_caption_all
             figure_caption = FIGURE_CAPTION_START.format(repo=repository_id) + figure_caption
     read_write_file.create_directory(path)
-    latex = ""
-    latex_component = ""
-    latex += generate_repo_graph(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption)
-    latex_component += generate_component_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption, commit_prefix)
-    read_write_file.append_to_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(unit, "commit") + ".tex", latex, path)
-    read_write_file.append_to_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(unit, "commit") + "_component.tex", latex_component, path)
+    latex = generate_repo_graph(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption)
+    latex_component = generate_component_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption, commit_prefix)
+    read_write_file.append_to_file(file_name + "_" + UNIT_FREQUENCY.get(unit, "commit") + ".tex", latex, path)
+    read_write_file.append_to_file(file_name + "_" + UNIT_FREQUENCY.get(unit, "commit") + "_component.tex", latex_component, path)
 
 def generate_and_save(repository_id, component, developers, number_of_commits=0):
     path = "repository/" 
-    file_name = FILE_NAME
-    base_file_name = FILE_NAME
+    file_name = get_base_file_name(FILE_NAME)
+    base_file_name = file_name
     commit_prefix = "commit"
     time_series_commits = TIME_SERIES_NUMBER_OF_COMMIT
     if repository_id > 0:
@@ -280,32 +278,32 @@ def generate_and_save(repository_id, component, developers, number_of_commits=0)
         commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
         time_series_commits = number_of_commits
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_sub_heading(repository_id, commit_prefix + " and for each period")
-        save_to_latex_file(get_base_file_name(base_file_name), BASE_FILE_NAME, latex, path)
-
+        latex = section_sub_heading(repository_id, "all commits" + " and for each period")
+        save_to_latex_file(base_file_name, BASE_FILE_NAME, latex, path)
     if component == "packages":
         latex = section_sub_sub_heading(repository_id, component, commit_prefix)
-        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit"), 
-                           get_base_file_name(base_file_name) + ".tex",
+        save_to_latex_file(file_name, 
+                           base_file_name + ".tex",
                            latex, path)
-        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_component", 
-                           get_base_file_name(base_file_name) + ".tex",
+        save_to_latex_file(file_name + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit"), 
+                           file_name + ".tex",
                            "", path)
-        latex = section_sub_sub_heading(repository_id, component, " each week " + commit_prefix)
-        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit"), 
-                           get_base_file_name(base_file_name) + ".tex",
-                           latex, path)
-        save_to_latex_file(get_base_file_name(file_name) + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "_component", 
-                           get_base_file_name(base_file_name) + ".tex",
+        save_to_latex_file(file_name + "_" + UNIT_FREQUENCY.get(time_series_commits, "commit") + "_component", 
+                           file_name + ".tex",
                            "", path)
-    else:
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
-                               section_sub_sub_heading(repository_id, component, commit_prefix), path)
-
-    
+   
        
-    default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=time_series_commits, commit_prefix=commit_prefix)
+    default_generate_save(generate_graph, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=time_series_commits, commit_prefix=commit_prefix)
+    if component == "packages" and number_of_commits == 0:
+        latex = section_sub_sub_heading(repository_id, component, " each week " + commit_prefix)
+        save_to_latex_file(file_name + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit"), 
+                           file_name + ".tex",
+                           latex, path)
+        save_to_latex_file(file_name + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit") + "_component", 
+                           file_name + ".tex",
+                           "", path)
     if number_of_commits == 0:
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", 
-                                section_sub_sub_heading(repository_id, component, "each period"), path)
-        default_generate_save(generate_graph, base_file_name, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=NUMBER_OF_WEEKS, commit_prefix=commit_prefix)
+        default_generate_save(generate_graph, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=NUMBER_OF_WEEKS, commit_prefix=commit_prefix)
+    if component == "methods":
+        read_write_file.append_to_file(file_name + ".tex", "\\clearpage\n", path)
+        

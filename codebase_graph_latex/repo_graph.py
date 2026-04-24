@@ -84,7 +84,7 @@ def latex_repository():
     appendix_file_name = "appendix"
     for suffix in file_suffix:    
         read_write_file.write_file(base_summary_file_name + suffix, latex, DIRECTORY)
-        generate_glossary()
+        generate_glossary(base_summary_file_name + suffix)
         read_write_file.write_file(base_file_name + suffix, "", DIRECTORY) 
         read_write_file.write_file(appendix_file_name + suffix, "", DIRECTORY) 
 
