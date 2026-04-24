@@ -19,8 +19,8 @@ def section_sub_heading(time_series):
     latex += r"""\begin{itemize}
                     \item{\textbf{Component} - Packages, classes or method touched.}
                     \item{\textbf{Number of first commits} - A sample of the first x number of commits for developers. }
-                    \item{\textbf{Sample A $\mu$} - The mean average of the first sample A. }
-                    \item{\textbf{Sample B $\mu$} - The mean average of the second sample B. }
+                    \item{\textbf{Sample A $\mu$} - The mean average of the first sample A, in brackets number of developers. }
+                    \item{\textbf{Sample B $\mu$} - The mean average of the second sample B, in brackets number of developers. }
                     \item{\textbf{Welch Statisic} - This is the magnitude of the change, greater than 2.0 generally indicates a significant change. }
                     \item{\textbf{Welch $P$} - A significance test of the difference between sample A and sample B. A $p$ \textless{} 0.05 indicates a significant difference between samples. }
                     \item{\textbf{MWU Statsitcal (Number of Pairs)} - The Mann-Whitney $U$ Statistic represents the number of pairwise comparisons where one group outranks the
@@ -49,7 +49,7 @@ def generate_simple_comparison_latex(developers_dict, unit, component, samples, 
         
         if samples[0] in cat_name.lower():
             sample_a_values.extend(final_values)
-        elif samples[1]:
+        elif samples[1] in cat_name.lower():
             sample_b_values.extend(final_values)
     total_pairs = len(sample_a_values) * len(sample_b_values)
     # 1. Welch's T-Test (Parametric)
@@ -60,11 +60,12 @@ def generate_simple_comparison_latex(developers_dict, unit, component, samples, 
 
     mean_a = np.mean(sample_a_values) if sample_a_values else 0
     mean_b = np.mean(sample_b_values) if sample_b_values else 0
-
+    no_of_a = len(sample_a_values)
+    no_of_b = len(sample_b_values)
     # Build a simple DataFrame for the LaTeX table
     component_clean = component.replace("_", "-").capitalize() 
     latex =  f"{component_clean} & {number_of_commits} & "
-    latex += f" {mean_a:.2f} & {mean_b:.2f} & "
+    latex += f" {mean_a:.2f} ({no_of_a}) & {mean_b:.2f}  ({no_of_b}) & "
     latex += f"{t_stat:.2f} & {t_p:.4f} & "
     latex += f"{u_stat:,.1f} ({total_pairs:,d}) & {u_p:.4f}  \\\\ \n"
     return latex

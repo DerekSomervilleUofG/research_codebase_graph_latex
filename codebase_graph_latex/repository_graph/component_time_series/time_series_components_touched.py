@@ -13,8 +13,8 @@ FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 GRAPH_CAPTION = "{type} (n={num} \& $\mu$={mean})"
 FIGURE_CAPTION_START = "Repository {repo} "
-FIGURE_CAPTION = "A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis) for " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developer. " 
-ALL_FIGURE_CAPTION = "A time series of the average (mean) total {component} touched (y-axis) against the number of {unit} (x-axis)  for {all} developers (n={num}). "
+FIGURE_CAPTION = "A time series of the average mean (blue line) total {component} touched (y-axis) against the number of {unit} (x-axis) for " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developer. Green is std above mean and pink std below mean." 
+ALL_FIGURE_CAPTION = "A time series of the average mean (blue line) total {component} touched (y-axis) against the number of {unit} (x-axis)  for {all} developers (n={num}). Green is std above mean and pink std below mean."
 FIGURE_SUFFIX = "with \\color{Orange} positive (orange) \\color{Black} and \\color{Red} negative (red) \\color{Black} filled standard deviation. "
 
 def section_sub_heading(repository_id, touched_by):
@@ -212,7 +212,10 @@ def get_y_axis_max(developers, unit):
         return 1
 
 def generate_repo_graph(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption):
-    all_data = developers[TRANSIENT_FOUNDER] | developers[SUSTAINED_FOUNDER] | developers[TRANSIENT_JOINER] | developers[SUSTAINED_JOINER] | developers[MODERATE_FOUNDER] | developers[MODERATE_JOINER]
+    all_data = {}
+    for category in DEVELOPER_CATEGORY:
+        if category in developers:
+            all_data.update(developers[category])
     y_axis_max = get_y_axis_max(all_data, unit)
     file_name, graph_caption = method(path + component + "/", component, 
                                   populate_touched_data(all_data, 
@@ -221,8 +224,11 @@ def generate_repo_graph(repository_id, method, path, component, unit, developers
                                                 unit,
                                                 y_axis_max,
                                                 figure_size=WIDE_FIGURE)
-    latex = latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s", all="All"))
-    all_data = developers[TRANSIENT_FOUNDER] | developers[SUSTAINED_FOUNDER] | developers[MODERATE_FOUNDER] 
+    latex = latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower(), all="All"))
+    all_data = {}
+    for category in DEVELOPER_CATEGORY:
+        if category in developers and FOUNDER in category:
+            all_data.update(developers[category])
     file_name, graph_caption = method(path + component + "/", component, 
                                   populate_touched_data(all_data, 
                                                 unit), 
@@ -230,8 +236,11 @@ def generate_repo_graph(repository_id, method, path, component, unit, developers
                                                 unit,
                                                 y_axis_max,
                                                 figure_size=WIDE_FIGURE)
-    latex += latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s", all="All Founders"))
-    all_data = developers[TRANSIENT_JOINER] | developers[SUSTAINED_JOINER] | developers[MODERATE_JOINER] 
+    latex += latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower(), all="All Founders"))
+    all_data = {}
+    for category in DEVELOPER_CATEGORY:
+        if category in developers and JOINER in category:
+            all_data.update(developers[category])
     file_name, graph_caption = method(path + component + "/", component, 
                                   populate_touched_data(all_data, 
                                                 unit), 
@@ -239,21 +248,22 @@ def generate_repo_graph(repository_id, method, path, component, unit, developers
                                                 unit,
                                                 y_axis_max,
                                                 figure_size=WIDE_FIGURE)
-    latex += latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower() + "s", all="All Late Joiners"))
+    latex += latex_add_graph(file_name, figure_caption_all.format(repo=repository_id, num=str(len(all_data.keys())), component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower(), all="All Late Joiners"))
     latex += "\\newpage \n"
     return latex
 
-def generate_component_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption, commit_prefix):
+def generate_component_latex(method, path, component, unit, developers, figure_caption, number_of_commits):
     latex = latex_start_graph()
     max_y_axis = get_y_axis_max_for_categories(developers, unit)
     for category in DEVELOPER_CATEGORY:
-        stage_developers = developers[category]
-        latex += get_data_and_generate_graph(method, path, component, stage_developers, category, unit, max_y_axis[category.split(" ")[0]])
+        if not (TRANSIENT in category) and not (MODERATE in category and number_of_commits > 10):
+            stage_developers = developers[category]
+            latex += get_data_and_generate_graph(method, path, component, stage_developers, category, unit, max_y_axis[category.split(" ")[0]])
     latex += "\\caption{" + figure_caption.format(component=component, unit=UNIT_FREQUENCY.get(unit, "Commits").lower()) + "} \n"
     latex += latex_end_graph()        
     return latex
 
-def default_generate_save(method, file_name, repository_id, component, developers, unit=NUMBER_OF_WEEKS, figure_caption_all=ALL_FIGURE_CAPTION, figure_caption=FIGURE_CAPTION, commit_prefix="commit"):
+def default_generate_save(method, file_name, repository_id, component, developers, unit=NUMBER_OF_WEEKS, figure_caption_all=ALL_FIGURE_CAPTION, figure_caption=FIGURE_CAPTION, number_of_commits=0):
     path = "repository/"
     if repository_id > 0:
             path+= str(repository_id) + "/"
@@ -261,7 +271,7 @@ def default_generate_save(method, file_name, repository_id, component, developer
             figure_caption = FIGURE_CAPTION_START.format(repo=repository_id) + figure_caption
     read_write_file.create_directory(path)
     latex = generate_repo_graph(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption)
-    latex_component = generate_component_latex(repository_id, method, path, component, unit, developers, figure_caption_all, figure_caption, commit_prefix)
+    latex_component = generate_component_latex(method, path, component, unit, developers, figure_caption, number_of_commits)
     read_write_file.append_to_file(file_name + "_" + UNIT_FREQUENCY.get(unit, "commit") + ".tex", latex, path)
     read_write_file.append_to_file(file_name + "_" + UNIT_FREQUENCY.get(unit, "commit") + "_component.tex", latex_component, path)
 
@@ -293,7 +303,7 @@ def generate_and_save(repository_id, component, developers, number_of_commits=0)
                            "", path)
    
        
-    default_generate_save(generate_graph, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=time_series_commits, commit_prefix=commit_prefix)
+    default_generate_save(generate_graph, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=time_series_commits, number_of_commits=number_of_commits)
     if component == "packages" and number_of_commits == 0:
         latex = section_sub_sub_heading(repository_id, component, " each week " + commit_prefix)
         save_to_latex_file(file_name + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit"), 
@@ -303,7 +313,7 @@ def generate_and_save(repository_id, component, developers, number_of_commits=0)
                            file_name + ".tex",
                            "", path)
     if number_of_commits == 0:
-        default_generate_save(generate_graph, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=NUMBER_OF_WEEKS, commit_prefix=commit_prefix)
+        default_generate_save(generate_graph, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, figure_caption_all=ALL_FIGURE_CAPTION, unit=NUMBER_OF_WEEKS, number_of_commits=number_of_commits)
     if component == "methods":
         read_write_file.append_to_file(file_name + ".tex", "\\clearpage\n", path)
         
