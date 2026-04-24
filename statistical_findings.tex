@@ -1,27 +1,53 @@
-\section{Summary of Findings}
+\section{Welch t-test Analysis}
+This section uses Welch t-tests and Mann-Whitney U (MWU) tests to determine if the mean contributions and stochastic dominance differ between groups.
 
-\subsection{Comparative Analysis (Welch's t-test and Mann-Whitney U)}
-The comparative analysis across Tables 1 through 4 reveals distinct behavioral patterns based on project entry timing (Role) and long-term engagement (Tenure):
-
+\subsection{Founder against Late Joiner (Table 1)}
 \begin{itemize}
-    \item \textbf{Founder vs. Late Joiner (Table 1):} Founders generally exhibit higher mean architectural exploration than Late Joiners. While early differences in \textit{Packages} and \textit{Methods} are not always significant via Welch's t-test at 5 commits, the Mann-Whitney U test shows significant stochastic dominance across all components and windows ($p < 0.001$), suggesting a fundamental difference in how early and late contributors engage with the system \cite{cite: 29}.
-    \item \textbf{Moderate vs. Sustained (Table 2):} There is a highly significant difference ($p < 0.001$) between Moderate and Sustained developers across every metric \cite{cite: 33}. Sustained developers touch significantly more packages, classes, and methods even within their first 5 to 20 commits, identifying early-stage breadth as a primary differentiator for long-term retention \cite{cite: 33}.
-    \item \textbf{Role impact within Tenure Groups (Tables 3-4):} Both Moderate and Sustained Founders outpace their Late Joiner counterparts \cite{cite: 36, 39}. The difference is particularly pronounced in \textit{Classes} and \textit{Methods} at the 20-commit mark ($p < 0.01$), indicating that Founders, regardless of their eventual stay, typically operate with a broader architectural scope than those joining later \cite{cite: 36, 39}.
+    \item \textbf{Key Finding}: Founders generally touch more architectural components (Packages, Classes, and Methods) than Late Joiners during their initial commit phases.
+    \item \textbf{Statistical Significance}: For the first 20 commits, the difference in Classes touched is significant ($p = 0.0001$), with a Welch Statistic of $4.06$.
 \end{itemize}
 
-\subsection{Variance and Interaction (Two-Way ANOVA)}
-The ANOVA results (Tables 5 and 6) clarify the drivers of this architectural variation:
-
+\subsection{Moderate against Sustained (Table 2)}
 \begin{itemize}
-    \item \textbf{Effect of Transients (Table 5 vs. 6):} Including Transient developers (those with $\le 10$ commits) significantly inflates the significance of \textit{Tenure} as a main effect \cite{cite: 66}. When Transients are excluded, the \textit{Tenure} effect often becomes non-significant for \textit{Packages} ($p = 0.825$ at 5 commits), suggesting that the primary behavioral gap exists between one-off contributors and everyone else, rather than between Moderate and Sustained regulars \cite{cite: 90}.
-    \item \textbf{Component Sensitivity:} \textit{Methods} and \textit{Classes} consistently show significant main effects for \textit{Role} ($p < 0.05$) even after excluding transients \cite{cite: 90}. This confirms that the timing of project entry has a robust, lasting impact on how developers explore the code at a granular level \cite{cite: 90}.
+    \item \textbf{Key Finding}: Moderate developers exhibit a higher mean of unique components touched in their early commits compared to Sustained developers.
+    \item \textbf{Statistical Significance}: All comparisons for Packages, Classes, and Methods are highly significant ($p = 0.0000$), with Welch Statistics ranging from $3.41$ to $15.18$.
 \end{itemize}
 
-\subsection{Predictive Power (Logistic Regression)}
-The Logistic Regression model (Table 7) identifies architectural engagement as a viable predictor for long-term project commitment:
+\subsection{Moderate Founder against Moderate Late Joiner (Table 3)}
+\begin{itemize}
+    \item \textbf{Key Finding}: Within the Moderate category, Founders engage with significantly more Classes and Methods than Late Joiners.
+    \item \textbf{Data Point}: For the first 20 commits, Moderate Founders touch an average of $86.22$ classes compared to $36.22$ for Late Joiners ($p = 0.0022$).
+\end{itemize}
+
+\subsection{Sustained Founder against Sustained Late Joiner (Table 4)}
+\begin{itemize}
+    \item \textbf{Key Finding}: Among Sustained contributors, Founders also demonstrate a broader exploration of the codebase than Late Joiners.
+    \item \textbf{Data Point}: At 20 commits, Sustained Founders touch a mean of $401.24$ methods, while Late Joiners touch $126.41$ ($p = 0.0036$).
+\end{itemize}
+
+\section{ANOVA Generate Analysis}
+The Two-Way ANOVA evaluates the influence of Role (Founder vs. Late Joiner) and Category (Tenure) on architectural engagement.
+
+\subsection{Analysis Including Transient Developers (Table 5)}
+\begin{itemize}
+    \item \textbf{Main Effects}: Both Role and Category show significant effects on the number of Classes and Methods touched ($p < 0.05$).
+    \item \textbf{Interaction}: Significant interaction effects were found, suggesting that the impact of being a Founder varies depending on the developer's eventual tenure category.
+\end{itemize}
+
+\subsection{Analysis Excluding Transient Developers (Table 6)}
+\begin{itemize}
+    \item \textbf{Findings}: When Transients are removed, the Role (Founder vs. Late Joiner) remains a statistically significant factor for Classes and Methods ($p < 0.05$). 
+    \item \textbf{Shift}: The Category effect (Moderate vs. Sustained) often loses significance for Packages and specific Class/Method thresholds when only established contributors are considered.
+\end{itemize}
+
+\section{Strategy Logistic Regression (Table 7)}
+The logistic regression model identifies early-stage predictors for a developer becoming a "Sustained" contributor.
 
 \begin{itemize}
-    \item \textbf{Effect Sizes:} All architectural components (Packages, Classes, and Methods) have Odds Ratios $> 1.0$, confirming that every additional unique component touched increases the likelihood of a developer becoming "Sustained" \cite{cite: 124, 126}.
-    \item \textbf{Identification Thresholds:} Using a 30\% probability threshold, \textit{Classes} and \textit{Methods} at 20 commits prove to be high-recall predictors, identifying approximately 63.7\% and 58.6\% of future Sustained developers, respectively \cite{cite: 126}.
-    \item \textbf{Model Accuracy:} The low "Moderate Met Threshold" rates ($\approx 2.3\%$) suggest the model is highly specific, rarely misidentifying Moderate developers as Sustained based on early-stage exploration \cite{cite: 126}.
+    \item \textbf{Intercept}: Consistently negative intercepts (e.g., $-2.6487$ to $-3.9773$) indicate that the baseline probability of becoming Sustained is low without active engagement.
+    \item \textbf{Odds Ratios ($e^{\beta}$)}: All Odds Ratios for component counts are greater than $1.0$. For example, each additional package touched in the first 5 commits increases the odds of being sustained by $7.37\%$ ($OR = 1.0737$).
+    \item \textbf{Predictive Threshold}: To reach a $50\%$ probability of being a Sustained contributor, the model suggests a threshold of approximately $146$ classes touched within the first 5 commits.
 \end{itemize}
+
+\section{Summary of Whole Findings}
+The data demonstrates that \textbf{project entry timing} (Founder status) is a primary driver of codebase exploration, with Founders consistently touching more unique components than Late Joiners across all tenure categories. While \textbf{Moderate} developers show high levels of initial exploration, the \textbf{Logistic Regression} model confirms that the breadth of early architectural engagement (touching more Packages, Classes, and Methods) is a statistically significant indicator of whether a developer will eventually transition into a \textbf{Sustained} contributor.

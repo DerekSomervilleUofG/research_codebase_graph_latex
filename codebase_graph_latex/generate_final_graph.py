@@ -7,6 +7,7 @@ from codebase_graph_latex.repository_graph.component_time_series.anova_generate 
 from codebase_graph_latex.repository_graph.component_time_series.welch_t_test import generate_and_save  as welch_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.welch_t_test import section_sub_heading  as welch_section_sub_heading
 from codebase_graph_latex.repository_graph.component_time_series.welch_t_test import FILE_NAME  as welch_file_name
+from codebase_graph_latex.repository_graph.component_time_series.tukey_hsd import generate_and_save  as tukey_hsd_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.strategy_logistic_regression import generate_and_save  as strategy_generate_and_save
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.store_developer_data import *
@@ -71,4 +72,6 @@ def generate_and_save(number_of_repositories):
                 generate_welch_t_test(component, filtered_developers, number_of_commits)
                 anova_generate_and_save(component, filtered_developers, number_of_commits, True)
                 anova_generate_and_save(component, filtered_developers, number_of_commits, False)
+                if component != "packages":
+                    tukey_hsd_generate_and_save(component, filtered_developers, number_of_commits)
                 strategy_generate_and_save(component, filtered_developers, number_of_commits)

@@ -12,15 +12,22 @@ def section_sub_heading(time_series):
     latex += "For all components touched for " + time_series + "} \n\n"
     latex += "A Welch $t$-test was employed to determine if the mean contributions of Group A "
     latex += "differ significantly from Group B. This test is appropriate for continuous data "
-    latex += "and is robust to unequal variances. A Welch Statistic magnitude greater than 2.0 "
-    latex += "generally indicates a significant difference ($p < 0.05$). \n\n"
-    
+    latex += "and is robust to unequal variances. "  
     latex += "Complementarily, the Mann-Whitney $U$ (MWU) test was used to assess stochastic dominance "
     latex += "by ranking data points. This non-parametric approach does not require a normal distribution "
-    latex += "and is highly resistant to outliers. The MWU Statistic represents the number of pairwise "
-    latex += "comparisons where one group outranks the other, with the total possible pairs provided in brackets. "
-    latex += "A $p$-value less than 0.05 is considered statistically significant. \n"
-    
+    latex += "and is highly resistant to outliers. Columns below:  \n"
+    latex += r"""\begin{itemize}
+                    \item{\textbf{Component} - Packages, classes or method touched.}
+                    \item{\textbf{Number of first commits} - A sample of the first x number of commits for developers. }
+                    \item{\textbf{Sample A $\mu$} - The mean average of the first sample A. }
+                    \item{\textbf{Sample B $\mu$} - The mean average of the second sample B. }
+                    \item{\textbf{Welch Statisic} - This is the magnitude of the change, greater than 2.0 generally indicates a significant change. }
+                    \item{\textbf{Welch $P$} - A significance test of the difference between sample A and sample B. A $p$ \textless{} 0.05 indicates a significant difference between samples. }
+                    \item{\textbf{MWU Statsitcal (Number of Pairs)} - The Mann-Whitney $U$ Statistic represents the number of pairwise comparisons where one group outranks the
+other, with the total possible pairs provided in brackets.}
+                    \item{\textbf{MWU $P$} - The Mann-Whitney $p$-value. A significance test of the difference between sample A and sample B. A $p$ \textless{} 0.05 indicates a significant difference between samples.} 
+                \end{itemize}
+    """
     latex += "\n"
     return latex
 
@@ -99,7 +106,7 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_sub_heading(commit_prefix + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize())
         headings = ["Component", "Number of First Commits", sample_a_b[0].capitalize() + " $\mu$", sample_a_b[1].capitalize()  + " $\mu$", "Welch Statistic", "Welch $P$", "MWU Statistic (Number of Pairs)", "MWU $P$" ]
-        latex += start_latex_table("Welch t-test and Mann-Whitney U results for components and number of commits " + " by " + sample_a_b[0].capitalize() + " against " + sample_a_b[1].capitalize(), headings, "l r r r r r r r")
+        latex += start_latex_table("Welch t-test and Mann-Whitney U results for components and number of commits " + " by " + sample_a_b[0].lower() + " against " + sample_a_b[1].lower(), headings, "l r r r r r r r")
         read_write_file.append_to_file(file_name + ".tex", latex, path)
     latex_table = generate_simple_comparison_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, sample_a_b, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
