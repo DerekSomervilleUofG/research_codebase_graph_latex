@@ -78,12 +78,9 @@ The $F$-statistic for each factor is calculated by:
 """
     return latex
 
-def get_data_frame(developers_dict, include_transient, unit):
+def get_data_frame(developers_dict, unit):
     rows = []
     for cat_name, dev_data in developers_dict.items():
-        if not include_transient and TRANSIENT in cat_name:
-            continue
-        # Identify Role and Tenure from your key names
         role = "Founder" if "founder" in cat_name.lower() else "Late Joiner"
         tenure = cat_name.split(" ")[0].capitalize() # Transient, Moderate, Sustained
         
@@ -100,10 +97,10 @@ def get_data_frame(developers_dict, include_transient, unit):
     
     return pd.DataFrame(rows)
 
-def generate_anova_latex(developers_dict, unit, component, commit_prefix, number_of_commits, include_transient, category):
+def generate_anova_latex(developers_dict, unit, component, commit_prefix, number_of_commits, category):
     component = component.replace("_", "-")
 
-    df = get_data_frame(developers_dict, include_transient, unit)    
+    df = get_data_frame(developers_dict, unit)    
     # 2. Run the Two-Way ANOVA
     # C() tells statsmodels these are Categorical variables
     model = ols('Value ~ C(Role) * C(Tenure)', data=df).fit()
@@ -143,36 +140,25 @@ def generate_anova_latex(developers_dict, unit, component, commit_prefix, number
 
     return latex_output
 
-def generate_and_save(component, developers, number_of_commits, include_transent=False):
+def generate_and_save(component, developers, number_of_commits):
     path = "repository/" 
     base_file_name = get_base_file_name(FILE_NAME)
     file_name = base_file_name + "_transient"
     table_name = "Anova results for compents and number of commits"
-    if not include_transent:
-        file_name += "_not"
     commit_prefix = "all commits"
-    if component == "packages" and number_of_commits == START_COMMIT_NUMBER and include_transent:
+    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(commit_prefix)
         save_to_latex_file(base_file_name, BASE_FILE_NAME, latex, path)
-    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         headings = ["Component", "Number of First Commits", "Factor", "Sum Squared", "df", "F-Stat", "$P$ Value", "ETA Sq"]
-        if include_transent:
-            commit_prefix += " including transient"
-            table_name += " including transient"
-        else:
-            commit_prefix += " excluding tranient" 
-            table_name += " excluding transient"
+        commit_prefix += " excluding tranient" 
+        table_name += " excluding transient"
         latex = section_sub_sub_heading(commit_prefix)
         latex += start_latex_table(table_name, headings, "l r l r r r r r")
         save_to_latex_file(file_name, base_file_name + ".tex", latex, path)        
-    if include_transent:
-        category = "Category (T/M/S)"
-    else:
-        category = "Category (M/S)"
-    latex_table = generate_anova_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, commit_prefix, number_of_commits, include_transent, category).replace("_", "\\_")
+    category = "Category (M/S)"
+    latex_table = generate_anova_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, commit_prefix, number_of_commits, category).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
-    if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
+    if component == "methods" and number_of_commits == 10:
         read_write_file.append_to_file(file_name + ".tex", table_end() + "\n \\newpage \n", path)
-    if component == "methods" and number_of_commits == END_COMMIT_NUMBER and not include_transent:
         read_write_file.append_to_file(base_file_name + ".tex", generate_statistical_formula_latex() + "\n \\newpage \n", path)
          

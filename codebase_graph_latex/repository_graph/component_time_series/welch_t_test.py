@@ -113,6 +113,6 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(file_name + ".tex", table_end(), path)
-    if component == "methods" and number_of_commits == END_COMMIT_NUMBER and SUSTAINED + " late " + JOINER in sample_a_b[0]:
+    if component == "methods" and number_of_commits == END_COMMIT_NUMBER and SUSTAINED + " late " + JOINER in sample_a_b[1]:
         read_write_file.append_to_file(file_name + ".tex", generate_statistical_formula_latex(sample_a_b) + "\n \\newpage \n", path)
          

@@ -47,6 +47,7 @@ MODERATE_JOINER = MODERATE + " later " + JOINER
 MODERATE_FOUNDER = MODERATE + " " + FOUNDER
 DEVELOPER_CATEGORY = [ TRANSIENT_FOUNDER, TRANSIENT_JOINER, MODERATE_FOUNDER, MODERATE_JOINER, SUSTAINED_FOUNDER, SUSTAINED_JOINER]
 SUSTAINED_JOINER_DESC = SUSTAINED_JOINER.capitalize() + " developers "
+COMMIT_CATEGORY = { 0: "excluding transient", 5: "excluding transient", 10: "excluding transient", 20: "sustained developers"}
 SUSTAINED_JOINER_DESC += "joining the project after six months and contributed at least " + str(DEVELOPER_HAS_NUMNER_OF_COMMITS) + " commits "
 SUSTAINED_JOINER_DESC += "over a period of " + str(DEVELOPER_PERIOD) + " days or more. "
 SMALL_FIGURE = (3, 2)

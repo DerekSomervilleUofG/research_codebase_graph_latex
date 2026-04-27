@@ -113,7 +113,7 @@ def generate_and_save(component, developers, number_of_commits):
         latex = section_sub_sub_heading(component, commit_prefix)
         latex += start_latex_table(table_name, headings, "r r r r r")
         save_to_latex_file(file_name, base_file_name + ".tex", latex, path)
-    latex_table = generate_tukey_latex(get_data_frame(developers, True, TIME_SERIES_NUMBER_OF_COMMIT), component, number_of_commits).replace("_", "\\_")
+    latex_table = generate_tukey_latex(get_data_frame(developers,   TIME_SERIES_NUMBER_OF_COMMIT), component, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
     if number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(file_name + ".tex", table_end() + "\n \\newpage \n", path)
