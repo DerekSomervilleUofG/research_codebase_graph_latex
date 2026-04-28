@@ -112,9 +112,9 @@ def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_
         latex_rows += f"\\\\ \n"
     return latex_rows
 
-def generate_predictive_identification_latex(developers_dict, unit, component, number_of_commits):
+def generate_predictive_identification_latex(df, component, number_of_commits):
     
-    df = pd.DataFrame(prepare_data(developers_dict, unit))
+    
     
     # Check if we have both classes (0 and 1) to run the model
     if df['is_sustained'].nunique() < 2:
@@ -159,15 +159,17 @@ def generate_and_save(component, developers, number_of_commits):
     path = "repository/" 
     file_name = FILE_NAME
     commit_prefix = "all commits"
+    df = pd.DataFrame(prepare_data(developers, TIME_SERIES_NUMBER_OF_COMMIT))
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(commit_prefix)
+        
         headings = ["Component", "Number of First Commits", "Type", "Moderate $\mu$", "Sustained $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", "30\% Threshold", "Moderate Met Threshold", "Sustained Met Threshold"]
-        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits", headings, "l r l r r r r r r r r r")
+        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits for " + str(len(df)) + " developers excluding trainsient", headings, "l r l r r r r r r r r r")
         save_to_latex_file(get_base_file_name(file_name), 
                            BASE_FILE_NAME,
                                latex, path)
 
-    latex_table = generate_predictive_identification_latex(developers, TIME_SERIES_NUMBER_OF_COMMIT, component, number_of_commits).replace("_", "\\_")
+    latex_table = generate_predictive_identification_latex(df, component, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", table_end() + generate_predictive_model_latex() + "\n \\newpage \n", path)

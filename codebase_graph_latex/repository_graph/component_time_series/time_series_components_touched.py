@@ -14,7 +14,7 @@ BASE_FILE_NAME = "repository_summary_1.tex"
 GRAPH_CAPTION = "{type} (n={num} \& $\mu$={mean})"
 FIGURE_CAPTION_START = "Repository {repo} "
 FIGURE_CAPTION = "A time series of the average mean (blue line) total {component} touched (y-axis) against the number of {unit} (x-axis) for {word_num} ({num}) categories of developer. Green is std above mean and pink std below mean." 
-ALL_FIGURE_CAPTION = "A time series of the average mean (blue line) total  for all components touched (y-axis) against the number of {unit} (x-axis)  for developers. Green is std above mean and pink std below mean."
+ALL_FIGURE_CAPTION = "A time series of the average mean (blue line) total  for all components touched (y-axis) against the number of {unit} (x-axis)  for developers. Green is std variation above mean and pink is std variation below mean."
 FIGURE_SUFFIX = "with \\color{Orange} positive (orange) \\color{Black} and \\color{Red} negative (red) \\color{Black} filled standard deviation. "
 
 def section_sub_heading(repository_id, touched_by):
