@@ -202,6 +202,13 @@ def get_y_axis_max_for_categories(developers, unit):
     max_y_axis[SUSTAINED] = get_y_axis_for_a_category(developers, SUSTAINED, unit )
     return max_y_axis
 
+def get_y_axis_for_roles(developers, unit):
+    moderate_y_axis_max = 1
+    if MODERATE + " " + FOUNDER in developers.keys():
+        moderate_y_axis_max = get_y_axis_for_a_category(developers, MODERATE, unit)
+    sustained_y_axis_max = get_y_axis_for_a_category(developers, SUSTAINED, unit)
+    return max(moderate_y_axis_max, sustained_y_axis_max, 1)
+
 def get_y_axis_max(developers, unit):
     data = populate_touched_data(developers, unit)
     data_frame = np.array(data)
@@ -221,7 +228,7 @@ def generate_repo_graph(repository_id, method, path, component, unit, developers
     for category in DEVELOPER_CATEGORY:
         if category in developers:
             all_data.update(developers[category])
-    y_axis_max = get_y_axis_max(all_data, unit)
+    y_axis_max = get_y_axis_for_roles(developers, unit)
     
     all_data = {}
     for category in DEVELOPER_CATEGORY:
