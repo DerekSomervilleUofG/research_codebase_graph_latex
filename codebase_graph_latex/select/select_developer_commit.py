@@ -8,7 +8,7 @@ def query(type):
     select_statement += " WHERE dc.repository_id = dt.repository_id " 
     select_statement += " and dc.status  in ('A', 'L')  "
     select_statement += " AND dc.developer_id = dt.developer_id " 
-    select_statement += " AND dt.number_of_commits >= " + str(NUMBER_OF_COMMIT)
+    #select_statement += " AND dt.number_of_commits >= " + str(MINIMUM_NUMBER_OF_COMMTIS)
     select_statement += " GROUP BY dc.developer_id "
     return select_statement
 

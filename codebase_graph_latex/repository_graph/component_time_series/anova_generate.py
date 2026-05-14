@@ -111,7 +111,7 @@ def generate_anova_latex(df, component, commit_prefix, number_of_commits, catego
     # 3. Manually Generate LaTeX Rows
     # Mapping statsmodels names to readable labels
     name_map = {
-        'C(Role)': 'Role (F/L)',
+        'C(Role)': 'Role (F/LJ)',
         'C(Tenure)': category,
         'C(Role):C(Tenure)': 'Interaction',
         'Residual': 'Residual'
@@ -154,11 +154,14 @@ def generate_and_save(component, developers, number_of_commits):
         table_name += " excluding transient"
         latex = section_sub_sub_heading(commit_prefix)
         latex += start_latex_table(table_name, headings, "l r l r r r r r")
-        save_to_latex_file(file_name, base_file_name + ".tex", latex, path)        
-    category = "Category (M/S)"
+        save_to_latex_file(file_name, base_file_name + ".tex", latex, path)   
+    if number_of_commits == 1:     
+        category = "Category (T/M/S)"
+    else:
+        category = "Category (M/S)"
     latex_table = generate_anova_latex(df, component, commit_prefix, number_of_commits, category).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
     if component == "methods" and number_of_commits == 10:
-        read_write_file.append_to_file(file_name + ".tex", table_end() + "\n \\newpage \n", path)
-        read_write_file.append_to_file(base_file_name + ".tex", generate_statistical_formula_latex() + "\n \\newpage \n", path)
+        read_write_file.append_to_file(file_name + ".tex", table_end(), path)
+        read_write_file.append_to_file(base_file_name + ".tex", generate_statistical_formula_latex() + "\n\\newpage \n", path)
          

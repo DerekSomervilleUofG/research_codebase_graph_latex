@@ -79,13 +79,10 @@ def generate_tukey_latex(df, component, number_of_commits):
     tukey_results = pd.DataFrame(data=tukey.summary().data[1:], 
                                 columns=tukey.summary().data[0])
     
-    latex_output = ""
+    latex_output_significant = ""
+    latex_output_not_significant = ""
 
     for _, row in tukey_results.iterrows():
-        # Only include significant results to keep dissertation tables manageable [cite: 29, 31]
-        #if not row['reject']:
-        #    continue
-            
         p_val = row['p-adj']
         group1 = str(row['group1']).replace("_", "\\_")
         group2 = str(row['group2']).replace("_", "\\_")
@@ -94,26 +91,33 @@ def generate_tukey_latex(df, component, number_of_commits):
         latex =  f"{component} & {number_of_commits} & "
         latex += f"{group1} & {group2} & "
         latex += f"{row['meandiff']:.2f} & {p_val:.4f} \\\\ \n"
+        if row['reject']:
+            latex_output_significant += latex
+        else:
+            latex_output_not_significant += latex
         
-        latex_output += latex
-        
-    return latex_output
+    return latex_output_significant.replace("_", "\\_"), latex_output_not_significant.replace("_", "\\_")
 
 def generate_and_save(component, developers, number_of_commits):
-    path = "repository/" 
     base_file_name = get_base_file_name(FILE_NAME)
-    file_name = base_file_name + "_" + component
+    sig_file_name = base_file_name + "_significant"
+    not_sig_file_name = base_file_name + "_not_significant" 
     df = get_data_frame(developers,   TIME_SERIES_NUMBER_OF_COMMIT)
     table_name = "Tukey HSD results for " + component + " and number of commits, for " + str(len(df)) + " developers"
     commit_prefix = "all commits"
     headings = ["Component", "Commits", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
     if component == "classes" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(commit_prefix)
-        latex += start_latex_table(table_name, headings, "l r l l r r")
-        save_to_latex_file(base_file_name, BASE_FILE_NAME, latex, path)
-    latex_table = generate_tukey_latex(df, component, number_of_commits).replace("_", "\\_")
-    read_write_file.append_to_file(base_file_name + ".tex", latex_table, path)
+        latex += start_latex_table("Significant " + table_name, headings, "l r l l r r")
+        save_to_latex_file(sig_file_name, base_file_name + ".tex", latex, DIRECTORY)
+        latex = r"\begin{landscape}" + "\n"
+        latex += start_latex_table("Not Significant " + table_name, headings, "l r l l r r")
+        save_to_latex_file(not_sig_file_name, base_file_name + ".tex", latex, DIRECTORY)
+    sig_latex_table, not_sig_latex_table = generate_tukey_latex(df, component, number_of_commits)
+    read_write_file.append_to_file(sig_file_name + ".tex", sig_latex_table, DIRECTORY)
+    read_write_file.append_to_file(not_sig_file_name + ".tex", not_sig_latex_table, DIRECTORY)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(base_file_name + ".tex", table_end() + "\n \\newpage \n", path)
-        read_write_file.append_to_file(base_file_name + ".tex", generate_tukey_formula_latex() + "\n \\newpage \n", path)
+        read_write_file.append_to_file(sig_file_name + ".tex", table_end(), DIRECTORY)
+        read_write_file.append_to_file(not_sig_file_name + ".tex", table_end(), DIRECTORY)
+        read_write_file.append_to_file(base_file_name + ".tex", generate_tukey_formula_latex() + "\n\\newpage \n", DIRECTORY)
          
