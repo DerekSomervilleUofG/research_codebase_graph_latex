@@ -19,10 +19,11 @@ def section_sub_heading(time_series):
     latex += "by ranking data points. This non-parametric approach does not require a normal distribution "
     latex += "and is highly resistant to outliers. Columns below:  \n"
     latex += r"""\begin{itemize}
-                    \item{\textbf{Sample A} - F - Founder, LJ - Late Joiner, T - Transient, M - Moderate, S Sustained. In brackets number of developers.}
-                    \item{\textbf{Sample B} - F - Founder, LJ - Late Joiner, T - Transient, M - Moderate, S Sustained. In brackets number of developers.}
                     \item{\textbf{Component} - Packages, classes or method touched.}
-                    \item{\textbf{Number of first commits} - A sample of the first x number of commits for developers. }
+                    \item{\textbf{First *n* commits} - A sample of the first x number of commits for developers. }
+                    \item{\textbf{Contributor Category} Transient, Moderate or Sustained. "vs." equals versus.}
+                    \item{\textbf{Sample A \#} - Number of developers for sample A.}
+                    \item{\textbf{Sample B \#} - Number of developers for sample B.}
                     \item{\textbf{Sample A $\mu$} - The mean average of the first sample A. }
                     \item{\textbf{Sample B $\mu$} - The mean average of the second sample B. }
                     \item{\textbf{Welch Statisic} - This is the magnitude of the change, greater than 2.0 generally indicates a significant change. }
@@ -101,12 +102,16 @@ def filter_data(developers_dict, samples, unit):
         if samples[0] in cat_name.lower():
             sample_a_values.extend(final_values)
             determine_category(cat_name, a_categories)
-        elif samples[1] in cat_name.lower():
+        elif isinstance(samples[1], str) and samples[1] in cat_name.lower():
             sample_b_values.extend(final_values)
-            determine_category(cat_name, b_categories)
-    return sample_a_values, sample_b_values, formate_list(a_categories, samples), formate_list(b_categories, samples) 
+        elif len(samples[1]) == 2 and samples[1][0] in cat_name.lower():
+            sample_b_values.extend(final_values)
+        elif len(samples[1]) == 2 and samples[1][1] in cat_name.lower():
+            sample_b_values.extend(final_values)
 
-def generate_simple_comparison_latex(sample_a_values, sample_b_values, component, a_category, b_category, number_of_commits):
+    return sample_a_values, sample_b_values, formate_list(a_categories, samples)
+
+def generate_simple_comparison_latex(sample_a_values, sample_b_values, component, a_category, number_of_commits):
     
     total_pairs = len(sample_a_values) * len(sample_b_values)
     # 1. Welch's T-Test (Parametric)
@@ -133,31 +138,37 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
     global previous_file_name, previous_a_category
     path = "repository/" 
     commit_prefix = "all commits"
-    sample_a_values, sample_b_values, a_category, b_category = filter_data(developers, sample_a_b, TIME_SERIES_NUMBER_OF_COMMIT)
+    sample_a_values, sample_b_values, a_category = filter_data(developers, sample_a_b, TIME_SERIES_NUMBER_OF_COMMIT)
     if component == "methods" and sample_a_b[0] == MODERATE and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(previous_file_name + ".tex", table_end(), path)
     if component == "packages" and sample_a_b[0] in [FOUNDER] and number_of_commits == START_COMMIT_NUMBER:
         number_of_commit_desc = "1, 5, 10 and 20 "
         category_compare = "different categories of " + FOUNDER + " versus different categories of late " + JOINER + " "
         sample_a = sample_a_b[0].capitalize()
-        sample_b = sample_a_b[1].capitalize()
+        if isinstance(sample_a_b[1], str):
+            sample_b = sample_a_b[1].capitalize()
+        elif len(sample_a_b[1]) == 2:
+            sample_b = sample_a_b[1][0].capitalize() + r" \& " + sample_a_b[1][1]
     if component == "packages" and sample_a_b[0] in [TRANSIENT] and number_of_commits == START_COMMIT_NUMBER:
         number_of_commit_desc = "1, 5 and 10 "
         category_compare = " sample a category versus sample b category " 
         sample_a = "Sample A"
         sample_b = "Sample B"
     if sample_a_b[0] in [TRANSIENT, MODERATE]:
-        a_category = sample_a_b[0] + " versus " + sample_a_b[1]
+        if isinstance(sample_a_b[1], str):
+            a_category = sample_a_b[0].capitalize() + r" vs. " + sample_a_b[1]
+        elif len(sample_a_b[1]) == 2:
+            a_category = sample_a_b[0].capitalize() + r" vs. " + sample_a_b[1][0] + r" \& " + sample_a_b[1][1]
     
     if component == "packages" and (sample_a_b[0] in [FOUNDER] or sample_a_b[1] in [MODERATE]) and number_of_commits == START_COMMIT_NUMBER:
-        headings = ["Component", "Number of First Commits", "Categories", sample_a + " No.", sample_b + " No.", sample_a + " $\mu$", sample_b + " $\mu$", "Welch Statistic", "Welch $P$", "MWU Statistic (Number of Pairs)", "MWU $P$" ]
+        headings = ["Component", "First *n* commits", "Contributory Category", sample_a + r" \#", sample_b + r" \#", sample_a + r" $\mu$", sample_b + r" $\mu$", "Welch Statistic", "Welch $P$", "MWU Statistic (Number of Pairs)", "MWU $P$" ]
         table_name = "Statistical significance tests of " + category_compare
         table_name += " touches of different granularities of component (package, class, method) after " + number_of_commit_desc + " commits for contributors."
         latex = r"\begin{landscape}" + "\n"        
-        latex += start_latex_table(table_name , headings, "l r l r r r r r r r r r")
+        latex += start_latex_table(table_name , headings, "l r p{4cm} r r r r r r r r r")
         read_write_file.append_to_file(file_name + ".tex", latex, path)
     if len(sample_a_values) > 0 and previous_a_category != a_category:
-        latex_table = generate_simple_comparison_latex(sample_a_values, sample_b_values, component, a_category, b_category, number_of_commits).replace("_", "\\_")
+        latex_table = generate_simple_comparison_latex(sample_a_values, sample_b_values, component, a_category, number_of_commits).replace("_", "\\_")
         read_write_file.append_to_file(file_name + ".tex", latex_table, path)
         previous_a_category = a_category
     if component == "methods" and sample_a_b[0] == MODERATE and number_of_commits == END_COMMIT_NUMBER:

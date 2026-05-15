@@ -51,6 +51,7 @@ def generate_welch_t_test(component, filtered_developers, number_of_commits):
                 [SUSTAINED + " " + FOUNDER, SUSTAINED + " later " + JOINER],
                 [TRANSIENT, MODERATE],
                 [TRANSIENT, SUSTAINED],
+                [TRANSIENT, [MODERATE, SUSTAINED]],
                 [MODERATE, SUSTAINED]]
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         save_to_latex_file(file_name, BASE_FILE_NAME, latex, DIRECTORY)
