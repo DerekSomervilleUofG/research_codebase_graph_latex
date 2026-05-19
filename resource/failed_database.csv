@@ -149,3 +149,9 @@ resource/database/codebase_start.db,maximum recursion depth exceeded
 resource/database/codebase_start.db,maximum recursion depth exceeded
 resource/database/codebase_start.db,cannot access local variable ''section'' where it is not associated with a value
 resource/database/codebase_start.db,''all''
+resource/database/codebase_start.db,generate_and_save() missing 2 required positional arguments: ''sample_a_b'' and ''file_name''
+resource/database/codebase_start.db,module ''scipy.stats'' has no attribute ''brunner_munzel''
+resource/database/codebase_start.db,unsupported operand type(s) for +: ''NoneType'' and ''str''
+resource/database/codebase_start.db,generate_and_save() missing 1 required positional argument: ''normal_file_name''
+resource/database/codebase_start.db,get_table_name() missing 1 required positional argument: ''category_compare''
+resource/database/codebase_start.db,Unknown format code ''f'' for object of type ''str''
