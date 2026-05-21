@@ -19,8 +19,8 @@ To identify early indicators of long-term developer engagement, a Logistic Regre
     \item \textbf{Std. Err (Standard Error):} Measures the accuracy of the coefficient estimate. A lower standard error relative to the coefficient indicates a more precise estimate.
     \item \textbf{p-Value ($P>|z|$):} Indicates the statistical significance of the predictor. In this study, a p-Value $< 0.05$ suggests that the specific component count is a significant predictor of whether a developer will transition into a sustained role.
     \item \textbf{50\% Threshold:} The threshold number of components to touch to have a 50% chance of becoming a sustained developer.
-    \item \textbf{Moderate Met Threshold:} The moderate number of developers to have met the threshold, the percentate of developers in brackets.
-    \item \textbf{Sustained Met Threshold:} The sustained number of developers to have met the threshold, the percentate of developers in brackets.
+    \item \textbf{Moderate Met Threshold:} The moderate number of developers to have met the threshold, the percentage of developers in brackets.
+    \item \textbf{Sustained Met Threshold:} The sustained number of developers to have met the threshold, the percentage of developers in brackets.
     
 \end{itemize}
 """
@@ -156,7 +156,7 @@ def generate_predictive_identification_latex(df, component, number_of_commits):
     return generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_threshold, mod_hit, mod_pct, sus_hit, sus_pct)
 
 def generate_and_save(component, developers, number_of_commits):
-    path = "repository/" 
+    path = DIRECTORY
     file_name = FILE_NAME
     commit_prefix = "all commits"
     df = pd.DataFrame(prepare_data(developers, TIME_SERIES_NUMBER_OF_COMMIT))
@@ -164,7 +164,7 @@ def generate_and_save(component, developers, number_of_commits):
         latex = section_sub_heading(commit_prefix)
         
         headings = ["Component", "Number of First Commits", "Type", "Moderate $\mu$", "Sustained $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", "30\% Threshold", "Moderate Met Threshold", "Sustained Met Threshold"]
-        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits for " + str(len(df)) + " developers excluding trainsient", headings, "l r l r r r r r r r r r")
+        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits for " + str(len(df)) + " developers excluding transient", headings, "l r l r r r r r r r r r")
         save_to_latex_file(get_base_file_name(file_name), 
                            BASE_FILE_NAME,
                                latex, path)

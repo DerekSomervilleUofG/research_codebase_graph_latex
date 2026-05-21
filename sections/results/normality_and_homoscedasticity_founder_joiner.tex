@@ -1,0 +1,44 @@
+\begin{landscape}
+\begin{table}[!h]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption{A Shapiro-Wilk test of different categories of founder versus different categories of late joiner  sample normality and a Levene's variance test between samples}
+\begin{tabular}{l r p{4cm} r r r r r l r}
+\toprule
+\textbf{Component} & \makecell[b]{\textbf{First *n*}\\\textbf{commits}} & \makecell[b]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \makecell[b]{\textbf{Founder}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Joiner}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Founder}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[b]{\textbf{Joiner}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[b]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[b]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
+\midrule
+Packages & 1 & All &  0.44 (137) & 0.10 (8303) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0001 \\ 
+Packages & 1 & Moderate &  0.80 (40) & 0.51 (580) & \textless 0.001 & \textless 0.001 & 0.4760 &  Standard ANOVA, Mann-Whitney & 0.2044 \\ 
+Packages & 1 & Sustained &  0.38 (34) & 0.65 (203) & \textless 0.001 & \textless 0.001 & 0.5503 &  Standard ANOVA, Mann-Whitney & 0.9673 \\ 
+Packages & 5 & Moderate \& sustained &  3.36 (74) & 3.85 (783) & \textless 0.001 & \textless 0.001 & 0.1596 &  Standard ANOVA, Mann-Whitney & 0.7459 \\ 
+Packages & 5 & Moderate &  3.52 (40) & 3.72 (580) & \textless 0.001 & \textless 0.001 & 0.3712 &  Standard ANOVA, Mann-Whitney & 0.6567 \\ 
+Packages & 5 & Sustained &  3.18 (34) & 4.22 (203) & \textless 0.001 & \textless 0.001 & 0.2932 &  Standard ANOVA, Mann-Whitney & 0.8231 \\ 
+Packages & 10 & Moderate \& sustained &  5.07 (74) & 6.05 (783) & \textless 0.001 & \textless 0.001 & 0.0740 &  Standard ANOVA, Mann-Whitney & 0.8498 \\ 
+Packages & 10 & Moderate &  5.15 (40) & 6.09 (580) & \textless 0.001 & \textless 0.001 & 0.1245 &  Standard ANOVA, Mann-Whitney & 0.9925 \\ 
+Packages & 10 & Sustained &  4.97 (34) & 5.94 (203) & \textless 0.001 & \textless 0.001 & 0.4395 &  Standard ANOVA, Mann-Whitney & 0.6772 \\ 
+Packages & 20 & Sustained &  7.18 (34) & 9.62 (203) & \textless 0.001 & \textless 0.001 & 0.2278 &  Standard ANOVA, Mann-Whitney & 0.4616 \\ 
+Classes & 1 & All &  4.01 (137) & 0.64 (8303) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
+Classes & 1 & Moderate &  7.47 (40) & 2.37 (580) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.5349 \\ 
+Classes & 1 & Sustained &  2.85 (34) & 4.81 (203) & \textless 0.001 & \textless 0.001 & 0.7276 &  Standard ANOVA, Mann-Whitney & 0.2850 \\ 
+Classes & 5 & Moderate \& sustained &  39.05 (74) & 24.11 (783) & \textless 0.001 & \textless 0.001 & 0.0066 &  ANT ANOVA, Brunner-Münzel & 0.1101 \\ 
+Classes & 5 & Moderate &  41.38 (40) & 22.04 (580) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.1057 \\ 
+Classes & 5 & Sustained &  36.32 (34) & 30.01 (203) & \textless 0.001 & \textless 0.001 & 0.6508 &  Standard ANOVA, Mann-Whitney & 0.5895 \\ 
+Classes & 10 & Moderate \& sustained &  64.81 (74) & 43.51 (783) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0840 \\ 
+Classes & 10 & Moderate &  61.60 (40) & 41.95 (580) & \textless 0.001 & \textless 0.001 & 0.0046 &  ANT ANOVA, Brunner-Münzel & 0.1665 \\ 
+Classes & 10 & Sustained &  68.59 (34) & 47.98 (203) & \textless 0.001 & \textless 0.001 & 0.1446 &  Standard ANOVA, Mann-Whitney & 0.2478 \\ 
+Classes & 20 & Sustained &  107.50 (34) & 81.91 (203) & \textless 0.001 & \textless 0.001 & 0.0906 &  Standard ANOVA, Mann-Whitney & 0.2857 \\ 
+Methods & 1 & All &  12.52 (137) & 2.06 (8303) & \textless 0.001 & \textless 0.001 & 0.0024 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
+Methods & 1 & Moderate &  24.27 (40) & 7.22 (580) & \textless 0.001 & \textless 0.001 & 0.0025 &  ANT ANOVA, Brunner-Münzel & 0.5241 \\ 
+Methods & 1 & Sustained &  10.00 (34) & 23.40 (203) & \textless 0.001 & \textless 0.001 & 0.7410 &  Standard ANOVA, Mann-Whitney & 0.3092 \\ 
+Methods & 5 & Moderate \& sustained &  164.59 (74) & 86.68 (783) & \textless 0.001 & \textless 0.001 & 0.0072 &  ANT ANOVA, Brunner-Münzel & 0.1274 \\ 
+Methods & 5 & Moderate &  186.75 (40) & 76.85 (580) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0851 \\ 
+Methods & 5 & Sustained &  138.53 (34) & 114.77 (203) & \textless 0.001 & \textless 0.001 & 0.7156 &  Standard ANOVA, Mann-Whitney & 0.7890 \\ 
+Methods & 10 & Moderate \& sustained &  263.26 (74) & 154.41 (783) & \textless 0.001 & \textless 0.001 & 0.0018 &  ANT ANOVA, Brunner-Münzel & 0.0591 \\ 
+Methods & 10 & Moderate &  271.43 (40) & 145.21 (580) & \textless 0.001 & \textless 0.001 & 0.0017 &  ANT ANOVA, Brunner-Münzel & 0.1449 \\ 
+Methods & 10 & Sustained &  253.65 (34) & 180.70 (203) & \textless 0.001 & \textless 0.001 & 0.3267 &  Standard ANOVA, Mann-Whitney & 0.2291 \\ 
+Methods & 20 & Sustained &  401.24 (34) & 295.10 (203) & \textless 0.001 & \textless 0.001 & 0.1120 &  Standard ANOVA, Mann-Whitney & 0.5131 \\ 
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+\newpage 

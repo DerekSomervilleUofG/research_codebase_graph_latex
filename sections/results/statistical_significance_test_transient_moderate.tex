@@ -1,0 +1,107 @@
+\begin{landscape}
+\begin{table}[!h]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption{Statistical significance tests of  sample A category versus sample B category  touches of different granularities of component (package, class, method) after 1, 5 and 10  commits for contributors. The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. }
+\begin{tabular}{l r p{4cm} r r r r r r r r r r r r r}
+\toprule
+\textbf{Component} & \makecell[b]{\textbf{First *n*}\\\textbf{commits}} & \makecell[b]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \makecell[b]{\textbf{Sample A}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Sample B}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Welch}\\\textbf{Statistic}} & \textbf{Welch $P$} & \textbf{MWU $P$} & \textbf{BM $P$} & \makecell[b]{\textbf{}\\\textbf{Brunner-Münzel}\\\textbf{$W$}} & \makecell[b]{\textbf{Cliff's}\\\textbf{$\delta$}} & \makecell[b]{\textbf{Prob. Sup.}\\\textbf{($PS$)}} \\ 
+\midrule
+Packages & 1 & Transient vs. moderate &  0.05 (7583) & 0.53 (620) & -4.79 & 0.0000 & 0.0000 & 0.0000 & 9.47 & -0.140 & 0.430 \\ 
+Packages & 1 & Transient vs. sustained &  0.05 (7583) & 0.61 (237) & -3.62 & 0.0004 & 0.0000 & 0.0000 & 6.27 & -0.155 & 0.423 \\ 
+Packages & 1 & Transient vs. moderate \& sustained &  0.05 (7583) & 0.55 (857) & -5.96 & 0.0000 & 0.0000 & 0.0000 & 11.33 & -0.144 & 0.428 \\ 
+Packages & 1 & Moderate vs. sustained &  0.53 (620) & 0.61 (237) & -0.43 & 0.6686 & 0.5695 & 0.5775 & 0.56 & -0.016 & 0.492 \\ 
+Packages & 5 & Moderate vs. sustained &  3.71 (620) & 4.07 (237) & -0.80 & 0.4217 & 0.2931 & 0.2820 & 1.08 & -0.045 & 0.477 \\ 
+Packages & 10 & Moderate vs. sustained &  6.03 (620) & 5.80 (237) & 0.40 & 0.6905 & 0.9068 & 0.9036 & 0.12 & -0.005 & 0.497 \\ 
+Classes & 1 & Transient vs. moderate &  0.41 (7583) & 2.70 (620) & -6.31 & 0.0000 & 0.0000 & 0.0000 & 15.68 & -0.316 & 0.342 \\ 
+Classes & 1 & Transient vs. sustained &  0.41 (7583) & 4.53 (237) & -2.10 & 0.0368 & 0.0000 & 0.0000 & 7.99 & -0.249 & 0.376 \\ 
+Classes & 1 & Transient vs. moderate \& sustained &  0.41 (7583) & 3.21 (857) & -4.64 & 0.0000 & 0.0000 & 0.0000 & 17.42 & -0.297 & 0.351 \\ 
+Classes & 1 & Moderate vs. sustained &  2.70 (620) & 4.53 (237) & -0.91 & 0.3614 & 0.0871 & 0.0819 & -1.74 & 0.066 & 0.533 \\ 
+Classes & 5 & Moderate vs. sustained &  23.29 (620) & 30.92 (237) & -1.69 & 0.0919 & 0.8148 & 0.8160 & -0.23 & 0.010 & 0.505 \\ 
+Classes & 10 & Moderate vs. sustained &  43.22 (620) & 50.94 (237) & -1.51 & 0.1316 & 0.6500 & 0.6548 & -0.45 & 0.020 & 0.510 \\ 
+Methods & 1 & Transient vs. moderate &  1.12 (7583) & 8.32 (620) & -5.16 & 0.0000 & 0.0000 & 0.0000 & 15.64 & -0.315 & 0.342 \\ 
+Methods & 1 & Transient vs. sustained &  1.12 (7583) & 21.48 (237) & -1.44 & 0.1522 & 0.0000 & 0.0000 & 7.99 & -0.249 & 0.375 \\ 
+Methods & 1 & Transient vs. moderate \& sustained &  1.12 (7583) & 11.96 (857) & -2.68 & 0.0076 & 0.0000 & 0.0000 & 17.39 & -0.297 & 0.351 \\ 
+Methods & 1 & Moderate vs. sustained &  8.32 (620) & 21.48 (237) & -0.92 & 0.3564 & 0.0791 & 0.0733 & -1.80 & 0.068 & 0.534 \\ 
+Methods & 5 & Moderate vs. sustained &  83.94 (620) & 118.18 (237) & -1.48 & 0.1389 & 0.9921 & 0.9920 & -0.01 & 0.000 & 0.500 \\ 
+Methods & 10 & Moderate vs. sustained &  153.35 (620) & 191.16 (237) & -1.49 & 0.1366 & 0.9372 & 0.9384 & 0.08 & -0.003 & 0.498 \\ 
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+\newpage 
+
+\subsubsection*{Statistical Models}
+
+\paragraph{Welch's t-test}
+To specifically compare the two primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming equal variances or sample sizes, Welch's $t$-test is employed. The $t$-statistic is defined as:
+
+\begin{equation}
+    t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1^2}{N_1} + \frac{s_2^2}{N_2}}}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $\bar{X}_1, \bar{X}_2$ are the sample means of Sample A and Sample B.
+    \item $s_1^2, s_2^2$ are the sample variances.
+    \item $N_1, N_2$ are the sample sizes.
+\end{itemize}
+
+The degrees of freedom ($\nu$) for this test are calculated using the Welch-Satterthwaite equation:
+\begin{equation}
+    \nu \approx \frac{\left(\frac{s_1^2}{N_1} + \frac{s_2^2}{N_2}\right)^2}{\frac{(s_1^2/N_1)^2}{N_1-1} + \frac{(s_2^2/N_2)^2}{N_2-1}}
+\end{equation}
+
+
+\paragraph{Mann-Whitney U Test}
+To evaluate the differences in the stochastic dominance of architectural component exploration between primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming a normal distribution, the non-parametric Mann-Whitney $U$ test (Wilcoxon rank-sum test) is employed. 
+
+The data from both independent groups are combined and ranked globally from lowest ($1$) to highest ($N_1 + N_2$), resolving ties by assigning the average rank. The $U$ statistic for Sample A ($U_1$) is calculated as:
+
+\begin{equation}
+    U_1 = R_1 - \frac{N_1(N_1 + 1)}{2}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $N_1$ is the sample size of Sample A.
+    \item $R_1$ is the sum of the ranks assigned to Sample A.
+    \item The total number of pairwise comparisons (maximum possible pairs) is defined by $N_1 \times N_2$.
+\end{itemize}
+
+\paragraph{Normal Approximation for Large Samples}
+Given the substantial sample sizes present in repository participant metrics, the distribution of the $U$ statistic rapidly approaches a normal distribution. The asymptotic significance is determined using a standard normal $Z$-score approximation:
+
+\begin{equation}
+    Z = \frac{U_1 - \mu_U}{\sigma_U}
+\end{equation}
+
+Where the expected mean ($\mu_U$) and standard deviation ($\sigma_U$) under the null hypothesis of identical distributions are defined as:
+
+\begin{equation}
+    \mu_U = \frac{N_1 N_2}{2}, \quad \sigma_U = \sqrt{\frac{N_1 N_2 (N_1 + N_2 + 1)}{12}}
+    \label{eq:mwu_normal}
+\end{equation}
+
+A calculated $p$-value lower than the alpha threshold ($p < 0.05$) indicates a statistically significant difference in the rank-order distributions of the two groups, demonstrating that one developer role systematically outranks the other in codebase exploration.
+
+
+\paragraph{Brunner-Münzel Test}
+To test for differences in the stochastic distributions of primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming normal distribution or variance homogeneity, the Brunner-Münzel test is applied. The test statistic $W$ is defined as:
+
+\begin{equation}
+    W = \sqrt{\frac{N_1 N_2}{N_1 + N_2}} \cdot \frac{\hat{p} - \frac{1}{2}}{\sqrt{\hat{\sigma}^2}}
+\end{equation}
+
+Where $\hat{p}$ represents the relative treatment effect (Probability of Superiority), reflecting the probability that a random observation from Sample A is larger than one from Sample B plus half the probability that they are equal.
+
+\paragraph{Cliff's $\delta$ Effect Size}
+To complement hypothesis significance testing with a distribution-free magnitude metric, Cliff's $\delta$ is tracked to express the degree of dominance of one sample over the other:
+
+\begin{equation}
+    \delta = \frac{\sum_{i=1}^{N_1} \sum_{j=1}^{N_2} \mathrm{sign}(X_{1i} - X_{2j})}{N_1 N_2}
+\end{equation}
+
+Where the $\mathrm{sign}$ function yields $+1$ when an element of Sample A is larger than Sample B, $0$ if equal, and $-1$ if smaller. Effect sizes are interpreted using standard empirical thresholds ($|\delta| < 0.147$ is negligible, $\ge 0.147$ is small, $\ge 0.330$ is medium, and $\ge 0.474$ is large).
+
+\newpage 

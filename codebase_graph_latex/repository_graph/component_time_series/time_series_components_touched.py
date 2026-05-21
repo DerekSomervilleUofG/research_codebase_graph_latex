@@ -291,7 +291,7 @@ def generate_component_latex(method, path, component, unit, developers, figure_c
     return latex
 
 def default_generate_save(method, file_name, repository_id, component, developers, unit=NUMBER_OF_WEEKS, figure_caption=FIGURE_CAPTION, number_of_commits=0):
-    path = "repository/"
+    path = DIRECTORY
     if repository_id > 0:
             path+= str(repository_id) + "/"
             figure_caption = FIGURE_CAPTION_START.format(repo=repository_id) + figure_caption
@@ -303,7 +303,7 @@ def default_generate_save(method, file_name, repository_id, component, developer
     read_write_file.append_to_file(file_name + "_" + UNIT_FREQUENCY.get(unit, "commit") + "_component.tex", latex_component, path)
 
 def generate_and_save(repository_id, component, developers, number_of_commits=0):
-    path = "repository/" 
+    path = DIRECTORY
     file_name = get_base_file_name(FILE_NAME)
     base_file_name = file_name
     commit_prefix = "commit"

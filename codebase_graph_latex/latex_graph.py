@@ -30,31 +30,32 @@ def latex_start_graph():
     return latex
 
 def latex_end_graph():
-    latex = "  \\hfill \n"
-    latex += "\\end{figure}\n"
+    latex = "\\end{figure}\n"
     latex += "\\newpage \n"
     global graph_number
     graph_number = None
     return  latex
 
 def latex_new_row():
-    return "  \\vspace{0.5cm}\n"
+    return "  \\vfill\n"
 
 def get_section_start(file_name, sub_type=""):
     return "\\" + sub_type + "section{" + file_name.split(".")[-1].replace("_", " ").capitalize() + " - "
 
 
-def __add_graph_latex(file_path, caption, figure="subfigure", size=0.48, placement="b"):
+def __add_graph_latex(file_path, caption, figure="subfigure", size=0.45, placement="b"):
     global figure_counter
     label = "figure." + str(figure_counter.get_counter())
-    latex = "  \\hfill \n"
-    latex += "  \\begin{" + figure + "}["+ placement + "] \n"
-    if size > 0:
-        latex += "{" + str(size) + "\\textwidth}\n"
-    latex += "    \\includegraphics{" + file_path + "}\n"
-    latex += "    \\caption{" + caption.replace("_", " ") + "}\n"
-    latex += "    \\label{" + label + "}\n"
-    latex += "  \\end{" + figure + "}\n"
+    clean_caption = caption.replace("_", " ")
+    latex = rf"""\begin{{minipage}}[{placement}]{{{size}\textwidth}}
+    \centering
+    \includegraphics[width=\textwidth]{{ {file_path} }}
+    \vskip 5pt
+    {{\small {clean_caption}}}
+    \label{{ {label} }}
+\end{{minipage}}%
+\hfill
+"""
     return latex
 
 def latex_add_graph(file_path, caption):

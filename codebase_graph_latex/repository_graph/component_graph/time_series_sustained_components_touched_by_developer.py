@@ -49,7 +49,7 @@ def generate_scatter(repository_id, path, component, developers, x_axis, y_axis_
     return latex_add_sub_graph(file_name, component.capitalize() + " for " + category), latex_table, len(first_developers)
 
 def generate_and_save(repository_id, component, sustained_founder_developers, sustained_joiner_developers, x_axis=NUMBER_OF_COMMIT):
-    path = "repository/" + str(repository_id) + "/" 
+    path = DIRECTORY + str(repository_id) + "/" 
     latex = ""
     latex_scatter_founder, latex_founder_colour, first_founder_developer_num = generate_scatter(repository_id, path + component + "/", component, sustained_founder_developers, x_axis, COMPONENT_Y_AXIS_MAX[component], SUSTAINED_FOUNDER)
     latex_scatter_joiner, latex_joiner_colour, first_joiner_developer_num = generate_scatter(repository_id, path + component + "/", component, sustained_joiner_developers, x_axis, COMPONENT_Y_AXIS_MAX[component], SUSTAINED_JOINER)

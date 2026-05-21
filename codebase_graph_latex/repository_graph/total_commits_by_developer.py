@@ -66,8 +66,8 @@ def generate_developer_commit(number_of_repositories):
     sustained_founder = get_developer_commit_by_contributor_stage(SUSTAINED_FOUNDER)
     sustained_joiner = get_developer_commit_by_contributor_stage(SUSTAINED_JOINER)
 
-    latex_graph = generate_all_developer_commit(number_of_repositories, transient_founder, transient_joiner, moderate_founder, moderate_joiner, sustained_founder, sustained_joiner)
-    latex_graph += latex_start_graph()
+    #latex_graph = generate_all_developer_commit(number_of_repositories, transient_founder, transient_joiner, moderate_founder, moderate_joiner, sustained_founder, sustained_joiner)
+    latex_graph = latex_start_graph()
     latex_graph += generate_developer_commit_latex(TRANSIENT_FOUNDER, transient_founder, math.ceil(BINS * (max(transient_founder)/max(transient_joiner))), max_x_axis=MAX_X_AXIS_TRANSIENT, max_y_axis=MAX_Y_AXIS_TRANSIENT)
     latex_graph += generate_developer_commit_latex(TRANSIENT_JOINER, transient_joiner, BINS, max_x_axis=MAX_X_AXIS_TRANSIENT, max_y_axis=MAX_Y_AXIS_TRANSIENT)
     latex_graph += generate_developer_commit_latex(MODERATE_FOUNDER, moderate_founder, math.ceil(BINS * (max(moderate_founder)/max(moderate_joiner))), max_x_axis=MAX_X_AXIS_MODERATE)

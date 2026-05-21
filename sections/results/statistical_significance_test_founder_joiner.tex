@@ -1,0 +1,44 @@
+\begin{landscape}
+\begin{table}[!h]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption{Statistical significance tests of different categories of founder versus different categories of late joiner  touches of different granularities of component (package, class, method) after 1, 5, 10 and 20  commits for contributors. The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. }
+\begin{tabular}{l r p{4cm} r r r r r r r r r r r r r}
+\toprule
+\textbf{Component} & \makecell[b]{\textbf{First *n*}\\\textbf{commits}} & \makecell[b]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \makecell[b]{\textbf{Founder}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Joiner}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Welch}\\\textbf{Statistic}} & \textbf{Welch $P$} & \textbf{MWU $P$} & \textbf{BM $P$} & \makecell[b]{\textbf{}\\\textbf{Brunner-Münzel}\\\textbf{$W$}} & \makecell[b]{\textbf{Cliff's}\\\textbf{$\delta$}} & \makecell[b]{\textbf{Prob. Sup.}\\\textbf{($PS$)}} \\ 
+\midrule
+Packages & 1 & All &  0.44 (137) & 0.10 (8303) & 2.76 & 0.0067 & 0.0000 & 0.0001 & -4.11 & 0.130 & 0.565 \\ 
+Packages & 1 & Moderate &  0.80 (40) & 0.51 (580) & 0.77 & 0.4477 & 0.2044 & 0.2833 & -1.09 & 0.076 & 0.538 \\ 
+Packages & 1 & Sustained &  0.38 (34) & 0.65 (203) & -1.06 & 0.2921 & 0.9673 & 0.9662 & -0.04 & 0.003 & 0.502 \\ 
+Packages & 5 & Moderate \& sustained &  3.36 (74) & 3.85 (783) & -0.99 & 0.3232 & 0.7459 & 0.7243 & -0.35 & 0.022 & 0.511 \\ 
+Packages & 5 & Moderate &  3.52 (40) & 3.72 (580) & -0.27 & 0.7874 & 0.6567 & 0.6232 & -0.49 & 0.041 & 0.520 \\ 
+Packages & 5 & Sustained &  3.18 (34) & 4.22 (203) & -1.47 & 0.1459 & 0.8231 & 0.8181 & 0.23 & -0.024 & 0.488 \\ 
+Packages & 10 & Moderate \& sustained &  5.07 (74) & 6.05 (783) & -1.33 & 0.1855 & 0.8498 & 0.8336 & 0.21 & -0.013 & 0.493 \\ 
+Packages & 10 & Moderate &  5.15 (40) & 6.09 (580) & -0.95 & 0.3462 & 0.9925 & 0.9911 & -0.01 & 0.001 & 0.500 \\ 
+Packages & 10 & Sustained &  4.97 (34) & 5.94 (203) & -0.83 & 0.4084 & 0.6772 & 0.6707 & 0.43 & -0.044 & 0.478 \\ 
+Packages & 20 & Sustained &  7.18 (34) & 9.62 (203) & -1.41 & 0.1628 & 0.4616 & 0.4391 & 0.78 & -0.078 & 0.461 \\ 
+Classes & 1 & All &  4.01 (137) & 0.64 (8303) & 2.92 & 0.0042 & 0.0000 & 0.0000 & -7.17 & 0.309 & 0.654 \\ 
+Classes & 1 & Moderate &  7.47 (40) & 2.37 (580) & 1.43 & 0.1603 & 0.4989 & 0.5349 & -0.63 & 0.057 & 0.528 \\ 
+Classes & 1 & Sustained &  2.85 (34) & 4.81 (203) & -0.76 & 0.4494 & 0.2850 & 0.3160 & -1.01 & 0.096 & 0.548 \\ 
+Classes & 5 & Moderate \& sustained &  39.05 (74) & 24.11 (783) & 1.77 & 0.0799 & 0.0872 & 0.1101 & -1.61 & 0.120 & 0.560 \\ 
+Classes & 5 & Moderate &  41.38 (40) & 22.04 (580) & 1.70 & 0.0969 & 0.0626 & 0.1057 & -1.65 & 0.176 & 0.588 \\ 
+Classes & 5 & Sustained &  36.32 (34) & 30.01 (203) & 0.48 & 0.6350 & 0.5895 & 0.5843 & -0.55 & 0.058 & 0.529 \\ 
+Classes & 10 & Moderate \& sustained &  64.81 (74) & 43.51 (783) & 2.07 & 0.0419 & 0.0569 & 0.0840 & -1.75 & 0.134 & 0.567 \\ 
+Classes & 10 & Moderate &  61.60 (40) & 41.95 (580) & 1.40 & 0.1679 & 0.1180 & 0.1665 & -1.41 & 0.148 & 0.574 \\ 
+Classes & 10 & Sustained &  68.59 (34) & 47.98 (203) & 1.30 & 0.2003 & 0.2478 & 0.2786 & -1.10 & 0.124 & 0.562 \\ 
+Classes & 20 & Sustained &  107.50 (34) & 81.91 (203) & 1.34 & 0.1863 & 0.2857 & 0.3224 & -1.00 & 0.115 & 0.557 \\ 
+Methods & 1 & All &  12.52 (137) & 2.06 (8303) & 2.48 & 0.0144 & 0.0000 & 0.0000 & -7.17 & 0.308 & 0.654 \\ 
+Methods & 1 & Moderate &  24.27 (40) & 7.22 (580) & 1.32 & 0.1957 & 0.4881 & 0.5241 & -0.64 & 0.058 & 0.529 \\ 
+Methods & 1 & Sustained &  10.00 (34) & 23.40 (203) & -0.77 & 0.4417 & 0.3092 & 0.3379 & -0.97 & 0.092 & 0.546 \\ 
+Methods & 5 & Moderate \& sustained &  164.59 (74) & 86.68 (783) & 1.56 & 0.1218 & 0.0995 & 0.1274 & -1.54 & 0.116 & 0.558 \\ 
+Methods & 5 & Moderate &  186.75 (40) & 76.85 (580) & 1.46 & 0.1516 & 0.0499 & 0.0851 & -1.76 & 0.185 & 0.593 \\ 
+Methods & 5 & Sustained &  138.53 (34) & 114.77 (203) & 0.36 & 0.7211 & 0.7890 & 0.7946 & -0.26 & 0.029 & 0.514 \\ 
+Methods & 10 & Moderate \& sustained &  263.26 (74) & 154.41 (783) & 1.76 & 0.0826 & 0.0358 & 0.0591 & -1.91 & 0.148 & 0.574 \\ 
+Methods & 10 & Moderate &  271.43 (40) & 145.21 (580) & 1.28 & 0.2063 & 0.0973 & 0.1449 & -1.49 & 0.157 & 0.578 \\ 
+Methods & 10 & Sustained &  253.65 (34) & 180.70 (203) & 1.00 & 0.3240 & 0.2291 & 0.2666 & -1.13 & 0.129 & 0.565 \\ 
+Methods & 20 & Sustained &  401.24 (34) & 295.10 (203) & 1.16 & 0.2533 & 0.5131 & 0.5561 & -0.59 & 0.070 & 0.535 \\ 
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+\newpage 

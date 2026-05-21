@@ -1,0 +1,78 @@
+\begin{landscape}
+\subsection{Strategy logistic regression - For all components touched for all commits} 
+
+To identify early indicators of long-term developer engagement, a Logistic Regression model was employed. The model treats the developer category (Sustained vs. Non-Sustained) as a binary dependent variable. The following metrics are reported:
+
+\begin{itemize}
+    \item \textbf{Coefficient ($\beta$):} This value represents the change in the log-odds of a developer becoming 'Sustained' for every unit increase in the component count. A positive coefficient indicates that higher activity in that component increases the likelihood of long-term retention.
+    \item \textbf{Odds Ratio ($e^\beta$):} Perhaps the most interpretable metric, the Odds Ratio quantifies the relative increase in the likelihood of being a Sustained developer. For example, an Odds Ratio of $1.05$ implies a $5\%$ increase in the odds of becoming sustained for each additional component touched.
+    \item \textbf{Std. Err (Standard Error):} Measures the accuracy of the coefficient estimate. A lower standard error relative to the coefficient indicates a more precise estimate.
+    \item \textbf{p-Value ($P>|z|$):} Indicates the statistical significance of the predictor. In this study, a p-Value $< 0.05$ suggests that the specific component count is a significant predictor of whether a developer will transition into a sustained role.
+    \item \textbf{50\% Threshold:} The threshold number of components to touch to have a 50% chance of becoming a sustained developer.
+    \item \textbf{Moderate Met Threshold:} The moderate number of developers to have met the threshold, the percentage of developers in brackets.
+    \item \textbf{Sustained Met Threshold:} The sustained number of developers to have met the threshold, the percentage of developers in brackets.
+    
+\end{itemize}
+
+\textbf{Interpretation of Intercept vs. Component Count:}
+\begin{itemize}
+    \item \textbf{Intercept:} Represents the baseline log-odds of the dependent variable (Sustained Status) when the independent variable (e.g., Package Count) is zero. In this study, the consistently negative intercepts indicate that the probability of a developer becoming 'Sustained' is statistically low without active engagement in the codebase.
+    \item \textbf{Component Count (Slope):} Represents the effect size of architectural engagement. The positive coefficients and Odds Ratios greater than 1.0 demonstrate that every additional unique component touched by a developer significantly increases their likelihood of transitioning into a sustained contributor.
+\end{itemize}
+\begin{table}[!h]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption{Strategy Logistic Regression for all components against number of commits for 8440 developers excluding transient}
+\begin{tabular}{l r l r r r r r r r r r}
+\toprule
+\textbf{Component} & \makecell[b]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \textbf{Type} & \makecell[b]{\textbf{Moderate}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Sustained}\\\textbf{$\mu$}} & \makecell[b]{\textbf{}\\\textbf{Coefficient}} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[b]{\textbf{30\%}\\\textbf{Threshold}} & \makecell[b]{\textbf{Moderate}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[b]{\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} \\ 
+\midrule
+packages & 1 & Intercept & 0.40 & 3.99 & -3.8260 & 0.0218 & 0.0752 & 0.0000 & - & - & - \\ 
+packages & 1 & Packages Count & 0.40 & 3.99 & 0.2270 & 1.2548 & 0.0166 & 0.0000 & \textbf{13.1243} & 29 (0.4\%) & 17 (7.2\%) \\ 
+packages & 5 & Intercept & 7.36 & 16.53 & -1.3025 & 0.2719 & 0.0978 & 0.0000 & - & - & - \\ 
+packages & 5 & Packages Count & 7.36 & 16.53 & 0.0324 & 1.0329 & 0.0055 & 0.0000 & \textbf{14.0420} & 116 (18.7\%) & 80 (33.8\%) \\ 
+packages & 10 & Intercept & 9.68 & 23.99 & -1.4121 & 0.2436 & 0.1019 & 0.0000 & - & - & - \\ 
+packages & 10 & Packages Count & 9.68 & 23.99 & 0.0309 & 1.0313 & 0.0044 & 0.0000 & \textbf{18.3064} & 123 (19.8\%) & 90 (38.0\%) \\ 
+% Skip packages: Not enough diversity in classes for Logistic Regression.classes & 1 & Intercept & 2.82 & 36.49 & -3.9517 & 0.0192 & 0.0793 & 0.0000 & - & - & - \\ 
+classes & 1 & Classes Count & 2.82 & 36.49 & 0.0419 & 1.0428 & 0.0026 & 0.0000 & \textbf{74.0370} & 44 (0.5\%) & 28 (11.8\%) \\ 
+classes & 5 & Intercept & 56.38 & 240.08 & -1.8719 & 0.1538 & 0.1205 & 0.0000 & - & - & - \\ 
+classes & 5 & Classes Count & 56.38 & 240.08 & 0.0092 & 1.0092 & 0.0009 & 0.0000 & \textbf{111.4174} & 86 (13.9\%) & 125 (52.7\%) \\ 
+classes & 10 & Intercept & 79.55 & 407.66 & -2.5977 & 0.0744 & 0.1560 & 0.0000 & - & - & - \\ 
+classes & 10 & Classes Count & 79.55 & 407.66 & 0.0107 & 1.0108 & 0.0009 & 0.0000 & \textbf{162.8939} & 66 (10.6\%) & 160 (67.5\%) \\ 
+% Skip classes: Not enough diversity in classes for Logistic Regression.methods & 1 & Intercept & 9.44 & 133.10 & -3.8192 & 0.0219 & 0.0747 & 0.0000 & - & - & - \\ 
+methods & 1 & Methods Count & 9.44 & 133.10 & 0.0084 & 1.0084 & 0.0006 & 0.0000 & \textbf{355.1713} & 34 (0.4\%) & 16 (6.8\%) \\ 
+methods & 5 & Intercept & 207.63 & 926.61 & -1.6702 & 0.1882 & 0.1087 & 0.0000 & - & - & - \\ 
+methods & 5 & Methods Count & 207.63 & 926.61 & 0.0019 & 1.0019 & 0.0002 & 0.0000 & \textbf{438.0841} & 67 (10.8\%) & 113 (47.7\%) \\ 
+methods & 10 & Intercept & 289.62 & 1574.80 & -2.2477 & 0.1056 & 0.1361 & 0.0000 & - & - & - \\ 
+methods & 10 & Methods Count & 289.62 & 1574.80 & 0.0022 & 1.0022 & 0.0002 & 0.0000 & \textbf{624.0901} & 63 (10.2\%) & 150 (63.3\%) \\ 
+% Skip methods: Not enough diversity in classes for Logistic Regression.\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+\newpage 
+
+\subsubsection*{Predictive Identification Model}
+To determine if early-stage developer behavior can identify future sustained contributors, we employ a Logistic Regression model. The probability $P$ of a developer becoming a \textbf{Sustained Contributor} is modeled using the log-odds (logit) function:
+
+\begin{equation}
+    \ln\left(\frac{P}{1-P}\right) = \beta_0 + \beta_1 X_{1} + \beta_2 X_{2} + \dots + \beta_n X_{n} + \epsilon
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $P$ is the probability that the developer's tenure is ``Sustained''.
+    \item $\beta_0$ is the intercept.
+    \item $X_n$ represents early-stage metrics (e.g., methods or classes touched in the first 10, 20, or 50 commits).
+    \item $\beta_n$ are the coefficients representing the weight of each predictor.
+\end{itemize}
+
+The impact of each behavior is quantified using the \textbf{Odds Ratio (OR)}, calculated as:
+\begin{equation}
+    OR = e^{\beta_n}
+\end{equation}
+An $OR > 1$ indicates that an increase in the metric (e.g., touching more classes) increases the likelihood of long-term retention. 
+
+\paragraph{Model Evaluation}
+The predictive power is evaluated using the Area Under the Receiver Operating Characteristic Curve (AUC-ROC). An AUC of 0.5 represents random chance, while an AUC closer to 1.0 indicates high predictive accuracy.
+
+ \newpage 

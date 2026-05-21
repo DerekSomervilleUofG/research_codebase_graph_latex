@@ -9,7 +9,7 @@ def glossary_latex():
     latex = get_section_start(FILE_NAME, "sub") + "Summary} \n"
     latex += "\\begin{itemize} \n "
     latex += "\\item The " + FOUNDER + " developer starts in the first six months of a project. \n"
-    latex += "\\item Late " + JOINER + " developers begin after six months. \n"
+    latex += "\\item Later " + JOINER + " developers start after six months. \n"
     latex += "\\item " + TRANSIENT.capitalize() + " developers have " + word_engine.number_to_words(TRANSIENT_COMMITS) + " (" + str(TRANSIENT_COMMITS) + ")"
     latex += " or fewer commits. \n"
     latex += "\\item " + MODERATE.capitalize() + " developers have more than " + word_engine.number_to_words(TRANSIENT_COMMITS) + " (" + str(TRANSIENT_COMMITS) + ")"

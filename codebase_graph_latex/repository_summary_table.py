@@ -18,8 +18,8 @@ def section_heading(number_of_repository):
     section += "\\begin{table}[h!]\n"
     section += "\\centering\n"
     section += "\\caption{Summary of " + word_engine.number_to_words(number_of_repository) + " open-source repositories identified from GitHub"
-    section += " that have at least 1000 pull requests and at least " + word_engine.number_to_words(MINIMUM_NUMBER_OF_COMMTIS) 
-    section += " " + SUSTAINED + " late " + JOINER + " developers. " + SUSTAINED_JOINER_DESC
+    section += " that have at least 1000 pull requests and " + word_engine.number_to_words(MINIMUM_NUMBER_OF_COMMTIS) 
+    section += " or more " + SUSTAINED + " late " + JOINER + " developers. " + SUSTAINED_JOINER_DESC
     section += "Please note that five developers each worked on two repositories. "
     section += " } \n"
     return section
@@ -31,9 +31,9 @@ def summary_table_start():
     table += " & \\makecell{\\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
     table += " & \\makecell{\\textbf{" + MODERATE.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
     table += " & \\makecell{\\textbf{" + SUSTAINED.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
-    table += " & \\makecell{\\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{" + JOINER.capitalize() + "} } " 
-    table += " & \\makecell{\\textbf{" + MODERATE.capitalize() + "} \\\\ \\textbf{" + JOINER.capitalize() + "} } " 
-    table += " & \\makecell{\\textbf{" + SUSTAINED.capitalize() + "} \\\\ \\textbf{" + JOINER.capitalize() + "} } " 
+    table += " & \\makecell{\\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{Later " + JOINER.capitalize() + "} } " 
+    table += " & \\makecell{\\textbf{" + MODERATE.capitalize() + "} \\\\ \\textbf{Later " + JOINER.capitalize() + "} } " 
+    table += " & \\makecell{\\textbf{" + SUSTAINED.capitalize() + "} \\\\ \\textbf{Later " + JOINER.capitalize() + "} } " 
     table += " & \\textbf{Commit} & \\textbf{Start} & \\textbf{End} \\\\ \n"
     table += "\\midrule\n"
     return table
@@ -56,7 +56,7 @@ def total_row(total_transient_founder, total_moderate_founder, total_sustained_f
 
 def create_repository_summary_page(repositories, repo_contribution):
     global number_of_repository
-    total_trainsient_founder = 0
+    total_transient_founder = 0
     total_moderate_founder = 0
     total_sustained_founder = 0
     total_transient_joiner = 0
@@ -67,7 +67,7 @@ def create_repository_summary_page(repositories, repo_contribution):
     number_of_repository = 0
     for repository in repositories:
         if repository[REPOSITORY_ID] in repo_contribution:
-            total_trainsient_founder += repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_FOUNDER]
+            total_transient_founder += repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_FOUNDER]
             total_moderate_founder += repo_contribution.get(repository[REPOSITORY_ID])[MODERATE_FOUNDER]
             total_sustained_founder += repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_FOUNDER]
             total_transient_joiner += repo_contribution.get(repository[REPOSITORY_ID])[TRANSIENT_JOINER]
@@ -87,18 +87,16 @@ def create_repository_summary_page(repositories, repo_contribution):
             if get_integer(repository[MAX_DATE]) < 20240300000000:
                 latex_table += " & " + get_date_time(repository[MAX_DATE]).strftime('%Y-%b-%d')
             else:
-                latex_table += " & On going"
+                latex_table += " & Ongoing"
             latex_table += " \\\\ \n"
             number_of_repository += 1
-    latex_table += total_row(total_trainsient_founder, total_moderate_founder, total_sustained_founder, total_transient_joiner, total_moderate_joiner, total_sustained_joiner, total_commit)
+    latex_table += total_row(total_transient_founder, total_moderate_founder, total_sustained_founder, total_transient_joiner, total_moderate_joiner, total_sustained_joiner, total_commit)
     return latex_table, number_of_repository
 
 def generate_and_save(repo_contribution):
     latex_table, number_of_repository = create_repository_summary_page(get_all_data(query()), repo_contribution)
     latex_table = section_heading(number_of_repository) + summary_table_start() + latex_table
     latex_table += summary_table_end()
-    read_write_file.write_file(get_file_name(FILE_NAME), latex_table, DIRECTORY)  
-    latex = "\\input{repository/" + get_base_file_name(FILE_NAME) + "}\n"
-    read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY) 
+    save_to_latex_file(get_base_file_name(FILE_NAME), BASE_FILE_NAME, latex_table, DIRECTORY)
     return number_of_repository
 

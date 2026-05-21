@@ -24,7 +24,7 @@ def filter_developers_by_commits(developers):
 
 
 def create_repository_directory(repository_id, component):
-    path = "repository/" + str(repository_id) + "/" + component + "/"
+    path = DIRECTORY + str(repository_id) + "/" + component + "/"
     read_write_file.create_directory(path)
 
 def get_developers(repository_id, component):
@@ -56,11 +56,10 @@ def get_developers(repository_id, component):
     return developers
 
 def create_repo_latex_file(repository_id, status):
-    path = "repository/" + str(repository_id) + "/" 
+    path = DIRECTORY + str(repository_id) + "/" 
     read_write_file.create_directory(path)
     latex_start_repo = "\\section{Repository: " + str(repository_id)  + "} \n"
     read_write_file.append_to_file("repository_1.tex", latex_start_repo, DIRECTORY)
-    read_write_file.append_to_file("repository_2.tex", latex_start_repo, DIRECTORY)
     
 
 def run(repository_id, status):
@@ -78,7 +77,7 @@ def run(repository_id, status):
 
 def latex_repository():
     latex = "\\section{Repository}\n"
-    file_suffix = ["_1.tex", "_2.tex"]
+    file_suffix = ["_1.tex"]
     base_summary_file_name = "repository_summary"
     base_file_name = "repository"
     appendix_file_name = "appendix"

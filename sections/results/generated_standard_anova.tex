@@ -1,0 +1,48 @@
+\subsection{Generated standard anova - For all components touched for all commits} 
+An Anova table for all components touched on average. 
+
+The Two-Way ANOVA evaluates the influence of two independent categorical variables—\textit{Role} (Founder vs. Late Joiner) and \textit{Tenure} (Moderate vs. Sustained)—on the number of unique architectural components touched. The analysis excludes and includes Transient developers to isolate the behaviors of contributors with established project engagement.
+
+\paragraph{Explanation of Table Columns:}
+\begin{itemize}
+    \item \textbf{Sum Sq (Sum of Squares):} Represents the total variation explained by that specific factor. A higher Sum Sq relative to the Residual indicates that the factor has a strong influence on the outcome.
+    \item \textbf{df (Degrees of Freedom):} The number of independent values that can vary in the calculation. For categorical variables, this is typically $N-1$ levels.
+    \item \textbf{F (F-statistic):} The ratio of the variance explained by the factor to the variance unexplained (Residual). A larger F-value suggests the factor is more likely to be significant.
+    \item \textbf{p-Value ($PR(>F)$):} The probability that the observed differences occurred by chance. Using a significance threshold of $\alpha = 0.05$, values above this indicate no statistically significant effect.
+    \item \textbf{ETA Sq} The effect size, quantifies the proportion of the total variance in your dependent variable. 
+\end{itemize}
+
+\paragraph{Explanation of Table Rows:}
+\begin{itemize}
+    \item \textbf{Intercept:} Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.
+    \item \textbf{Role(F/L):} Tests the \textit{Main Role Effect} of being a Founder versus a Late Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage component exploration.
+    \item \textbf{Category(M/S):} Tests the \textit{Main Category Effect} of the eventual contributor catregory (Transient vs Moderate vs. Sustained). 
+    \item \textbf{Interaction:} Tests the \textit{Interaction Effect}. It evaluates if the effect of being a Founder is different for the different categories. 
+    \item \textbf{Residual:} Represents the ``noise'' or variance within the groups that cannot be explained by Role or Tenure. 
+\end{itemize}
+\input{sections/results/generated_standard_anova_transient}
+
+\subsubsection*{Statistical Model}
+The differences between developer categories are assessed using a Two-Way ANOVA 
+with interaction. The value for any individual developer metric ($Y_{ijk}$) 
+is modeled as:
+
+\begin{equation}
+    Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \epsilon_{ijk}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $\mu$ is the grand mean of the touched components.
+    \item $\alpha_i$ represents the effect of the \textbf{Role} (Founder vs. Late Joiner).
+    \item $\beta_j$ represents the effect of the \textbf{Tenure} (Transient, Moderate, Sustained).
+    \item $(\alpha\beta)_{ij}$ is the interaction effect between Role and Tenure.
+    \item $\epsilon_{ijk}$ is the residual error.
+\end{itemize}
+
+The $F$-statistic for each factor is calculated by:
+\begin{equation}
+    F = \frac{SS_{factor} / df_{factor}}{SS_{residual} / df_{residual}}
+\end{equation}
+
+\newpage 

@@ -163,13 +163,11 @@ def generate_compare_for_component(path):
 def generate_and_save():
     latex = get_section_start(FILE_NAME, "sub") + "} \n" 
     latex += generate_compare_for_component(DIRECTORY + "graph/")
-    read_write_file.write_file(get_file_name(FILE_NAME), latex, DIRECTORY) 
-    latex = "\\input{repository/" + get_base_file_name(FILE_NAME) + "}\n"
-    read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY) 
+    save_to_latex_file(get_base_file_name(FILE_NAME), BASE_FILE_NAME, latex, DIRECTORY)
 
 def repository_generate_and_save(repository_id, component, 
                                  developers):
-    path = "repository/" + str(repository_id) + "/" 
+    path = DIRECTORY + str(repository_id) + "/" 
     base_file_name = str(repository_id) + ".tex"
     latex_repo = ""
     if component == "packages":

@@ -1,6 +1,6 @@
 import pandas as pd
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
-from codebase_graph_latex.repository_graph.component_time_series.anova_generate import get_data_frame
+from codebase_graph_latex.repository_graph.component_time_series.generated_ART_anova import get_data_frame
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.latex_table import *
@@ -12,7 +12,7 @@ def section_sub_heading(time_series):
     latex = r"\begin{landscape}" + "\n"
     latex += get_section_start(FILE_NAME, "sub") 
     latex += "For all components touched for " + time_series + "} \n"
-    latex += "An Tukey Honestly Significant Difference table for all components touched on average. \n"
+    latex += "A Tukey Honestly Significant Difference table for all components touched on average. \n"
     latex += generate_tukey_explanation_latex()
     return latex
 
