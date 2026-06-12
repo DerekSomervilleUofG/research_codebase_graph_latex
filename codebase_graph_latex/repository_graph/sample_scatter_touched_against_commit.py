@@ -161,7 +161,7 @@ def generate_compare_for_component(path):
     return latex
 
 def generate_and_save():
-    latex = get_section_start(FILE_NAME, "sub") + "} \n" 
+    latex = get_section_start(FILE_NAME, "") + "} \n" 
     latex += generate_compare_for_component(DIRECTORY + "graph/")
     save_to_latex_file(get_base_file_name(FILE_NAME), BASE_FILE_NAME, latex, DIRECTORY)
 
@@ -171,7 +171,7 @@ def repository_generate_and_save(repository_id, component,
     base_file_name = str(repository_id) + ".tex"
     latex_repo = ""
     if component == "packages":
-        latex_repo += section_heading(FILE_NAME, "sub", "Repository: " + str(repository_id)) 
+        latex_repo += section_heading(FILE_NAME, "", "Repository: " + str(repository_id)) 
         latex_repo += latex_start_graph()
     elif component == "classes":
         latex_repo += latex_new_row()

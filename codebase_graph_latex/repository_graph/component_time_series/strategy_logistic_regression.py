@@ -35,8 +35,7 @@ To identify early indicators of long-term developer engagement, a Logistic Regre
     return latex
 
 def section_sub_heading(time_series):
-    latex = "\\begin{landscape}\n"
-    latex += get_section_start(FILE_NAME, "sub") 
+    latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += generate_logistic_regression_explanation()
     return latex

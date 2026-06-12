@@ -11,20 +11,20 @@ import math
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
-GRAPH_CAPTION = "{type} (n={num} \& $\mu$={mean})"
+GRAPH_CAPTION = "{type} (n={num}, $\mu$={mean}, median={median} \& std={std})"
 FIGURE_CAPTION_START = "Repository {repo} "
 FIGURE_CAPTION = "A time series for the {number_of_commits} commits, {category}, with the average mean (blue line), {component} touched (y-axis) against the number of {unit} (x-axis) for {categories} developer categories. Green is the standard deviation above the mean, and pink is the standard deviation below the mean." 
 FIGURE_SUFFIX = "with \\color{Orange} positive (orange) \\color{Black} and \\color{Red} negative (red) \\color{Black} filled standard deviation. "
 
-def section_sub_heading(repository_id, touched_by):
-    latex = get_section_start(FILE_NAME, "sub") 
+def section_heading(repository_id, touched_by):
+    latex = get_section_start(FILE_NAME, "") 
     if repository_id > 0:
         latex += str(repository_id) + " "
     latex += "For all components touched for " + touched_by + " } \n"
     return latex
 
-def section_sub_sub_heading(repository_id, component, time_series):
-    latex = get_section_start(FILE_NAME, "subsub") 
+def section_sub_heading(repository_id, component, time_series):
+    latex = get_section_start(FILE_NAME, "sub") 
     if repository_id > 0:
         latex += str(repository_id) + " "
     latex += "For " + component + " touched for " + time_series + "} \n"
@@ -115,13 +115,13 @@ def get_step(x_axis_size):
     
 def get_x_axis_unit(unit, x_axis_size):
     if unit == NUMBER_OF_MONTHS:
-        x_axis = np.arange(1, unit + 1)
+        x_axis = np.arange(0, unit)
     elif unit == NUMBER_OF_WEEKS:
-        x_axis = np.arange(1, unit + 1, 5)
+        x_axis = np.arange(0, unit, 5)
     elif unit == TIME_SERIES_NUMBER_OF_COMMIT:
-        x_axis = np.arange(1, unit + 1, 100)
+        x_axis = np.arange(0, unit, 100)
     else:
-        x_axis = np.arange(1, x_axis_size + 1, get_step(x_axis_size))
+        x_axis = np.arange(0, x_axis_size, get_step(x_axis_size))
     return x_axis
 
 def calculate_standard_deviation(data, period, mean_touched, above=True):
@@ -158,11 +158,15 @@ def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SM
     fig, ax = plt.subplots(figsize=figure_size, dpi=300)
     read_write_file.create_directory(path)
     data_frame = np.array(data)
-    months = np.arange(1, unit + 1)
+    months = np.arange(0, unit)
     mean = 0
+    median = 0
+    std_dev = 0
     if len(data) > 0:
         mean_touched = np.nanmean(data_frame, axis=0)
         mean = round(mean_touched[-1],2)
+        median = round(np.nanmedian(data_frame), 2)
+        std_dev = round(np.nanstd(data_frame), 2)
         x_axis_size = len(mean_touched)
         ax.plot(months, mean_touched, label="Mean " + component + " Touched", color="blue")
         std_above, std_below = calculate_std(mean_touched, data, unit)
@@ -185,7 +189,7 @@ def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SM
     file_name = path + get_base_file_name(FILE_NAME) + "." + component + "." + type.lower().replace(" ",".") + "." + UNIT_FREQUENCY.get(unit, "Commits").lower() + "_" + str(x_axis_size) + ".pdf"
     fig.savefig(file_name, bbox_inches='tight')
     plt.close()
-    return file_name, GRAPH_CAPTION.format(num=str(len(data_frame)), type=type.capitalize(), mean=mean)
+    return file_name, GRAPH_CAPTION.format(num=str(len(data_frame)), type=type.capitalize(), mean=mean, median=median, std=std_dev)
 
 def get_data_and_generate_graph(method, path, component, developers, stage, unit, y_axis_max):
     file_name, graph_caption = method(path + component + "/", component, 
@@ -315,10 +319,10 @@ def generate_and_save(repository_id, component, developers, number_of_commits=0)
         commit_prefix = "first " + word_engine.number_to_words(number_of_commits) + " commits"
         time_series_commits = number_of_commits
     if component == "packages" and number_of_commits == 5:
-        latex = section_sub_heading(repository_id, "all commits" + " and for each period")
+        latex = section_heading(repository_id, "all commits" + " and for each period")
         read_write_file.append_to_file(base_file_name, latex, DIRECTORY)
     if component == "packages":
-        latex = section_sub_sub_heading(repository_id, component, commit_prefix)
+        latex = section_sub_heading(repository_id, component, commit_prefix)
         save_to_latex_file(file_name, 
                            base_file_name + ".tex",
                            latex, path)
@@ -332,7 +336,7 @@ def generate_and_save(repository_id, component, developers, number_of_commits=0)
        
     default_generate_save(generate_graph, file_name, repository_id, component, developers, figure_caption=FIGURE_CAPTION, unit=time_series_commits, number_of_commits=number_of_commits)
     if component == "packages" and number_of_commits == 0:
-        latex = section_sub_sub_heading(repository_id, component, " each week " + commit_prefix)
+        latex = section_sub_heading(repository_id, component, " each week " + commit_prefix)
         save_to_latex_file(file_name + "_" + UNIT_FREQUENCY.get(NUMBER_OF_WEEKS, "commit"), 
                            file_name + ".tex",
                            latex, path)

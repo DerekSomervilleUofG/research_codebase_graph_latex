@@ -16,7 +16,7 @@ FIGURE_CAPTION = "Repo: {repo}. First {first_founder_developers_word} ({first_fo
 FIGURE_CAPTION += " developers. The number of components touched (y-axis) against the number of {x_axis} (x-axis). "
 
 def section_heading(repository_id, x_axis):
-    latex = get_section_start(FILE_NAME, "sub") + str(repository_id) + " For developer " + AXIS_NAME[x_axis] + " and components touched.} \n"
+    latex = get_section_start(FILE_NAME, "subsub") + str(repository_id) + " For developer " + AXIS_NAME[x_axis] + " and components touched.} \n"
     return latex
 
 def generate_scatter(repository_id, path, component, developers, x_axis, y_axis_max, category):

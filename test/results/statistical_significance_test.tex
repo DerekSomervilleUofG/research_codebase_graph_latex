@@ -1,0 +1,26 @@
+\section{Statistical significance test - For all components touched for all commits} 
+
+A Welch $t$-test was employed to determine if the mean contributions of Group A differ significantly from Group B. This test is appropriate for continuous data and is robust to unequal variances. 
+ 
+Complementarily, the Mann-Whitney $U$ (MWU) test was used to assess stochastic dominance by ranking data points. This non-parametric approach does not require a normal distribution and is highly resistant to outliers. 
+ 
+The Brunner-Münzel test was employed as a robust non-parametric method to determine if the relative treatment effects of Group A differ significantly from Group B. This test is highly appropriate for skewed count data and is completely robust to unequal variances and large group size imbalances. Complementarily, Cliff's $\delta$ and the Probability of Superiority ($PS$) are provided as robust non-parametric effect sizes to quantify the directional dominance magnitude between the samples. 
+ 
+Columns below:  
+\begin{itemize}
+                    \item{\textbf{Component} - Packages, classes or method touched.}
+                    \item{\textbf{First *n* commits} - A sample of the first x number of commits for developers. }
+                    \item{\textbf{Contributor Category} Transient, Moderate or Sustained. "vs." equals versus.}
+                    \item{\textbf{Sample A $\mu$} - The mean average of the first sample A. In brackets the number of developers for sample A. }
+                    \item{\textbf{Sample B $\mu$} - The mean average of the second sample B. In brackets the number of developers for sample b.}
+                    \item{\textbf{Welch Statistic} - This is the magnitude of the change, greater than 2.0 generally indicates a significant change. }
+                    \item{\textbf{Welch $P$} - A significance test of the difference between sample A and sample B. A $p$ \textless{} 0.05 indicates a significant difference between samples. }
+                    \item{\textbf{MWU $P$} - The Mann-Whitney $p$-value. A significance test of the difference between sample A and sample B. A $p$ \textless{} 0.05 indicates a significant difference between samples.} 
+                    \item{\textbf{BM $P$} - The Brunner-Münzel asymptotic $p$-value. A $p$ \textless{} 0.05 indicates a significant difference in relative effects.}
+                    \item{\textbf{Brunner-Münzel W} - The robust test statistic. Large absolute values indicate a significant structural shift.} 
+                    \item{\textbf{Cliff's $\delta$} - Non-parametric effect size bound between -1 and +1, evaluating directional dominance.}
+                    \item{\textbf{Prob. of Superiority ($PS$)} - The empirical probability ($0$ to $1$) that a randomly selected developer from Sample A outranked a developer from Sample B.} 
+                \end{itemize}
+    
+\input{sections/results/statistical_significance_test_founder_joiner}
+\input{sections/results/statistical_significance_test_transient_moderate}

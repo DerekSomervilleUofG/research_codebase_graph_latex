@@ -2,6 +2,12 @@ import datetime
 from codebase_graph_latex.constants import *
 CAPTION_LENGTH = 100
 
+def filter_developers(developers):
+    return {key: value for key, value in developers.items() if len(value[NUMBER_OF_COMMIT]) >= DEVELOPER_HAS_NUMNER_OF_COMMITS and value[YEAR_PERIOD][-1] >= DEVELOPER_PERIOD}
+
+def filter_developers_by_commits(developers, number_of_commits):
+    return {key: value for key, value in developers.items() if len(value[NUMBER_OF_COMMIT]) >= number_of_commits}
+
 
 def get_date_time(date_time):
     return datetime.datetime.strptime(date_time, "%Y%m%d%H%M%S")

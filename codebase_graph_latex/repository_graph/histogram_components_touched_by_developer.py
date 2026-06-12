@@ -1,13 +1,14 @@
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.store_developer_data import * 
-import math
+import statistics
+import numpy
 
 FILE_NAME = __name__
 BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
 GRAPH_CAPTION = "{category} (n={number}). "
-ALL_GRAPH_CAPTION = "By {freq}. "
-MAX_Y_AXIS = {"all": 100, TRANSIENT: 100, MODERATE: 80, SUSTAINED: 75}
+ALL_GRAPH_CAPTION = "By {freq}."
+MAX_Y_AXIS = {"all": 70, TRANSIENT: 100, MODERATE: 80, SUSTAINED: 75, "packages_" + SUSTAINED: 20, "packages_" + MODERATE: 25, "classes_" + SUSTAINED: 25, "classes_" + MODERATE: 25, "methods_" + MODERATE: 30, "methods_" + SUSTAINED: 32}
 MAX_X_AXIS = {"all": 25, TRANSIENT + "_packages": 5, MODERATE + "_packages": 1, SUSTAINED + "_packages": 1,
               TRANSIENT + "_classes": 50, MODERATE + "_classes": 15, SUSTAINED + "_classes": 15,
               TRANSIENT + "_methods": 100, MODERATE + "_methods": 40, SUSTAINED + "_methods": 40}
@@ -15,30 +16,41 @@ MAX_X_AXIS = {"all": 25, TRANSIENT + "_packages": 5, MODERATE + "_packages": 1, 
 FIGURE_CAPTION = "Histogram of percentage of  developers (y-axis) against the average {component} touched by {freq} (x-axis) from " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developers from {number_of_repositories} repositories sampled from GitHub." 
 ALL_FIGURE_CAPTION = "Histogram of percentage of all developers (y-axis) against the average {component} touched by day and commit (x-axis) from all {num} developers from {number_of_repositories} repositories sampled from GitHub." 
 
-def get_max_y_axis(category):
-    return MAX_Y_AXIS[category.split(" ")[0]]
+def get_max_y_axis(category, component):
+    y_axis_max = MAX_Y_AXIS.get(component + "_" +category.split(" ")[0], 0)
+    if y_axis_max == 0:
+        y_axis_max = y_axis_max = MAX_Y_AXIS.get(category.split(" ")[0], 0)
+    return y_axis_max
 
 def get_commit_and_daily(developers):
     commit_data = []
     daily_data = []
     for key, developer in developers.items():
-        daily_data.append(round(developer[KNOWN_Y_AXIS][-1] / developer[YEAR_PERIOD][-1], 2))
-        commit_data.append(round(developer[KNOWN_Y_AXIS][-1] / developer[NUMBER_OF_COMMIT][-1], 2))
+        daily = round(developer[KNOWN_Y_AXIS][-1] / developer[YEAR_PERIOD][-1], 2)
+        if daily == 0:
+            daily = 0.01
+        commit = round(developer[KNOWN_Y_AXIS][-1] / developer[NUMBER_OF_COMMIT][-1], 2)
+        if commit == 0:
+            commit = 0.01
+        daily_data.append(daily)
+        commit_data.append(commit)
     return commit_data, daily_data
 
 def generate_summary_histogram(commit_data, daily_data, component, category):
     weights = np.ones_like(daily_data) * (100.0 / len(daily_data))
+    daily_data = numpy.round(numpy.log10(daily_data), 3)
+    commit_data = numpy.round(numpy.log10(commit_data), 3)
     latex_repo = developer_percentage_graph(FILE_NAME, daily_data, weights, component, 0,
                                      category + "Day",
-                                     param_x_axis="Touched " + component,
+                                     param_x_axis=component.capitalize() + " touched (log)",
                                      param_caption=ALL_GRAPH_CAPTION.format(freq="Day"), 
-                                     max_x_axis=max(max(daily_data),max(commit_data)) + 1, 
+                                     max_x_axis=max(max(daily_data),max(commit_data)), 
                                      max_y_axis=MAX_Y_AXIS[category])
     weights = np.ones_like(commit_data) * (100.0 / len(commit_data))
     latex_repo += developer_percentage_graph(FILE_NAME, commit_data, weights, component, 0, category + "Commit", 
-                                    param_x_axis="Touched " + component,
+                                    param_x_axis=component.capitalize() + " touched (log)",
                                     param_caption=ALL_GRAPH_CAPTION.format(freq="Commit"), 
-                                    max_x_axis=max(max(daily_data),max(commit_data)) + 1, 
+                                    max_x_axis=max(max(daily_data),max(commit_data)), 
                                     max_y_axis=MAX_Y_AXIS[category]) 
     return latex_repo
 
@@ -54,7 +66,7 @@ def generate_component_summary_historgram(component, number_of_repositories):
                                      category + "Day", "", 
                                      GRAPH_CAPTION.format(number=str(len(daily_data)), category=category.capitalize()), 
                                      max_x_axis=MAX_X_AXIS[category.split(" ")[0] + "_" + component], 
-                                    max_y_axis=get_max_y_axis(category))
+                                    max_y_axis=get_max_y_axis(category, component))
     latex_commit = latex_start_graph() 
     for category in DEVELOPER_CATEGORY:
         developers = developer_component_knowledge[category][component]
@@ -64,7 +76,7 @@ def generate_component_summary_historgram(component, number_of_repositories):
                                        category + "Commit", "", 
                                        GRAPH_CAPTION.format(number=str(len(commit_data)), category=category.capitalize()), 
                                        max_x_axis=MAX_X_AXIS[category.split(" ")[0] + "_" + component], 
-                                        max_y_axis=get_max_y_axis(category))
+                                        max_y_axis=get_max_y_axis(category, component))
     commit_data, daily_data = get_commit_and_daily(all_developers)
     latex_start = latex_start_graph()
     latex_start += generate_summary_histogram(commit_data, daily_data, component, "all")
@@ -81,7 +93,7 @@ def generate_component_summary_historgram(component, number_of_repositories):
     return latex_day + latex_commit
 
 def generate_and_save(number_of_repositories):
-    latex = get_section_start(FILE_NAME, "sub") + "For components with total } \n"
+    latex = get_section_start(FILE_NAME, "") + "For components with total } \n"
     for component in COMPONENTS:
         latex += generate_component_summary_historgram(component, number_of_repositories)
     read_write_file.write_file(get_file_name(FILE_NAME), latex, DIRECTORY)

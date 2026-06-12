@@ -1,0 +1,34 @@
+\input{sections/results/tukey_hsd_significant}
+\input{sections/results/tukey_hsd_not_significant}
+
+\subsubsection*{Post-hoc Analysis: Tukey HSD}
+Following the Two-Way ANOVA, a Tukey Honestly Significant Difference (HSD) test 
+is used to conduct pairwise comparisons. This test determines which specific 
+group means differ significantly while maintaining a constant family-wise 
+error rate.
+
+The studentized range statistic ($q$) for comparing two group means is defined as:
+
+\begin{equation}
+    q = \frac{\bar{Y}_{max} - \bar{Y}_{min}}{\sqrt{\frac{MS_{residual}}{n}}}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $\bar{Y}_{max}$ and $\bar{Y}_{min}$ are the larger and smaller means of the two groups being compared.
+    \item $MS_{residual}$ is the Mean Square Error derived from the ANOVA residual.
+    \item $n$ is the number of observations in each group (adjusted for unequal sample sizes via the harmonic mean).
+\end{itemize}
+
+A pair of groups is considered significantly different if the absolute difference 
+between their means exceeds the Honestly Significant Difference (HSD):
+
+\begin{equation}
+    HSD = q_{\alpha, k, df} \sqrt{\frac{MS_{residual}}{n}}
+\end{equation}
+
+Where $q_{\alpha, k, df}$ is the critical value from the studentized range 
+distribution based on the significance level ($\alpha = 0.05$), the number 
+of groups ($k$), and the degrees of freedom ($df$) from the ANOVA residual.
+
+\newpage 

@@ -8,7 +8,7 @@ from codebase_graph_latex.calculate import *
 
 
 figure_counter = FigureCounter()
-BINS = 50
+BINS = 200
 NUMBER_GRAPHS_TO_PAGE = 6
 NUMBER_GRAPHS_TO_ROW = 2
 MAX_Y_AXIS = 40
@@ -22,7 +22,7 @@ def get_graph_number():
     return graph_number
 
 def latex_start_graph():
-    latex = "\\begin{figure}[!htbp]\n"
+    latex = "\\begin{figure}\n"
     latex += "  \\centering \n"
     global graph_number, figure_counter
     graph_number = 0
@@ -31,13 +31,13 @@ def latex_start_graph():
 
 def latex_end_graph():
     latex = "\\end{figure}\n"
-    latex += "\\newpage \n"
+    latex += "\\clearpage \n"
     global graph_number
     graph_number = None
     return  latex
 
 def latex_new_row():
-    return "  \\vfill\n"
+    return "\\vspace{3mm}\n"
 
 def get_section_start(file_name, sub_type=""):
     return "\\" + sub_type + "section{" + file_name.split(".")[-1].replace("_", " ").capitalize() + " - "
@@ -45,17 +45,14 @@ def get_section_start(file_name, sub_type=""):
 
 def __add_graph_latex(file_path, caption, figure="subfigure", size=0.45, placement="b"):
     global figure_counter
-    label = "figure." + str(figure_counter.get_counter())
-    clean_caption = caption.replace("_", " ")
-    latex = rf"""\begin{{minipage}}[{placement}]{{{size}\textwidth}}
-    \centering
-    \includegraphics[width=\textwidth]{{ {file_path} }}
-    \vskip 5pt
-    {{\small {clean_caption}}}
-    \label{{ {label} }}
-\end{{minipage}}%
-\hfill
-"""
+    label = "figure." + file_path
+    latex = "  \\begin{" + figure + "}["+ placement + "] \n"
+    if size > 0:
+        latex += "{" + str(size) + "\\textwidth}\n"
+    latex += "    \\includegraphics{" + file_path + "}\n"
+    latex += "    \\caption{" + caption.replace("_", " ") + "}\n"
+    latex += "    \\label{" + label + "}\n"
+    latex += "  \\end{" + figure + "}\n"
     return latex
 
 def latex_add_graph(file_path, caption):
@@ -65,13 +62,13 @@ def latex_add_sub_graph(file_path, caption):
     global graph_number, figure_counter
     figure_counter.increment_sub_graph()
     latex = ""
-    if graph_number is not None and graph_number > 0 and graph_number % NUMBER_GRAPHS_TO_PAGE == 0:
-        latex += "\\caption{Part " + str(graph_number// NUMBER_GRAPHS_TO_PAGE) + " continued on next page.}\n"
-        local_graph_number = graph_number
-        latex += latex_end_graph()
-        latex += latex_start_graph()
-        set_graph_number(local_graph_number)
-    elif graph_number is not None and graph_number > 0 and graph_number % NUMBER_GRAPHS_TO_ROW == 0:
+    #if graph_number is not None and graph_number > 0 and graph_number % NUMBER_GRAPHS_TO_PAGE == 0:
+    #    latex += "\\caption{Part " + str(graph_number// NUMBER_GRAPHS_TO_PAGE) + " continued on next page.}\n"
+    #    local_graph_number = graph_number
+    #    latex += latex_end_graph()
+    #    latex += latex_start_graph()
+    #    set_graph_number(local_graph_number)
+    if graph_number is not None and graph_number > 0 and graph_number % NUMBER_GRAPHS_TO_ROW == 0:
         latex += latex_new_row()
     latex += __add_graph_latex(file_path, caption)
     if graph_number is not None:
@@ -83,13 +80,14 @@ def developer_graph(file_name, developers, table_suffix, repository_id,
                     sub_graph=True, 
                     max_x_axis=0, 
                     max_y_axis=0, 
-                    bins=BINS,
+                    bins=None,
                     figure_size=SMALL_FIGURE):
     path = DIRECTORY
     if repository_id > 0:
         path += str(repository_id) + "/"
     else:
         path += "graph/"
+    bins = get_bins(max_x_axis, max(developers), bins)
     x_axis = "Average number of "
     if table_suffix in ["packages", "files", "classes", "methods"]:
         x_axis += "touched "
@@ -100,7 +98,7 @@ def developer_graph(file_name, developers, table_suffix, repository_id,
         file_name += "." + type.lower().replace(" ", ".")
     file_name += ".pdf"
     plt.figure(figsize=figure_size)
-    plt.hist(developers, bins=bins)
+    plt.hist(developers, bins= bins)
     max_height = max([patch.get_height() for patch in plt.gca().patches])
     if max_x_axis > 0:
         plt.xlim(0, max_x_axis)
@@ -122,18 +120,27 @@ def developer_graph(file_name, developers, table_suffix, repository_id,
         latex = latex_add_graph(file_name, param_caption)
     return latex
 
+def get_bins(max_x_axis, max_developer, bins):
+    size = max(max_x_axis, max_developer)
+    if size > 0 and bins is None:
+        bins = np.arange(0, size + (size/15), size/15)
+    elif bins is None:
+        bins = BINS 
+    return bins
+
 def developer_percentage_graph(file_name, developers, weights, table_suffix, repository_id, 
                     type, param_x_axis="", param_caption="", 
                     sub_graph=True, 
                     max_x_axis=0, 
                     max_y_axis=MAX_Y_AXIS,
-                    bins=BINS,
+                    bins=None,
                     figure_size=SMALL_FIGURE):
     path = DIRECTORY
     if repository_id > 0:
         path += str(repository_id) + "/"
     else:
         path += "graph/"
+    bins = get_bins(max_x_axis, max(developers), bins)
     x_axis = "Average number of "
     if table_suffix in ["packages", "files", "classes", "methods"]:
         x_axis += "touched "
@@ -182,7 +189,7 @@ def populate_touched_data(developers, unit=NUMBER_OF_MONTHS):
             if len(data_to_append) >= 1:
                 last_item = data_to_append[-1]
             else:
-                last_item = 0
+                last_item = 1
             add_extra(data_to_append, unit - len(data_to_append), last_item)
         data.append(data_to_append[:unit])
     return data

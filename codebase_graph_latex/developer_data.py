@@ -89,7 +89,7 @@ def generate_data(commits, developers, developers_start, start_known, from_month
                         previous_knowledge = developers[developer_id][KNOWN_Y_AXIS][-1]
                     else:
                         previous_knowledge = row[PACKAGE_KNOWN_COL]
-                    developers[developer_id][KNOWN_Y_AXIS].append(previous_knowledge)
+                    developers[developer_id][KNOWN_Y_AXIS].append(row[PACKAGE_KNOWN_COL])
                     developers[developer_id][PERCENTAGE_KNOWN].append(calc_percentage(row[PACKAGE_KNOWN_COL], start_known))
                     developers[developer_id][NUMBER_OF_COMMIT].append(developers[developer_id][NUMBER_OF_COMMIT][-1] + 1)
                     for unit in [NUMBER_OF_MONTHS, NUMBER_OF_WEEKS]:

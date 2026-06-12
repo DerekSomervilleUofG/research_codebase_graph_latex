@@ -159,3 +159,30 @@ resource/database/codebase_start.db,''matplotlib.backends.backend_pdf.Stream'' o
 resource/database/codebase_start.db,Error -2 while flushing: inconsistent stream state
 resource/database/codebase_start.db,module ''scipy.stats'' has no attribute ''brunnerMünzel''
 resource/database/codebase_start.db,module ''scipy.stats'' has no attribute ''brunnerMunzel''
+resource/database/codebase_start.db,The R package "ARTool" is not installed.
+resource/database/codebase_start.db,Error in inDL(x as.logical(local) as.logical(now) ...) :   unable to load shared object ''C:/Program Files/R/R-4.6.0/library/stats/libs/x64/stats.dll'':  LoadLibrary failure:  The specified module could not be found.
+resource/database/codebase_start.db,Conversion ''py2rpy'' not defined for objects of type ''<class ''numpy.ndarray''>''
+resource/database/codebase_start.db,Conversion ''py2rpy'' not defined for objects of type ''<class ''numpy.ndarray''>''
+resource/database/codebase_start.db,Error in UseMethod("anova") :   no applicable method for ''anova'' applied to an object of class "list"
+resource/database/codebase_start.db,Error in UseMethod("anova") :   no applicable method for ''anova'' applied to an object of class "list"
+resource/database/codebase_start.db,''int'' object is not subscriptable
+resource/database/codebase_start.db,[WinError 2] The system cannot find the file specified: ''sections/results/''
+resource/database/codebase_start.db,[WinError 2] The system cannot find the file specified: ''sections/results/''
+resource/database/codebase_start.db,[WinError 2] The system cannot find the file specified: ''sections/results/''
+resource/database/codebase_start.db,Error in UseMethod("anova") :   no applicable method for ''anova'' applied to an object of class "list"
+resource/database/codebase_start.db,Error in UseMethod("anova") :   no applicable method for ''anova'' applied to an object of class "list"
+resource/database/codebase_start.db,Error in anova(art_model) : could not find function "anova"
+resource/database/codebase_start.db,can only concatenate str (not "type") to str
+resource/database/codebase_start.db,''median''
+resource/database/codebase_start.db,supplied range of [-inf 1.771] is not finite
+resource/database/codebase_start.db,supplied range of [-inf 1.771] is not finite
+resource/database/codebase_start.db,can only concatenate list (not "int") to list
+resource/database/codebase_start.db,get_max_y_axis() missing 1 required positional argument: ''component''
+resource/database/codebase_start.db,cannot access local variable ''median'' where it is not associated with a value
+resource/database/codebase_start.db,x and y must have same first dimension but have shapes (501) and (500)
+resource/database/codebase_start.db,x and y must have same first dimension but have shapes (499) and (500)
+resource/database/codebase_start.db,x and y must have same first dimension but have shapes (501) and (500)
+resource/database/codebase_start.db,`bins` must be an integer a string or an array
+resource/database/codebase_start.db,`bins` must be positive when an integer
+resource/database/codebase_start.db,`bins` must be positive when an integer
+resource/database/codebase_start.db,module ''numpy'' has no attribute ''arrange''

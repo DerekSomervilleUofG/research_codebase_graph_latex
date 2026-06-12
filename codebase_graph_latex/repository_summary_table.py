@@ -13,9 +13,9 @@ read_write_file = ReadWriteFile()
 
 
 def section_heading(number_of_repository):
-    section = "\\begin{landscape}"
-    section += "\\subsection{Repository Summary Table} \n"
-    section += "\\begin{table}[h!]\n"
+    section = "\\section{Repository Summary Table} \n"
+    section += "\\begin{table}\n"
+    
     section += "\\centering\n"
     section += "\\caption{Summary of " + word_engine.number_to_words(number_of_repository) + " open-source repositories identified from GitHub"
     section += " that have at least 1000 pull requests and " + word_engine.number_to_words(MINIMUM_NUMBER_OF_COMMTIS) 
@@ -25,7 +25,8 @@ def section_heading(number_of_repository):
     return section
 
 def summary_table_start():
-    table = "\\begin{tabular}{rlrrrrrrrrr}\n"
+    table = "\\resizebox{\\textwidth}{!}{% \n"
+    table += "\\begin{tabular}{rlrrrrrrrrl}\n"
     table += "\\toprule\n"
     table += "\\textbf{ID} & \\textbf{Repo Name} "
     table += " & \\makecell{\\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
@@ -41,8 +42,8 @@ def summary_table_start():
 def summary_table_end():
     table = "\\bottomrule\n"
     table += "\\end{tabular}\n"
-    table += "\\end{table}\n"
-    table += "\\end{landscape} \n"
+    table += "}\n"
+    table += "\\end{table} \n"
     table += "\\newpage \n"
     return table
 
@@ -83,9 +84,9 @@ def create_repository_summary_page(repositories, repo_contribution):
             latex_table += " & " + str(repo_contribution.get(repository[REPOSITORY_ID])[SUSTAINED_JOINER])
             latex_table += " & " + str(repository[COMMIT_COUNT])
             total_commit += repository[COMMIT_COUNT]
-            latex_table += " & " + get_date_time(repository[MIN_DATE]).strftime('%Y-%b-%d')
+            latex_table += " & " + get_date_time(repository[MIN_DATE]).strftime('%d-%m-%Y')
             if get_integer(repository[MAX_DATE]) < 20240300000000:
-                latex_table += " & " + get_date_time(repository[MAX_DATE]).strftime('%Y-%b-%d')
+                latex_table += " & " + get_date_time(repository[MAX_DATE]).strftime('%d-%m-%Y')
             else:
                 latex_table += " & Ongoing"
             latex_table += " \\\\ \n"

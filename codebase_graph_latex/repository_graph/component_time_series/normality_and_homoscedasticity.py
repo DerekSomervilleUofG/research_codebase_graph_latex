@@ -6,7 +6,7 @@ FILE_NAME = __name__
 SIGNIFICANT_P = 0.05
 
 def section_sub_heading(time_series):
-    latex = get_section_start(FILE_NAME, "sub") 
+    latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n\n"
     latex += "Certain statistical methods require normality of each sample or the equality of variance. "
     latex += "A Shapiro-Wilk Test evaluates whether a sample distribution significantly differs from the normal distribution. "
@@ -18,8 +18,11 @@ def section_sub_heading(time_series):
                     \item{\textbf{Component} - Packages, classes or methods touched.}
                     \item{\textbf{First *n* commits} - A sample of the first x number of commits for developers. }
                     \item{\textbf{Contributor Category} Transient, Moderate or Sustained. "vs." equals versus.}
-                    \item{\textbf{Sample A $\mu$} - The mean average of the first sample A. In brackets the number of developers for sample A. }
-                    \item{\textbf{Sample B $\mu$} - The mean average of the second sample B. In brackets the number of developers for sample B.}
+                    \item{\textbf{Sample A $\mu$} - The mean average of the first sample A. }
+                    \item{\textbf{Sample A NUmber} - The number of developers the first sample A.  }
+                    \item{\textbf{Sample B $\mu$} - The mean average of the second sample B.}
+                    \item{\textbf{Sample B Number} - The number of developers the first sample B.}
+                    \item{\textbf{Percentage Difference in $\mu$} - The percentage difference in means between samples.}
                     \item{\textbf{Sample A Normality $P$} - Shapiro normality $P$ value of sample A. } 
                     \item{\textbf{Sample B Normality $P$} - Shapiro normality $P$ value of sample B. }
                     \item{\textbf{Variance Equality $P$} - The Levene variance equality p-value between sample A and B. }
@@ -55,11 +58,11 @@ def get_table_name(category_compare):
     return "A Shapiro-Wilk test of " + category_compare + " sample normality and a Levene's variance test between samples"
 
 def get_headings(sample_a, sample_b):
-    headings = ["Component", "First *n* commits", "Contributory Category", sample_a + r" $\mu$", sample_b + r" $\mu$", sample_a + " Normality $P$", sample_b + " Normality $P$", "Variance Equality $P$", "Statistical Models", "Model $P$"]
+    headings = ["Component", "First $n$ commits", "Contributory Category", sample_a + r" $\mu$", sample_a + r" number", sample_b + r" $\mu$", sample_b + r" number", r"Percentage Difference in $\mu$", sample_a + " Normality $P$", sample_b + " Normality $P$", "Variance Equality $P$", "Statistical Models", "Model $P$"]
     return headings
 
 def get_latex_heading():
-    return "l r p{4cm} r r r r r l r "
+    return "l r p{4cm} c c c c r r r r l r "
 
 def get_table_latex(category_compare, sample_a, sample_b):
     return start_latex_table(get_table_name(category_compare), get_headings(sample_a, sample_b), get_latex_heading())
@@ -78,15 +81,15 @@ def generate_normal_comparison_latex(latex, sample_a_values, sample_b_values, fi
         recommended = "Welch $t$"
     if levene_p >= SIGNIFICANT_P:
         if recommended == "":
-            recommended = "Standard ANOVA, Mann-Whitney"
+            recommended = "Mann-Whitney"
         else:
-            recommended += "Standard ANOVA, Mann-Whitney"
+            recommended += "Mann-Whitney"
         p_value = u_p
     else:
         if recommended == "":
-            recommended = "ANT ANOVA, Brunner-Münzel"
+            recommended = "Brunner-Münzel"
         else:
-            recommended += "ANT ANOVA, Brunner-Münzel"
+            recommended += "Brunner-Münzel"
         p_value = bm_p
     shapiro_p_a = format_p(shapiro_p_a)
     shapiro_p_b = format_p(shapiro_p_b)

@@ -1,19 +1,34 @@
 from scipy import stats
 import pandas as pd
+import statistics
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.latex_table import *
 from codebase_graph_latex.repository_graph.component_time_series.normality_and_homoscedasticity import get_table_latex
 from codebase_graph_latex.repository_graph.component_time_series.normality_and_homoscedasticity import generate_normal_comparison_latex
-
+from codebase_graph_latex.repository_graph.component_time_series.normality_and_homoscedasticity import FILE_NAME as normal_file_name
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 previous_file_name = None
 previous_normal_file_name = None
+previous_graph_file_name = None
 previous_a_category = None
+previous_component = None
+previous_number_of_commits = None
+graph_file_names = {}
+
+def set_previous():
+    global previous_file_name, previous_normal_file_name, previous_graph_file_name, previous_a_category, previous_component, previous_number_of_commits
+    previous_file_name = None
+    previous_normal_file_name = None
+    previous_graph_file_name = None
+    previous_a_category = None
+    previous_component = None
+    previous_number_of_commits = None
+
 
 def section_sub_heading(time_series):
-    latex = get_section_start(FILE_NAME, "sub") 
+    latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n\n"
     latex += "A Welch $t$-test was employed to determine if the mean contributions of Group A "
     latex += "differ significantly from Group B. This test is appropriate for continuous data "
@@ -156,6 +171,63 @@ def generate_formula_latex(sample_a_b):
     latex += generate_bruner_Münzel_formula_latex(sample_a_b)
     return latex
 
+def get_last_commit(sample_values):
+    return list(map(lambda x: x[-1], sample_values))
+
+def get_basic_caption(component, number_of_commits, category_compare):
+    return component.capitalize() + " for " + word_engine.number_to_words(number_of_commits) + " commits for " + category_compare 
+
+def get_caption(component, number_of_commits, category_compare, sample_label, sample_values):
+    mean_val   = round(statistics.mean(sample_values), 2)
+    median_val = round(statistics.median(sample_values), 2)
+    mode_val = round(statistics.mode(sample_values), 2)
+    std_val = round(statistics.stdev(sample_values),2)
+    max_val    = max(sample_values)
+    caption = sample_label.capitalize() + " ($\mu$: " + str(mean_val) + ", median:" + str(median_val) + ", mode:" + str(mode_val) + ", std:" + str(std_val) + " and max:" + str(max_val) + ")"
+    return caption
+
+def end_graph(component, number_of_commits, add_start):
+    for file_name in graph_file_names:
+        latex_fill = ""
+        if not (TRANSIENT in file_name and number_of_commits ==20):
+            latex_fill += "\\caption{" + get_basic_caption(component, number_of_commits, graph_file_names[file_name]) + "} \n"
+        latex_fill += latex_end_graph()
+        if add_start:
+            latex_fill += latex_start_graph()
+        read_write_file.append_to_file(file_name + ".tex", latex_fill, DIRECTORY)
+
+def generate_graphs(graph_file_name, number_of_commits, component, category_compare, sample_a, sample_a_values, sample_b, sample_b_values):
+    global previous_component, previous_number_of_commits, graph_file_names
+    if graph_file_name not in graph_file_names.keys():
+        graph_file_names[graph_file_name] = category_compare
+    latex = ""
+    if (previous_component is not None and previous_component != component) or (previous_number_of_commits is not None and previous_number_of_commits != number_of_commits):
+        end_graph(previous_component, previous_number_of_commits, True)
+
+    if isinstance(sample_b, list):
+        sample_b = " ".join(sample_b)
+    base_file_name = graph_file_name + "_" + str(number_of_commits) + "_" + component
+    caption = get_caption(component, number_of_commits, category_compare, sample_a, sample_a_values)
+    latex += developer_graph(base_file_name + "_founder_" + sample_a, sample_a_values, component + " touched", 0, "commits", param_caption=caption)
+    caption = get_caption(component, number_of_commits, category_compare, sample_b, sample_b_values)
+    latex += developer_graph(base_file_name + "_sample_" + sample_b, sample_b_values, component + " touched", 0, "commits", param_caption=caption)
+
+    read_write_file.append_to_file(graph_file_name + ".tex", latex, DIRECTORY)
+    if component == "methods" and number_of_commits == END_COMMIT_NUMBER and sample_a == MODERATE:
+        for file_name in graph_file_names:
+            if len(sample_a_values) > 0:
+                latex_fill = "\\caption{" + get_basic_caption(component, number_of_commits, graph_file_names[file_name]) + "} \n"
+            else:
+                latex_fill = ""
+            latex_fill += latex_end_graph()    
+            read_write_file.append_to_file(file_name + ".tex", latex_fill, DIRECTORY)
+    if len(sample_a_values) > 0:
+        previous_component = component
+        previous_number_of_commits = number_of_commits
+    else:
+        previous_component = None
+        previous_number_of_commits = None
+
 def cliffts_delta_and_ps(group_a, group_b):
     """
     Calculates Cliff's Delta (d) and the Probability of Superiority (PS)
@@ -182,8 +254,10 @@ def determine_category(cat_name, categories):
         categories.append(second_category_full)
     
 
-def formate_list(sample_list, samples):
-    if len(sample_list) == 4:
+def formate_list(sample_list, samples, number_of_commits):
+    if len(sample_list) == 4 and number_of_commits == 5:
+        category = TRANSIENT + " with five or more; " + MODERATE + " \& " + SUSTAINED
+    elif len(sample_list) == 4:
         category = "All"
     elif len(sample_list) == 2:
         category = sample_list[0]
@@ -196,7 +270,7 @@ def formate_list(sample_list, samples):
     return category.capitalize()
 
 
-def filter_data(developers_dict, samples, unit):
+def filter_data(developers_dict, samples, unit, number_of_commits):
     sample_a_values = []
     sample_b_values = []
     a_categories = []
@@ -215,7 +289,7 @@ def filter_data(developers_dict, samples, unit):
         elif len(samples[1]) == 2 and samples[1][1] in cat_name.lower():
             sample_b_values.extend(final_values)
 
-    return sample_a_values, sample_b_values, formate_list(a_categories, samples)
+    return sample_a_values, sample_b_values, formate_list(a_categories, samples, number_of_commits)
 
 def generate_simple_comparison_latex(sample_a_values, sample_b_values, component, a_category, number_of_commits, normal_file_name):
     
@@ -234,13 +308,14 @@ def generate_simple_comparison_latex(sample_a_values, sample_b_values, component
 
     mean_a = np.mean(sample_a_values) if sample_a_values else 0
     mean_b = np.mean(sample_b_values) if sample_b_values else 0
+    mean_diff = (mean_b/ mean_a) * 100
     # Build a simple DataFrame for the LaTeX table
     a_number = str(len(sample_a_values))
     b_number = str(len(sample_b_values))
     component_clean = component.replace("_", "-").capitalize() 
     latex =  f"{component_clean} & {number_of_commits} & "
     latex +=  f"{a_category} & "
-    latex += f" {mean_a:.2f} ({a_number}) & {mean_b:.2f} ({b_number}) & "
+    latex += f" {mean_a:.2f} & {a_number} & {mean_b:.2f} & {b_number} & {mean_diff:.2f} & "
     generate_normal_comparison_latex(latex, sample_a_values, sample_b_values, normal_file_name, u_p, bm_p)
     latex += f"{t_stat:.2f} & {t_p:.4f} & "
     latex += f"{u_p:.4f} & "
@@ -248,27 +323,31 @@ def generate_simple_comparison_latex(sample_a_values, sample_b_values, component
     latex += f"{delta:.3f} & {ps:.3f} \\\\ \n"
     return latex
 
-def generate_and_save(component, developers, number_of_commits, sample_a_b, file_name, normal_file_name):
-    global previous_file_name, previous_a_category, previous_normal_file_name
+def generate_and_save(component, developers, number_of_commits, sample_a_b, file_name, graph_file_name, normal_file_name):
+    global previous_file_name, previous_a_category, previous_normal_file_name, previous_graph_file_name
     path = DIRECTORY
     commit_prefix = "all commits"
-    sample_a_values, sample_b_values, a_category = filter_data(developers, sample_a_b, TIME_SERIES_NUMBER_OF_COMMIT)
+    category_compare = ""
+    sample_a_values, sample_b_values, a_category = filter_data(developers, sample_a_b, TIME_SERIES_NUMBER_OF_COMMIT, number_of_commits)
     if component == "methods" and sample_a_b[0] == MODERATE and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(previous_file_name + ".tex", table_end(), path)
         read_write_file.append_to_file(previous_normal_file_name + ".tex", table_end(), path)
-    if component == "packages" and sample_a_b[0] in [FOUNDER] and number_of_commits == START_COMMIT_NUMBER:
-        number_of_commit_desc = "1, 5, 10 and 20 "
+    if FOUNDER in file_name:
         category_compare = "different categories of " + FOUNDER + " versus different categories of late " + JOINER + " "
         sample_a = sample_a_b[0].capitalize()
         if isinstance(sample_a_b[1], str):
             sample_b = sample_a_b[1].capitalize()
         elif len(sample_a_b[1]) == 2:
             sample_b = sample_a_b[1][0].capitalize() + r" \& " + sample_a_b[1][1]
-    if component == "packages" and sample_a_b[0] in [TRANSIENT] and number_of_commits == START_COMMIT_NUMBER:
-        number_of_commit_desc = "1, 5 and 10 "
+    else:
         category_compare = " sample A category versus sample B category " 
         sample_a = "Sample A"
         sample_b = "Sample B"
+
+    if component == "packages" and sample_a_b[0] in [FOUNDER] and number_of_commits == START_COMMIT_NUMBER:
+        number_of_commit_desc = "1, 5, 10 and 20 "    
+    if component == "packages" and sample_a_b[0] in [TRANSIENT] and number_of_commits == START_COMMIT_NUMBER:
+        number_of_commit_desc = "1, 5 and 10 "
     if sample_a_b[0] in [TRANSIENT, MODERATE]:
         if isinstance(sample_a_b[1], str):
             a_category = sample_a_b[0].capitalize() + r" vs. " + sample_a_b[1]
@@ -276,26 +355,27 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
             a_category = sample_a_b[0].capitalize() + r" vs. " + sample_a_b[1][0] + r" \& " + sample_a_b[1][1]
     
     if component == "packages" and (sample_a_b[0] in [FOUNDER] or sample_a_b[1] in [MODERATE]) and number_of_commits == START_COMMIT_NUMBER:
-        headings = ["Component", "First *n* commits", "Contributory Category", sample_a + r" $\mu$", sample_b + r" $\mu$", "Welch Statistic", "Welch $P$", "MWU $P$", "BM $P$", "Brunner-Münzel $W$", "Cliff's $\\delta$", "Prob. Sup. ($PS$)" ]
+        headings = ["Component", "First $n$ commits", "Contributory Category", sample_a + r" $\mu$", sample_a + r" Number", sample_b + r" $\mu$", sample_b + r" Number", r"Percentage Difference in $\mu$", "Welch Statistic", "Welch $P$", "MWU $P$", "BM $P$", "Brunner-Münzel $W$", "Cliff's $\\delta$", "Prob. Sup. ($PS$)" ]
         table_name = "Statistical significance tests of " + category_compare
         table_name += " touches of different granularities of component (package, class, method) after " + number_of_commit_desc + " commits for contributors. "
-        table_name += "The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. "
-        latex = r"\begin{landscape}" + "\n"        
-        latex += start_latex_table(table_name , headings, "l r p{4cm} r r r r r r r r r r r r r")
+        table_name += "The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. "    
+        latex = start_latex_table(table_name , headings, "l r p{4cm} c c c c r r r r r r r r r r r r")
         read_write_file.append_to_file(file_name + ".tex", latex, path)
-        latex = r"\begin{landscape}" + "\n"   
-        latex += get_table_latex(category_compare, sample_a, sample_b)
+        latex = get_table_latex(category_compare, sample_a, sample_b)
         read_write_file.append_to_file(normal_file_name + ".tex", latex, path)
         
-    if len(sample_a_values) > 0 and previous_a_category != a_category:
+    if len(sample_a_values) > 0 and (previous_a_category is None or previous_a_category != a_category):
         latex_table = generate_simple_comparison_latex(sample_a_values, sample_b_values, component, a_category, number_of_commits, normal_file_name).replace("_", "\\_")
+        generate_graphs(graph_file_name, number_of_commits, component, category_compare, sample_a_b[0], sample_a_values, sample_a_b[1], sample_b_values)
         read_write_file.append_to_file(file_name + ".tex", latex_table, path)
         previous_a_category = a_category
     if component == "methods" and sample_a_b[0] == MODERATE and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(file_name + ".tex", table_end(), path)
         read_write_file.append_to_file(file_name + ".tex", generate_formula_latex(sample_a_b) + "\n\\newpage \n", path)
         read_write_file.append_to_file(normal_file_name + ".tex", table_end(), path)
+        end_graph(component, number_of_commits, False)
         
     previous_file_name = file_name
     previous_normal_file_name = normal_file_name
+    previous_graph_file_name = graph_file_name
          

@@ -5,6 +5,7 @@ import rpy2.robjects as robjects
 from rpy2.robjects import pandas2ri
 from rpy2.robjects.packages import importr
 from rpy2.robjects.conversion import localconverter
+from rpy2.robjects import numpy2ri
 
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
@@ -15,22 +16,21 @@ import sys
 
 # Force the R library directory explicitly into the Windows environment path
 # (Adjust the R version numbers below if yours is slightly different, e.g., R-4.4.1)
-os.environ["R_LIBS_USER"] = r"C:\Program Files\R\R-4.4.0\library"
-os.environ["PATH"] = r"C:\Program Files\R\R-4.4.0\bin\x64;" + os.environ["PATH"]
+os.environ["R_LIBS_USER"] = r"C:\Program Files\R\R-4.6.0\library"
+os.environ["PATH"] = r"C:\Program Files\R\R-4.6.0\bin\x64;" + os.environ["PATH"]
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
 def section_sub_heading(time_series):
-    latex = get_section_start(FILE_NAME, "sub") 
+    latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += "An ART Anova table for all components touched on avepip install rpy2rage. \n"
     latex += generate_anova_explanation_latex()
     return latex
 
 def section_sub_sub_heading(commit_prefix):
-    latex = r"\begin{landscape}" + "\n"
-    latex += get_section_start(FILE_NAME, "subsub") 
+    latex = get_section_start(FILE_NAME, "sub") 
     latex += "For all components touched for " + commit_prefix + "} \n"
     return latex
 
@@ -106,75 +106,6 @@ def get_data_frame(developers_dict, unit):
             })
     
     return pd.DataFrame(rows)
-
-def generate_anova_latex(df, component, commit_prefix, number_of_commits, category):
-    component = component.replace("_", "-")
-
-    # --- PART A: STANDARD OLS ANOVA ---
-    model = ols('Value ~ C(Role) * C(Tenure)', data=df).fit()
-    ols_table = sm.stats.anova_lm(model, typ=3)
-    ss_total = ols_table['sum_sq'].sum()
-    ols_table['eta_sq'] = ols_table['sum_sq'] / ss_total
-
-    # --- PART B: ART ANOVA (Using Modern Converter Context) ---
-    artool = importr('ARTool')
-    stats = importr('stats')
-    
-    # Use the modern localconverter context to cleanly turn pandas into R frames
-    with localconverter(robjects.default_converter + pandas2ri.converter):
-        r_df = robjects.conversion.py2rpy(df)
-        
-        # Assign the data frame directly to the R environment global space
-        robjects.globalenv['r_df'] = r_df
-        
-        # Run the Aligned Rank Transform model
-        art_model = artool.art(robjects.Formula('Value ~ factor(Role) * factor(Tenure)'), data=r_df)
-        r_anova_table = stats.anova(art_model)
-        
-        # Convert the R result table cleanly back into a Pandas DataFrame
-        art_table = robjects.conversion.rpy2py(r_anova_table)
-    
-    # Calculate Partial Eta Squared for ART ANOVA: (F * df) / ((F * df) + df_res)
-    art_table['eta_p_sq'] = (art_table['F value'] * art_table['Df']) / \
-                            ((art_table['F value'] * art_table['Df']) + art_table['Df.res'])
-
-    # --- PART C: GENERATE EXPANDED LATEX ---
-    name_map_ols = {
-        'C(Role)': 'Role (F/LJ)',
-        'C(Tenure)': category,
-        'C(Role):C(Tenure)': 'Interaction',
-        'Residual': 'Residual'
-    }
-    
-    # Note: R handles factors in lowercase, mapping appropriately
-    name_map_art = {
-        'factor(Role)': 'Role (F/LJ)',
-        'factor(Tenure)': category,
-        'factor(Role):factor(Tenure)': 'Interaction'
-    }
-
-    latex_output = ""
-    
-    # 1. Append OLS ANOVA Rows
-    for index, row in ols_table.iterrows():
-        if index == 'Intercept': continue
-        label = name_map_ols.get(index, index)
-        
-        if index == 'Residual':
-            latex_output += f"{component} & {number_of_commits} & OLS & {label} & {row['sum_sq']:.2f} & {row['df']:.0f} & - & - & - & - \\\\ \n"
-        else:
-            latex_output += f"{component} & {number_of_commits} & OLS & {label} & {row['sum_sq']:.2f} & {row['df']:.0f} & {row['F']:.2f} & {row['PR(>F)']:.4f} & {row['eta_sq']:.4f} & - \\\\ \n"
-            
-    latex_output += r"\hline " + "\n"
-
-    # 2. Append ART ANOVA Rows
-    for index, row in art_table.iterrows():
-        clean_index = str(index).strip()
-        label = name_map_art.get(clean_index, clean_index)
-        
-        latex_output += f"{component} & {number_of_commits} & ART & {label} & - & {row['Df']:.0f} & {row['F value']:.2f} & {row['Pr(>F)']:.4f} & - & {row['eta_p_sq']:.4f} \\\\ \n"
-
-    return latex_output
 
 def generate_and_save(component, developers, number_of_commits):
     path = DIRECTORY

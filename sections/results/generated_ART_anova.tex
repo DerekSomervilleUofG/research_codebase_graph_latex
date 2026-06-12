@@ -1,0 +1,22 @@
+\section{Generated art anova - For all components touched for all commits} 
+An ART Anova table for all components touched on avepip install rpy2rage. 
+
+The Non-Parametric Factorial analysis evaluates the influence of two independent categorical variables—\textit{Role} (Founder vs. Later Joiner) and \textit{Tenure} (Moderate vs. Sustained)—on the unique architectural components touched. Because the data exhibits significant non-normality and heteroscedasticity, an \textbf{Aligned Rank Transform (ART) ANOVA} is implemented.
+
+\paragraph{Explanation of Table Columns:}
+\begin{itemize}
+    \item \textbf{df / df (Resid):} The numerator degrees of freedom for the factor, followed by the denominator error degrees of freedom calculated uniquely for that factor's alignment field.
+    \item \textbf{F-statistic:} The robust variance ratio calculated over the aligned, ranked data layers.
+    \item \textbf{p-Value ($PR(>F)$):} The significance value. Values under $\alpha = 0.05$ document robust significance remaining after controlling for alternate factors.
+    \item \textbf{Part. $\eta^2$ (Partial Eta Squared):} The effect size, indicating the proportion of variance explained by this specific factor after stripping away alternate main effects.
+\end{itemize}
+
+\paragraph{Explanation of Table Rows:}
+\begin{itemize}
+    \item \textbf{Intercept:} Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.
+    \item \textbf{Role(F/L):} Tests the \textit{Main Role Effect} of being a Founder versus a Later Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage component exploration.
+    \item \textbf{Category(M/S):} Tests the \textit{Main Category Effect} of the eventual contributor category (Transient vs Moderate vs. Sustained). 
+    \item \textbf{Interaction:} Tests the \textit{Interaction Effect}. It evaluates if the effect of being a Founder is different for the different categories. 
+    \item \textbf{Residual:} Represents the ``noise'' or variance within the groups that cannot be explained by Role or Tenure. 
+\end{itemize}
+\input{sections/results/generated_ART_anova_transient}

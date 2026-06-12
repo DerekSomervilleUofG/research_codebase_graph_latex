@@ -8,6 +8,7 @@ from codebase_graph_latex.repository_graph.component_time_series.generated_stand
 from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import generate_and_save  as statistical_significance_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import section_sub_heading  as statistical_significance_section_sub_heading
 from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import FILE_NAME  as statistical_significance_file_name
+from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import set_previous
 from codebase_graph_latex.repository_graph.component_time_series.normality_and_homoscedasticity import section_sub_heading  as normal_section_sub_heading
 from codebase_graph_latex.repository_graph.component_time_series.normality_and_homoscedasticity import FILE_NAME  as normal_file_name
 from codebase_graph_latex.repository_graph.component_time_series.tukey_hsd import generate_and_save  as tukey_hsd_generate_and_save
@@ -33,9 +34,8 @@ def filter_developer_commits(developers, number_of_commits):
             for key, developer in developers[category].items():
                 new_developer = []
                 for item in developer:
-                    if isinstance(item, list):
-                        item = item.copy()
-                        new_developer.append(item[:number_of_commits])
+                    if isinstance(item, list) and len(item) >= number_of_commits:
+                        new_developer.append(item[:number_of_commits].copy())
                     else:
                         new_developer.append(item)
                 category_developers[key] = new_developer
@@ -48,6 +48,7 @@ def generate_statistical_significance_file_name(file_name, sample_a_b):
 def generate_statistical_significance_test(component, filtered_developers, number_of_commits):
     file_name = get_base_file_name(statistical_significance_file_name)
     normal_base_file_name = get_base_file_name(normal_file_name)
+    graph_file_name = normal_base_file_name + "_graph"
     sub_file_name = file_name
     latex = statistical_significance_section_sub_heading("all commits")
     normal_latex = normal_section_sub_heading("all commits")
@@ -64,12 +65,16 @@ def generate_statistical_significance_test(component, filtered_developers, numbe
     for sample in samples:
         if sample[0] in [FOUNDER] or sample[1] in [MODERATE]:
             sub_file_name = generate_statistical_significance_file_name(file_name, sample)
+            sub_graph_file_name = generate_statistical_significance_file_name(graph_file_name, sample)
             normal_sub_file_name = generate_statistical_significance_file_name(normal_base_file_name, sample)
         if (sample[0] in [FOUNDER] or sample[1] in [MODERATE]) and component == "packages" and number_of_commits == START_COMMIT_NUMBER:
+            set_previous()
+            set_graph_number(0)
             save_to_latex_file(sub_file_name, file_name + ".tex", "", DIRECTORY)
-            save_to_latex_file(normal_sub_file_name,normal_base_file_name + ".tex", "", DIRECTORY)
+            save_to_latex_file(normal_sub_file_name, normal_base_file_name + ".tex", "", DIRECTORY)
+            read_write_file.write_file(sub_graph_file_name + ".tex", latex_start_graph(), DIRECTORY)
         if (sample[0] in [TRANSIENT] and number_of_commits == START_COMMIT_NUMBER) or sample[0] not in [TRANSIENT]:
-            statistical_significance_generate_and_save(component, filtered_developers, number_of_commits, sample, sub_file_name, normal_sub_file_name)
+            statistical_significance_generate_and_save(component, filtered_developers, number_of_commits, sample, sub_file_name, sub_graph_file_name, normal_sub_file_name)
 
 def generate_tukey_hsd(component, filtered_developers, number_of_commits):
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
@@ -91,10 +96,12 @@ def generate_and_save(number_of_repositories):
     repository_histogram_commit_generate_and_save(number_of_repositories)
     for component in COMPONENTS:
         all_developers = {}
+        five_developers = {}
         developers = {}
         sustained_developers = {}
         for category in DEVELOPER_CATEGORY:
             all_developers[category] = developer_component_knowledge[category][component]
+            five_developers[category] = filter_developers_by_commits(developer_component_knowledge[category][component], 5)
             if TRANSIENT not in category:
                 developers[category] = developer_component_knowledge[category][component]
             if SUSTAINED in category:
@@ -102,7 +109,9 @@ def generate_and_save(number_of_repositories):
         for number_of_commits in [1, 5, 10, 20, 0]:
             if number_of_commits == 1:
                 filtered_developers = filter_developer_commits(all_developers, number_of_commits)
-            elif number_of_commits > 0 and number_of_commits <= 10:
+            elif number_of_commits == 5:
+                filtered_developers = five_developers
+            elif number_of_commits == 10:
                 filtered_developers = filter_developer_commits(developers, number_of_commits)
             elif number_of_commits == 20:
                 filtered_developers = filter_developer_commits(sustained_developers, number_of_commits)    

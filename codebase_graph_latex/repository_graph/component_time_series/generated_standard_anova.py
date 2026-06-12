@@ -11,15 +11,14 @@ FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
 def section_sub_heading(time_series):
-    latex = get_section_start(FILE_NAME, "sub") 
+    latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += "An Anova table for all components touched on average. \n"
     latex += generate_anova_explanation_latex()
     return latex
 
 def section_sub_sub_heading(commit_prefix):
-    latex = r"\begin{landscape}" + "\n"
-    latex += get_section_start(FILE_NAME, "subsub") 
+    latex = get_section_start(FILE_NAME, "sub") 
     latex += "For all components touched for a " + commit_prefix + "} \n"
     return latex
 

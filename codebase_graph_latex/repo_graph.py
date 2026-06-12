@@ -16,12 +16,6 @@ from utility.DictUtility import DictUtility
 read_write_file = ReadWriteFile()
 repo_contribution = {}
 
-def filter_developers(developers):
-    return {key: value for key, value in developers.items() if len(value[NUMBER_OF_COMMIT]) >= DEVELOPER_HAS_NUMNER_OF_COMMITS and value[YEAR_PERIOD][-1] >= DEVELOPER_PERIOD}
-
-def filter_developers_by_commits(developers):
-    return {key: value for key, value in developers.items() if len(value[NUMBER_OF_COMMIT]) >= TRANSIENT_COMMITS}
-
 
 def create_repository_directory(repository_id, component):
     path = DIRECTORY + str(repository_id) + "/" + component + "/"
@@ -32,12 +26,12 @@ def get_developers(repository_id, component):
     founder_developers, developer_total_commit, max_total_known = get_data_from_database(repository_id, component, FOUNDER)
     sustained_founder_developers = filter_developers(founder_developers)
     transient_founder_developers = DictUtility.dict_remove_items(founder_developers, sustained_founder_developers)
-    moderate_founder_developers = filter_developers_by_commits(transient_founder_developers)
+    moderate_founder_developers = filter_developers_by_commits(transient_founder_developers, TRANSIENT_COMMITS)
     transient_founder_developers = DictUtility.dict_remove_items(transient_founder_developers, moderate_founder_developers)
     joiner_developers, developer_total_commit, max_total_known  = get_data_from_database(repository_id, component, JOINER)
     sustained_joiner_developers = filter_developers(joiner_developers)
     transient_joiner_developers = DictUtility.dict_remove_items(joiner_developers, sustained_joiner_developers)
-    moderate_joiner = filter_developers_by_commits(transient_joiner_developers)
+    moderate_joiner = filter_developers_by_commits(transient_joiner_developers, TRANSIENT_COMMITS)
     transient_joiner_developers = DictUtility.dict_remove_items(transient_joiner_developers, moderate_joiner)   
     repo_contribution[repository_id] = {}
     repo_contribution[repository_id][SUSTAINED_JOINER] = len(sustained_joiner_developers.values())
@@ -58,7 +52,7 @@ def get_developers(repository_id, component):
 def create_repo_latex_file(repository_id, status):
     path = DIRECTORY + str(repository_id) + "/" 
     read_write_file.create_directory(path)
-    latex_start_repo = "\\section{Repository: " + str(repository_id)  + "} \n"
+    latex_start_repo = "\\subsection{Repository: " + str(repository_id)  + "} \n"
     read_write_file.append_to_file("repository_1.tex", latex_start_repo, DIRECTORY)
     
 
@@ -76,13 +70,12 @@ def run(repository_id, status):
             
 
 def latex_repository():
-    latex = "\\section{Repository}\n"
     file_suffix = ["_1.tex"]
     base_summary_file_name = "repository_summary"
     base_file_name = "repository"
     appendix_file_name = "appendix"
     for suffix in file_suffix:    
-        read_write_file.write_file(base_summary_file_name + suffix, latex, DIRECTORY)
+        read_write_file.write_file(base_summary_file_name + suffix, "", DIRECTORY)
         generate_glossary(base_summary_file_name + suffix)
         read_write_file.write_file(base_file_name + suffix, "", DIRECTORY) 
         read_write_file.write_file(appendix_file_name + suffix, "", DIRECTORY) 
@@ -107,6 +100,8 @@ def get_repository(repository_id):
 def generate_repo_latex(control_populate, repository_id=0):
     start_generate_repo_latex(control_populate)
     repositories = get_repository(repository_id)
+    latex_start_repo = "\\section{{Repository}} \n"
+    read_write_file.append_to_file("repository_1.tex", latex_start_repo, DIRECTORY)
     for repository in repositories:
         run(repository[REPOSITORY_ID], repository[STATUS])
     finish_repo_latex()

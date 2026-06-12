@@ -1,32 +1,34 @@
-\begin{landscape}
-\begin{table}[!h]
+\begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
 \caption{A Shapiro-Wilk test of  sample A category versus sample B category  sample normality and a Levene's variance test between samples}
-\begin{tabular}{l r p{4cm} r r r r r l r}
+\resizebox{\textwidth}{!}{% 
+\begin{tabular}{l r p{4cm} c c c c r r r r l r}
 \toprule
-\textbf{Component} & \makecell[b]{\textbf{First *n*}\\\textbf{commits}} & \makecell[b]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \makecell[b]{\textbf{Sample A}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Sample B}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Sample A}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[b]{\textbf{Sample B}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[b]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[b]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \multicolumn{2}{c}{\textbf{Sample}} & \multicolumn{2}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Percentage}\\\textbf{Difference}\\\textbf{in $\mu$}} & \multicolumn{2}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[t]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
+\cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){9-10}
+ &  &  & \textbf{A $\mu$} & \textbf{A number} & \textbf{B $\mu$} & \textbf{B number} &  & \makecell[c]{\textbf{A}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[c]{\textbf{B}\\\textbf{Normality}\\\textbf{$P$}} &  &  &  \\ 
 \midrule
-Packages & 1 & Transient vs. moderate &  0.05 (7583) & 0.53 (620) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
-Packages & 1 & Transient vs. sustained &  0.05 (7583) & 0.61 (237) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
-Packages & 1 & Transient vs. moderate \& sustained &  0.05 (7583) & 0.55 (857) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
-Packages & 1 & Moderate vs. sustained &  0.53 (620) & 0.61 (237) & \textless 0.001 & \textless 0.001 & 0.6750 &  Standard ANOVA, Mann-Whitney & 0.5695 \\ 
-Packages & 5 & Moderate vs. sustained &  3.71 (620) & 4.07 (237) & \textless 0.001 & \textless 0.001 & 0.8937 &  Standard ANOVA, Mann-Whitney & 0.2931 \\ 
-Packages & 10 & Moderate vs. sustained &  6.03 (620) & 5.80 (237) & \textless 0.001 & \textless 0.001 & 0.2223 &  Standard ANOVA, Mann-Whitney & 0.9068 \\ 
-Classes & 1 & Transient vs. moderate &  0.41 (7583) & 2.70 (620) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
-Classes & 1 & Transient vs. sustained &  0.41 (7583) & 4.53 (237) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
-Classes & 1 & Transient vs. moderate \& sustained &  0.41 (7583) & 3.21 (857) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
-Classes & 1 & Moderate vs. sustained &  2.70 (620) & 4.53 (237) & \textless 0.001 & \textless 0.001 & 0.1757 &  Standard ANOVA, Mann-Whitney & 0.0871 \\ 
-Classes & 5 & Moderate vs. sustained &  23.29 (620) & 30.92 (237) & \textless 0.001 & \textless 0.001 & 0.0129 &  ANT ANOVA, Brunner-Münzel & 0.8160 \\ 
-Classes & 10 & Moderate vs. sustained &  43.22 (620) & 50.94 (237) & \textless 0.001 & \textless 0.001 & 0.0197 &  ANT ANOVA, Brunner-Münzel & 0.6548 \\ 
-Methods & 1 & Transient vs. moderate &  1.12 (7583) & 8.32 (620) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
-Methods & 1 & Transient vs. sustained &  1.12 (7583) & 21.48 (237) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
-Methods & 1 & Transient vs. moderate \& sustained &  1.12 (7583) & 11.96 (857) & \textless 0.001 & \textless 0.001 & \textless 0.001 &  ANT ANOVA, Brunner-Münzel & 0.0000 \\ 
-Methods & 1 & Moderate vs. sustained &  8.32 (620) & 21.48 (237) & \textless 0.001 & \textless 0.001 & 0.1457 &  Standard ANOVA, Mann-Whitney & 0.0791 \\ 
-Methods & 5 & Moderate vs. sustained &  83.94 (620) & 118.18 (237) & \textless 0.001 & \textless 0.001 & 0.0495 &  ANT ANOVA, Brunner-Münzel & 0.9920 \\ 
-Methods & 10 & Moderate vs. sustained &  153.35 (620) & 191.16 (237) & \textless 0.001 & \textless 0.001 & 0.0476 &  ANT ANOVA, Brunner-Münzel & 0.9384 \\ 
+Packages & 1 & Transient vs. moderate &  1.31 & 7516 & 2.59 & 687 & 198.61 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Packages & 1 & Transient vs. sustained &  1.31 & 7516 & 2.38 & 237 & 181.89 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Packages & 1 & Transient vs. moderate \& sustained &  1.31 & 7516 & 2.54 & 924 & 194.32 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Packages & 1 & Moderate vs. sustained &  2.59 & 687 & 2.38 & 237 & 91.58 & \textless 0.001 & \textless 0.001 & 0.5986 &  Mann-Whitney & 0.1002 \\ 
+Packages & 5 & Moderate vs. sustained &  15.51 & 687 & 37.01 & 237 & 238.71 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Packages & 10 & Moderate vs. sustained &  9.54 & 687 & 8.36 & 237 & 87.60 & \textless 0.001 & \textless 0.001 & 0.4602 &  Mann-Whitney & 0.0010 \\ 
+Classes & 1 & Transient vs. moderate &  1.31 & 7516 & 3.24 & 687 & 247.60 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Classes & 1 & Transient vs. sustained &  1.31 & 7516 & 5.19 & 237 & 396.74 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Classes & 1 & Transient vs. moderate \& sustained &  1.31 & 7516 & 3.74 & 924 & 285.85 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Classes & 1 & Moderate vs. sustained &  3.24 & 687 & 5.19 & 237 & 160.23 & \textless 0.001 & \textless 0.001 & 0.1255 &  Mann-Whitney & 0.2576 \\ 
+Classes & 5 & Moderate vs. sustained &  86.51 & 687 & 485.98 & 237 & 561.79 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Classes & 10 & Moderate vs. sustained &  43.43 & 687 & 50.94 & 237 & 117.28 & \textless 0.001 & \textless 0.001 & 0.0223 &  Brunner-Münzel & 0.6723 \\ 
+Methods & 1 & Transient vs. moderate &  1.98 & 7516 & 8.90 & 687 & 449.77 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Methods & 1 & Transient vs. sustained &  1.98 & 7516 & 22.14 & 237 & 1119.08 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Methods & 1 & Transient vs. moderate \& sustained &  1.98 & 7516 & 12.30 & 924 & 621.44 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Methods & 1 & Moderate vs. sustained &  8.90 & 687 & 22.14 & 237 & 248.82 & \textless 0.001 & \textless 0.001 & 0.1237 &  Mann-Whitney & 0.1344 \\ 
+Methods & 5 & Moderate vs. sustained &  315.67 & 687 & 1876.89 & 237 & 594.58 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Methods & 10 & Moderate vs. sustained &  154.90 & 687 & 191.16 & 237 & 123.41 & \textless 0.001 & \textless 0.001 & 0.0503 &  Mann-Whitney & 0.9692 \\ 
 \bottomrule
-\end{tabular}
+\end{tabular}%
+} 
 \end{table}
-\end{landscape}
 \newpage 

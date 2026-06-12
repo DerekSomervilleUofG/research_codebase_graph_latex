@@ -1,0 +1,38 @@
+\section{Tukey hsd - For all components touched for all commits} 
+A Tukey Honestly Significant Difference table for all components touched on average. 
+
+\paragraph{Post-hoc Analysis (Tukey HSD):}
+Following the ANOVA, a Tukey Honestly Significant Difference (HSD) test was performed. 
+While ANOVA identifies if at least one group differs, Tukey HSD performs pairwise 
+comparisons to identify specific differences between developer roles and tenure 
+categories while controlling for Type I error rates across multiple comparisons.
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption{Significant Tukey HSD results for classes and number of commits, for 8440 developers}
+\resizebox{\textwidth}{!}{% 
+\begin{tabular}{l r l l r r}
+\toprule
+\textbf{Component} & \textbf{Commits} & \textbf{Group A} & \textbf{Group B} & \textbf{Mean Diff} & \makecell[b]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
+\midrule
+classes & 1 & Founder Moderate & Founder Sustained & -4.61 & 0.0172 \\ 
+classes & 1 & Founder Moderate & Founder Transient & -5.03 & 0.0008 \\ 
+classes & 1 & Founder Moderate & Later Joiner Moderate & -5.07 & 0.0000 \\ 
+classes & 1 & Founder Moderate & Later Joiner Transient & -6.74 & 0.0000 \\ 
+classes & 1 & Later Joiner Moderate & Later Joiner Sustained & 2.51 & 0.0000 \\ 
+classes & 1 & Later Joiner Moderate & Later Joiner Transient & -1.67 & 0.0000 \\ 
+classes & 1 & Later Joiner Sustained & Later Joiner Transient & -4.18 & 0.0000 \\ 
+classes & 5 & Founder Moderate & Later Joiner Moderate & -19.33 & 0.0345 \\ 
+classes & 10 & Founder Sustained & Later Joiner Moderate & -26.64 & 0.0258 \\ 
+methods & 1 & Founder Moderate & Later Joiner Transient & -22.85 & 0.0039 \\ 
+methods & 1 & Founder Transient & Later Joiner Sustained & 17.08 & 0.0344 \\ 
+methods & 1 & Later Joiner Moderate & Later Joiner Sustained & 16.25 & 0.0000 \\ 
+methods & 1 & Later Joiner Moderate & Later Joiner Transient & -5.83 & 0.0088 \\ 
+methods & 1 & Later Joiner Sustained & Later Joiner Transient & -22.08 & 0.0000 \\ 
+methods & 5 & Founder Moderate & Later Joiner Moderate & -109.90 & 0.0215 \\ 
+methods & 10 & Founder Moderate & Later Joiner Moderate & -126.22 & 0.0303 \\ 
+\bottomrule
+\end{tabular}%
+} 
+\end{table}
+\newpage 

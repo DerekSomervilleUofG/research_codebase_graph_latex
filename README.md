@@ -12,4 +12,4 @@ mkdir repository
 mkdir resource
 mkdir resource/database
 cd resource/database
-ln -s ../../../research_developer_experience/resource/database/codebase_start.db codebase_start.db
+ln -s ../../../research_developer_experience/resouce/database/codebase_start.db codebase_start.db

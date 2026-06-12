@@ -80,7 +80,7 @@ def generate_developer_commit(number_of_repositories):
 
 def generate_and_save(number_of_repositories):
     path = DIRECTORY 
-    latex = get_section_start(FILE_NAME, "sub") + " Developer Commits } \n" 
+    latex = get_section_start(FILE_NAME, "") + " Developer Commits } \n" 
     latex += generate_developer_commit(number_of_repositories)
     read_write_file.write_file(get_file_name(FILE_NAME), latex, path)
     latex = "\\input{" + path + get_base_file_name(FILE_NAME) + "}\n"
