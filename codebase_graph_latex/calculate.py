@@ -1,5 +1,6 @@
 import datetime
 from codebase_graph_latex.constants import *
+import numpy as np
 CAPTION_LENGTH = 100
 
 def filter_developers(developers):
@@ -50,6 +51,6 @@ def find_developer_unit(unit):
     else:
         return DEV_COMMIT
 
-def add_extra(list, number_extra, value=0):
+def add_extra(target_list, number_extra, value=0):
     for counter in range(0, number_extra):
-        list.append(value)
+        target_list.append(value)

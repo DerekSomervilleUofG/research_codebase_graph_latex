@@ -6,13 +6,15 @@ import numpy
 
 FILE_NAME = __name__
 BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
-GRAPH_CAPTION = "{category} (n={number}). "
-ALL_GRAPH_CAPTION = "By {freq}."
-MAX_Y_AXIS = {"all": 70, TRANSIENT: 100, MODERATE: 80, SUSTAINED: 75, "packages_" + SUSTAINED: 20, "packages_" + MODERATE: 25, "classes_" + SUSTAINED: 25, "classes_" + MODERATE: 25, "methods_" + MODERATE: 30, "methods_" + SUSTAINED: 32}
+GRAPH_CAPTION = "{category} (n={number}, max={max_pct}). "
+ALL_GRAPH_CAPTION = "By {freq} (max={max_pct})."
+MAX_Y_AXIS = {"all": 85, TRANSIENT: 100, MODERATE: 80, SUSTAINED: 75, "packages_" + TRANSIENT: 90, "packages_" + SUSTAINED: 60, "packages_" + MODERATE: 75, "classes_" + SUSTAINED: 90, "classes_" + MODERATE: 100, "methods_" + MODERATE: 100, "methods_" + SUSTAINED: 75}
 MAX_X_AXIS = {"all": 25, TRANSIENT + "_packages": 5, MODERATE + "_packages": 1, SUSTAINED + "_packages": 1,
               TRANSIENT + "_classes": 50, MODERATE + "_classes": 15, SUSTAINED + "_classes": 15,
               TRANSIENT + "_methods": 100, MODERATE + "_methods": 40, SUSTAINED + "_methods": 40}
-
+BINS = {TRANSIENT + "_packages": [0, 1, 2, 3, 4, 5], MODERATE + "_packages": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], SUSTAINED + "_packages": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+              TRANSIENT + "_classes": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50], MODERATE + "_classes": [0, 2, 4, 6, 8, 10, 12, 14, 16], SUSTAINED + "_classes": [0, 2, 4, 6, 8, 10, 12, 14, 16],
+              TRANSIENT + "_methods": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], MODERATE + "_methods": [0, 5, 10, 15, 20, 25, 30, 35, 40], SUSTAINED + "_methods": [0, 5, 10, 15, 20, 25, 30, 35, 40]}
 FIGURE_CAPTION = "Histogram of percentage of  developers (y-axis) against the average {component} touched by {freq} (x-axis) from " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories of developers from {number_of_repositories} repositories sampled from GitHub." 
 ALL_FIGURE_CAPTION = "Histogram of percentage of all developers (y-axis) against the average {component} touched by day and commit (x-axis) from all {num} developers from {number_of_repositories} repositories sampled from GitHub." 
 
@@ -39,17 +41,21 @@ def get_commit_and_daily(developers):
 def generate_summary_histogram(commit_data, daily_data, component, category):
     weights = np.ones_like(daily_data) * (100.0 / len(daily_data))
     daily_data = numpy.round(numpy.log10(daily_data), 3)
+    counts_daily, _ = numpy.histogram(daily_data, weights=weights)
+    max_daily_pct = round(max(counts_daily), 1) if len(counts_daily) > 0 else 0.0
     commit_data = numpy.round(numpy.log10(commit_data), 3)
     latex_repo = developer_percentage_graph(FILE_NAME, daily_data, weights, component, 0,
                                      category + "Day",
                                      param_x_axis=component.capitalize() + " touched (log)",
-                                     param_caption=ALL_GRAPH_CAPTION.format(freq="Day"), 
+                                     param_caption=ALL_GRAPH_CAPTION.format(freq="Day", max_pct=max_daily_pct), 
                                      max_x_axis=max(max(daily_data),max(commit_data)), 
                                      max_y_axis=MAX_Y_AXIS[category])
     weights = np.ones_like(commit_data) * (100.0 / len(commit_data))
+    counts_commit, _ = numpy.histogram(commit_data, weights=weights)
+    max_commit_pct = round(max(counts_commit), 1) if len(counts_commit) > 0 else 0.0
     latex_repo += developer_percentage_graph(FILE_NAME, commit_data, weights, component, 0, category + "Commit", 
                                     param_x_axis=component.capitalize() + " touched (log)",
-                                    param_caption=ALL_GRAPH_CAPTION.format(freq="Commit"), 
+                                    param_caption=ALL_GRAPH_CAPTION.format(freq="Commit", max_pct=max_commit_pct), 
                                     max_x_axis=max(max(daily_data),max(commit_data)), 
                                     max_y_axis=MAX_Y_AXIS[category]) 
     return latex_repo
@@ -62,21 +68,29 @@ def generate_component_summary_historgram(component, number_of_repositories):
         all_developers = all_developers | developers
         commit_data, daily_data = get_commit_and_daily(developers)
         weights = np.ones_like(daily_data) * (100.0 / len(daily_data))
+        bin = BINS[category.split(" ")[0] + "_" + component]
+        counts, _ = numpy.histogram(daily_data, bins=bin, weights=weights)
+        max_pct_val = round(max(counts), 1) if len(counts) > 0 else 0.0
         latex_day += developer_percentage_graph(FILE_NAME, daily_data, weights, component, 0, 
                                      category + "Day", "", 
-                                     GRAPH_CAPTION.format(number=str(len(daily_data)), category=category.capitalize()), 
+                                     GRAPH_CAPTION.format(number=str(len(daily_data)), category=category.capitalize(), max_pct=max_pct_val), 
                                      max_x_axis=MAX_X_AXIS[category.split(" ")[0] + "_" + component], 
-                                    max_y_axis=get_max_y_axis(category, component))
+                                    max_y_axis=get_max_y_axis(category, component),
+                                    bins=bin)
     latex_commit = latex_start_graph() 
     for category in DEVELOPER_CATEGORY:
         developers = developer_component_knowledge[category][component]
         commit_data, daily_data = get_commit_and_daily(developers)
         weights = np.ones_like(commit_data) * (100.0 / len(commit_data))
+        bin = BINS[category.split(" ")[0] + "_" + component]
+        counts, _ = numpy.histogram(commit_data, bins=bin, weights=weights)
+        max_pct_val = round(max(counts), 1) if len(counts) > 0 else 0.0
         latex_commit += developer_percentage_graph(FILE_NAME, commit_data, weights, component, 0, 
                                        category + "Commit", "", 
-                                       GRAPH_CAPTION.format(number=str(len(commit_data)), category=category.capitalize()), 
+                                       GRAPH_CAPTION.format(number=str(len(commit_data)), category=category.capitalize(), max_pct=max_pct_val), 
                                        max_x_axis=MAX_X_AXIS[category.split(" ")[0] + "_" + component], 
-                                        max_y_axis=get_max_y_axis(category, component))
+                                        max_y_axis=get_max_y_axis(category, component),
+                                    bins=bin)
     commit_data, daily_data = get_commit_and_daily(all_developers)
     latex_start = latex_start_graph()
     latex_start += generate_summary_histogram(commit_data, daily_data, component, "all")

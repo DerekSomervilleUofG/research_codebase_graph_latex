@@ -21,29 +21,29 @@ To identify early indicators of long-term developer engagement, a Logistic Regre
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption{Strategy Logistic Regression for all components against number of commits for 8440 developers excluding transient}
+\caption{Strategy Logistic Regression for all components against number of commits for 16441 developers excluding transient}
 \resizebox{\textwidth}{!}{% 
 \begin{tabular}{l r l r r r r r r r r r}
 \toprule
 \textbf{Component} & \makecell[t]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \textbf{Type} & \makecell[t]{\textbf{Moderate}\\\textbf{$\mu$}} & \makecell[t]{\textbf{Sustained}\\\textbf{$\mu$}} & \makecell[t]{\textbf{}\\\textbf{Coefficient}} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[t]{\textbf{30\%}\\\textbf{Threshold}} & \makecell[t]{\textbf{Moderate}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[t]{\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} \\ 
  &  &  &  &  &  &  &  &  &  &  &  \\ 
 \midrule
-packages & 1 & Intercept & 0.95 & 5.76 & -3.9648 & 0.0190 & 0.0803 & 0.0000 & - & - & - \\ 
-packages & 1 & Packages Count & 0.95 & 5.76 & 0.1900 & 1.2092 & 0.0129 & 0.0000 & \textbf{16.4099} & 34 (0.4\%) & 13 (5.5\%) \\ 
-packages & 5 & Intercept & 11.26 & 35.24 & -2.7048 & 0.0669 & 0.1257 & 0.0000 & - & - & - \\ 
-packages & 5 & Packages Count & 11.26 & 35.24 & 0.0618 & 1.0638 & 0.0049 & 0.0000 & \textbf{30.0338} & 71 (6.3\%) & 100 (42.2\%) \\ 
+packages & 1 & Intercept & 0.48 & 5.76 & -4.6275 & 0.0098 & 0.0785 & 0.0000 & - & - & - \\ 
+packages & 1 & Packages Count & 0.48 & 5.76 & 0.2433 & 1.2755 & 0.0136 & 0.0000 & \textbf{15.5347} & 38 (0.2\%) & 15 (6.3\%) \\ 
+packages & 5 & Intercept & 11.26 & 35.24 & -2.7036 & 0.0670 & 0.1256 & 0.0000 & - & - & - \\ 
+packages & 5 & Packages Count & 11.26 & 35.24 & 0.0618 & 1.0638 & 0.0049 & 0.0000 & \textbf{30.0232} & 71 (6.3\%) & 100 (42.2\%) \\ 
 packages & 10 & Intercept & 13.85 & 32.42 & -1.9820 & 0.1378 & 0.1286 & 0.0000 & - & - & - \\ 
 packages & 10 & Packages Count & 13.85 & 32.42 & 0.0463 & 1.0474 & 0.0050 & 0.0000 & \textbf{24.5148} & 104 (15.1\%) & 106 (44.7\%) \\ 
-% Skip packages: Not enough diversity in classes for Logistic Regression.classes & 1 & Intercept & 2.82 & 36.49 & -3.9517 & 0.0192 & 0.0793 & 0.0000 & - & - & - \\ 
-classes & 1 & Classes Count & 2.82 & 36.49 & 0.0419 & 1.0428 & 0.0026 & 0.0000 & \textbf{74.0371} & 44 (0.5\%) & 28 (11.8\%) \\ 
-classes & 5 & Intercept & 57.51 & 447.83 & -3.3929 & 0.0336 & 0.1557 & 0.0000 & - & - & - \\ 
-classes & 5 & Classes Count & 57.51 & 447.83 & 0.0131 & 1.0131 & 0.0009 & 0.0000 & \textbf{195.0539} & 56 (5.0\%) & 156 (65.8\%) \\ 
+% Skip packages: Not enough diversity in classes for Logistic Regression.classes & 1 & Intercept & 1.43 & 36.49 & -4.6129 & 0.0099 & 0.0781 & 0.0000 & - & - & - \\ 
+classes & 1 & Classes Count & 1.43 & 36.49 & 0.0514 & 1.0528 & 0.0028 & 0.0000 & \textbf{73.2123} & 45 (0.3\%) & 28 (11.8\%) \\ 
+classes & 5 & Intercept & 57.53 & 447.83 & -3.3919 & 0.0336 & 0.1557 & 0.0000 & - & - & - \\ 
+classes & 5 & Classes Count & 57.53 & 447.83 & 0.0130 & 1.0131 & 0.0009 & 0.0000 & \textbf{195.0338} & 56 (5.0\%) & 156 (65.8\%) \\ 
 classes & 10 & Intercept & 75.67 & 407.66 & -2.7164 & 0.0661 & 0.1544 & 0.0000 & - & - & - \\ 
 classes & 10 & Classes Count & 75.67 & 407.66 & 0.0111 & 1.0112 & 0.0009 & 0.0000 & \textbf{167.9633} & 64 (9.3\%) & 158 (66.7\%) \\ 
-% Skip classes: Not enough diversity in classes for Logistic Regression.methods & 1 & Intercept & 9.44 & 133.11 & -3.8192 & 0.0219 & 0.0747 & 0.0000 & - & - & - \\ 
-methods & 1 & Methods Count & 9.44 & 133.11 & 0.0084 & 1.0084 & 0.0006 & 0.0000 & \textbf{355.1658} & 34 (0.4\%) & 16 (6.8\%) \\ 
-methods & 5 & Intercept & 207.45 & 1737.49 & -3.0256 & 0.0485 & 0.1351 & 0.0000 & - & - & - \\ 
-methods & 5 & Methods Count & 207.45 & 1737.49 & 0.0028 & 1.0028 & 0.0002 & 0.0000 & \textbf{778.8178} & 47 (4.2\%) & 144 (60.8\%) \\ 
+% Skip classes: Not enough diversity in classes for Logistic Regression.methods & 1 & Intercept & 4.78 & 133.11 & -4.4866 & 0.0113 & 0.0737 & 0.0000 & - & - & - \\ 
+methods & 1 & Methods Count & 4.78 & 133.11 & 0.0103 & 1.0104 & 0.0007 & 0.0000 & \textbf{353.2009} & 34 (0.2\%) & 16 (6.8\%) \\ 
+methods & 5 & Intercept & 207.57 & 1737.49 & -3.0246 & 0.0486 & 0.1351 & 0.0000 & - & - & - \\ 
+methods & 5 & Methods Count & 207.57 & 1737.49 & 0.0028 & 1.0028 & 0.0002 & 0.0000 & \textbf{778.7300} & 47 (4.2\%) & 144 (60.8\%) \\ 
 methods & 10 & Intercept & 275.76 & 1574.80 & -2.3681 & 0.0937 & 0.1350 & 0.0000 & - & - & - \\ 
 methods & 10 & Methods Count & 275.76 & 1574.80 & 0.0023 & 1.0023 & 0.0002 & 0.0000 & \textbf{651.2866} & 61 (8.9\%) & 143 (60.3\%) \\ 
 % Skip methods: Not enough diversity in classes for Logistic Regression.\bottomrule

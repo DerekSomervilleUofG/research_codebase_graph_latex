@@ -186,3 +186,5 @@ resource/database/codebase_start.db,`bins` must be an integer a string or an arr
 resource/database/codebase_start.db,`bins` must be positive when an integer
 resource/database/codebase_start.db,`bins` must be positive when an integer
 resource/database/codebase_start.db,module ''numpy'' has no attribute ''arrange''
+resource/database/codebase_start.db,''max_pct''
+resource/database/codebase_start.db,type tuple doesn''t define __round__ method

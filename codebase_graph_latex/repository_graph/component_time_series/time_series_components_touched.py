@@ -62,8 +62,8 @@ def populate_data_period(developers, max_days, UNIT=NUMBER_OF_MONTHS):
         days = values[YEAR_PERIOD].copy()
         touched = values[KNOWN_Y_AXIS].copy()
         
-        add_extra(days, max_days - len(days))
-        add_extra(touched, max_days - len(touched))
+        add_extra(days, max_days - len(days), value=np.nan)
+        add_extra(touched, max_days - len(touched), value=np.nan)
         
         for i in range(max_days):
             data[MONTH].append(math.ceil((days[i]/ 365) * UNIT))

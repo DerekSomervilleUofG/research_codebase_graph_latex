@@ -9,12 +9,14 @@ import math
 FILE_NAME = __name__
 BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
 MINIMUM_COMMITS = 0
-GRAPH_CAPTION = "{contributor} (n={number}). "
+GRAPH_CAPTION = "{contributor} (n={number}, max={max_pct}). "
 FIGURE_CAPTION = "Histogram of percentage of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub."
 ALL_FIGURE_CAPTION = "Histogram of percentage of all developers (n={number}) (y-axis) against the total number of commits (x-axis) in {number__of_repositories} repositories sampled from GitHub. "
 MAX_Y_AXIS = 40
 MAX_Y_AXIS_ALL = 100
-MAX_Y_AXIS_TRANSIENT = 75
+MAX_Y_AXIS_TRANSIENT = 90
+MAX_Y_AXIS_MODERATE = 20
+MAX_Y_AXIS_SUSTAINED = 10
 MAX_X_AXIS = 600
 MAX_X_AXIS_MODERATE = 150
 MAX_X_AXIS_TRANSIENT = 15
@@ -37,8 +39,10 @@ def get_developer_commit_by_contributor_stage(contributor_stage):
 def generate_developer_commit_latex(contributor_stage, developers, bins, max_x_axis=MAX_X_AXIS, max_y_axis=MAX_Y_AXIS):
     title = "Number of commits"
     weights = np.ones_like(developers) * (100.0 / len(developers))
+    counts, _ = np.histogram(developers, bins=bins, weights=weights)
+    max_pct_value = round(max(counts), 1) if len(counts) > 0 else 0.0
     return developer_percentage_graph(FILE_NAME, developers, weights, title, 0, contributor_stage,
-                           param_caption=GRAPH_CAPTION.format(contributor=contributor_stage.capitalize(), number=len(developers)), 
+                           param_caption=GRAPH_CAPTION.format(contributor=contributor_stage.capitalize(), number=len(developers), max_pct=max_pct_value), 
                            param_x_axis=title, 
                            max_x_axis=max_x_axis, 
                            max_y_axis=max_y_axis,
@@ -70,10 +74,10 @@ def generate_developer_commit(number_of_repositories):
     latex_graph = latex_start_graph()
     latex_graph += generate_developer_commit_latex(TRANSIENT_FOUNDER, transient_founder, math.ceil(BINS * (max(transient_founder)/max(transient_joiner))), max_x_axis=MAX_X_AXIS_TRANSIENT, max_y_axis=MAX_Y_AXIS_TRANSIENT)
     latex_graph += generate_developer_commit_latex(TRANSIENT_JOINER, transient_joiner, BINS, max_x_axis=MAX_X_AXIS_TRANSIENT, max_y_axis=MAX_Y_AXIS_TRANSIENT)
-    latex_graph += generate_developer_commit_latex(MODERATE_FOUNDER, moderate_founder, math.ceil(BINS * (max(moderate_founder)/max(moderate_joiner))), max_x_axis=MAX_X_AXIS_MODERATE)
-    latex_graph += generate_developer_commit_latex(MODERATE_JOINER, moderate_joiner, BINS, max_x_axis=MAX_X_AXIS_MODERATE)
-    latex_graph += generate_developer_commit_latex(SUSTAINED_FOUNDER, sustained_founder, math.ceil(BINS * (max(sustained_founder)/max(sustained_joiner))))
-    latex_graph += generate_developer_commit_latex(SUSTAINED_JOINER, sustained_joiner, BINS)
+    latex_graph += generate_developer_commit_latex(MODERATE_FOUNDER, moderate_founder, math.ceil(BINS * (max(moderate_founder)/max(moderate_joiner))), max_x_axis=MAX_X_AXIS_MODERATE, max_y_axis=MAX_Y_AXIS_MODERATE)
+    latex_graph += generate_developer_commit_latex(MODERATE_JOINER, moderate_joiner, BINS, max_x_axis=MAX_X_AXIS_MODERATE, max_y_axis=MAX_Y_AXIS_MODERATE)
+    latex_graph += generate_developer_commit_latex(SUSTAINED_FOUNDER, sustained_founder, math.ceil(BINS * (max(sustained_founder)/max(sustained_joiner))), max_y_axis=MAX_Y_AXIS_SUSTAINED)
+    latex_graph += generate_developer_commit_latex(SUSTAINED_JOINER, sustained_joiner, BINS, max_y_axis=MAX_Y_AXIS_SUSTAINED)
     latex_graph += "\\caption{" + FIGURE_CAPTION.format(number__of_repositories=number_of_repositories) + "} \n"
     latex_graph += latex_end_graph()
     return latex_graph
