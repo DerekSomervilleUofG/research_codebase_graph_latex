@@ -3,28 +3,30 @@
 \setlength{\tabcolsep}{2pt}
 \caption{Statistical significance tests of  sample A category versus sample B category  touches of different granularities of component (package, class, method) after 1, 5 and 10  commits for contributors. The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. }
 \resizebox{\textwidth}{!}{% 
-\begin{tabular}{l r p{4cm} r r r r r r r r r r r r r r}
+\begin{tabular}{l r p{4cm} c c c c r r r r r r r r r r r r}
 \toprule
-\textbf{Component} & \makecell[b]{\textbf{First *n*}\\\textbf{commits}} & \makecell[b]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \makecell[b]{\textbf{Sample A}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Sample B}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Percentage}\\\textbf{Difference}\\\textbf{in $\mu$}} & \makecell[b]{\textbf{Welch}\\\textbf{Statistic}} & \textbf{Welch $P$} & \textbf{MWU $P$} & \textbf{BM $P$} & \makecell[b]{\textbf{}\\\textbf{Brunner-Münzel}\\\textbf{$W$}} & \makecell[b]{\textbf{Cliff's}\\\textbf{$\delta$}} & \makecell[b]{\textbf{Prob. Sup.}\\\textbf{($PS$)}} \\ 
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributor}\\\textbf{Category}} & \multicolumn{4}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Percentage}\\\textbf{Difference}\\\textbf{in $\mu$}} & \multicolumn{2}{c}{\textbf{Welch}} & \textbf{MWU $P$} & \textbf{BM $P$} & \makecell[t]{\textbf{}\\\textbf{Brunner-Münzel}\\\textbf{$W$}} & \makecell[t]{\textbf{Cliff's}\\\textbf{$\delta$}} & \makecell[t]{\textbf{Prob. Sup.}\\\textbf{($PS$)}} \\ 
+\cmidrule(lr){4-7} \cmidrule(lr){9-10}
+ &  &  & \textbf{A $\mu$} & \textbf{A Number} & \textbf{B $\mu$} & \textbf{B Number} &  & \textbf{Statistic} & \textbf{$P$} &  &  &  &  &  \\ 
 \midrule
-Packages & 1 & Transient vs. moderate &  1.32 (7583) & 2.55 (620) & 193.32 & -10.54 & 0.0000 & 0.0000 & 0.0000 & 22.27 & -0.459 & 0.271 \\ 
-Packages & 1 & Transient vs. sustained &  1.32 (7583) & 2.38 (237) & 179.87 & -6.19 & 0.0000 & 0.0000 & 0.0000 & 11.90 & -0.396 & 0.302 \\ 
-Packages & 1 & Transient vs. moderate \& sustained &  1.32 (7583) & 2.50 (857) & 189.60 & -12.16 & 0.0000 & 0.0000 & 0.0000 & 24.92 & -0.441 & 0.279 \\ 
-Packages & 1 & Moderate vs. sustained &  2.55 (620) & 2.38 (237) & 93.04 & 0.87 & 0.3874 & 0.0951 & 0.0949 & -1.67 & 0.070 & 0.535 \\ 
-Packages & 5 & Moderate vs. sustained &  6.31 (620) & 5.93 (237) & 93.96 & 0.85 & 0.3940 & 0.0639 & 0.0645 & -1.85 & 0.081 & 0.541 \\ 
-Packages & 10 & Moderate vs. sustained &  9.62 (620) & 8.36 (237) & 86.91 & 2.18 & 0.0301 & 0.0005 & 0.0006 & -3.47 & 0.153 & 0.577 \\ 
-Classes & 1 & Transient vs. moderate &  1.32 (7583) & 3.30 (620) & 250.01 & -5.55 & 0.0000 & 0.0000 & 0.0000 & 11.73 & -0.214 & 0.393 \\ 
-Classes & 1 & Transient vs. sustained &  1.32 (7583) & 5.19 (237) & 393.12 & -1.98 & 0.0488 & 0.0000 & 0.0000 & 6.41 & -0.179 & 0.410 \\ 
-Classes & 1 & Transient vs. moderate \& sustained &  1.32 (7583) & 3.83 (857) & 289.59 & -4.18 & 0.0000 & 0.0000 & 0.0000 & 13.28 & -0.204 & 0.398 \\ 
-Classes & 1 & Moderate vs. sustained &  3.30 (620) & 5.19 (237) & 157.24 & -0.95 & 0.3423 & 0.2768 & 0.2653 & -1.12 & 0.037 & 0.519 \\ 
-Classes & 5 & Moderate vs. sustained &  23.29 (620) & 30.92 (237) & 132.73 & -1.69 & 0.0919 & 0.8148 & 0.8160 & -0.23 & 0.010 & 0.505 \\ 
-Classes & 10 & Moderate vs. sustained &  43.22 (620) & 50.94 (237) & 117.86 & -1.51 & 0.1316 & 0.6500 & 0.6548 & -0.45 & 0.020 & 0.510 \\ 
-Methods & 1 & Transient vs. moderate &  2.04 (7583) & 8.92 (620) & 437.81 & -4.95 & 0.0000 & 0.0000 & 0.0000 & 12.93 & -0.246 & 0.377 \\ 
-Methods & 1 & Transient vs. sustained &  2.04 (7583) & 22.14 (237) & 1086.54 & -1.42 & 0.1571 & 0.0000 & 0.0000 & 6.71 & -0.194 & 0.403 \\ 
-Methods & 1 & Transient vs. moderate \& sustained &  2.04 (7583) & 12.58 (857) & 617.22 & -2.61 & 0.0093 & 0.0000 & 0.0000 & 14.45 & -0.231 & 0.384 \\ 
-Methods & 1 & Moderate vs. sustained &  8.92 (620) & 22.14 (237) & 248.17 & -0.93 & 0.3538 & 0.1351 & 0.1250 & -1.54 & 0.053 & 0.527 \\ 
-Methods & 5 & Moderate vs. sustained &  83.94 (620) & 118.18 (237) & 140.79 & -1.48 & 0.1389 & 0.9921 & 0.9920 & -0.01 & 0.000 & 0.500 \\ 
-Methods & 10 & Moderate vs. sustained &  153.35 (620) & 191.16 (237) & 124.66 & -1.49 & 0.1366 & 0.9372 & 0.9384 & 0.08 & -0.003 & 0.498 \\ 
+Packages & 1 & Transient vs. moderate &  1.15 & 15510 & 2.59 & 687 & 225.90 & -12.35 & 0.0000 & 0.0000 & 0.0000 & 27.59 & -0.526 & 0.237 \\ 
+Packages & 1 & Transient vs. sustained &  1.15 & 15510 & 2.38 & 237 & 206.89 & -7.23 & 0.0000 & 0.0000 & 0.0000 & 14.28 & -0.468 & 0.266 \\ 
+Packages & 1 & Transient vs. moderate \& sustained &  1.15 & 15510 & 2.54 & 924 & 221.03 & -14.27 & 0.0000 & 0.0000 & 0.0000 & 30.91 & -0.511 & 0.244 \\ 
+Packages & 1 & Moderate vs. sustained &  2.59 & 687 & 2.38 & 237 & 91.58 & 1.06 & 0.2896 & 0.1002 & 0.0995 & -1.65 & 0.068 & 0.534 \\ 
+Packages & 5 & Moderate vs. sustained &  15.51 & 687 & 37.01 & 237 & 238.71 & -8.40 & 0.0000 & 0.0000 & 0.0000 & 11.65 & -0.463 & 0.268 \\ 
+Packages & 10 & Moderate vs. sustained &  9.54 & 687 & 8.36 & 237 & 87.60 & 2.06 & 0.0397 & 0.0010 & 0.0012 & -3.27 & 0.142 & 0.571 \\ 
+Classes & 1 & Transient vs. moderate &  1.15 & 15510 & 3.24 & 687 & 281.92 & -6.44 & 0.0000 & 0.0000 & 0.0000 & 14.31 & -0.245 & 0.378 \\ 
+Classes & 1 & Transient vs. sustained &  1.15 & 15510 & 5.19 & 237 & 451.72 & -2.07 & 0.0397 & 0.0000 & 0.0000 & 7.55 & -0.210 & 0.395 \\ 
+Classes & 1 & Transient vs. moderate \& sustained &  1.15 & 15510 & 3.74 & 924 & 325.47 & -4.66 & 0.0000 & 0.0000 & 0.0000 & 16.15 & -0.236 & 0.382 \\ 
+Classes & 1 & Moderate vs. sustained &  3.24 & 687 & 5.19 & 237 & 160.23 & -0.99 & 0.3256 & 0.2576 & 0.2451 & -1.16 & 0.038 & 0.519 \\ 
+Classes & 5 & Moderate vs. sustained &  86.51 & 687 & 485.98 & 237 & 561.79 & -11.13 & 0.0000 & 0.0000 & 0.0000 & 42.42 & -0.834 & 0.083 \\ 
+Classes & 10 & Moderate vs. sustained &  43.43 & 687 & 50.94 & 237 & 117.28 & -1.48 & 0.1409 & 0.6684 & 0.6723 & -0.42 & 0.019 & 0.509 \\ 
+Methods & 1 & Transient vs. moderate &  1.47 & 15510 & 8.90 & 687 & 603.66 & -5.75 & 0.0000 & 0.0000 & 0.0000 & 15.70 & -0.279 & 0.360 \\ 
+Methods & 1 & Transient vs. sustained &  1.47 & 15510 & 22.14 & 237 & 1501.99 & -1.46 & 0.1458 & 0.0000 & 0.0000 & 7.95 & -0.228 & 0.386 \\ 
+Methods & 1 & Transient vs. moderate \& sustained &  1.47 & 15510 & 12.30 & 924 & 834.07 & -2.88 & 0.0041 & 0.0000 & 0.0000 & 17.55 & -0.266 & 0.367 \\ 
+Methods & 1 & Moderate vs. sustained &  8.90 & 687 & 22.14 & 237 & 248.82 & -0.93 & 0.3527 & 0.1344 & 0.1240 & -1.54 & 0.053 & 0.526 \\ 
+Methods & 5 & Moderate vs. sustained &  315.67 & 687 & 1876.89 & 237 & 594.58 & -10.46 & 0.0000 & 0.0000 & 0.0000 & 41.88 & -0.823 & 0.088 \\ 
+Methods & 10 & Moderate vs. sustained &  154.90 & 687 & 191.16 & 237 & 123.41 & -1.44 & 0.1497 & 0.9692 & 0.9696 & 0.04 & -0.002 & 0.499 \\ 
 \bottomrule
 \end{tabular}%
 } 

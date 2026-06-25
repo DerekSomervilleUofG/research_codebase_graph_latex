@@ -9,28 +9,56 @@ categories while controlling for Type I error rates across multiple comparisons.
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption{Significant Tukey HSD results for classes and number of commits, for 8440 developers}
+\caption{Significant Tukey HSD results for components and number of commits}
 \resizebox{\textwidth}{!}{% 
-\begin{tabular}{l r l l r r}
+\begin{tabular}{l r r l l r r}
 \toprule
-\textbf{Component} & \textbf{Commits} & \textbf{Group A} & \textbf{Group B} & \textbf{Mean Diff} & \makecell[b]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
+\textbf{Component} & \textbf{Commits} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \multicolumn{2}{c}{\textbf{Group}} & \textbf{Mean Diff} & \makecell[t]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
+\cmidrule(lr){4-5}
+ &  &  & \textbf{A} & \textbf{B} &  &  \\ 
 \midrule
-classes & 1 & Founder Moderate & Founder Sustained & -4.61 & 0.0172 \\ 
-classes & 1 & Founder Moderate & Founder Transient & -5.03 & 0.0008 \\ 
-classes & 1 & Founder Moderate & Later Joiner Moderate & -5.07 & 0.0000 \\ 
-classes & 1 & Founder Moderate & Later Joiner Transient & -6.74 & 0.0000 \\ 
-classes & 1 & Later Joiner Moderate & Later Joiner Sustained & 2.51 & 0.0000 \\ 
-classes & 1 & Later Joiner Moderate & Later Joiner Transient & -1.67 & 0.0000 \\ 
-classes & 1 & Later Joiner Sustained & Later Joiner Transient & -4.18 & 0.0000 \\ 
-classes & 5 & Founder Moderate & Later Joiner Moderate & -19.33 & 0.0345 \\ 
-classes & 10 & Founder Sustained & Later Joiner Moderate & -26.64 & 0.0258 \\ 
-methods & 1 & Founder Moderate & Later Joiner Transient & -22.85 & 0.0039 \\ 
-methods & 1 & Founder Transient & Later Joiner Sustained & 17.08 & 0.0344 \\ 
-methods & 1 & Later Joiner Moderate & Later Joiner Sustained & 16.25 & 0.0000 \\ 
-methods & 1 & Later Joiner Moderate & Later Joiner Transient & -5.83 & 0.0088 \\ 
-methods & 1 & Later Joiner Sustained & Later Joiner Transient & -22.08 & 0.0000 \\ 
-methods & 5 & Founder Moderate & Later Joiner Moderate & -109.90 & 0.0215 \\ 
-methods & 10 & Founder Moderate & Later Joiner Moderate & -126.22 & 0.0303 \\ 
+classes & 1 & 16434 & Founder Moderate & Founder Sustained & -4.44 & 0.0002 \\ 
+classes & 1 & 16434 & Founder Moderate & Founder Transient & -6.26 & 0.0000 \\ 
+classes & 1 & 16434 & Founder Moderate & Later Joiner Moderate & -4.93 & 0.0000 \\ 
+classes & 1 & 16434 & Founder Moderate & Later Joiner Sustained & -2.39 & 0.0200 \\ 
+classes & 1 & 16434 & Founder Moderate & Later Joiner Transient & -6.73 & 0.0000 \\ 
+classes & 1 & 16434 & Founder Sustained & Later Joiner Transient & -2.30 & 0.0300 \\ 
+classes & 1 & 16434 & Founder Transient & Later Joiner Moderate & 1.33 & 0.0024 \\ 
+classes & 1 & 16434 & Founder Transient & Later Joiner Sustained & 3.87 & 0.0000 \\ 
+classes & 1 & 16434 & Later Joiner Moderate & Later Joiner Sustained & 2.54 & 0.0000 \\ 
+classes & 1 & 16434 & Later Joiner Moderate & Later Joiner Transient & -1.80 & 0.0000 \\ 
+classes & 1 & 16434 & Later Joiner Sustained & Later Joiner Transient & -4.34 & 0.0000 \\ 
+classes & 5 & 1362 & Founder Moderate & Founder Sustained & 603.00 & 0.0000 \\ 
+classes & 5 & 1362 & Founder Moderate & Later Joiner Sustained & 298.75 & 0.0000 \\ 
+classes & 5 & 1362 & Founder Moderate & Later Joiner Transient & -118.47 & 0.0267 \\ 
+classes & 5 & 1362 & Founder Sustained & Founder Transient & -728.37 & 0.0000 \\ 
+classes & 5 & 1362 & Founder Sustained & Later Joiner Moderate & -663.70 & 0.0000 \\ 
+classes & 5 & 1362 & Founder Sustained & Later Joiner Sustained & -304.25 & 0.0000 \\ 
+classes & 5 & 1362 & Founder Sustained & Later Joiner Transient & -721.47 & 0.0000 \\ 
+classes & 5 & 1362 & Founder Transient & Later Joiner Sustained & 424.11 & 0.0000 \\ 
+classes & 5 & 1362 & Later Joiner Moderate & Later Joiner Sustained & 359.45 & 0.0000 \\ 
+classes & 5 & 1362 & Later Joiner Moderate & Later Joiner Transient & -57.77 & 0.0013 \\ 
+classes & 5 & 1362 & Later Joiner Sustained & Later Joiner Transient & -417.22 & 0.0000 \\ 
+classes & 10 & 924 & Founder Sustained & Later Joiner Moderate & -26.27 & 0.0272 \\ 
+methods & 1 & 16434 & Founder Moderate & Founder Transient & -21.43 & 0.0002 \\ 
+methods & 1 & 16434 & Founder Moderate & Later Joiner Moderate & -16.34 & 0.0049 \\ 
+methods & 1 & 16434 & Founder Moderate & Later Joiner Transient & -22.81 & 0.0000 \\ 
+methods & 1 & 16434 & Founder Transient & Later Joiner Sustained & 21.24 & 0.0000 \\ 
+methods & 1 & 16434 & Later Joiner Moderate & Later Joiner Sustained & 16.15 & 0.0000 \\ 
+methods & 1 & 16434 & Later Joiner Moderate & Later Joiner Transient & -6.47 & 0.0000 \\ 
+methods & 1 & 16434 & Later Joiner Sustained & Later Joiner Transient & -22.62 & 0.0000 \\ 
+methods & 5 & 1362 & Founder Moderate & Founder Sustained & 2489.44 & 0.0000 \\ 
+methods & 5 & 1362 & Founder Moderate & Later Joiner Sustained & 1067.11 & 0.0000 \\ 
+methods & 5 & 1362 & Founder Moderate & Later Joiner Transient & -522.74 & 0.0151 \\ 
+methods & 5 & 1362 & Founder Sustained & Founder Transient & -3036.73 & 0.0000 \\ 
+methods & 5 & 1362 & Founder Sustained & Later Joiner Moderate & -2797.92 & 0.0000 \\ 
+methods & 5 & 1362 & Founder Sustained & Later Joiner Sustained & -1422.33 & 0.0000 \\ 
+methods & 5 & 1362 & Founder Sustained & Later Joiner Transient & -3012.19 & 0.0000 \\ 
+methods & 5 & 1362 & Founder Transient & Later Joiner Sustained & 1614.40 & 0.0000 \\ 
+methods & 5 & 1362 & Later Joiner Moderate & Later Joiner Sustained & 1375.59 & 0.0000 \\ 
+methods & 5 & 1362 & Later Joiner Moderate & Later Joiner Transient & -214.26 & 0.0065 \\ 
+methods & 5 & 1362 & Later Joiner Sustained & Later Joiner Transient & -1589.85 & 0.0000 \\ 
+methods & 10 & 924 & Founder Moderate & Later Joiner Moderate & -119.34 & 0.0368 \\ 
 \bottomrule
 \end{tabular}%
 } 

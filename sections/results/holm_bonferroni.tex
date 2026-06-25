@@ -1,0 +1,31 @@
+\input{sections/results/holm_bonferroni_significant}
+\input{sections/results/holm_bonferroni_not_significant}
+
+\subsubsection*{Post-hoc Pairwise Analysis: Holm-Bonferroni Correction}
+To evaluate specific distribution differences between isolated developer interaction 
+groups without violating normality or homoscedastic constraints, we implement a 
+two-sample rank-order framework adjusted by the sequentially rejective Holm method.
+
+The raw $P$-values for a set of $m$ concurrent hypotheses are sorted in ascending 
+order:
+\begin{equation}
+    P_{(1)} \le P_{2} \le \dots \le P_{(m)}
+\end{equation}
+
+Each index $i$ ($1 \le i \le m$) is evaluated sequentially against a dynamically 
+scaled significance threshold. The condition for rejecting the local null hypothesis 
+$H_{(i)}$ is defined as:
+\begin{equation}
+    P_{(i)} \le \frac{\alpha}{m - i + 1}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $\alpha$ is the nominal family-wise error criteria cutoff (configured to $0.05$).
+    \item $m$ is the total number of simultaneous pairwise comparisons evaluated.
+    \item $i$ is the ordered ranking position of the active sub-test segment.
+\end{itemize}
+The sequence terminates at the first instance where $P_{(i)} > \frac{\alpha}{m - i + 1}$, 
+retaining all remaining null structures.
+
+\newpage 

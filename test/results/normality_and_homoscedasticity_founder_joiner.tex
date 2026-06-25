@@ -3,40 +3,42 @@
 \setlength{\tabcolsep}{2pt}
 \caption{A Shapiro-Wilk test of different categories of founder versus different categories of late joiner  sample normality and a Levene's variance test between samples}
 \resizebox{\textwidth}{!}{% 
-\begin{tabular}{l r p{4cm} r r r r r r l r}
+\begin{tabular}{l r p{4cm} c c c c r r r r l r}
 \toprule
-\textbf{Component} & \makecell[b]{\textbf{First *n*}\\\textbf{commits}} & \makecell[b]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \makecell[b]{\textbf{Founder}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Joiner}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Percentage}\\\textbf{Difference}\\\textbf{in $\mu$}} & \makecell[b]{\textbf{Founder}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[b]{\textbf{Joiner}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[b]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[b]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \multicolumn{2}{c}{\textbf{Founder}} & \multicolumn{2}{c}{\textbf{Joiner}} & \makecell[t]{\textbf{Percentage}\\\textbf{Difference}\\\textbf{in $\mu$}} & \makecell[t]{\textbf{Founder}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[t]{\textbf{Joiner}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[t]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[t]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
+\cmidrule(lr){4-5} \cmidrule(lr){6-7}
+ &  &  & \textbf{$\mu$} & \textbf{number} & \textbf{$\mu$} & \textbf{number} &  &  &  &  &  &  \\ 
 \midrule
-Packages & 1 & All &  2.07 (137) & 1.43 (8303) & 69.25 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
-Packages & 1 & Moderate &  2.62 (40) & 2.55 (580) & 97.08 & \textless 0.001 & \textless 0.001 & 0.9047 &  Mann-Whitney & 0.6454 \\ 
-Packages & 1 & Sustained &  2.21 (34) & 2.40 (203) & 108.98 & \textless 0.001 & \textless 0.001 & 0.6501 &  Mann-Whitney & 0.8805 \\ 
-Packages & 5 & Moderate \& sustained &  5.07 (74) & 6.31 (783) & 124.55 & \textless 0.001 & \textless 0.001 & 0.2253 &  Mann-Whitney & 0.0218 \\ 
-Packages & 5 & Moderate &  5.35 (40) & 6.38 (580) & 119.17 & \textless 0.001 & \textless 0.001 & 0.4843 &  Mann-Whitney & 0.0794 \\ 
-Packages & 5 & Sustained &  4.74 (34) & 6.13 (203) & 129.41 & \textless 0.001 & \textless 0.001 & 0.3795 &  Mann-Whitney & 0.2268 \\ 
-Packages & 10 & Moderate \& sustained &  7.34 (74) & 9.45 (783) & 128.81 & \textless 0.001 & \textless 0.001 & 0.3777 &  Mann-Whitney & 0.0017 \\ 
-Packages & 10 & Moderate &  7.95 (40) & 9.73 (580) & 122.42 & \textless 0.001 & \textless 0.001 & 0.7874 &  Mann-Whitney & 0.0211 \\ 
-Packages & 10 & Sustained &  6.62 (34) & 8.65 (203) & 130.71 & \textless 0.001 & \textless 0.001 & 0.4753 &  Mann-Whitney & 0.1076 \\ 
-Packages & 20 & Sustained &  9.32 (34) & 13.06 (203) & 140.12 & \textless 0.001 & \textless 0.001 & 0.3136 &  Mann-Whitney & 0.0435 \\ 
-Classes & 1 & All &  4.59 (137) & 1.53 (8303) & 33.23 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
-Classes & 1 & Moderate &  8.05 (40) & 2.98 (580) & 36.97 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.3770 \\ 
-Classes & 1 & Sustained &  3.44 (34) & 5.49 (203) & 159.47 & \textless 0.001 & \textless 0.001 & 0.7146 &  Mann-Whitney & 0.1429 \\ 
-Classes & 5 & Moderate \& sustained &  39.05 (74) & 24.11 (783) & 61.73 & \textless 0.001 & \textless 0.001 & 0.0066 &  Brunner-Münzel & 0.1101 \\ 
-Classes & 5 & Moderate &  41.38 (40) & 22.04 (580) & 53.28 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.1057 \\ 
-Classes & 5 & Sustained &  36.32 (34) & 30.01 (203) & 82.62 & \textless 0.001 & \textless 0.001 & 0.6508 &  Mann-Whitney & 0.5895 \\ 
-Classes & 10 & Moderate \& sustained &  64.81 (74) & 43.51 (783) & 67.14 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0840 \\ 
-Classes & 10 & Moderate &  61.60 (40) & 41.95 (580) & 68.10 & \textless 0.001 & \textless 0.001 & 0.0046 &  Brunner-Münzel & 0.1665 \\ 
-Classes & 10 & Sustained &  68.59 (34) & 47.98 (203) & 69.95 & \textless 0.001 & \textless 0.001 & 0.1446 &  Mann-Whitney & 0.2478 \\ 
-Classes & 20 & Sustained &  107.50 (34) & 81.91 (203) & 76.20 & \textless 0.001 & \textless 0.001 & 0.0906 &  Mann-Whitney & 0.2857 \\ 
-Methods & 1 & All &  13.10 (137) & 2.94 (8303) & 22.46 & \textless 0.001 & \textless 0.001 & 0.0031 &  Brunner-Münzel & 0.0000 \\ 
-Methods & 1 & Moderate &  24.85 (40) & 7.82 (580) & 31.49 & \textless 0.001 & \textless 0.001 & 0.0024 &  Brunner-Münzel & 0.4439 \\ 
-Methods & 1 & Sustained &  10.59 (34) & 24.08 (203) & 227.41 & \textless 0.001 & \textless 0.001 & 0.7393 &  Mann-Whitney & 0.2351 \\ 
-Methods & 5 & Moderate \& sustained &  164.59 (74) & 86.68 (783) & 52.66 & \textless 0.001 & \textless 0.001 & 0.0072 &  Brunner-Münzel & 0.1274 \\ 
-Methods & 5 & Moderate &  186.75 (40) & 76.85 (580) & 41.15 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0851 \\ 
-Methods & 5 & Sustained &  138.53 (34) & 114.77 (203) & 82.85 & \textless 0.001 & \textless 0.001 & 0.7156 &  Mann-Whitney & 0.7890 \\ 
-Methods & 10 & Moderate \& sustained &  263.26 (74) & 154.41 (783) & 58.65 & \textless 0.001 & \textless 0.001 & 0.0018 &  Brunner-Münzel & 0.0591 \\ 
-Methods & 10 & Moderate &  271.43 (40) & 145.21 (580) & 53.50 & \textless 0.001 & \textless 0.001 & 0.0017 &  Brunner-Münzel & 0.1449 \\ 
-Methods & 10 & Sustained &  253.65 (34) & 180.70 (203) & 71.24 & \textless 0.001 & \textless 0.001 & 0.3267 &  Mann-Whitney & 0.2291 \\ 
-Methods & 20 & Sustained &  401.24 (34) & 295.10 (203) & 73.55 & \textless 0.001 & \textless 0.001 & 0.1120 &  Mann-Whitney & 0.5131 \\ 
+Packages & 1 & All &  1.52 & 281 & 1.22 & 16153 & 80.37 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Packages & 1 & Moderate &  2.59 & 41 & 2.59 & 646 & 100.35 & \textless 0.001 & \textless 0.001 & 0.8110 &  Mann-Whitney & 0.7564 \\ 
+Packages & 1 & Sustained &  2.21 & 34 & 2.40 & 203 & 108.98 & \textless 0.001 & \textless 0.001 & 0.6501 &  Mann-Whitney & 0.8805 \\ 
+Packages & 5 & Transient with five or more; moderate \& sustained &  22.65 & 84 & 15.94 & 1278 & 70.35 & \textless 0.001 & \textless 0.001 & 0.0318 &  Brunner-Münzel & 0.0054 \\ 
+Packages & 5 & Moderate &  15.00 & 41 & 15.54 & 646 & 103.58 & \textless 0.001 & \textless 0.001 & 0.9528 &  Mann-Whitney & 0.6067 \\ 
+Packages & 5 & Sustained &  36.62 & 34 & 37.08 & 203 & 101.26 & \textless 0.001 & \textless 0.001 & 0.9187 &  Mann-Whitney & 0.9397 \\ 
+Packages & 10 & Moderate \& sustained &  7.39 & 75 & 9.40 & 849 & 127.28 & \textless 0.001 & \textless 0.001 & 0.3972 &  Mann-Whitney & 0.0031 \\ 
+Packages & 10 & Moderate &  8.02 & 41 & 9.64 & 646 & 120.11 & \textless 0.001 & \textless 0.001 & 0.7772 &  Mann-Whitney & 0.0394 \\ 
+Packages & 10 & Sustained &  6.62 & 34 & 8.65 & 203 & 130.71 & \textless 0.001 & \textless 0.001 & 0.4753 &  Mann-Whitney & 0.1076 \\ 
+Packages & 20 & Sustained &  9.32 & 34 & 13.06 & 203 & 140.12 & \textless 0.001 & \textless 0.001 & 0.3136 &  Mann-Whitney & 0.0435 \\ 
+Classes & 1 & All &  2.75 & 281 & 1.27 & 16153 & 46.18 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Classes & 1 & Moderate &  7.88 & 41 & 2.95 & 646 & 37.41 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.4372 \\ 
+Classes & 1 & Sustained &  3.44 & 34 & 5.49 & 203 & 159.47 & \textless 0.001 & \textless 0.001 & 0.7146 &  Mann-Whitney & 0.1429 \\ 
+Classes & 5 & Transient with five or more; moderate \& sustained &  374.23 & 84 & 120.59 & 1278 & 32.22 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Classes & 5 & Moderate &  143.59 & 41 & 82.88 & 646 & 57.72 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0324 \\ 
+Classes & 5 & Sustained &  746.59 & 34 & 442.33 & 203 & 59.25 & 0.0035 & \textless 0.001 & 0.1161 &  Mann-Whitney & 0.0001 \\ 
+Classes & 10 & Moderate \& sustained &  64.40 & 75 & 43.67 & 849 & 67.82 & \textless 0.001 & \textless 0.001 & 0.0012 &  Brunner-Münzel & 0.0798 \\ 
+Classes & 10 & Moderate &  60.93 & 41 & 42.32 & 646 & 69.46 & \textless 0.001 & \textless 0.001 & 0.0092 &  Brunner-Münzel & 0.1571 \\ 
+Classes & 10 & Sustained &  68.59 & 34 & 47.98 & 203 & 69.95 & \textless 0.001 & \textless 0.001 & 0.1446 &  Mann-Whitney & 0.2478 \\ 
+Classes & 20 & Sustained &  107.50 & 34 & 81.91 & 203 & 76.20 & \textless 0.001 & \textless 0.001 & 0.0906 &  Mann-Whitney & 0.2857 \\ 
+Methods & 1 & All &  6.90 & 281 & 2.00 & 16153 & 28.97 & \textless 0.001 & \textless 0.001 & 0.0044 &  Brunner-Münzel & 0.0000 \\ 
+Methods & 1 & Moderate &  24.27 & 41 & 7.92 & 646 & 32.65 & \textless 0.001 & \textless 0.001 & 0.0026 &  Brunner-Münzel & 0.5050 \\ 
+Methods & 1 & Sustained &  10.59 & 34 & 24.08 & 203 & 227.41 & \textless 0.001 & \textless 0.001 & 0.7393 &  Mann-Whitney & 0.2351 \\ 
+Methods & 5 & Transient with five or more; moderate \& sustained &  1554.73 & 84 & 443.83 & 1278 & 28.55 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Methods & 5 & Moderate &  605.73 & 41 & 297.26 & 646 & 49.07 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0061 \\ 
+Methods & 5 & Sustained &  3095.18 & 34 & 1672.84 & 203 & 54.05 & \textless 0.001 & \textless 0.001 & 0.0871 &  Mann-Whitney & 0.0000 \\ 
+Methods & 10 & Moderate \& sustained &  261.01 & 75 & 155.65 & 849 & 59.63 & \textless 0.001 & \textless 0.001 & 0.0020 &  Brunner-Münzel & 0.0597 \\ 
+Methods & 10 & Moderate &  267.12 & 41 & 147.78 & 646 & 55.32 & \textless 0.001 & \textless 0.001 & 0.0023 &  Brunner-Münzel & 0.1446 \\ 
+Methods & 10 & Sustained &  253.65 & 34 & 180.70 & 203 & 71.24 & \textless 0.001 & \textless 0.001 & 0.3267 &  Mann-Whitney & 0.2291 \\ 
+Methods & 20 & Sustained &  401.24 & 34 & 295.10 & 203 & 73.55 & \textless 0.001 & \textless 0.001 & 0.1120 &  Mann-Whitney & 0.5131 \\ 
 \bottomrule
 \end{tabular}%
 } 

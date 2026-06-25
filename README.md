@@ -1,12 +1,15 @@
 ## Install
 - python -m venv .venv
-- .venv\Scripts\activate or source .venv/bin/activate
+- .venv\Scripts\activate or source .venv/Scripts/activate
 -   
 - pip install -r requirement.txt
 - https://miktex.org/
 
 ## Generate
 - pdflatex main_1.tex
+
+## Test
+python -m unittest discover -v -s ./test -p test_*.py
 ## Unix symbloic link
 mkdir repository
 mkdir resource

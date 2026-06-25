@@ -98,7 +98,7 @@ def get_data_frame(developers_dict, unit):
 
 def generate_anova_latex(df, component, commit_prefix, number_of_commits, category):
     component = component.replace("_", "-")
-
+    number_of_developers = len(df)
     # 2. Run the Two-Way ANOVA
     # C() tells statsmodels these are Categorical variables
     model = ols('Value ~ C(Role) * C(Tenure)', data=df).fit()
@@ -124,13 +124,13 @@ def generate_anova_latex(df, component, commit_prefix, number_of_commits, catego
         p_val = row['PR(>F)']
         
         # Follows your requested format: Component & Window & Label & SumSq & df & F & P & EtaSq
-        latex =  f"{component} & {number_of_commits} & {label} & "
+        latex =  f"{component} & {number_of_commits} & {number_of_developers} & {label} & "
         latex += f"{row['sum_sq']:.2f} & {row['df']:.0f} & "
         latex += f"{row['F']:.2f} & {p_val:.4f} & "
         
         # Handle the Residual row (which has no F or P)
         if index == 'Residual':
-            latex = f"{component} & {number_of_commits} & {label} & {row['sum_sq']:.2f} & {row['df']:.0f} & - & -  \\\\ \n"
+            latex = f"{component} & {number_of_commits} & {number_of_developers} & {label} & {row['sum_sq']:.2f} & {row['df']:.0f} & - & -  \\\\ \n"
         else:
             latex += f"{row['eta_sq']:.4f} \\\\ \n"
             
@@ -143,16 +143,12 @@ def generate_and_save(component, developers, number_of_commits):
     base_file_name = get_base_file_name(FILE_NAME)
     file_name = base_file_name + "_transient"
     df = get_data_frame(developers, TIME_SERIES_NUMBER_OF_COMMIT)
-    table_name = "Anova results for all components, number of commits and " + str(len(df)) + " developers"
+    table_name = "Anova results for all components, number of commits and categories of developers"
     commit_prefix = "all commits"
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(commit_prefix)
-        save_to_latex_file(base_file_name, BASE_FILE_NAME, latex, path)
-        headings = ["Component", "Number of First Commits", "Factor", "Sum Squared", "df", "F-Stat", "$P$ Value", "ETA Sq"]
-        commit_prefix += " excluding tranient" 
-        table_name += " excluding transient"
-        latex = section_sub_sub_heading(commit_prefix)
-        latex += start_latex_table(table_name, headings, "l r l r r r r r")
+        headings = ["Component", "First $n$ commits", "Number of Developers", "Factor", "Sum Squared", "df", "F-Stat", "$P$ Value", "ETA Sq"]
+        latex += start_latex_table(table_name, headings, "l r r l r r r r r")
         save_to_latex_file(file_name, base_file_name + ".tex", latex, path)   
     if number_of_commits == 1:     
         category = "Category (T/M/S)"

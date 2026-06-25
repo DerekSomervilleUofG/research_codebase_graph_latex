@@ -5,7 +5,7 @@ from codebase_graph_latex.FigureCounter import FigureCounter
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.calculate import *
-
+from matplotlib.ticker import MaxNLocator, LogFormatterMathtext, LogFormatterSciNotation
 
 figure_counter = FigureCounter()
 BINS = 200
@@ -134,40 +134,65 @@ def developer_percentage_graph(file_name, developers, weights, table_suffix, rep
                     max_x_axis=0, 
                     max_y_axis=MAX_Y_AXIS,
                     bins=None,
-                    figure_size=SMALL_FIGURE):
+                    figure_size=SMALL_FIGURE,
+                    log_x=False): # Added log_x toggle parameter
     path = DIRECTORY
     if repository_id > 0:
         path += str(repository_id) + "/"
     else:
         path += "graph/"
+        
     bins = get_bins(max_x_axis, max(developers), bins)
+    
     x_axis = "Average number of "
     if table_suffix in ["packages", "files", "classes", "methods"]:
         x_axis += "touched "
     x_axis += table_suffix
+    
+    if log_x and "log" not in x_axis.lower():
+        x_axis += " (log)"
+        
     read_write_file.create_directory(path)
     file_name = path + get_base_file_name(file_name) + "." + table_suffix.lower().replace(" ", ".") 
     if type != "":
         file_name += "." + type.lower().replace(" ", ".")
     file_name += ".pdf"
+    
     plt.figure(figsize=figure_size)
+    
+    # Render histogram
     plt.hist(developers, bins=bins, weights=weights)
-    if max_x_axis > 0:
-        plt.xlim(0, max_x_axis)
+    
+    # Configure Logarithmic Scale if toggled
+    if log_x:
+        plt.xscale('log')
+        # Use mathematical text formatter for clean 10^n exponents
+        plt.gca().xaxis.set_major_formatter(LogFormatterSciNotation())
+        if max_x_axis > 0:
+            plt.xlim(1, max_x_axis) # Log scales cannot start at exact 0; default to 1
+    else:
+        if max_x_axis > 0:
+            plt.xlim(0, max_x_axis)
+            
     plt.ylim(0, max_y_axis)
     plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))
+    
     if param_x_axis != "":
         x_axis = param_x_axis
+        
     plt.subplots_adjust(left=0.15)
     plt.xlabel(x_axis, fontsize=7)
     plt.ylabel('Percentage of Developers', fontsize=8)
     plt.tight_layout() 
+    
     plt.savefig(file_name, bbox_inches='tight')
     plt.close()
+    
     if sub_graph:
         latex = latex_add_sub_graph(file_name, param_caption)
     else:
         latex = latex_add_graph(file_name, param_caption)
+        
     return latex
 
 def get_base_file_name(file_name):

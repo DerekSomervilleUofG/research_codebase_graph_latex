@@ -1,10 +1,43 @@
-\subsection{Generated art anova - For all components touched for all commits excluding transient developers} 
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption{Anova results for all components, number of commits and 8440 developers excluding transient developers}
+\caption{ART Anova results for all components, number of commits and categories of developers}
 \resizebox{\textwidth}{!}{% 
-\begin{tabular}{l r l r r r r r}
+\begin{tabular}{l r r l ccc r ccc r}
 \toprule
-\textbf{Component} & \makecell[b]{\textbf{First *n*}\\\textbf{commits}} & \textbf{Factor} & \textbf{df} & \textbf{df (Resid)} & \textbf{F-Stat} & \textbf{$P$ Value} & \makecell[b]{\textbf{Part.}\\\textbf{$\eta^2$}} \\ 
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \textbf{Factor} & \multicolumn{4}{c}{\textbf{OLS}} & \multicolumn{4}{c}{\textbf{ART}} \\ 
+\cmidrule(lr){5-8} \cmidrule(lr){9-12}
+ &  &  &  & \textbf{df} & \textbf{F-Stat} & \textbf{$P$ Value} & \textbf{$\eta^2$} & \textbf{df (Resid)} & \textbf{F-Stat} & \textbf{$P$ Value} & \makecell[t]{\textbf{Part.}\\\textbf{$\eta^2$}} \\ 
 \midrule
+packages & 1 & 16434 & Role (F/LJ) & 1 & 0.00 & 0.9606 & 0.0000 & 1 (16428) & 265.55 & 0.0000 & 0.0159 \\ 
+packages & 1 & 16434 & Category (T/M/S) & 2 & 32.56 & 0.0000 & 0.0039 & 2 (16428) & 801.56 & 0.0000 & 0.0889 \\ 
+packages & 1 & 16434 & Interaction & 2 & 0.60 & 0.5510 & 0.0001 & 2 (16428) & 132.65 & 0.0000 & 0.0159 \\ 
+packages & 5 & 1362 & Role (F/LJ) & 1 & 0.03 & 0.8640 & 0.0000 & 1 (1356) & 18.60 & 0.0000 & 0.0135 \\ 
+packages & 5 & 1362 & Category (M/S) & 2 & 15.71 & 0.0000 & 0.0222 & 2 (1356) & 51.18 & 0.0000 & 0.0702 \\ 
+packages & 5 & 1362 & Interaction & 2 & 0.02 & 0.9839 & 0.0000 & 2 (1356) & 2.95 & 0.0529 & 0.0043 \\ 
+packages & 10 & 924 & Role (F/LJ) & 1 & 1.79 & 0.1809 & 0.0018 & 1 (920) & 5.36 & 0.0209 & 0.0058 \\ 
+packages & 10 & 924 & Category (M/S) & 1 & 0.66 & 0.4177 & 0.0007 & 1 (920) & 3.19 & 0.0744 & 0.0035 \\ 
+packages & 10 & 924 & Interaction & 1 & 0.05 & 0.8195 & 0.0001 & 1 (920) & 0.04 & 0.8387 & 0.0000 \\ 
+classes & 1 & 16434 & Role (F/LJ) & 1 & 47.88 & 0.0000 & 0.0029 & 1 (16428) & 463.03 & 0.0000 & 0.0274 \\ 
+classes & 1 & 16434 & Category (T/M/S) & 2 & 34.71 & 0.0000 & 0.0042 & 2 (16428) & 912.14 & 0.0000 & 0.0999 \\ 
+classes & 1 & 16434 & Interaction & 2 & 23.37 & 0.0000 & 0.0028 & 2 (16428) & 305.46 & 0.0000 & 0.0359 \\ 
+classes & 5 & 1362 & Role (F/LJ) & 1 & 2.54 & 0.1109 & 0.0017 & 1 (1356) & 100.03 & 0.0000 & 0.0687 \\ 
+classes & 5 & 1362 & Category (M/S) & 2 & 71.98 & 0.0000 & 0.0935 & 2 (1356) & 150.39 & 0.0000 & 0.1815 \\ 
+classes & 5 & 1362 & Interaction & 2 & 10.89 & 0.0000 & 0.0142 & 2 (1356) & 30.33 & 0.0000 & 0.0428 \\ 
+classes & 10 & 924 & Role (F/LJ) & 1 & 4.68 & 0.0308 & 0.0048 & 1 (920) & 5.70 & 0.0172 & 0.0062 \\ 
+classes & 10 & 924 & Category (M/S) & 1 & 0.38 & 0.5365 & 0.0004 & 1 (920) & 0.11 & 0.7391 & 0.0001 \\ 
+classes & 10 & 924 & Interaction & 1 & 0.02 & 0.8787 & 0.0000 & 1 (920) & 0.16 & 0.6896 & 0.0002 \\ 
+methods & 1 & 16434 & Role (F/LJ) & 1 & 12.69 & 0.0004 & 0.0008 & 1 (16428) & 382.32 & 0.0000 & 0.0227 \\ 
+methods & 1 & 16434 & Category (T/M/S) & 2 & 10.01 & 0.0000 & 0.0012 & 2 (16428) & 801.24 & 0.0000 & 0.0889 \\ 
+methods & 1 & 16434 & Interaction & 2 & 9.24 & 0.0001 & 0.0011 & 2 (16428) & 374.01 & 0.0000 & 0.0436 \\ 
+methods & 5 & 1362 & Role (F/LJ) & 1 & 3.78 & 0.0519 & 0.0025 & 1 (1356) & 102.31 & 0.0000 & 0.0702 \\ 
+methods & 5 & 1362 & Category (M/S) & 2 & 71.05 & 0.0000 & 0.0920 & 2 (1356) & 141.78 & 0.0000 & 0.1730 \\ 
+methods & 5 & 1362 & Interaction & 2 & 13.27 & 0.0000 & 0.0172 & 2 (1356) & 29.99 & 0.0000 & 0.0424 \\ 
+methods & 10 & 924 & Role (F/LJ) & 1 & 7.22 & 0.0073 & 0.0075 & 1 (920) & 9.37 & 0.0023 & 0.0101 \\ 
+methods & 10 & 924 & Category (M/S) & 1 & 0.04 & 0.8332 & 0.0000 & 1 (920) & 1.29 & 0.2568 & 0.0014 \\ 
+methods & 10 & 924 & Interaction & 1 & 0.47 & 0.4934 & 0.0005 & 1 (920) & 0.69 & 0.4070 & 0.0007 \\ 
+\bottomrule
+\end{tabular}%
+} 
+\end{table}
+\newpage 

@@ -17,53 +17,92 @@ def format_cell_text(text, vertical_align="t"):
         inner_text = r"\\".join([r"\textbf{" + l + "}" for l in lines])
         return r"\makecell[" + vertical_align + "]{" + inner_text + "}"
 
-def generate_latex_heading(headings):
+def get_number_match(headings, heading_index, match_word):
+    num_headings = len(headings)
+    match_count = 1
+    while (heading_index + match_count < num_headings and 
+            match_count < 4 and 
+            headings[heading_index + match_count][0:len(match_word)] == match_word):
+        match_count += 1
+    return match_count
+
+def generate_latex_heading_parts(headings):
     row1_cells = []
     row2_cells = []
     cmidrules = []
     
-    i = 0
+    heading_index = 0
     num_headings = len(headings)
     
-    while i < num_headings:
-        current_heading = headings[i]
-        words = current_heading.split(" ")
-        first_word = words[0]
+    # Track the real, absolute data column index (1-based for LaTeX)
+    actual_col_idx = 1
+    
+    while heading_index < num_headings:
+        current_heading = headings[heading_index]
+        first_word = current_heading.split(" ")[0]
         
-        # Check if the next heading shares the exact same first word (and we aren't at the last element)
-        if i + 1 < num_headings and headings[i + 1].split(" ")[0] == first_word:
-            # We found a pair! Extract the sub-words for row 2
-            sub_word1 = " ".join(words[1:]) if len(words) > 1 else first_word
-            sub_word2 = " ".join(headings[i + 1].split(" ")[1:]) if len(headings[i + 1].split(" ")) > 1 else first_word
+        match_count = get_number_match(headings, heading_index, first_word)
             
-            # Row 1 gets the shared multi-column master span
-            row1_cells.append(r"\multicolumn{2}{c}{\textbf{" + first_word + "}}")
+        if match_count > 1:
+            # Row 1 gets the top level multi-column master cell span
+            row1_cells.append(r"\multicolumn{" + str(match_count) + r"}{c}{\textbf{" + first_word + "}}")
             
-            # Row 2 gets the distinct individual metrics underneath
-            row2_cells.append(format_cell_text(sub_word1, "c"))
-            row2_cells.append(format_cell_text(sub_word2, "c"))
+            # Row 2 gets the distinct trailing text for each sub-column
+            for offset in range(match_count):
+                h_words = headings[heading_index + offset].split(" ")
+                sub_text = " ".join(h_words[1:]) if len(h_words) > 1 else headings[heading_index + offset]
+                
+                # FIX: Explicitly pass sub-column fields through format_cell_text 
+                # using configuration parameters that trigger bold text tags ("t" or equivalent)
+                row2_cells.append(format_cell_text(sub_text, "t"))
             
-            # Add 1-based index rules for LaTeX tracking (Col index = standard array index + 1)
-            col_start = i + 1
-            cmidrules.append(f"\\cmidrule(lr){{{col_start}-{col_start + 1}}}")
+            col_start = actual_col_idx
+            col_end = actual_col_idx + match_count - 1
+            cmidrules.append(f"\\cmidrule(lr){{{col_start}-{col_end}}}")
             
-            # Skip the next element in the loop since it's merged
-            i += 2
+            heading_index += match_count
+            actual_col_idx += match_count
         else:
-            # Standalone single column header block
+            # Standalone single-column cell layout block
             row1_cells.append(format_cell_text(current_heading, "t"))
             
-            # Row 2 gets a completely blank cell placeholder in this column position
+            # Row 2 gets a blank cell placeholder to balance the column layout vector
             row2_cells.append("")
-            i += 1
+            
+            heading_index += 1
+            actual_col_idx += 1
+    return row1_cells, row2_cells, cmidrules
 
-    # Construct the final 2-row table layout block
-    latex_output = " & ".join(row1_cells) + r" \\ " + "\n"
+def generate_latex_heading(headings):
     
+    row1_cells, row2_cells, cmidrules = generate_latex_heading_parts(headings)
+
+    total_data_columns = len(row2_cells)
+    
+    # We need to find out how many columns our multicolumn cells 'ate'
+    columns_in_row1 = 0
+    for cell in row1_cells:
+        if r"\multicolumn" in cell:
+            # Extract the integer number inside the first curly brace: \multicolumn{X}{...}
+            # e.g., \multicolumn{4}{c}{...} -> extracts 4
+            span_size = int(cell.split("{")[1].split("}")[0])
+            columns_in_row1 += span_size
+        else:
+            columns_in_row1 += 1
+            
+    missing_padding_cells = total_data_columns - columns_in_row1
+    
+    # 3. Construct Row 1 and append trailing empty cells if any columns are missing
+    latex_output = " & ".join(row1_cells)
+    if missing_padding_cells > 0:
+        latex_output += " & " * missing_padding_cells
+    latex_output += r" \\ " + "\n"
+    
+    # 4. Construct alignment rules cleanly
     if cmidrules:
         latex_output += " ".join(cmidrules) + "\n"
-        
-    latex_output += " & ".join(row2_cells) + r" \\ " + "\n"
+        latex_output += " & ".join(row2_cells) + r" \\ " + "\n"
+    
     return latex_output
 
 def start_latex_table(caption, headings, column_setup=""):

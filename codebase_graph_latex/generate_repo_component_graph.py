@@ -6,7 +6,8 @@ from codebase_graph_latex.repository_graph.histogram_components_touched_by_devel
 from codebase_graph_latex.constants import *
 
 def generate_and_save(repository_id, status, component, developers):
-    commit_data, daily_data = get_commit_and_daily(developers[SUSTAINED_JOINER])
+    daily_data = get_commit_and_daily(developers[SUSTAINED_JOINER], "daily")
+    commit_data = get_commit_and_daily(developers[SUSTAINED_JOINER], "commit")
     repository_average_knowledge_merge_average(daily_data, commit_data, component)
     if status == "B":
         #time_series_components_touched_generate_and_save(repository_id, component, developers)

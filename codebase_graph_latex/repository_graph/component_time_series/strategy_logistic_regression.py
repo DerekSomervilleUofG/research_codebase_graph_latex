@@ -9,20 +9,26 @@ from codebase_graph_latex.latex_table import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
+P_THRESHOLD = 0.30
+
 def generate_logistic_regression_explanation():
-    latex = r"""
+    percent_label = int(100 * P_THRESHOLD)
+    
+    # By using a variable for itemize, we can use standard f-string evaluation
+    list_env = "itemize"
+    
+    latex = fr"""
 To identify early indicators of long-term developer engagement, a Logistic Regression model was employed. The model treats the developer category (Sustained vs. Non-Sustained) as a binary dependent variable. The following metrics are reported:
 
-\begin{itemize}
-    \item \textbf{Coefficient ($\beta$):} This value represents the change in the log-odds of a developer becoming 'Sustained' for every unit increase in the component count. A positive coefficient indicates that higher activity in that component increases the likelihood of long-term retention.
-    \item \textbf{Odds Ratio ($e^\beta$):} Perhaps the most interpretable metric, the Odds Ratio quantifies the relative increase in the likelihood of being a Sustained developer. For example, an Odds Ratio of $1.05$ implies a $5\%$ increase in the odds of becoming sustained for each additional component touched.
-    \item \textbf{Std. Err (Standard Error):} Measures the accuracy of the coefficient estimate. A lower standard error relative to the coefficient indicates a more precise estimate.
-    \item \textbf{p-Value ($P>|z|$):} Indicates the statistical significance of the predictor. In this study, a p-Value $< 0.05$ suggests that the specific component count is a significant predictor of whether a developer will transition into a sustained role.
-    \item \textbf{50\% Threshold:} The threshold number of components to touch to have a 50% chance of becoming a sustained developer.
-    \item \textbf{Moderate Met Threshold:} The moderate number of developers to have met the threshold, the percentage of developers in brackets.
-    \item \textbf{Sustained Met Threshold:} The sustained number of developers to have met the threshold, the percentage of developers in brackets.
-    
-\end{itemize}
+\begin{{{list_env}}}
+    \item \textbf{{Coefficient ($\beta$):}} This value represents the change in the log-odds of a developer becoming 'Sustained' for every unit increase in the component count. A positive coefficient indicates that higher activity in that component increases the likelihood of long-term retention.
+    \item \textbf{{Odds Ratio ($e^\beta$):}} Perhaps the most interpretable metric, the Odds Ratio quantifies the relative increase in the likelihood of being a Sustained developer. For example, an Odds Ratio of $1.05$ implies a $5\%$ increase in the odds of becoming sustained for each additional component touched.
+    \item \textbf{{Std. Err (Standard Error):}} Measures the accuracy of the coefficient estimate. A lower standard error relative to the coefficient indicates a more precise estimate.
+    \item \textbf{{p-Value ($P>|z|$):}} Indicates the statistical significance of the predictor. In this study, a p-Value $< 0.05$ suggests that the specific component count is a significant predictor of whether a developer will transition into a sustained role.
+    \item \textbf{{{percent_label}\% Threshold:}} The threshold number of components to touch to achieve a {percent_label}\% empirical probability of transitioning into a sustained contributor.
+    \item \textbf{{Moderate Met Threshold:}} The moderate number of developers to have met the threshold, the percentage of developers in brackets.
+    \item \textbf{{Sustained Met Threshold:}} The sustained number of developers to have met the threshold, the percentage of developers in brackets.
+\end{{{list_env}}}
 """
 
     latex += r"""
@@ -50,7 +56,7 @@ def generate_predictive_model_latex():
 To determine if early-stage developer behavior can identify future sustained contributors, we employ a Logistic Regression model. The probability $P$ of a developer becoming a \textbf{Sustained Contributor} is modeled using the log-odds (logit) function:
 
 \begin{equation}
-    \ln\left(\frac{P}{1-P}\right) = \beta_0 + \beta_1 X_{1} + \beta_2 X_{2} + \dots + \beta_n X_{n} + \epsilon
+    \ln\left(\frac{P}{1-P}\right) = \beta_0 + \beta_1 X_{1} + \beta_2 X_{2} + \dots + \beta_n X_{n}
 \end{equation}
 
 Where:
@@ -68,7 +74,7 @@ The impact of each behavior is quantified using the \textbf{Odds Ratio (OR)}, ca
 An $OR > 1$ indicates that an increase in the metric (e.g., touching more classes) increases the likelihood of long-term retention. 
 
 \paragraph{Model Evaluation}
-The predictive power is evaluated using the Area Under the Receiver Operating Characteristic Curve (AUC-ROC). An AUC of 0.5 represents random chance, while an AUC closer to 1.0 indicates high predictive accuracy.
+The predictive power is evaluated using the Area Under the Receiver Operating Characteristic Curve (AUC-ROC). An AUC of 0.5 represents random chance, while an AUC closer to 1.0 indicates high predictive accuracy[cite: 1639].
 """
     return latex
 
@@ -136,8 +142,8 @@ def generate_predictive_identification_latex(df, component, number_of_commits):
     coeff_val = summary.iloc[1]['Coef.']
     # If the coefficient is positive, we calculate the crossover point
     
-    p_threshold = 0.30
-    logit_p = math.log(p_threshold / (1 - p_threshold))
+
+    logit_p = math.log(P_THRESHOLD / (1 - P_THRESHOLD))
 
     x30_threshold = (logit_p -intercept_val) / coeff_val if coeff_val != 0 else 0
     sustained_df = df[df['is_sustained'] == 1]
@@ -162,7 +168,7 @@ def generate_and_save(component, developers, number_of_commits):
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(commit_prefix)
         
-        headings = ["Component", "Number of First Commits", "Type", "Moderate $\mu$", "Sustained $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", "30\% Threshold", "Moderate Met Threshold", "Sustained Met Threshold"]
+        headings = ["Component", "Number of First Commits", "Type", "Moderate $\mu$", "Sustained $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", str(P_THRESHOLD * 100) + "\% Threshold", "Moderate Met Threshold", "Sustained Met Threshold"]
         latex += start_latex_table("Strategy Logistic Regression for all components against number of commits for " + str(len(df)) + " developers excluding transient", headings, "l r l r r r r r r r r r")
         save_to_latex_file(get_base_file_name(file_name), 
                            BASE_FILE_NAME,

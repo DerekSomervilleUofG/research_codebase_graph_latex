@@ -7,10 +7,9 @@ To identify early indicators of long-term developer engagement, a Logistic Regre
     \item \textbf{Odds Ratio ($e^\beta$):} Perhaps the most interpretable metric, the Odds Ratio quantifies the relative increase in the likelihood of being a Sustained developer. For example, an Odds Ratio of $1.05$ implies a $5\%$ increase in the odds of becoming sustained for each additional component touched.
     \item \textbf{Std. Err (Standard Error):} Measures the accuracy of the coefficient estimate. A lower standard error relative to the coefficient indicates a more precise estimate.
     \item \textbf{p-Value ($P>|z|$):} Indicates the statistical significance of the predictor. In this study, a p-Value $< 0.05$ suggests that the specific component count is a significant predictor of whether a developer will transition into a sustained role.
-    \item \textbf{50\% Threshold:} The threshold number of components to touch to have a 50% chance of becoming a sustained developer.
+    \item \textbf{30\% Threshold:} The threshold number of components to touch to achieve a 30\% empirical probability of transitioning into a sustained contributor.
     \item \textbf{Moderate Met Threshold:} The moderate number of developers to have met the threshold, the percentage of developers in brackets.
     \item \textbf{Sustained Met Threshold:} The sustained number of developers to have met the threshold, the percentage of developers in brackets.
-    
 \end{itemize}
 
 \textbf{Interpretation of Intercept vs. Component Count:}
@@ -21,30 +20,30 @@ To identify early indicators of long-term developer engagement, a Logistic Regre
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption{Strategy Logistic Regression for all components against number of commits for 8440 developers excluding transient}
+\caption{Strategy Logistic Regression for all components against number of commits for 16434 developers excluding transient}
 \resizebox{\textwidth}{!}{% 
 \begin{tabular}{l r l r r r r r r r r r}
 \toprule
-\textbf{Component} & \makecell[b]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \textbf{Type} & \makecell[b]{\textbf{Moderate}\\\textbf{$\mu$}} & \makecell[b]{\textbf{Sustained}\\\textbf{$\mu$}} & \makecell[b]{\textbf{}\\\textbf{Coefficient}} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[b]{\textbf{30\%}\\\textbf{Threshold}} & \makecell[b]{\textbf{Moderate}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[b]{\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} \\ 
+\textbf{Component} & \makecell[t]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \textbf{Type} & \makecell[t]{\textbf{Moderate}\\\textbf{$\mu$}} & \makecell[t]{\textbf{Sustained}\\\textbf{$\mu$}} & \makecell[t]{\textbf{}\\\textbf{Coefficient}} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[t]{\textbf{30.0\%}\\\textbf{Threshold}} & \makecell[t]{\textbf{Moderate}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[t]{\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} \\ 
 \midrule
-packages & 1 & Intercept & 0.95 & 5.76 & -3.9648 & 0.0190 & 0.0803 & 0.0000 & - & - & - \\ 
-packages & 1 & Packages Count & 0.95 & 5.76 & 0.1900 & 1.2092 & 0.0129 & 0.0000 & \textbf{16.4099} & 34 (0.4\%) & 13 (5.5\%) \\ 
-packages & 5 & Intercept & 10.96 & 21.99 & -1.5523 & 0.2118 & 0.1168 & 0.0000 & - & - & - \\ 
-packages & 5 & Packages Count & 10.96 & 21.99 & 0.0404 & 1.0412 & 0.0058 & 0.0000 & \textbf{17.4508} & 116 (18.7\%) & 93 (39.2\%) \\ 
-packages & 10 & Intercept & 14.45 & 32.42 & -1.8471 & 0.1577 & 0.1300 & 0.0000 & - & - & - \\ 
-packages & 10 & Packages Count & 14.45 & 32.42 & 0.0436 & 1.0446 & 0.0050 & 0.0000 & \textbf{22.9237} & 124 (20.0\%) & 114 (48.1\%) \\ 
-% Skip packages: Not enough diversity in classes for Logistic Regression.classes & 1 & Intercept & 2.82 & 36.49 & -3.9517 & 0.0192 & 0.0793 & 0.0000 & - & - & - \\ 
-classes & 1 & Classes Count & 2.82 & 36.49 & 0.0419 & 1.0428 & 0.0026 & 0.0000 & \textbf{74.0371} & 44 (0.5\%) & 28 (11.8\%) \\ 
-classes & 5 & Intercept & 56.38 & 240.08 & -1.8719 & 0.1538 & 0.1205 & 0.0000 & - & - & - \\ 
-classes & 5 & Classes Count & 56.38 & 240.08 & 0.0092 & 1.0092 & 0.0009 & 0.0000 & \textbf{111.4174} & 86 (13.9\%) & 125 (52.7\%) \\ 
-classes & 10 & Intercept & 79.55 & 407.66 & -2.5977 & 0.0744 & 0.1560 & 0.0000 & - & - & - \\ 
-classes & 10 & Classes Count & 79.55 & 407.66 & 0.0107 & 1.0108 & 0.0009 & 0.0000 & \textbf{162.8939} & 66 (10.6\%) & 160 (67.5\%) \\ 
-% Skip classes: Not enough diversity in classes for Logistic Regression.methods & 1 & Intercept & 9.44 & 133.11 & -3.8192 & 0.0219 & 0.0747 & 0.0000 & - & - & - \\ 
-methods & 1 & Methods Count & 9.44 & 133.11 & 0.0084 & 1.0084 & 0.0006 & 0.0000 & \textbf{355.1658} & 34 (0.4\%) & 16 (6.8\%) \\ 
-methods & 5 & Intercept & 207.63 & 926.61 & -1.6702 & 0.1882 & 0.1087 & 0.0000 & - & - & - \\ 
-methods & 5 & Methods Count & 207.63 & 926.61 & 0.0019 & 1.0019 & 0.0002 & 0.0000 & \textbf{438.0841} & 67 (10.8\%) & 113 (47.7\%) \\ 
-methods & 10 & Intercept & 289.62 & 1574.80 & -2.2477 & 0.1056 & 0.1361 & 0.0000 & - & - & - \\ 
-methods & 10 & Methods Count & 289.62 & 1574.80 & 0.0022 & 1.0022 & 0.0002 & 0.0000 & \textbf{624.0901} & 63 (10.2\%) & 150 (63.3\%) \\ 
+packages & 1 & Intercept & 0.48 & 5.76 & -4.6270 & 0.0098 & 0.0785 & 0.0000 & - & - & - \\ 
+packages & 1 & Packages Count & 0.48 & 5.76 & 0.2433 & 1.2755 & 0.0136 & 0.0000 & \textbf{15.5351} & 38 (0.2\%) & 15 (6.3\%) \\ 
+packages & 5 & Intercept & 11.26 & 35.24 & -2.7036 & 0.0670 & 0.1256 & 0.0000 & - & - & - \\ 
+packages & 5 & Packages Count & 11.26 & 35.24 & 0.0618 & 1.0638 & 0.0049 & 0.0000 & \textbf{30.0232} & 71 (6.3\%) & 100 (42.2\%) \\ 
+packages & 10 & Intercept & 13.85 & 32.42 & -1.9820 & 0.1378 & 0.1286 & 0.0000 & - & - & - \\ 
+packages & 10 & Packages Count & 13.85 & 32.42 & 0.0463 & 1.0474 & 0.0050 & 0.0000 & \textbf{24.5148} & 104 (15.1\%) & 106 (44.7\%) \\ 
+% Skip packages: Not enough diversity in classes for Logistic Regression.classes & 1 & Intercept & 1.43 & 36.49 & -4.6125 & 0.0099 & 0.0781 & 0.0000 & - & - & - \\ 
+classes & 1 & Classes Count & 1.43 & 36.49 & 0.0514 & 1.0528 & 0.0028 & 0.0000 & \textbf{73.2126} & 45 (0.3\%) & 28 (11.8\%) \\ 
+classes & 5 & Intercept & 57.53 & 447.83 & -3.3919 & 0.0336 & 0.1557 & 0.0000 & - & - & - \\ 
+classes & 5 & Classes Count & 57.53 & 447.83 & 0.0130 & 1.0131 & 0.0009 & 0.0000 & \textbf{195.0338} & 56 (5.0\%) & 156 (65.8\%) \\ 
+classes & 10 & Intercept & 75.67 & 407.66 & -2.7164 & 0.0661 & 0.1544 & 0.0000 & - & - & - \\ 
+classes & 10 & Classes Count & 75.67 & 407.66 & 0.0111 & 1.0112 & 0.0009 & 0.0000 & \textbf{167.9633} & 64 (9.3\%) & 158 (66.7\%) \\ 
+% Skip classes: Not enough diversity in classes for Logistic Regression.methods & 1 & Intercept & 4.78 & 133.11 & -4.4861 & 0.0113 & 0.0737 & 0.0000 & - & - & - \\ 
+methods & 1 & Methods Count & 4.78 & 133.11 & 0.0103 & 1.0104 & 0.0007 & 0.0000 & \textbf{353.2015} & 34 (0.2\%) & 16 (6.8\%) \\ 
+methods & 5 & Intercept & 207.57 & 1737.49 & -3.0246 & 0.0486 & 0.1351 & 0.0000 & - & - & - \\ 
+methods & 5 & Methods Count & 207.57 & 1737.49 & 0.0028 & 1.0028 & 0.0002 & 0.0000 & \textbf{778.7300} & 47 (4.2\%) & 144 (60.8\%) \\ 
+methods & 10 & Intercept & 275.76 & 1574.80 & -2.3681 & 0.0937 & 0.1350 & 0.0000 & - & - & - \\ 
+methods & 10 & Methods Count & 275.76 & 1574.80 & 0.0023 & 1.0023 & 0.0002 & 0.0000 & \textbf{651.2866} & 61 (8.9\%) & 143 (60.3\%) \\ 
 % Skip methods: Not enough diversity in classes for Logistic Regression.\bottomrule
 \end{tabular}%
 } 
@@ -55,7 +54,7 @@ methods & 10 & Methods Count & 289.62 & 1574.80 & 0.0022 & 1.0022 & 0.0002 & 0.0
 To determine if early-stage developer behavior can identify future sustained contributors, we employ a Logistic Regression model. The probability $P$ of a developer becoming a \textbf{Sustained Contributor} is modeled using the log-odds (logit) function:
 
 \begin{equation}
-    \ln\left(\frac{P}{1-P}\right) = \beta_0 + \beta_1 X_{1} + \beta_2 X_{2} + \dots + \beta_n X_{n} + \epsilon
+    \ln\left(\frac{P}{1-P}\right) = \beta_0 + \beta_1 X_{1} + \beta_2 X_{2} + \dots + \beta_n X_{n}
 \end{equation}
 
 Where:
@@ -73,6 +72,6 @@ The impact of each behavior is quantified using the \textbf{Odds Ratio (OR)}, ca
 An $OR > 1$ indicates that an increase in the metric (e.g., touching more classes) increases the likelihood of long-term retention. 
 
 \paragraph{Model Evaluation}
-The predictive power is evaluated using the Area Under the Receiver Operating Characteristic Curve (AUC-ROC). An AUC of 0.5 represents random chance, while an AUC closer to 1.0 indicates high predictive accuracy.
+The predictive power is evaluated using the Area Under the Receiver Operating Characteristic Curve (AUC-ROC). An AUC of 0.5 represents random chance, while an AUC closer to 1.0 indicates high predictive accuracy[cite: 1639].
 
  \newpage 

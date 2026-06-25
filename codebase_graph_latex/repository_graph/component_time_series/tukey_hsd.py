@@ -72,6 +72,7 @@ def generate_tukey_latex(df, component, number_of_commits):
     
     # 2. Run Tukey HSD [cite: 132, 133]
     tukey = pairwise_tukeyhsd(endog=df['Value'], groups=df['Group'], alpha=0.05)
+    number_of_developers = len(df)
     
     # 3. Convert summary to a DataFrame for iteration
     # The first row [0] is the header, [1:] is the data
@@ -87,7 +88,7 @@ def generate_tukey_latex(df, component, number_of_commits):
         group2 = str(row['group2']).replace("_", "\\_")
         
         # Formatting for your LaTeX table structure
-        latex =  f"{component} & {number_of_commits} & "
+        latex =  f"{component} & {number_of_commits} & {number_of_developers} & "
         latex += f"{group1} & {group2} & "
         latex += f"{row['meandiff']:.2f} & {p_val:.4f} \\\\ \n"
         if row['reject']:
@@ -102,14 +103,14 @@ def generate_and_save(component, developers, number_of_commits):
     sig_file_name = base_file_name + "_significant"
     not_sig_file_name = base_file_name + "_not_significant" 
     df = get_data_frame(developers,   TIME_SERIES_NUMBER_OF_COMMIT)
-    table_name = "Tukey HSD results for " + component + " and number of commits, for " + str(len(df)) + " developers"
+    table_name = "Tukey HSD results for components and number of commits"
     commit_prefix = "all commits"
-    headings = ["Component", "Commits", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
+    headings = ["Component", "Commits", "Number of Developers", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
     if component == "classes" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(commit_prefix)
-        latex += start_latex_table("Significant " + table_name, headings, "l r l l r r")
+        latex += start_latex_table("Significant " + table_name, headings, "l r r l l r r")
         save_to_latex_file(sig_file_name, base_file_name + ".tex", latex, DIRECTORY)
-        latex = start_latex_table("Not Significant " + table_name, headings, "l r l l r r")
+        latex = start_latex_table("Not Significant " + table_name, headings, "l r r l l r r")
         save_to_latex_file(not_sig_file_name, base_file_name + ".tex", latex, DIRECTORY)
     sig_latex_table, not_sig_latex_table = generate_tukey_latex(df, component, number_of_commits)
     read_write_file.append_to_file(sig_file_name + ".tex", sig_latex_table, DIRECTORY)

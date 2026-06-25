@@ -188,3 +188,15 @@ resource/database/codebase_start.db,`bins` must be positive when an integer
 resource/database/codebase_start.db,module ''numpy'' has no attribute ''arrange''
 resource/database/codebase_start.db,''max_pct''
 resource/database/codebase_start.db,type tuple doesn''t define __round__ method
+resource/database/codebase_start.db,name ''generate_anova_latex'' is not defined
+resource/database/codebase_start.db,max() iterable argument is empty
+resource/database/codebase_start.db,Conversion ''py2rpy'' not defined for objects of type ''<class ''numpy.ndarray''>''
+resource/database/codebase_start.db,Conversion ''py2rpy'' not defined for objects of type ''<class ''numpy.ndarray''>''
+resource/database/codebase_start.db,Conversion ''py2rpy'' not defined for objects of type ''<class ''numpy.ndarray''>''
+resource/database/codebase_start.db,cannot access local variable ''holm_bonferroni_file_name'' where it is not associated with a value
+resource/database/codebase_start.db,cannot access local variable ''art_anova_file_name'' where it is not associated with a value
+resource/database/codebase_start.db,''Coefficient ($\\beta$)''
+resource/database/codebase_start.db,''max_touched''
+resource/database/codebase_start.db,developer_percentage_graph() got an unexpected keyword argument ''x_log''
+resource/database/codebase_start.db,name ''LogFormatterMathtext'' is not defined
+resource/database/codebase_start.db,name ''LogFormatterMathtext'' is not defined

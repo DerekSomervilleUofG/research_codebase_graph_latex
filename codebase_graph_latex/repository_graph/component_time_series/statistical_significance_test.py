@@ -355,7 +355,7 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
             a_category = sample_a_b[0].capitalize() + r" vs. " + sample_a_b[1][0] + r" \& " + sample_a_b[1][1]
     
     if component == "packages" and (sample_a_b[0] in [FOUNDER] or sample_a_b[1] in [MODERATE]) and number_of_commits == START_COMMIT_NUMBER:
-        headings = ["Component", "First $n$ commits", "Contributory Category", sample_a + r" $\mu$", sample_a + r" Number", sample_b + r" $\mu$", sample_b + r" Number", r"Percentage Difference in $\mu$", "Welch Statistic", "Welch $P$", "MWU $P$", "BM $P$", "Brunner-Münzel $W$", "Cliff's $\\delta$", "Prob. Sup. ($PS$)" ]
+        headings = ["Component", "First $n$ commits", "Contributor Category", sample_a + r" $\mu$", sample_a + r" Number", sample_b + r" $\mu$", sample_b + r" Number", r"Percentage Difference in $\mu$", "Welch Statistic", "Welch $P$", "MWU $P$", "BM $P$", "Brunner-Münzel $W$", "Cliff's $\\delta$", "Prob. Sup. ($PS$)" ]
         table_name = "Statistical significance tests of " + category_compare
         table_name += " touches of different granularities of component (package, class, method) after " + number_of_commit_desc + " commits for contributors. "
         table_name += "The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. "    

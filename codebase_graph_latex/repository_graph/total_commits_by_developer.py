@@ -9,7 +9,7 @@ import math
 FILE_NAME = __name__
 BASE_FILE_NAME = REPOSITORY_SUMMARY_1_FILE
 MINIMUM_COMMITS = 0
-GRAPH_CAPTION = "{contributor} (n={number}, max={max_pct}). "
+GRAPH_CAPTION = "{contributor} (n={number}, y-axis max={max_pct}, x-axis max={max_commit}). "
 FIGURE_CAPTION = "Histogram of percentage of developers (y-axis) against total commits made (x-axis)" + " in " + word_engine.number_to_words(len(DEVELOPER_CATEGORY)) + " (" + str(len(DEVELOPER_CATEGORY)) + ") categories. This is from {number__of_repositories} repositories sampled from GitHub."
 ALL_FIGURE_CAPTION = "Histogram of percentage of all developers (n={number}) (y-axis) against the total number of commits (x-axis) in {number__of_repositories} repositories sampled from GitHub. "
 MAX_Y_AXIS = 40
@@ -19,7 +19,7 @@ MAX_Y_AXIS_MODERATE = 20
 MAX_Y_AXIS_SUSTAINED = 10
 MAX_X_AXIS = 600
 MAX_X_AXIS_MODERATE = 150
-MAX_X_AXIS_TRANSIENT = 15
+MAX_X_AXIS_TRANSIENT = 10
 BAN_ALL = 100
 component = "packages"
 
@@ -41,8 +41,9 @@ def generate_developer_commit_latex(contributor_stage, developers, bins, max_x_a
     weights = np.ones_like(developers) * (100.0 / len(developers))
     counts, _ = np.histogram(developers, bins=bins, weights=weights)
     max_pct_value = round(max(counts), 1) if len(counts) > 0 else 0.0
+    max_commit = max(developers)
     return developer_percentage_graph(FILE_NAME, developers, weights, title, 0, contributor_stage,
-                           param_caption=GRAPH_CAPTION.format(contributor=contributor_stage.capitalize(), number=len(developers), max_pct=max_pct_value), 
+                           param_caption=GRAPH_CAPTION.format(contributor=contributor_stage.capitalize(), number=len(developers), max_pct=max_pct_value, max_commit=max_commit), 
                            param_x_axis=title, 
                            max_x_axis=max_x_axis, 
                            max_y_axis=max_y_axis,

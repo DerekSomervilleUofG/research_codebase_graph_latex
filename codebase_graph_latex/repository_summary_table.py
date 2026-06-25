@@ -18,9 +18,8 @@ def section_heading(number_of_repository):
     
     section += "\\centering\n"
     section += "\\caption{Summary of " + word_engine.number_to_words(number_of_repository) + " open-source repositories identified from GitHub "
-    section += word_engine.number_to_words(MINIMUM_NUMBER_OF_COMMTIS) 
-    section += " or more " + SUSTAINED + " late " + JOINER + " developers. " + SUSTAINED_JOINER_DESC
-    section += "Please note that five developers each worked on two repositories. "
+    section +=  SUSTAINED_JOINER_DESC
+    section += "Five developers each worked on two repositories. "
     section += " } \n"
     return section
 

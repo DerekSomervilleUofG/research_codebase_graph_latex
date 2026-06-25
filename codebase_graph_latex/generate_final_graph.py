@@ -4,7 +4,9 @@ from codebase_graph_latex.repository_graph.total_commits_by_developer import gen
 from codebase_graph_latex.repository_graph.histogram_components_touched_by_developer import generate_and_save as repository_histogram_commit_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import generate_and_save as time_series_components_touched_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.generated_ART_anova import generate_and_save  as art_anova_generate_and_save 
+from codebase_graph_latex.repository_graph.component_time_series.generated_ART_anova import FILE_NAME  as art_anova_file_name
 from codebase_graph_latex.repository_graph.component_time_series.generated_standard_anova import generate_and_save  as standard_anova_generate_and_save 
+from codebase_graph_latex.repository_graph.component_time_series.generated_standard_anova import FILE_NAME  as standard_anova_file_name
 from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import generate_and_save  as statistical_significance_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import section_sub_heading  as statistical_significance_section_sub_heading
 from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import FILE_NAME  as statistical_significance_file_name
@@ -13,6 +15,8 @@ from codebase_graph_latex.repository_graph.component_time_series.normality_and_h
 from codebase_graph_latex.repository_graph.component_time_series.normality_and_homoscedasticity import FILE_NAME  as normal_file_name
 from codebase_graph_latex.repository_graph.component_time_series.tukey_hsd import generate_and_save  as tukey_hsd_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.tukey_hsd import FILE_NAME  as tukey_hsd_file_name
+from codebase_graph_latex.repository_graph.component_time_series.holm_bonferroni import generate_and_save  as holm_bonferroni_generate_and_save
+from codebase_graph_latex.repository_graph.component_time_series.holm_bonferroni import FILE_NAME  as holm_bonferroni_file_name
 from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import FILE_NAME  as time_series_file_name
 from codebase_graph_latex.repository_graph.component_time_series.strategy_logistic_regression import generate_and_save  as strategy_generate_and_save
 from codebase_graph_latex.constants import *
@@ -50,8 +54,6 @@ def generate_statistical_significance_test(component, filtered_developers, numbe
     normal_base_file_name = get_base_file_name(normal_file_name)
     graph_file_name = normal_base_file_name + "_graph"
     sub_file_name = file_name
-    latex = statistical_significance_section_sub_heading("all commits")
-    normal_latex = normal_section_sub_heading("all commits")
     samples = [ [FOUNDER, JOINER], 
                 [MODERATE + " " + FOUNDER, MODERATE + " later " + JOINER],
                 [SUSTAINED + " " + FOUNDER, SUSTAINED + " later " + JOINER],
@@ -59,9 +61,7 @@ def generate_statistical_significance_test(component, filtered_developers, numbe
                 [TRANSIENT, SUSTAINED],
                 [TRANSIENT, [MODERATE, SUSTAINED]],
                 [MODERATE, SUSTAINED]]
-    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        save_to_latex_file(normal_base_file_name, BASE_FILE_NAME, normal_latex, DIRECTORY)
-        save_to_latex_file(file_name, BASE_FILE_NAME, latex, DIRECTORY)
+
     for sample in samples:
         if sample[0] in [FOUNDER] or sample[1] in [MODERATE]:
             sub_file_name = generate_statistical_significance_file_name(file_name, sample)
@@ -77,23 +77,41 @@ def generate_statistical_significance_test(component, filtered_developers, numbe
             statistical_significance_generate_and_save(component, filtered_developers, number_of_commits, sample, sub_file_name, sub_graph_file_name, normal_sub_file_name)
 
 def generate_tukey_hsd(component, filtered_developers, number_of_commits):
-    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        base_file_name = get_base_file_name(tukey_hsd_file_name)
-        save_to_latex_file(base_file_name, BASE_FILE_NAME, "", DIRECTORY)
-    elif component != "packages":
+    if component != "packages":
         tukey_hsd_generate_and_save(component, filtered_developers, number_of_commits)
 
+def generate_holm_bonferroni(component, filtered_developers, number_of_commits):
+    holm_bonferroni_generate_and_save(component, filtered_developers, number_of_commits)
+
 def generate_time_series(component, filtered_developers, number_of_commits):
-    file_name = get_base_file_name(time_series_file_name)
-    if component == "packages" and number_of_commits == 1:
-        save_to_latex_file(file_name, BASE_FILE_NAME, "", DIRECTORY)
     if number_of_commits != 1:
         time_series_components_touched_generate_and_save(0, component, filtered_developers, number_of_commits)
 
+def create_files():
+    file_name = get_base_file_name(time_series_file_name)
+    save_to_latex_file(file_name, BASE_FILE_NAME, "", DIRECTORY)
+    
+    normal_latex = normal_section_sub_heading("all commits")
+    normal_base_file_name = get_base_file_name(normal_file_name)
+    save_to_latex_file(normal_base_file_name, BASE_FILE_NAME, normal_latex, DIRECTORY)
+    latex = statistical_significance_section_sub_heading("all commits")
+    stat_file_name = get_base_file_name(statistical_significance_file_name)
+    save_to_latex_file(stat_file_name, BASE_FILE_NAME, latex, DIRECTORY)
+    anova_file_name = get_base_file_name(standard_anova_file_name)
+    save_to_latex_file(anova_file_name, BASE_FILE_NAME, "", DIRECTORY)
+    tukey_file_name = get_base_file_name(tukey_hsd_file_name)
+    save_to_latex_file(tukey_file_name, BASE_FILE_NAME, "", DIRECTORY)
+    file_name = get_base_file_name(art_anova_file_name)
+    save_to_latex_file(file_name, BASE_FILE_NAME, "", DIRECTORY)
+    holm_bon_file_name = get_base_file_name(holm_bonferroni_file_name)
+    save_to_latex_file(holm_bon_file_name, BASE_FILE_NAME, "", DIRECTORY)
+
+
 def generate_and_save(number_of_repositories):
-    scatter_sample_commit_knowledge_generate_and_save()
     developer_commit_generate_and_save(number_of_repositories)
     repository_histogram_commit_generate_and_save(number_of_repositories)
+    scatter_sample_commit_knowledge_generate_and_save()
+    create_files()
     for component in COMPONENTS:
         all_developers = {}
         five_developers = {}
@@ -123,6 +141,7 @@ def generate_and_save(number_of_repositories):
                 generate_statistical_significance_test(component, filtered_developers, number_of_commits)
                 if number_of_commits <= 10:
                     standard_anova_generate_and_save(component, filtered_developers, number_of_commits)
-                    #art_anova_generate_and_save(component, filtered_developers, number_of_commits)
+                    art_anova_generate_and_save(component, filtered_developers, number_of_commits)
                 generate_tukey_hsd(component, filtered_developers, number_of_commits)
+                generate_holm_bonferroni(component, filtered_developers, number_of_commits)
                 strategy_generate_and_save(component, filtered_developers, number_of_commits)

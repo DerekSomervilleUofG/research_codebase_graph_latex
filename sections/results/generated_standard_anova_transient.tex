@@ -1,50 +1,70 @@
-\subsection{Generated standard anova - For all components touched for a all commits excluding tranient} 
+\section{Generated standard anova - For all components touched for all commits} 
+An Anova table for all components touched on average. 
+
+The Two-Way ANOVA evaluates the influence of two independent categorical variables—\textit{Role} (Founder vs. Late Joiner) and \textit{Tenure} (Moderate vs. Sustained)—on the number of unique architectural components touched. The analysis excludes and includes Transient developers to isolate the behaviors of contributors with established project engagement.
+
+\paragraph{Explanation of Table Columns:}
+\begin{itemize}
+    \item \textbf{Sum Sq (Sum of Squares):} Represents the total variation explained by that specific factor. A higher Sum Sq relative to the Residual indicates that the factor has a strong influence on the outcome.
+    \item \textbf{df (Degrees of Freedom):} The number of independent values that can vary in the calculation. For categorical variables, this is typically $N-1$ levels.
+    \item \textbf{F (F-statistic):} The ratio of the variance explained by the factor to the variance unexplained (Residual). A larger F-value suggests the factor is more likely to be significant.
+    \item \textbf{p-Value ($PR(>F)$):} The probability that the observed differences occurred by chance. Using a significance threshold of $\alpha = 0.05$, values above this indicate no statistically significant effect.
+    \item \textbf{ETA Sq} The effect size, quantifies the proportion of the total variance in your dependent variable. 
+\end{itemize}
+
+\paragraph{Explanation of Table Rows:}
+\begin{itemize}
+    \item \textbf{Intercept:} Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.
+    \item \textbf{Role(F/L):} Tests the \textit{Main Role Effect} of being a Founder versus a Late Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage component exploration.
+    \item \textbf{Category(M/S):} Tests the \textit{Main Category Effect} of the eventual contributor catregory (Transient vs Moderate vs. Sustained). 
+    \item \textbf{Interaction:} Tests the \textit{Interaction Effect}. It evaluates if the effect of being a Founder is different for the different categories. 
+    \item \textbf{Residual:} Represents the ``noise'' or variance within the groups that cannot be explained by Role or Tenure. 
+\end{itemize}
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption{Anova results for all components, number of commits and 16441 developers excluding transient}
+\caption{Anova results for all components, number of commits and categories of developers}
 \resizebox{\textwidth}{!}{% 
-\begin{tabular}{l r l r r r r r}
+\begin{tabular}{l r r l r r r r r}
 \toprule
-\textbf{Component} & \makecell[t]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \textbf{Factor} & \makecell[t]{\textbf{Sum}\\\textbf{Squared}} & \textbf{df} & \textbf{F-Stat} & \textbf{$P$ Value} & \textbf{ETA Sq} \\ 
- &  &  &  &  &  &  &  \\ 
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \textbf{Factor} & \makecell[t]{\textbf{Sum}\\\textbf{Squared}} & \textbf{df} & \textbf{F-Stat} & \textbf{$P$ Value} & \textbf{ETA Sq} \\ 
 \midrule
-packages & 1 & Role (F/LJ) & 0.00 & 1 & 0.00 & 0.9606 & 0.0000 \\ 
-packages & 1 & Category (T/M/S) & 84.86 & 2 & 32.75 & 0.0000 & 0.0039 \\ 
-packages & 1 & Interaction & 1.52 & 2 & 0.59 & 0.5557 & 0.0001 \\ 
-packages & 1 & Residual & 21290.10 & 16435 & - & -  \\ 
-packages & 5 & Role (F/LJ) & 11.12 & 1 & 0.03 & 0.8640 & 0.0000 \\ 
-packages & 5 & Category (M/S) & 11907.40 & 2 & 15.71 & 0.0000 & 0.0222 \\ 
-packages & 5 & Interaction & 12.31 & 2 & 0.02 & 0.9839 & 0.0000 \\ 
-packages & 5 & Residual & 514037.69 & 1356 & - & -  \\ 
-packages & 10 & Role (F/LJ) & 100.35 & 1 & 1.79 & 0.1809 & 0.0018 \\ 
-packages & 10 & Category (M/S) & 36.78 & 1 & 0.66 & 0.4177 & 0.0007 \\ 
-packages & 10 & Interaction & 2.92 & 1 & 0.05 & 0.8195 & 0.0001 \\ 
-packages & 10 & Residual & 51484.41 & 920 & - & -  \\ 
-classes & 1 & Role (F/LJ) & 937.29 & 1 & 47.90 & 0.0000 & 0.0029 \\ 
-classes & 1 & Category (T/M/S) & 1364.42 & 2 & 34.86 & 0.0000 & 0.0042 \\ 
-classes & 1 & Interaction & 916.29 & 2 & 23.41 & 0.0000 & 0.0028 \\ 
-classes & 1 & Residual & 321604.87 & 16435 & - & -  \\ 
-classes & 5 & Role (F/LJ) & 142055.48 & 1 & 2.54 & 0.1109 & 0.0017 \\ 
-classes & 5 & Category (M/S) & 8035870.96 & 2 & 71.98 & 0.0000 & 0.0935 \\ 
-classes & 5 & Interaction & 1215900.38 & 2 & 10.89 & 0.0000 & 0.0142 \\ 
-classes & 5 & Residual & 75688676.66 & 1356 & - & -  \\ 
-classes & 10 & Role (F/LJ) & 13347.02 & 1 & 4.68 & 0.0308 & 0.0048 \\ 
-classes & 10 & Category (M/S) & 1090.98 & 1 & 0.38 & 0.5365 & 0.0004 \\ 
-classes & 10 & Interaction & 66.46 & 1 & 0.02 & 0.8787 & 0.0000 \\ 
-classes & 10 & Residual & 2625443.61 & 920 & - & -  \\ 
-methods & 1 & Role (F/LJ) & 10298.74 & 1 & 12.70 & 0.0004 & 0.0008 \\ 
-methods & 1 & Category (T/M/S) & 16297.00 & 2 & 10.05 & 0.0000 & 0.0012 \\ 
-methods & 1 & Interaction & 15001.18 & 2 & 9.25 & 0.0001 & 0.0011 \\ 
-methods & 1 & Residual & 13328286.72 & 16435 & - & -  \\ 
-methods & 5 & Role (F/LJ) & 3668624.09 & 1 & 3.78 & 0.0519 & 0.0025 \\ 
-methods & 5 & Category (M/S) & 137755503.49 & 2 & 71.05 & 0.0000 & 0.0920 \\ 
-methods & 5 & Interaction & 25729945.47 & 2 & 13.27 & 0.0000 & 0.0172 \\ 
-methods & 5 & Residual & 1314541598.99 & 1356 & - & -  \\ 
-methods & 10 & Role (F/LJ) & 549077.04 & 1 & 7.22 & 0.0073 & 0.0075 \\ 
-methods & 10 & Category (M/S) & 3374.83 & 1 & 0.04 & 0.8332 & 0.0000 \\ 
-methods & 10 & Interaction & 35707.01 & 1 & 0.47 & 0.4934 & 0.0005 \\ 
-methods & 10 & Residual & 69978889.05 & 920 & - & -  \\ 
+packages & 1 & 16434 & Role (F/LJ) & 0.00 & 1 & 0.00 & 0.9606 & 0.0000 \\ 
+packages & 1 & 16434 & Category (T/M/S) & 84.40 & 2 & 32.56 & 0.0000 & 0.0039 \\ 
+packages & 1 & 16434 & Interaction & 1.54 & 2 & 0.60 & 0.5510 & 0.0001 \\ 
+packages & 1 & 16434 & Residual & 21289.91 & 16428 & - & -  \\ 
+packages & 5 & 1362 & Role (F/LJ) & 11.12 & 1 & 0.03 & 0.8640 & 0.0000 \\ 
+packages & 5 & 1362 & Category (M/S) & 11907.40 & 2 & 15.71 & 0.0000 & 0.0222 \\ 
+packages & 5 & 1362 & Interaction & 12.31 & 2 & 0.02 & 0.9839 & 0.0000 \\ 
+packages & 5 & 1362 & Residual & 514037.69 & 1356 & - & -  \\ 
+packages & 10 & 924 & Role (F/LJ) & 100.35 & 1 & 1.79 & 0.1809 & 0.0018 \\ 
+packages & 10 & 924 & Category (M/S) & 36.78 & 1 & 0.66 & 0.4177 & 0.0007 \\ 
+packages & 10 & 924 & Interaction & 2.92 & 1 & 0.05 & 0.8195 & 0.0001 \\ 
+packages & 10 & 924 & Residual & 51484.41 & 920 & - & -  \\ 
+classes & 1 & 16434 & Role (F/LJ) & 937.29 & 1 & 47.88 & 0.0000 & 0.0029 \\ 
+classes & 1 & 16434 & Category (T/M/S) & 1359.09 & 2 & 34.71 & 0.0000 & 0.0042 \\ 
+classes & 1 & 16434 & Interaction & 915.16 & 2 & 23.37 & 0.0000 & 0.0028 \\ 
+classes & 1 & 16434 & Residual & 321604.01 & 16428 & - & -  \\ 
+classes & 5 & 1362 & Role (F/LJ) & 142055.48 & 1 & 2.54 & 0.1109 & 0.0017 \\ 
+classes & 5 & 1362 & Category (M/S) & 8035870.96 & 2 & 71.98 & 0.0000 & 0.0935 \\ 
+classes & 5 & 1362 & Interaction & 1215900.38 & 2 & 10.89 & 0.0000 & 0.0142 \\ 
+classes & 5 & 1362 & Residual & 75688676.66 & 1356 & - & -  \\ 
+classes & 10 & 924 & Role (F/LJ) & 13347.02 & 1 & 4.68 & 0.0308 & 0.0048 \\ 
+classes & 10 & 924 & Category (M/S) & 1090.98 & 1 & 0.38 & 0.5365 & 0.0004 \\ 
+classes & 10 & 924 & Interaction & 66.46 & 1 & 0.02 & 0.8787 & 0.0000 \\ 
+classes & 10 & 924 & Residual & 2625443.61 & 920 & - & -  \\ 
+methods & 1 & 16434 & Role (F/LJ) & 10298.74 & 1 & 12.69 & 0.0004 & 0.0008 \\ 
+methods & 1 & 16434 & Category (T/M/S) & 16234.54 & 2 & 10.01 & 0.0000 & 0.0012 \\ 
+methods & 1 & 16434 & Interaction & 14996.83 & 2 & 9.24 & 0.0001 & 0.0011 \\ 
+methods & 1 & 16434 & Residual & 13328279.01 & 16428 & - & -  \\ 
+methods & 5 & 1362 & Role (F/LJ) & 3668624.09 & 1 & 3.78 & 0.0519 & 0.0025 \\ 
+methods & 5 & 1362 & Category (M/S) & 137755503.49 & 2 & 71.05 & 0.0000 & 0.0920 \\ 
+methods & 5 & 1362 & Interaction & 25729945.47 & 2 & 13.27 & 0.0000 & 0.0172 \\ 
+methods & 5 & 1362 & Residual & 1314541598.99 & 1356 & - & -  \\ 
+methods & 10 & 924 & Role (F/LJ) & 549077.04 & 1 & 7.22 & 0.0073 & 0.0075 \\ 
+methods & 10 & 924 & Category (M/S) & 3374.83 & 1 & 0.04 & 0.8332 & 0.0000 \\ 
+methods & 10 & 924 & Interaction & 35707.01 & 1 & 0.47 & 0.4934 & 0.0005 \\ 
+methods & 10 & 924 & Residual & 69978889.05 & 920 & - & -  \\ 
 \bottomrule
 \end{tabular}%
 } 
