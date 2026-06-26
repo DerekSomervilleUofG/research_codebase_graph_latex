@@ -95,7 +95,7 @@ def prepare_data(developers_dict, unit):
             })
     return rows
 
-def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_threshold, mod_hit, mod_pct, sus_hit, sus_pct):
+def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_threshold, mod_hit, mod_pct, sus_hit, sus_pct, total_developers):
     component_clean = component.replace("_", "-")
     
     if number_of_commits == 0:
@@ -103,8 +103,8 @@ def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_
     latex_rows = ""
     for index, row in summary.iterrows():
         
-        # Build the columns: Commits & Label & Coeff & OR & StdErr & P
-        latex_rows += f"{component_clean} & {number_of_commits} & {index} & "
+        # Build the columns: Component & Commits & Label & Total Devs & Mod Mean & Sus Mean ...
+        latex_rows += f"{component_clean} & {number_of_commits} & {index} & {total_developers} & "
         latex_rows += f"{avg_mod:.2f} & {avg_sus:.2f} & "
         latex_rows += f"{row['Coef.']:.4f} & {row['Odds Ratio']:.4f} & "
         latex_rows += f"{row['Std.Err.']:.4f} & {row['P>|z|']:.4f} & "
@@ -118,17 +118,15 @@ def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_
     return latex_rows
 
 def generate_predictive_identification_latex(df, component, number_of_commits):
-    
-    
-    
     # Check if we have both classes (0 and 1) to run the model
     if df['is_sustained'].nunique() < 2:
         return f"% Skip {component}: Not enough diversity in classes for Logistic Regression."
-    avg_mod = df[df['is_sustained'] == 0]['metric_value'].mean()
+        
+    # Updated naming to reflect Non-Sustained (Transient + Moderate) vs Sustained
+    avg_non_sus = df[df['is_sustained'] == 0]['metric_value'].mean()
     avg_sus = df[df['is_sustained'] == 1]['metric_value'].mean()
 
     # 2. Run Logistic Regression
-    # Y = is_sustained, X = metric_value (e.g., methods touched)
     X = sm.add_constant(df['metric_value'])
     logit_model = sm.Logit(df['is_sustained'], X).fit(disp=0)
     summary = logit_model.summary2().tables[1] # Extract the coefficients table
@@ -140,25 +138,28 @@ def generate_predictive_identification_latex(df, component, number_of_commits):
     summary.index = ['Intercept', f'{component.replace("_", " ").capitalize()} Count']
     intercept_val = summary.iloc[0]['Coef.']
     coeff_val = summary.iloc[1]['Coef.']
-    # If the coefficient is positive, we calculate the crossover point
-    
 
+    # Calculate the threshold value where predicted probability crosses P_THRESHOLD
     logit_p = math.log(P_THRESHOLD / (1 - P_THRESHOLD))
-
-    x30_threshold = (logit_p -intercept_val) / coeff_val if coeff_val != 0 else 0
+    x30_threshold = (logit_p - intercept_val) / coeff_val if coeff_val != 0 else 0
+    
+    # Calculate Sustained metrics matching/exceeding threshold
     sustained_df = df[df['is_sustained'] == 1]
     sus_hit = len(sustained_df[sustained_df['metric_value'] >= x30_threshold])
     sus_pct = (sus_hit / len(sustained_df) * 100) if len(sustained_df) > 0 else 0
-    moderate_df = df[df['is_sustained'] == 0]
-    mod_hit = len(moderate_df[moderate_df['metric_value'] >= x30_threshold])
-    mod_pct = (mod_hit / len(moderate_df) * 100) if len(moderate_df) > 0 else 0
+    
+    # Calculate Baseline Non-Sustained metrics matching/exceeding threshold
+    non_sustained_df = df[df['is_sustained'] == 0]
+    non_sus_hit = len(non_sustained_df[non_sustained_df['metric_value'] >= x30_threshold])
+    non_sus_pct = (non_sus_hit / len(non_sustained_df) * 100) if len(non_sustained_df) > 0 else 0
 
     # Clean up columns for the paper
     results_df = summary[['Coef.', 'Odds Ratio', 'Std.Err.', 'P>|z|']]
     results_df.columns = ['Coefficient', 'Odds Ratio', 'Std. Err', 'p-Value']
 
-    # 4. Generate LaTeX
-    return generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_threshold, mod_hit, mod_pct, sus_hit, sus_pct)
+    # 4. Generate LaTeX - Appending len(df) to match the new signature of generate_latex
+    return generate_latex(component, summary, avg_non_sus, avg_sus, number_of_commits, 
+                          x30_threshold, non_sus_hit, non_sus_pct, sus_hit, sus_pct, len(df))
 
 def generate_and_save(component, developers, number_of_commits):
     path = DIRECTORY
@@ -168,8 +169,8 @@ def generate_and_save(component, developers, number_of_commits):
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_sub_heading(commit_prefix)
         
-        headings = ["Component", "Number of First Commits", "Type", "Moderate $\mu$", "Sustained $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", str(P_THRESHOLD * 100) + "\% Threshold", "Moderate Met Threshold", "Sustained Met Threshold"]
-        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits for " + str(len(df)) + " developers excluding transient", headings, "l r l r r r r r r r r r")
+        headings = ["Component", "Number of First Commits", "Type", "Number of Developers", "Not Sustained $\mu$", "Sustained $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", str(P_THRESHOLD * 100) + "\% Threshold", "Not Sustained Met Threshold", "Sustained Met Threshold"]
+        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits for developers", headings, "l r l r r r r r r r r r r")
         save_to_latex_file(get_base_file_name(file_name), 
                            BASE_FILE_NAME,
                                latex, path)

@@ -50,6 +50,6 @@ SUSTAINED_JOINER_DESC = SUSTAINED_JOINER.capitalize() + " developers "
 COMMIT_CATEGORY = { 0: "excluding transient", 5: "excluding transient", 10: "excluding transient", 20: "sustained developers"}
 SUSTAINED_JOINER_DESC += "who joined the project after six months and contributed at least " + str(DEVELOPER_HAS_NUMNER_OF_COMMITS) + " commits "
 SUSTAINED_JOINER_DESC += "over a period of " + str(DEVELOPER_PERIOD) + " days or more. "
-SMALL_FIGURE = (3, 2)
+SMALL_FIGURE = (2.8, 2)
 WIDE_FIGURE = (6, 2)
 LARGE_FIGURE = (15, 15)
