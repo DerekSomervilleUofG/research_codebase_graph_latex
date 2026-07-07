@@ -1,24 +1,7 @@
-\section{Normality and homoscedasticity - For all components touched for all commits} 
+\section{Normality And Homoscedasticity - For all components touched for all commits} 
 
 Certain statistical methods require normality of each sample or the equality of variance. A Shapiro-Wilk Test evaluates whether a sample distribution significantly differs from the normal distribution. A Levene's test evaluates if the independent samples have equal variance.  
 
-\begin{table}[htbp]
-\centering
-\caption{Diagnostic $P$-Value Thresholds Required for Statistical Method Selection}
-\label{tab:diagnostic_threshold_matrix}
-\begin{tabular}{lccc}
-\toprule
-\textbf{Statistical Method} & \textbf{Shapiro-Wilk A ($P$)} & \textbf{Shapiro-Wilk B ($P$)} & \textbf{Levene's Test ($P$)} \\
-\midrule
-\textbf{Student's $t$-test} & $\ge 0.05$ (Normal) & $\ge 0.05$ (Normal) & $\ge 0.05$ (Equal Variance) \\
-\textbf{Standard ANOVA}     & $\ge 0.05$ (Normal) & $\ge 0.05$ (Normal) & $\ge 0.05$ (Equal Variance) \\
-\textbf{Welch's $t$-test}   & $\ge 0.05$ (Normal) & $\ge 0.05$ (Normal) & \textless{} 0.05 (Unequal Variance) \\
-\textbf{Mann-Whitney $U$ test} & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Skewed) & $\ge 0.05$ (Equal Variance) \\
-\textbf{Brunner-Münzel test}   & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Unequal Variance) \\
-\textbf{ART Anova test}   & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Unequal Variance) \\
-\bottomrule
-\end{tabular}
-\end{table}
 Columns below:  
 \begin{itemize}
                     \item{\textbf{Component} - Packages, classes or methods touched.}

@@ -11,9 +11,10 @@ from codebase_graph_latex.latex_table import *
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
-def section_sub_heading(time_series):
+def section_heading(time_series):
     latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n"
+    latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
     latex += "A Pairwise Post-hoc Analysis with Holm-Bonferroni Correction table for all components touched on average. \n"
     latex += generate_holm_explanation_latex()
     return latex
@@ -133,13 +134,13 @@ def generate_and_save(component, developers, number_of_commits):
     base_file_name = get_base_file_name(FILE_NAME)
     sig_file_name = base_file_name + "_significant"
     not_sig_file_name = base_file_name + "_not_significant" 
-    df = get_data_frame(developers, TIME_SERIES_NUMBER_OF_COMMIT)
+    df = get_data_frame(developers, KNOWN_Y_AXIS)
     table_name = "Holm-Bonferroni Pairwise results for " + component + " and number of commits"
     commit_prefix = "all commits"
     headings = ["Component", "Commits", "Number of Developers", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
     
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_sub_heading(commit_prefix)
+        latex = section_heading(commit_prefix)
         save_to_latex_file(sig_file_name, base_file_name + ".tex", latex, DIRECTORY)
         save_to_latex_file(not_sig_file_name, base_file_name + ".tex", "", DIRECTORY)
     
@@ -154,8 +155,8 @@ def generate_and_save(component, developers, number_of_commits):
     read_write_file.append_to_file(not_sig_file_name + ".tex", not_sig_latex_table, DIRECTORY)
     
     if number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(sig_file_name + ".tex", table_end(), DIRECTORY)
-        read_write_file.append_to_file(not_sig_file_name + ".tex", table_end(), DIRECTORY)
+        read_write_file.append_to_file(sig_file_name + ".tex", table_end(FILE_NAME + "_sig"), DIRECTORY)
+        read_write_file.append_to_file(not_sig_file_name + ".tex", table_end(FILE_NAME + "_no_sig"), DIRECTORY)
     
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(base_file_name + ".tex", generate_holm_formula_latex() + "\n\\newpage \n", DIRECTORY)

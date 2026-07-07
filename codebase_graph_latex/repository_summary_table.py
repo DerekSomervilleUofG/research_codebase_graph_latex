@@ -3,6 +3,7 @@ from codebase_graph_latex.population_mapping.retrieve_batch_data import *
 from codebase_graph_latex.select.select_repository_summary_table import *
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.latex_graph import *
+from codebase_graph_latex.latex_table import *
 from codebase_graph_latex.calculate import *
 
 BATCH_SIZE = 100
@@ -14,6 +15,7 @@ read_write_file = ReadWriteFile()
 
 def section_heading(number_of_repository):
     section = "\\section{Repository Summary Table} \n"
+    section += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
     section += "\\begin{table}\n"
     
     section += "\\centering\n"
@@ -96,7 +98,7 @@ def create_repository_summary_page(repositories, repo_contribution):
 def generate_and_save(repo_contribution):
     latex_table, number_of_repository = create_repository_summary_page(get_all_data(query()), repo_contribution)
     latex_table = section_heading(number_of_repository) + summary_table_start() + latex_table
-    latex_table += summary_table_end()
+    latex_table += table_end(FILE_NAME)
     save_to_latex_file(get_base_file_name(FILE_NAME), BASE_FILE_NAME, latex_table, DIRECTORY)
     return number_of_repository
 

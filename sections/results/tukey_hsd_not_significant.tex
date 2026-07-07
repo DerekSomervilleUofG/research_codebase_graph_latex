@@ -1,7 +1,7 @@
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption{Not Significant Tukey HSD results for components and number of commits}
+\caption{Not Significant Tukey HSD results for classes and number of commits}
 \resizebox{\textwidth}{!}{% 
 \begin{tabular}{l r r l l r r}
 \toprule
@@ -13,16 +13,51 @@ classes & 1 & 16434 & Founder Sustained & Founder Transient & -1.82 & 0.2249 \\
 classes & 1 & 16434 & Founder Sustained & Later Joiner Moderate & -0.49 & 0.9885 \\ 
 classes & 1 & 16434 & Founder Sustained & Later Joiner Sustained & 2.05 & 0.1252 \\ 
 classes & 1 & 16434 & Founder Transient & Later Joiner Transient & -0.47 & 0.6487 \\ 
-classes & 5 & 1362 & Founder Moderate & Founder Transient & -125.36 & 0.7015 \\ 
-classes & 5 & 1362 & Founder Moderate & Later Joiner Moderate & -60.70 & 0.6018 \\ 
-classes & 5 & 1362 & Founder Transient & Later Joiner Moderate & 64.66 & 0.9648 \\ 
-classes & 5 & 1362 & Founder Transient & Later Joiner Transient & 6.89 & 1.0000 \\ 
-classes & 10 & 924 & Founder Moderate & Founder Sustained & 7.66 & 0.9262 \\ 
-classes & 10 & 924 & Founder Moderate & Later Joiner Moderate & -18.61 & 0.1346 \\ 
-classes & 10 & 924 & Founder Moderate & Later Joiner Sustained & -12.95 & 0.4899 \\ 
-classes & 10 & 924 & Founder Sustained & Later Joiner Sustained & -20.61 & 0.1598 \\ 
-classes & 10 & 924 & Later Joiner Moderate & Later Joiner Sustained & 5.66 & 0.5524 \\ 
+classes & 2 & 3085 & Founder Moderate & Founder Sustained & 5.84 & 0.5860 \\ 
+classes & 2 & 3085 & Founder Moderate & Founder Transient & -9.90 & 0.0670 \\ 
+classes & 2 & 3085 & Founder Moderate & Later Joiner Moderate & -5.64 & 0.2144 \\ 
+classes & 2 & 3085 & Founder Moderate & Later Joiner Sustained & -5.53 & 0.2984 \\ 
+classes & 2 & 3085 & Founder Transient & Later Joiner Moderate & 4.26 & 0.6268 \\ 
+classes & 2 & 3085 & Founder Transient & Later Joiner Sustained & 4.36 & 0.6546 \\ 
+classes & 2 & 3085 & Founder Transient & Later Joiner Transient & 1.30 & 0.9968 \\ 
+classes & 2 & 3085 & Later Joiner Moderate & Later Joiner Sustained & 0.10 & 1.0000 \\ 
+classes & 2 & 3085 & Later Joiner Sustained & Later Joiner Transient & -3.07 & 0.0786 \\ 
+classes & 5 & 1362 & Founder Moderate & Founder Sustained & -4.38 & 0.9967 \\ 
+classes & 5 & 1362 & Founder Moderate & Founder Transient & -24.49 & 0.5282 \\ 
+classes & 5 & 1362 & Founder Moderate & Later Joiner Moderate & -17.74 & 0.0542 \\ 
+classes & 5 & 1362 & Founder Moderate & Later Joiner Sustained & -10.70 & 0.5973 \\ 
+classes & 5 & 1362 & Founder Sustained & Founder Transient & -20.10 & 0.7421 \\ 
+classes & 5 & 1362 & Founder Sustained & Later Joiner Moderate & -13.36 & 0.3738 \\ 
+classes & 5 & 1362 & Founder Sustained & Later Joiner Sustained & -6.31 & 0.9528 \\ 
+classes & 5 & 1362 & Founder Sustained & Later Joiner Transient & -17.27 & 0.1289 \\ 
+classes & 5 & 1362 & Founder Transient & Later Joiner Moderate & 6.74 & 0.9956 \\ 
+classes & 5 & 1362 & Founder Transient & Later Joiner Sustained & 13.79 & 0.9051 \\ 
+classes & 5 & 1362 & Founder Transient & Later Joiner Transient & 2.83 & 0.9999 \\ 
+classes & 5 & 1362 & Later Joiner Moderate & Later Joiner Sustained & 7.05 & 0.2176 \\ 
+classes & 5 & 1362 & Later Joiner Moderate & Later Joiner Transient & -3.91 & 0.5917 \\ 
+classes & 10 & 857 & Founder Moderate & Founder Sustained & 6.99 & 0.9443 \\ 
+classes & 10 & 857 & Founder Moderate & Later Joiner Moderate & -19.65 & 0.1135 \\ 
+classes & 10 & 857 & Founder Moderate & Later Joiner Sustained & -13.62 & 0.4581 \\ 
+classes & 10 & 857 & Founder Sustained & Later Joiner Sustained & -20.61 & 0.1631 \\ 
+classes & 10 & 857 & Later Joiner Moderate & Later Joiner Sustained & 6.03 & 0.5137 \\ 
 classes & 20 & 237 & Founder Sustained & Later Joiner Sustained & -25.59 & 0.1034 \\ 
+\bottomrule
+\end{tabular}%
+} 
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_tukey_hsdnon_sig} 
+\end{table}
+\newpage 
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption{Not Significant Tukey HSD results for methods and number of commits}
+\resizebox{\textwidth}{!}{% 
+\begin{tabular}{l r r l l r r}
+\toprule
+\textbf{Component} & \textbf{Commits} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \multicolumn{2}{c}{\textbf{Group}} & \textbf{Mean Diff} & \makecell[t]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
+\cmidrule(lr){4-5}
+ &  &  & \textbf{A} & \textbf{B} &  &  \\ 
+\midrule
 methods & 1 & 16434 & Founder Moderate & Founder Sustained & -13.68 & 0.3028 \\ 
 methods & 1 & 16434 & Founder Moderate & Later Joiner Sustained & -0.19 & 1.0000 \\ 
 methods & 1 & 16434 & Founder Sustained & Founder Transient & -7.75 & 0.6832 \\ 
@@ -31,18 +66,33 @@ methods & 1 & 16434 & Founder Sustained & Later Joiner Sustained & 13.49 & 0.108
 methods & 1 & 16434 & Founder Sustained & Later Joiner Transient & -9.13 & 0.4224 \\ 
 methods & 1 & 16434 & Founder Transient & Later Joiner Moderate & 5.09 & 0.2226 \\ 
 methods & 1 & 16434 & Founder Transient & Later Joiner Transient & -1.38 & 0.9831 \\ 
-methods & 5 & 1362 & Founder Moderate & Founder Transient & -547.29 & 0.6579 \\ 
-methods & 5 & 1362 & Founder Moderate & Later Joiner Moderate & -308.48 & 0.3749 \\ 
-methods & 5 & 1362 & Founder Transient & Later Joiner Moderate & 238.81 & 0.9792 \\ 
-methods & 5 & 1362 & Founder Transient & Later Joiner Transient & 24.55 & 1.0000 \\ 
-methods & 10 & 924 & Founder Moderate & Founder Sustained & -13.47 & 0.9967 \\ 
-methods & 10 & 924 & Founder Moderate & Later Joiner Sustained & -86.42 & 0.2598 \\ 
-methods & 10 & 924 & Founder Sustained & Later Joiner Moderate & -105.87 & 0.1291 \\ 
-methods & 10 & 924 & Founder Sustained & Later Joiner Sustained & -72.95 & 0.4825 \\ 
-methods & 10 & 924 & Later Joiner Moderate & Later Joiner Sustained & 32.92 & 0.4480 \\ 
+methods & 2 & 3085 & Founder Moderate & Founder Sustained & 25.08 & 0.6582 \\ 
+methods & 2 & 3085 & Founder Transient & Later Joiner Moderate & 19.51 & 0.6332 \\ 
+methods & 2 & 3085 & Founder Transient & Later Joiner Sustained & 15.37 & 0.8566 \\ 
+methods & 2 & 3085 & Founder Transient & Later Joiner Transient & 5.86 & 0.9971 \\ 
+methods & 2 & 3085 & Later Joiner Moderate & Later Joiner Sustained & -4.13 & 0.9799 \\ 
+methods & 2 & 3085 & Later Joiner Sustained & Later Joiner Transient & -9.51 & 0.4610 \\ 
+methods & 5 & 1362 & Founder Moderate & Founder Sustained & -45.10 & 0.9239 \\ 
+methods & 5 & 1362 & Founder Moderate & Founder Transient & -132.63 & 0.4541 \\ 
+methods & 5 & 1362 & Founder Moderate & Later Joiner Sustained & -68.87 & 0.3258 \\ 
+methods & 5 & 1362 & Founder Sustained & Founder Transient & -87.53 & 0.8472 \\ 
+methods & 5 & 1362 & Founder Sustained & Later Joiner Moderate & -57.59 & 0.5641 \\ 
+methods & 5 & 1362 & Founder Sustained & Later Joiner Sustained & -23.76 & 0.9873 \\ 
+methods & 5 & 1362 & Founder Sustained & Later Joiner Transient & -75.42 & 0.2691 \\ 
+methods & 5 & 1362 & Founder Transient & Later Joiner Moderate & 29.93 & 0.9977 \\ 
+methods & 5 & 1362 & Founder Transient & Later Joiner Sustained & 63.77 & 0.9347 \\ 
+methods & 5 & 1362 & Founder Transient & Later Joiner Transient & 12.11 & 1.0000 \\ 
+methods & 5 & 1362 & Later Joiner Moderate & Later Joiner Sustained & 33.83 & 0.2764 \\ 
+methods & 5 & 1362 & Later Joiner Moderate & Later Joiner Transient & -17.83 & 0.6996 \\ 
+methods & 10 & 857 & Founder Moderate & Founder Sustained & -17.78 & 0.9930 \\ 
+methods & 10 & 857 & Founder Moderate & Later Joiner Sustained & -90.73 & 0.2408 \\ 
+methods & 10 & 857 & Founder Sustained & Later Joiner Moderate & -108.44 & 0.1257 \\ 
+methods & 10 & 857 & Founder Sustained & Later Joiner Sustained & -72.95 & 0.4963 \\ 
+methods & 10 & 857 & Later Joiner Moderate & Later Joiner Sustained & 35.49 & 0.4058 \\ 
 methods & 20 & 237 & Founder Sustained & Later Joiner Sustained & -106.14 & 0.1554 \\ 
 \bottomrule
 \end{tabular}%
 } 
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_tukey_hsdnon_sig} 
 \end{table}
 \newpage 

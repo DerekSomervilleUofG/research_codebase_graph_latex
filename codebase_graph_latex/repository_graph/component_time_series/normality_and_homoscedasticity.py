@@ -11,7 +11,7 @@ def section_sub_heading(time_series):
     latex += "Certain statistical methods require normality of each sample or the equality of variance. "
     latex += "A Shapiro-Wilk Test evaluates whether a sample distribution significantly differs from the normal distribution. "
     latex += "A Levene's test evaluates if the independent samples have equal variance.  \n\n"  
-    latex += diagnostic_table()
+    #latex += diagnostic_table()
     latex += "Columns below:  \n"
 
     latex += r"""\begin{itemize}
@@ -44,10 +44,12 @@ def diagnostic_table():
 \midrule
 \textbf{Student's $t$-test} & $\ge 0.05$ (Normal) & $\ge 0.05$ (Normal) & $\ge 0.05$ (Equal Variance) \\
 \textbf{Standard ANOVA}     & $\ge 0.05$ (Normal) & $\ge 0.05$ (Normal) & $\ge 0.05$ (Equal Variance) \\
+\textbf{Tukey HSD}     & $\ge 0.05$ (Normal) & $\ge 0.05$ (Normal) & $\ge 0.05$ (Equal Variance) \\
 \textbf{Welch's $t$-test}   & $\ge 0.05$ (Normal) & $\ge 0.05$ (Normal) & \textless{} 0.05 (Unequal Variance) \\
 \textbf{Mann-Whitney $U$ test} & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Skewed) & $\ge 0.05$ (Equal Variance) \\
 \textbf{Brunner-Münzel test}   & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Unequal Variance) \\
 \textbf{ART Anova test}   & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Unequal Variance) \\
+\textbf{Holm Bonferroni}   & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Skewed) & \textless{} 0.05 (Unequal Variance) \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -29,8 +29,10 @@ def latex_start_graph():
     figure_counter.increment_graph()
     return latex
 
-def latex_end_graph():
-    latex = "\\end{figure}\n"
+def latex_end_graph(file_path):
+    label = "fig:" + file_path.replace(".", "_")
+    latex = "    \\label{" + label + "}\n"
+    latex += "\\end{figure}\n"
     latex += "\\clearpage \n"
     global graph_number
     graph_number = None
@@ -40,16 +42,20 @@ def latex_new_row():
     return "\\vspace{3mm}\n"
 
 def get_section_start(file_name, sub_type=""):
-    return "\\" + sub_type + "section{" + file_name.split(".")[-1].replace("_", " ").capitalize() + " - "
+    return "\\" + sub_type + "section{" + file_name.split(".")[-1].replace("_", " ").title() + " - "
 
 
 def __add_graph_latex(file_path, caption, figure="subfigure", size=0.45, placement="b"):
     global figure_counter
-    label = "figure." + file_path
-    latex = "  \\begin{" + figure + "}["+ placement + "] \n"
+    label = "subfig:" + file_path.replace(".", "_")
+    latex = "  \\begin{" + figure + "}["+ placement + "]"
     if size > 0:
-        latex += "{" + str(size) + "\\textwidth}\n"
-    latex += "    \\includegraphics{" + file_path + "}\n"
+        latex += "{" + str(size) + "\\textwidth}"
+    latex += "\n"
+    latex += "    \\includegraphics"
+    if size > 0:
+        latex += "[width=\\textwidth]"
+    latex += "{" + file_path + "}\n"
     latex += "    \\caption{" + caption.replace("_", " ") + "}\n"
     latex += "    \\label{" + label + "}\n"
     latex += "  \\end{" + figure + "}\n"
@@ -135,7 +141,8 @@ def developer_percentage_graph(file_name, developers, weights, table_suffix, rep
                     max_y_axis=MAX_Y_AXIS,
                     bins=None,
                     figure_size=SMALL_FIGURE,
-                    log_x=False): # Added log_x toggle parameter
+                    log_x=False,
+                    line_width=None): # Added log_x toggle parameter
     path = DIRECTORY
     if repository_id > 0:
         path += str(repository_id) + "/"
@@ -161,7 +168,7 @@ def developer_percentage_graph(file_name, developers, weights, table_suffix, rep
     plt.figure(figsize=figure_size)
     
     # Render histogram
-    plt.hist(developers, bins=bins, weights=weights)
+    plt.hist(developers, bins=bins, weights=weights, linewidth=line_width)
     
     # Configure Logarithmic Scale if toggled
     if log_x:
@@ -206,7 +213,12 @@ def add_extra(list, number_extra, value=0):
         list.append(value)
 
 def populate_touched_data(developers, unit=NUMBER_OF_MONTHS):
+    data, developers = populate_touched_data_with_developers(developers, unit)
+    return data
+
+def populate_touched_data_with_developers(developers, unit=NUMBER_OF_MONTHS):
     data = []
+    developer_ids = []
     data_to_append = []
     for id, values in developers.items():
         data_to_append = values[find_developer_unit(unit) + 1].copy()
@@ -217,7 +229,8 @@ def populate_touched_data(developers, unit=NUMBER_OF_MONTHS):
                 last_item = 1
             add_extra(data_to_append, unit - len(data_to_append), last_item)
         data.append(data_to_append[:unit])
-    return data
+        developer_ids.append(id)
+    return data, developer_ids
 
 def save_to_latex_file(file_name, base_file_name, latex, path):
     read_write_file.write_file(file_name + ".tex", latex, path)

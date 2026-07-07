@@ -122,10 +122,12 @@ def start_latex_table(caption, headings, column_setup=""):
     section += "\\midrule\n"
     return section
 
-def table_end():
+def table_end(file_path):
     table = "\\bottomrule\n"
     table += "\\end{tabular}%\n"
     table += "} \n"
-    table += "\\end{table}\n"
+    table += "\\label{tab:" + file_path.replace(".", "_")
+    table += "} \n"
+    table += "\\end{table}\n"    
     table += "\\newpage \n"
     return table

@@ -25,6 +25,7 @@ def section_heading(repository_id, touched_by):
 
 def section_sub_heading(repository_id, component, time_series):
     latex = get_section_start(FILE_NAME, "sub") 
+    latex += "\\label{subsec:" + FILE_NAME.replace(" ", "_") + "_" + component + "_" + time_series + "} \n"
     if repository_id > 0:
         latex += str(repository_id) + " "
     latex += "For " + component + " touched for " + time_series + "} \n"
@@ -62,7 +63,7 @@ def populate_data_period(developers, max_days, UNIT=NUMBER_OF_MONTHS):
         days = values[YEAR_PERIOD].copy()
         touched = values[KNOWN_Y_AXIS].copy()
         
-        add_extra(days, max_days - len(days), value=np.nan)
+        add_extra(days, max_days - len(days), value=np.nan) 
         add_extra(touched, max_days - len(touched), value=np.nan)
         
         for i in range(max_days):
@@ -154,11 +155,12 @@ def calculate_std(mean_touched, data, unit):
 
 def generate_graph(path, component, data, type, unit, y_axis_max, figure_size=SMALL_FIGURE):
     plt.close('all')
-    x_axis_size = unit
+    graph_unit = unit if unit > 0 else TIME_SERIES_NUMBER_OF_COMMIT
+    x_axis_size = graph_unit
     fig, ax = plt.subplots(figsize=figure_size, dpi=300)
     read_write_file.create_directory(path)
     data_frame = np.array(data)
-    months = np.arange(0, unit)
+    months = np.arange(0, graph_unit)
     mean = 0
     median = 0
     std_dev = 0
@@ -277,7 +279,7 @@ def generate_repo_graph(repository_id, method, path, component, unit, developers
     latex += latex_add_sub_graph(file_name, component.capitalize() + " for " + graph_caption)
     if component == "methods":
         latex += "\\caption{" + figure_caption.format(component=figure_components(None), unit=UNIT_FREQUENCY.get(unit, "Commits").lower(), categories=figure_categories(len(developers.keys())), number_of_commits=figure_number_of_commits(number_of_commits), category=COMMIT_CATEGORY.get(number_of_commits)) +  "}"
-        latex += latex_end_graph()
+        latex += latex_end_graph(FILE_NAME + component + str(number_of_commits))
     latex += "\\newpage \n"
     return latex
 
@@ -291,7 +293,7 @@ def generate_component_latex(method, path, component, unit, developers, figure_c
             stage_developers = developers[category]
             latex += get_data_and_generate_graph(method, path, component, stage_developers, category, unit, max_y_axis[category.split(" ")[0]])
     latex += "\\caption{" + figure_caption.format(component=figure_components(component), unit=UNIT_FREQUENCY.get(unit, "Commits").lower(), categories=figure_categories(counter), number_of_commits=figure_number_of_commits(number_of_commits), category=COMMIT_CATEGORY.get(number_of_commits)) + "} \n"
-    latex += latex_end_graph()        
+    latex += latex_end_graph(FILE_NAME + component + "_" + str(number_of_commits) + "_" + str(unit))        
     return latex
 
 def default_generate_save(method, file_name, repository_id, component, developers, unit=NUMBER_OF_WEEKS, figure_caption=FIGURE_CAPTION, number_of_commits=0):
@@ -320,7 +322,7 @@ def generate_and_save(repository_id, component, developers, number_of_commits=0)
         time_series_commits = number_of_commits
     if component == "packages" and number_of_commits == 5:
         latex = section_heading(repository_id, "all commits" + " and for each period")
-        read_write_file.append_to_file(base_file_name, latex, DIRECTORY)
+        read_write_file.append_to_file(base_file_name + ".tex", latex, DIRECTORY)
     if component == "packages":
         latex = section_sub_heading(repository_id, component, commit_prefix)
         save_to_latex_file(file_name, 

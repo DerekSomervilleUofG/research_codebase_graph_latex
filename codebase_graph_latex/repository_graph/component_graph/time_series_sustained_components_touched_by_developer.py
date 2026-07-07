@@ -56,6 +56,7 @@ def generate_and_save(repository_id, component, sustained_founder_developers, su
     if component == "packages":
         
         latex += section_heading(repository_id, x_axis)
+        latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
         read_write_file.write_file(get_base_file_name(FILE_NAME) + "." + AXIS_NAME[x_axis] + ".tex", "", path)
         read_write_file.append_to_file(BASE_FILE_NAME, 
                                        "\\input{" + path + get_base_file_name(FILE_NAME) + "." + AXIS_NAME[x_axis] + "}\n", 
@@ -74,6 +75,6 @@ def generate_and_save(repository_id, component, sustained_founder_developers, su
         latex += SUSTAINED_FOUNDER.capitalize() + " developers with colours are shown in Table \\ref{tab:" + str(repository_id) + "first_developers" + SUSTAINED_FOUNDER.replace(" ", "_") + "}. " 
         latex += SUSTAINED_JOINER.capitalize() + " developers with colours are shown in Table \\ref{tab:" + str(repository_id) + "first_developers" + SUSTAINED_JOINER.replace(" ", "_") + "}." 
         latex += "} \n"
-        latex += latex_end_graph()
+        latex += latex_end_graph(FILE_NAME)
         
     read_write_file.append_to_file(get_base_file_name(FILE_NAME) + "." + AXIS_NAME[x_axis] + ".tex", latex, path)

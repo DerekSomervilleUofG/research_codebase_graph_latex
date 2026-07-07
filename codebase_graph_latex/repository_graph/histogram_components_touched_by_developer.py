@@ -60,7 +60,7 @@ def get_commit_and_daily(developers, frequency):
 
     return data
 
-def generate_component_summary_historgram(component, number_of_repositories, frequency):
+def generate_component_summary_historgram_by_component(component, number_of_repositories, frequency):
     latex = latex_start_graph()
     all_developers = {}
     for category in DEVELOPER_CATEGORY:
@@ -85,7 +85,7 @@ def generate_component_summary_historgram(component, number_of_repositories, fre
         else:
             mean_val, median_val, mode_val = 0.0, 0.0, 0.0
         latex += developer_percentage_graph(FILE_NAME, data, weights, component, 0, 
-                                     category + "Day", "", 
+                                     category + frequency, "", 
                                      GRAPH_CAPTION.format(number=str(len(data)), mean=mean_val, median=median_val, mode=mode_val, category=category.capitalize(), max_pct=max_pct_val, max_touched=max_touched), 
                                      max_x_axis=get_max_x_axis(frequency, category, component), 
                                     max_y_axis=get_max_y_axis(frequency, category, component),
@@ -93,15 +93,23 @@ def generate_component_summary_historgram(component, number_of_repositories, fre
                                     log_x=False)
     latex += "\\caption{" + FIGURE_CAPTION.format(component=component, number_of_repositories=number_of_repositories, freq=frequency) 
     latex += "} \n"
-    latex += latex_end_graph()
+    latex += latex_end_graph(FILE_NAME)
 
     return latex
 
-def generate_and_save(number_of_repositories):
-    latex = get_section_start(FILE_NAME, "") + "For components with total } \n"
+def generate_component_summary_historgram(file_name, number_of_repositories, frequency):
+    latex = get_section_start(FILE_NAME, "sub") + "For components touched " + frequency
+    latex += "} \n"
+    latex += "\\label{subsec:" + FILE_NAME.replace(" ", "_") + "_daily} \n"
     for component in COMPONENTS:
-        latex += generate_component_summary_historgram(component, number_of_repositories, "daily")
-        latex += generate_component_summary_historgram(component, number_of_repositories, "commit")
-    read_write_file.write_file(get_file_name(FILE_NAME), latex, DIRECTORY)
-    latex = "\\input{" + DIRECTORY + get_base_file_name(FILE_NAME) + "}\n"
-    read_write_file.append_to_file(BASE_FILE_NAME, latex, DIRECTORY)
+        latex += generate_component_summary_historgram_by_component(component, number_of_repositories, frequency)
+    save_to_latex_file(file_name + "_" + frequency, file_name + ".tex", latex, DIRECTORY)
+
+def generate_and_save(number_of_repositories):
+    file_name = get_base_file_name(FILE_NAME)
+    latex = get_section_start(FILE_NAME, "") + "For components with total } \n"
+    latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
+    save_to_latex_file(file_name, BASE_FILE_NAME, latex, DIRECTORY)
+    generate_component_summary_historgram(file_name, number_of_repositories, "commit")
+    generate_component_summary_historgram(file_name, number_of_repositories, "daily")
+ 

@@ -36,6 +36,7 @@ def merge_average(daily, commit, component):
 
 def generate_average(number_of_repository):
     latex_repo = get_section_start(FILE_NAME, "") + "By commit and by day} \n"
+    latex_repo += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
     latex_repo += latex_start_graph()
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), commit_package_average, "packages", 0, "Commit", "", param_caption=GRAPH_CAPTION.format(period="Commit", component="packages"), max_x_axis=math.ceil(max(commit_package_average)), max_y_axis=MAX_Y_AXIS)
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), daily_package_average, "packages", 0, "Daily", "", param_caption=GRAPH_CAPTION.format(period="Daily", component="packages"), max_x_axis=math.ceil(max(commit_package_average)), max_y_axis=MAX_Y_AXIS, bins=math.ceil(BINS*(max(daily_package_average)/max(commit_package_average))))
@@ -44,7 +45,7 @@ def generate_average(number_of_repository):
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), commit_method_average, "methods", 0, "Commit", "", param_caption=GRAPH_CAPTION.format(period="Commit", component="methods"), max_x_axis=math.ceil(max(commit_method_average)), max_y_axis=MAX_Y_AXIS)
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), daily_method_average, "methods", 0, "Daily", "", param_caption=GRAPH_CAPTION.format(period="Daily", component="methods"), max_x_axis=max(commit_method_average), max_y_axis=MAX_Y_AXIS, bins=math.ceil(BINS*(max(daily_method_average)/max(commit_method_average))))
     latex_repo += "    \\caption{" + FIGURE_CAPTION.format(num=len(commit_method_average), number_of_repository_word=word_engine.number_to_words(number_of_repository), number_of_repository=number_of_repository) +"} \n"
-    latex_repo += latex_end_graph()
+    latex_repo += latex_end_graph(FILE_NAME)
     read_write_file.write_file(get_file_name(FILE_NAME), latex_repo, DIRECTORY)
 
 def generate_and_save(number_of_repository):

@@ -6,10 +6,50 @@ from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import populate_touched_data
 from codebase_graph_latex.latex_table import *
+from codebase_graph_latex.repository_graph.component_time_series.seaborn_stripplot import generate_and_save as seaborn_stripplot_generate_and_save
+import csv, os
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 P_THRESHOLD = 0.30
+
+
+
+def write_hits(component, sus_hit, non_sus_hit, output_file="hits.csv"):
+    file_exists = os.path.exists(output_file)
+
+    with open(output_file, "a", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+
+        # Write header only if file doesn't exist yet
+        if not file_exists:
+            writer.writerow([
+                "hit_type",
+                "developer_id",
+                "is_sustained",
+                "component",
+                "metric"
+            ])
+
+        for _, row in sus_hit.iterrows():
+            writer.writerow([
+                "sus_hit",
+                row["developer_id"],
+                row["is_sustained"],
+                component,
+                row["metric_value"]
+            ])
+
+        for _, row in non_sus_hit.iterrows():
+            writer.writerow([
+                "non_sus_hit",
+                row["developer_id"],
+                row["is_sustained"],
+                 component,
+                row["metric_value"]
+            ])
+
+
 
 def generate_logistic_regression_explanation():
     percent_label = int(100 * P_THRESHOLD)
@@ -40,9 +80,10 @@ To identify early indicators of long-term developer engagement, a Logistic Regre
 """
     return latex
 
-def section_sub_heading(time_series):
+def section_heading(time_series):
     latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n"
+    latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + time_series + "} \n"
     latex += generate_logistic_regression_explanation()
     return latex
 
@@ -78,21 +119,24 @@ The predictive power is evaluated using the Area Under the Receiver Operating Ch
 """
     return latex
 
-def prepare_data(developers_dict, unit):
+def prepare_data(developers_dict):
     rows = []
     # 1. Prepare the data: Binary classification (Sustained vs Not)
     for cat_name, dev_data in developers_dict.items():
         # Target: 1 if developer became Sustained, 0 otherwise
         is_sustained = 1 if "sustained" in cat_name.lower() else 0
         
-        touched_data = populate_touched_data(dev_data)
-        
+        touched_data, developers = populate_touched_data_with_developers(dev_data, KNOWN_Y_AXIS)
+
+        counter = 0
         for series in touched_data:
             # We use the final value in this commit window as the predictor
             rows.append({
+                'developer_id': developers[counter],
                 'is_sustained': is_sustained,
                 'metric_value': series[-1]
             })
+            counter += 1
     return rows
 
 def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_threshold, mod_hit, mod_pct, sus_hit, sus_pct, total_developers):
@@ -110,15 +154,16 @@ def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_
         latex_rows += f"{row['Std.Err.']:.4f} & {row['P>|z|']:.4f} & "
         if "Count" in index:
             latex_rows += f"\\textbf{{{x30_threshold:.4f}}} & "
-            latex_rows += f"{mod_hit} ({mod_pct:.1f}\\%) & "
-            latex_rows += f"{sus_hit} ({sus_pct:.1f}\\%) "
+            latex_rows += f"{mod_hit} ({mod_pct:.2f}\\%) & "
+            latex_rows += f"{sus_hit} ({sus_pct:.2f}\\%) "
         else:
             latex_rows += f"- & - & - "
         latex_rows += f"\\\\ \n"
     return latex_rows
 
-def generate_predictive_identification_latex(df, component, number_of_commits):
+def generate_predictive_identification_latex(developers, component, number_of_commits):
     # Check if we have both classes (0 and 1) to run the model
+    df = pd.DataFrame(prepare_data(developers))
     if df['is_sustained'].nunique() < 2:
         return f"% Skip {component}: Not enough diversity in classes for Logistic Regression."
         
@@ -142,16 +187,26 @@ def generate_predictive_identification_latex(df, component, number_of_commits):
     # Calculate the threshold value where predicted probability crosses P_THRESHOLD
     logit_p = math.log(P_THRESHOLD / (1 - P_THRESHOLD))
     x30_threshold = (logit_p - intercept_val) / coeff_val if coeff_val != 0 else 0
-    
+    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
+        seaborn_stripplot_generate_and_save(developers, x30_threshold)
     # Calculate Sustained metrics matching/exceeding threshold
     sustained_df = df[df['is_sustained'] == 1]
-    sus_hit = len(sustained_df[sustained_df['metric_value'] >= x30_threshold])
-    sus_pct = (sus_hit / len(sustained_df) * 100) if len(sustained_df) > 0 else 0
-    
+    sus_hit_df = sustained_df[
+        sustained_df['metric_value'] >= x30_threshold
+    ]
+    sus_hit = sus_hit_df['developer_id'].nunique()
+    sus_total = sustained_df['developer_id'].nunique()
+
+    sus_pct = (sus_hit / sus_total * 100) if sus_total > 0 else 0
+
     # Calculate Baseline Non-Sustained metrics matching/exceeding threshold
     non_sustained_df = df[df['is_sustained'] == 0]
-    non_sus_hit = len(non_sustained_df[non_sustained_df['metric_value'] >= x30_threshold])
-    non_sus_pct = (non_sus_hit / len(non_sustained_df) * 100) if len(non_sustained_df) > 0 else 0
+    non_sus_total = non_sustained_df['developer_id'].nunique()
+    non_sus_hit_df = non_sustained_df[non_sustained_df['metric_value'] >= x30_threshold]
+    non_sus_hit = non_sus_hit_df['developer_id'].nunique()
+    non_sus_pct = (non_sus_hit / non_sus_total * 100) if non_sus_total > 0 else 0
+
+    write_hits(component, sus_hit_df, non_sus_hit_df)
 
     # Clean up columns for the paper
     results_df = summary[['Coef.', 'Odds Ratio', 'Std.Err.', 'P>|z|']]
@@ -165,18 +220,17 @@ def generate_and_save(component, developers, number_of_commits):
     path = DIRECTORY
     file_name = FILE_NAME
     commit_prefix = "all commits"
-    df = pd.DataFrame(prepare_data(developers, TIME_SERIES_NUMBER_OF_COMMIT))
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_sub_heading(commit_prefix)
+        latex = section_heading(commit_prefix)
         
-        headings = ["Component", "Number of First Commits", "Type", "Number of Developers", "Not Sustained $\mu$", "Sustained $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", str(P_THRESHOLD * 100) + "\% Threshold", "Not Sustained Met Threshold", "Sustained Met Threshold"]
+        headings = ["Component", "Number of First Commits", "Model Parameter", "Number of Developers", "Not Sustained $\mu$", "Sustained $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", str(P_THRESHOLD * 100) + "\% Threshold", "Not Sustained Met Threshold", "Sustained Met Threshold"]
         latex += start_latex_table("Strategy Logistic Regression for all components against number of commits for developers", headings, "l r l r r r r r r r r r r")
         save_to_latex_file(get_base_file_name(file_name), 
                            BASE_FILE_NAME,
                                latex, path)
 
-    latex_table = generate_predictive_identification_latex(df, component, number_of_commits).replace("_", "\\_")
+    latex_table = generate_predictive_identification_latex(developers, component, number_of_commits).replace("_", "\\_")
     read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", table_end() + generate_predictive_model_latex() + "\n \\newpage \n", path)
-         
+        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", table_end(FILE_NAME) + generate_predictive_model_latex() + "\n \\newpage \n", path)
+    

@@ -3,12 +3,13 @@ from codebase_graph_latex.repository_graph.average_components_touched_by_develop
 from codebase_graph_latex.repository_graph.total_commits_by_developer import generate_and_save as developer_commit_generate_and_save
 from codebase_graph_latex.repository_graph.histogram_components_touched_by_developer import generate_and_save as repository_histogram_commit_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import generate_and_save as time_series_components_touched_generate_and_save
+from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import FILE_NAME  as time_series_file_name
 from codebase_graph_latex.repository_graph.component_time_series.generated_ART_anova import generate_and_save  as art_anova_generate_and_save 
 from codebase_graph_latex.repository_graph.component_time_series.generated_ART_anova import FILE_NAME  as art_anova_file_name
 from codebase_graph_latex.repository_graph.component_time_series.generated_standard_anova import generate_and_save  as standard_anova_generate_and_save 
 from codebase_graph_latex.repository_graph.component_time_series.generated_standard_anova import FILE_NAME  as standard_anova_file_name
 from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import generate_and_save  as statistical_significance_generate_and_save
-from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import section_sub_heading  as statistical_significance_section_sub_heading
+from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import section_heading  as statistical_significance_section_sub_heading
 from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import FILE_NAME  as statistical_significance_file_name
 from codebase_graph_latex.repository_graph.component_time_series.statistical_significance_test import set_previous
 from codebase_graph_latex.repository_graph.component_time_series.normality_and_homoscedasticity import section_sub_heading  as normal_section_sub_heading
@@ -17,7 +18,6 @@ from codebase_graph_latex.repository_graph.component_time_series.tukey_hsd impor
 from codebase_graph_latex.repository_graph.component_time_series.tukey_hsd import FILE_NAME  as tukey_hsd_file_name
 from codebase_graph_latex.repository_graph.component_time_series.holm_bonferroni import generate_and_save  as holm_bonferroni_generate_and_save
 from codebase_graph_latex.repository_graph.component_time_series.holm_bonferroni import FILE_NAME  as holm_bonferroni_file_name
-from codebase_graph_latex.repository_graph.component_time_series.time_series_components_touched import FILE_NAME  as time_series_file_name
 from codebase_graph_latex.repository_graph.component_time_series.strategy_logistic_regression import generate_and_save  as strategy_generate_and_save
 from codebase_graph_latex.constants import *
 from codebase_graph_latex.store_developer_data import *
@@ -36,13 +36,15 @@ def filter_developer_commits(developers, number_of_commits):
         category_developers = {}
         if category in developers.keys():
             for key, developer in developers[category].items():
-                new_developer = []
-                for item in developer:
-                    if isinstance(item, list) and len(item) >= number_of_commits:
-                        new_developer.append(item[:number_of_commits].copy())
-                    else:
-                        new_developer.append(item)
-                category_developers[key] = new_developer
+                if len(developer[KNOWN_Y_AXIS]) >= number_of_commits:
+                    new_developer = []
+                    for item in developer:
+                        if isinstance(item, list) and len(item) >= number_of_commits:
+                            new_developer.append(item[:number_of_commits].copy())
+                        else:
+                            new_developer.append(item)
+                    if len(new_developer) > 0:
+                        category_developers[key] = new_developer
             filtered_developers[category] = category_developers
     return filtered_developers
 
@@ -119,24 +121,23 @@ def generate_and_save(number_of_repositories):
         sustained_developers = {}
         for category in DEVELOPER_CATEGORY:
             all_developers[category] = developer_component_knowledge[category][component]
-            five_developers[category] = filter_developers_by_commits(developer_component_knowledge[category][component], 5)
             if TRANSIENT not in category:
                 developers[category] = developer_component_knowledge[category][component]
             if SUSTAINED in category:
                 sustained_developers[category] = developer_component_knowledge[category][component]
-        for number_of_commits in [1, 5, 10, 20, 0]:
+        for number_of_commits in [1, 2, 5, 10, 20, 0]:
             if number_of_commits == 1:
                 filtered_developers = filter_developer_commits(all_developers, number_of_commits)
-            elif number_of_commits == 5:
-                filtered_developers = five_developers
+            elif number_of_commits <= 5:
+                filtered_developers = filter_developer_commits(all_developers, number_of_commits)
             elif number_of_commits == 10:
                 filtered_developers = filter_developer_commits(developers, number_of_commits)
             elif number_of_commits == 20:
                 filtered_developers = filter_developer_commits(sustained_developers, number_of_commits)    
             elif number_of_commits == 0:
                 filtered_developers = sustained_developers 
-
-            generate_time_series(component, filtered_developers, number_of_commits)
+            if number_of_commits in [1, 5, 10, 20, 0]:
+                generate_time_series(component, filtered_developers, number_of_commits)
             if number_of_commits > 0:
                 generate_statistical_significance_test(component, filtered_developers, number_of_commits)
                 if number_of_commits <= 10:

@@ -27,9 +27,10 @@ def set_previous():
     previous_number_of_commits = None
 
 
-def section_sub_heading(time_series):
+def section_heading(time_series):
     latex = get_section_start(FILE_NAME, "") 
-    latex += "For all components touched for " + time_series + "} \n\n"
+    latex += "For all components touched for " + time_series + "} \n"
+    latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
     latex += "A Welch $t$-test was employed to determine if the mean contributions of Group A "
     latex += "differ significantly from Group B. This test is appropriate for continuous data "
     latex += "and is robust to unequal variances. \n \n"  
@@ -191,7 +192,7 @@ def end_graph(component, number_of_commits, add_start):
         latex_fill = ""
         if not (TRANSIENT in file_name and number_of_commits ==20):
             latex_fill += "\\caption{" + get_basic_caption(component, number_of_commits, graph_file_names[file_name]) + "} \n"
-        latex_fill += latex_end_graph()
+        latex_fill += latex_end_graph(FILE_NAME + component + str(number_of_commits) + file_name)
         if add_start:
             latex_fill += latex_start_graph()
         read_write_file.append_to_file(file_name + ".tex", latex_fill, DIRECTORY)
@@ -219,7 +220,7 @@ def generate_graphs(graph_file_name, number_of_commits, component, category_comp
                 latex_fill = "\\caption{" + get_basic_caption(component, number_of_commits, graph_file_names[file_name]) + "} \n"
             else:
                 latex_fill = ""
-            latex_fill += latex_end_graph()    
+            latex_fill += latex_end_graph(FILE_NAME + component + str(number_of_commits))    
             read_write_file.append_to_file(file_name + ".tex", latex_fill, DIRECTORY)
     if len(sample_a_values) > 0:
         previous_component = component
@@ -328,10 +329,10 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
     path = DIRECTORY
     commit_prefix = "all commits"
     category_compare = ""
-    sample_a_values, sample_b_values, a_category = filter_data(developers, sample_a_b, TIME_SERIES_NUMBER_OF_COMMIT, number_of_commits)
+    sample_a_values, sample_b_values, a_category = filter_data(developers, sample_a_b, KNOWN_Y_AXIS, number_of_commits)
     if component == "methods" and sample_a_b[0] == MODERATE and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(previous_file_name + ".tex", table_end(), path)
-        read_write_file.append_to_file(previous_normal_file_name + ".tex", table_end(), path)
+        read_write_file.append_to_file(previous_file_name + ".tex", table_end(FILE_NAME + "previous"), path)
+        read_write_file.append_to_file(previous_normal_file_name + ".tex", table_end(FILE_NAME + "normal_previous"), path)
     if FOUNDER in file_name:
         category_compare = "different categories of " + FOUNDER + " versus different categories of late " + JOINER + " "
         sample_a = sample_a_b[0].capitalize()
@@ -370,9 +371,9 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
         read_write_file.append_to_file(file_name + ".tex", latex_table, path)
         previous_a_category = a_category
     if component == "methods" and sample_a_b[0] == MODERATE and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(file_name + ".tex", table_end(), path)
+        read_write_file.append_to_file(file_name + ".tex", table_end(FILE_NAME), path)
         read_write_file.append_to_file(file_name + ".tex", generate_formula_latex(sample_a_b) + "\n\\newpage \n", path)
-        read_write_file.append_to_file(normal_file_name + ".tex", table_end(), path)
+        read_write_file.append_to_file(normal_file_name + ".tex", table_end(FILE_NAME + "_normal"), path)
         end_graph(component, number_of_commits, False)
         
     previous_file_name = file_name

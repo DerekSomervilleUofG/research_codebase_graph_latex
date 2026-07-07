@@ -8,7 +8,7 @@ from codebase_graph_latex.latex_table import *
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
-def section_sub_heading(time_series):
+def section_heading(time_series):
     latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += "A Tukey Honestly Significant Difference table for all components touched on average. \n"
@@ -103,20 +103,26 @@ def generate_and_save(component, developers, number_of_commits):
     sig_file_name = base_file_name + "_significant"
     not_sig_file_name = base_file_name + "_not_significant" 
     df = get_data_frame(developers,   TIME_SERIES_NUMBER_OF_COMMIT)
-    table_name = "Tukey HSD results for components and number of commits"
+    table_name = "Tukey HSD results for " + component + " and number of commits"
     commit_prefix = "all commits"
     headings = ["Component", "Commits", "Number of Developers", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
+    
     if component == "classes" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_sub_heading(commit_prefix)
-        latex += start_latex_table("Significant " + table_name, headings, "l r r l l r r")
+        latex = section_heading(commit_prefix)
+        latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
         save_to_latex_file(sig_file_name, base_file_name + ".tex", latex, DIRECTORY)
+        save_to_latex_file(not_sig_file_name, base_file_name + ".tex", "", DIRECTORY)
+    if number_of_commits == START_COMMIT_NUMBER:
+        latex = start_latex_table("Significant " + table_name, headings, "l r r l l r r")
+        read_write_file.append_to_file(sig_file_name + ".tex", latex, DIRECTORY)
         latex = start_latex_table("Not Significant " + table_name, headings, "l r r l l r r")
-        save_to_latex_file(not_sig_file_name, base_file_name + ".tex", latex, DIRECTORY)
+        read_write_file.append_to_file(not_sig_file_name + ".tex", latex, DIRECTORY)
     sig_latex_table, not_sig_latex_table = generate_tukey_latex(df, component, number_of_commits)
     read_write_file.append_to_file(sig_file_name + ".tex", sig_latex_table, DIRECTORY)
     read_write_file.append_to_file(not_sig_file_name + ".tex", not_sig_latex_table, DIRECTORY)
+    if number_of_commits == END_COMMIT_NUMBER:
+        read_write_file.append_to_file(sig_file_name + ".tex", table_end(FILE_NAME + "sig"), DIRECTORY)
+        read_write_file.append_to_file(not_sig_file_name + ".tex", table_end(FILE_NAME + "non_sig"), DIRECTORY)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(sig_file_name + ".tex", table_end(), DIRECTORY)
-        read_write_file.append_to_file(not_sig_file_name + ".tex", table_end(), DIRECTORY)
         read_write_file.append_to_file(base_file_name + ".tex", generate_tukey_formula_latex() + "\n\\newpage \n", DIRECTORY)
          

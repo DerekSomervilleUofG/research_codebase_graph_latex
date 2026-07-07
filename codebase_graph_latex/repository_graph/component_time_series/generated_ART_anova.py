@@ -22,16 +22,18 @@ os.environ["PATH"] = r"C:\Program Files\R\R-4.6.0\bin\x64;" + os.environ["PATH"]
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
-def section_sub_heading(time_series):
+def section_heading(time_series):
     latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n"
+    latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + time_series  + "} \n"
     latex += "An \\textbf{Aligned Rank Transform (ART)} Anova table for all components touched on average. "
     latex += generate_art_anova_explanation_latex()
     return latex
 
-def section_sub_sub_heading(commit_prefix):
+def section_sub_heading(commit_prefix):
     latex = get_section_start(FILE_NAME, "sub") 
     latex += "For all components touched for " + commit_prefix + "} \n"
+    latex += "\\label{subsec:" + FILE_NAME.replace(" ", "_") + commit_prefix  + "} \n"
     return latex
 
 def generate_art_anova_explanation_latex():
@@ -204,11 +206,11 @@ def generate_and_save(component, developers, number_of_commits):
     path = DIRECTORY
     base_file_name = get_base_file_name(FILE_NAME)
     file_name = base_file_name + "_transient"
-    df = get_data_frame(developers, TIME_SERIES_NUMBER_OF_COMMIT)
+    df = get_data_frame(developers, KNOWN_Y_AXIS)
     table_name = "ART Anova results for all components, number of commits and categories of developers"
     commit_prefix = "all commits"
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_sub_heading(commit_prefix)
+        latex = section_heading(commit_prefix)
         read_write_file.append_to_file(base_file_name + ".tex", latex, DIRECTORY)
         headings = [
             "Component", 
@@ -232,6 +234,6 @@ def generate_and_save(component, developers, number_of_commits):
     latex_table = generate_anova_latex(df, component, commit_prefix, number_of_commits, category).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
     if component == "methods" and number_of_commits == 10:
-        read_write_file.append_to_file(file_name + ".tex", table_end(), path)
+        read_write_file.append_to_file(file_name + ".tex", table_end(FILE_NAME), path)
         read_write_file.append_to_file(base_file_name + ".tex", generate_statistical_formula_latex() + "\n\\newpage \n", path)
          

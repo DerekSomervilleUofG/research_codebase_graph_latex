@@ -11,11 +11,12 @@ Y_AXIS = "Y_AXIS"
 
 GRAPH_CAPTION = "{component}"
 FIGURE_CAPTION = "Scatter plots of the log total number of components touched (y-axis) " \
-                "against the number of commits (x-axis) made by "
+                "against the number of commits (x-axis) made by samples of developers capped at NUM4 sustained later joiners "
 
 def section_heading(file_name, sub_section="", title="", x_axis="commits"):
     latex =  get_section_start(file_name, sub_section) + title 
     latex += "} \n"
+    latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
     return latex    
 
 def get_developer_knowledge(developers):
@@ -37,7 +38,7 @@ def get_total_sample_numbers(component):
     return get_sample_numbers(founder_transient_num, founder_moderate_num, founder_sustained_num, joiner_transient_num, joiner_moderate_num, joiner_sustained_num)
 
 def get_figure_caption(num1, num2, num3, num4, num5=0, num6=0):
-    return FIGURE_CAPTION.format(number=num4) + get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [num1, num2, num3, num4, num5, num6])
+    return FIGURE_CAPTION.format(NUM4=num4) + get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [num1, num2, num3, num4, num5, num6])
 
 def get_figure_caption_with_numbers(component):
     founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained = get_total_sample_numbers(component)
@@ -157,7 +158,7 @@ def generate_compare_for_component(path):
     latex += FIGURE_CAPTION
     latex += get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained]) 
     latex += "} \n"
-    latex += latex_end_graph()
+    latex += latex_end_graph(FILE_NAME)
     return latex
 
 def generate_and_save():
@@ -209,5 +210,5 @@ def repository_generate_and_save(repository_id, component,
                                                         joiner_sustained_no])
         latex_repo += "\\end{minipage}"
         latex_repo += "} \n"
-        latex_repo += latex_end_graph()
+        latex_repo += latex_end_graph(FILE_NAME)
     read_write_file.append_to_file(base_file_name, latex_repo, path)
