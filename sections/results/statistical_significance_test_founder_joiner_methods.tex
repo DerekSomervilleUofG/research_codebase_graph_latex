@@ -1,0 +1,30 @@
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[Statistical Significance tests for methodsfor different categories of founder versus different categories of late joiner ]{Statistical significance tests of different categories of founder versus different categories of late joiner  touches of different granularities of methods after 1, 5, 10 and 20  commits for contributors. The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. }
+\resizebox{\textwidth}{!}{% 
+\begin{tabular}{l r p{4cm} c c c c r r r r r r r r r r r r}
+\toprule
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributor}\\\textbf{Category}} & \multicolumn{2}{c}{\textbf{Founder}} & \multicolumn{2}{c}{\textbf{Joiner}} & \makecell[t]{\textbf{Percentage}\\\textbf{Difference}\\\textbf{in $\mu$}} & \multicolumn{2}{c}{\textbf{Welch}} & \textbf{MWU $P$} & \textbf{BM $P$} & \makecell[t]{\textbf{}\\\textbf{Brunner-Münzel}\\\textbf{$W$}} & \makecell[t]{\textbf{Cliff's}\\\textbf{$\delta$}} & \makecell[t]{\textbf{Prob. Sup.}\\\textbf{($PS$)}} \\ 
+\cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){9-10}
+ &  &  & \textbf{$\mu$} & \textbf{Number} & \textbf{$\mu$} & \textbf{Number} &  & \textbf{Statistic} & \textbf{$P$} &  &  &  &  &  \\ 
+\midrule
+Methods & 1 & All &  7.16 & 269 & 2.01 & 15948 & 28.08 & 2.37 & 0.0185 & 0.0000 & 0.0000 & -5.38 & 0.123 & 0.562 \\ 
+Methods & 1 & Moderate &  23.71 & 42 & 7.92 & 646 & 33.42 & 1.28 & 0.2075 & 0.5319 & 0.5660 & -0.58 & 0.047 & 0.524 \\ 
+Methods & 1 & Sustained &  10.59 & 34 & 24.08 & 203 & 227.41 & -0.78 & 0.4382 & 0.2351 & 0.2715 & -1.11 & 0.098 & 0.549 \\ 
+Methods & 2 & All &  54.12 & 110 & 19.93 & 2978 & 36.84 & 1.71 & 0.0893 & 0.3344 & 0.4015 & -0.84 & 0.053 & 0.527 \\ 
+Methods & 2 & Moderate &  61.76 & 42 & 29.98 & 646 & 48.54 & 1.60 & 0.1163 & 0.3543 & 0.4320 & -0.79 & 0.085 & 0.542 \\ 
+Methods & 2 & Sustained &  88.32 & 34 & 25.84 & 203 & 29.26 & 1.04 & 0.3041 & 0.0476 & 0.0667 & -1.88 & 0.211 & 0.605 \\ 
+Methods & 5 & Transient with five or more; moderate \& sustained &  149.40 & 85 & 80.32 & 1278 & 53.76 & 1.59 & 0.1148 & 0.0648 & 0.0836 & -1.75 & 0.119 & 0.560 \\ 
+Methods & 5 & Moderate &  179.29 & 42 & 80.93 & 646 & 45.14 & 1.37 & 0.1778 & 0.1127 & 0.1635 & -1.42 & 0.146 & 0.573 \\ 
+Methods & 5 & Sustained &  138.53 & 34 & 114.77 & 203 & 82.85 & 0.36 & 0.7211 & 0.7890 & 0.7946 & -0.26 & 0.029 & 0.514 \\ 
+Methods & 10 & Moderate \& sustained &  259.76 & 75 & 154.41 & 783 & 59.44 & 1.72 & 0.0890 & 0.0583 & 0.0920 & -1.70 & 0.132 & 0.566 \\ 
+Methods & 10 & Moderate &  264.83 & 41 & 145.21 & 580 & 54.83 & 1.25 & 0.2202 & 0.1690 & 0.2351 & -1.20 & 0.128 & 0.564 \\ 
+Methods & 10 & Sustained &  253.65 & 34 & 180.70 & 203 & 71.24 & 1.00 & 0.3240 & 0.2291 & 0.2666 & -1.13 & 0.129 & 0.565 \\ 
+Methods & 20 & Sustained &  401.24 & 34 & 295.10 & 203 & 73.55 & 1.16 & 0.2533 & 0.5131 & 0.5561 & -0.59 & 0.070 & 0.535 \\ 
+\bottomrule
+\end{tabular}%
+} 
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_statistical_significance_test_methods_previous} 
+\end{table}
+\newpage 

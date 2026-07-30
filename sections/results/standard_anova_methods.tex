@@ -1,0 +1,31 @@
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[Standard Anova Results for methods]{Anova results for methods for number of commits and categories of developers}
+\resizebox{\textwidth}{!}{% 
+\begin{tabular}{l r r l r r r r r}
+\toprule
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \textbf{Factor} & \makecell[t]{\textbf{Sum}\\\textbf{Squared}} & \textbf{df} & \textbf{F-Stat} & \textbf{$P$ Value} & \textbf{ETA Sq} \\ 
+\midrule
+methods & 1 & 16217 & Role (F/LJ) & 9832.53 & 1 & 11.96 & 0.0005 & 0.0007 \\ 
+methods & 1 & 16217 & Category (T/M/S) & 15316.33 & 2 & 9.31 & 0.0001 & 0.0011 \\ 
+methods & 1 & 16217 & Interaction & 14535.91 & 2 & 8.84 & 0.0001 & 0.0011 \\ 
+methods & 1 & 16217 & Residual & 13328717.62 & 16211 & - & -  \\ 
+methods & 2 & 3088 & Role (F/LJ) & 39842.01 & 1 & 7.77 & 0.0053 & 0.0025 \\ 
+methods & 2 & 3088 & Category (M/S) & 107007.93 & 2 & 10.44 & 0.0000 & 0.0066 \\ 
+methods & 2 & 3088 & Interaction & 73539.47 & 2 & 7.17 & 0.0008 & 0.0045 \\ 
+methods & 2 & 3088 & Residual & 15801249.51 & 3082 & - & -  \\ 
+methods & 5 & 1363 & Role (F/LJ) & 381459.60 & 1 & 9.72 & 0.0019 & 0.0069 \\ 
+methods & 5 & 1363 & Category (M/S) & 128673.36 & 2 & 1.64 & 0.1946 & 0.0023 \\ 
+methods & 5 & 1363 & Interaction & 141668.49 & 2 & 1.80 & 0.1650 & 0.0026 \\ 
+methods & 5 & 1363 & Residual & 53273281.50 & 1357 & - & -  \\ 
+methods & 10 & 858 & Role (F/LJ) & 547971.01 & 1 & 6.98 & 0.0084 & 0.0078 \\ 
+methods & 10 & 858 & Category (M/S) & 2324.11 & 1 & 0.03 & 0.8634 & 0.0000 \\ 
+methods & 10 & 858 & Interaction & 36040.01 & 1 & 0.46 & 0.4981 & 0.0005 \\ 
+methods & 10 & 858 & Residual & 66999194.82 & 854 & - & -  \\ 
+\bottomrule
+\end{tabular}%
+} 
+\label{tab:standard_anova_methods} 
+\end{table}
+\newpage 

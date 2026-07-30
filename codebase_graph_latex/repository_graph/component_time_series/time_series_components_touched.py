@@ -278,8 +278,9 @@ def generate_repo_graph(repository_id, method, path, component, unit, developers
                                                 figure_size=SMALL_FIGURE)
     latex += latex_add_sub_graph(file_name, component.capitalize() + " for " + graph_caption)
     if component == "methods":
-        latex += "\\caption{" + figure_caption.format(component=figure_components(None), unit=UNIT_FREQUENCY.get(unit, "Commits").lower(), categories=figure_categories(len(developers.keys())), number_of_commits=figure_number_of_commits(number_of_commits), category=COMMIT_CATEGORY.get(number_of_commits)) +  "}"
-        latex += latex_end_graph(FILE_NAME + component + str(number_of_commits))
+        commit_string = "all" if number_of_commits == 0 else str(number_of_commits)
+        latex += "\\caption[Time Series for all compenents unit:" + UNIT_FREQUENCY.get(unit, "Commits").lower() + " category:" + str(len(developers.keys()))+ " commits:" + commit_string + "]{" + figure_caption.format(component=figure_components(None), unit=UNIT_FREQUENCY.get(unit, "Commits").lower(), categories=figure_categories(len(developers.keys())), number_of_commits=figure_number_of_commits(number_of_commits), category=COMMIT_CATEGORY.get(number_of_commits)) +  "} \n"
+        latex += latex_end_graph(str(repository_id) + "_" + FILE_NAME + component + str(number_of_commits) + "_" + str(unit))
     latex += "\\newpage \n"
     return latex
 
@@ -292,7 +293,8 @@ def generate_component_latex(method, path, component, unit, developers, figure_c
             counter += 1
             stage_developers = developers[category]
             latex += get_data_and_generate_graph(method, path, component, stage_developers, category, unit, max_y_axis[category.split(" ")[0]])
-    latex += "\\caption{" + figure_caption.format(component=figure_components(component), unit=UNIT_FREQUENCY.get(unit, "Commits").lower(), categories=figure_categories(counter), number_of_commits=figure_number_of_commits(number_of_commits), category=COMMIT_CATEGORY.get(number_of_commits)) + "} \n"
+    commit_string = "all" if number_of_commits == 0 else str(number_of_commits)
+    latex += "\\caption[Time Series for " + component + " unit:" + UNIT_FREQUENCY.get(unit, "Commits").lower() + " category:" + str(len(developers.keys()))+ " commits:" + commit_string + "]{" + figure_caption.format(component=figure_components(component), unit=UNIT_FREQUENCY.get(unit, "Commits").lower(), categories=figure_categories(counter), number_of_commits=figure_number_of_commits(number_of_commits), category=COMMIT_CATEGORY.get(number_of_commits)) + "} \n"
     latex += latex_end_graph(FILE_NAME + component + "_" + str(number_of_commits) + "_" + str(unit))        
     return latex
 

@@ -1,0 +1,27 @@
+\section{Normality And Variance - For all components touched for all commits} 
+
+Certain statistical methods require normality of each sample or the equality of variance. A Shapiro-Wilk Test evaluates whether a sample distribution significantly differs from the normal distribution. A Levene's test evaluates if the independent samples have equal variance.  
+
+Columns below:  
+\begin{itemize}
+                    \item{\textbf{Component} - Packages, classes or methods touched.}
+                    \item{\textbf{First *n* commits} - A sample of the first x number of commits for developers. }
+                    \item{\textbf{Contributor Category} Transient, Moderate or Sustained. "vs." equals versus.}
+                    \item{\textbf{Sample A $\mu$} - The mean average of the first sample A. }
+                    \item{\textbf{Sample A Number} - The number of developers the first sample A.  }
+                    \item{\textbf{Sample B $\mu$} - The mean average of the second sample B.}
+                    \item{\textbf{Sample B Number} - The number of developers the first sample B.}
+                    \item{\textbf{Percentage Difference in $\mu$} - The percentage difference in means between samples.}
+                    \item{\textbf{Sample A Normality $P$} - Shapiro normality $P$ value of sample A. } 
+                    \item{\textbf{Sample B Normality $P$} - Shapiro normality $P$ value of sample B. }
+                    \item{\textbf{Variance Equality $P$} - The Levene variance equality p-value between sample A and B. }
+                    \item{\textbf{Statistical Model} - A recommended statistical model of Welch $t$ test; Mann-Whitney; Brunner Münzel }
+                    \item{\textbf{Model $P$} - The $P$ value of the recommended test Welch $t$ test; Mann-Whitney; Brunner Münzel }
+                \end{itemize}
+    
+\input{sections/results/normality_and_variance_founder_joiner_packages}
+\input{sections/results/normality_and_variance_transient_moderate_packages}
+\input{sections/results/normality_and_variance_founder_joiner_classes}
+\input{sections/results/normality_and_variance_transient_moderate_classes}
+\input{sections/results/normality_and_variance_founder_joiner_methods}
+\input{sections/results/normality_and_variance_transient_moderate_methods}

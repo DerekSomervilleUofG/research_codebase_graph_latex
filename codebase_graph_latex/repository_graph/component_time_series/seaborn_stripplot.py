@@ -7,7 +7,7 @@ from codebase_graph_latex.latex_graph import *
 import os
 
 FILE_NAME = __name__
-BASE_FILE_NAME = "repository_summary_1.tex"
+BASE_FILE_NAME = "appendix_1.tex"
 CAPTION = "A seaborn strip plot of packages touched (y-axis) against number of developers (x-axis) made by "
 
 CATEGORY_COLORS = {
@@ -97,6 +97,6 @@ def generate_and_save(developers, threshold):
     numbers = get_category_numbers(developers)
     caption = CAPTION + get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, numbers)
     latex = get_section_start(FILE_NAME, "") + "Number of Developers versus Packages Touched} \n" 
-    latex += latex_add_graph(create_packages_stripplot(DIRECTORY + "graph/", developers, threshold), caption)
+    latex += latex_add_graph(create_packages_stripplot(DIRECTORY + "graph/", developers, threshold), caption, "Seaborn Stripplot")
     latex += "\\newpage "
     save_to_latex_file(get_base_file_name(FILE_NAME), BASE_FILE_NAME, latex, DIRECTORY)

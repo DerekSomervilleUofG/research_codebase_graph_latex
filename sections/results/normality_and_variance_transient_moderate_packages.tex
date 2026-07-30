@@ -1,0 +1,29 @@
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[Shapiro-Wilk and Levene's variance tests for packages for  sample A category versus sample B category ]{A Shapiro-Wilk test of packages for  sample A category versus sample B category  sample normality and a Levene's variance test between samples}
+\resizebox{\textwidth}{!}{% 
+\begin{tabular}{l r p{4cm} c c c c r r r r l r}
+\toprule
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \multicolumn{4}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Percentage}\\\textbf{Difference}\\\textbf{in $\mu$}} & \multicolumn{2}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[t]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
+\cmidrule(lr){4-7} \cmidrule(lr){9-10}
+ &  &  & \textbf{A $\mu$} & \textbf{A number} & \textbf{B $\mu$} & \textbf{B number} &  & \makecell[t]{\textbf{A}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[t]{\textbf{B}\\\textbf{Normality}\\\textbf{$P$}} &  &  &  \\ 
+\midrule
+Packages & 1 & Transient vs. moderate &  1.15 & 15292 & 2.59 & 688 & 225.27 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Packages & 1 & Transient vs. sustained &  1.15 & 15292 & 2.38 & 237 & 206.49 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Packages & 1 & Transient vs. moderate \& sustained &  1.15 & 15292 & 2.54 & 925 & 220.46 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Packages & 1 & Moderate vs. sustained &  2.59 & 688 & 2.38 & 237 & 91.66 & \textless 0.001 & \textless 0.001 & 0.6005 &  Mann-Whitney & 0.1045 \\ 
+Packages & 1 & Core vs. Non Core &  1.87 & 198 & 1.34 & 16019 & 71.55 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Packages & 2 & Moderate vs. sustained &  3.57 & 688 & 3.49 & 237 & 97.51 & \textless 0.001 & \textless 0.001 & 0.9982 &  Mann-Whitney & 0.1265 \\ 
+Packages & 2 & Core vs. Non Core &  3.72 & 112 & 2.95 & 2976 & 79.23 & \textless 0.001 & \textless 0.001 & 0.2942 &  Mann-Whitney & 0.0000 \\ 
+Packages & 5 & Moderate vs. sustained &  6.33 & 688 & 5.93 & 237 & 93.68 & \textless 0.001 & \textless 0.001 & 0.7055 &  Mann-Whitney & 0.0805 \\ 
+Packages & 5 & Core vs. Non Core &  6.21 & 107 & 6.01 & 1256 & 96.82 & \textless 0.001 & \textless 0.001 & 0.3528 &  Mann-Whitney & 0.1946 \\ 
+Packages & 10 & Moderate vs. sustained &  9.60 & 621 & 8.36 & 237 & 87.03 & \textless 0.001 & \textless 0.001 & 0.4692 &  Mann-Whitney & 0.0006 \\ 
+Packages & 10 & Core vs. Non Core &  9.12 & 104 & 9.28 & 754 & 101.68 & \textless 0.001 & \textless 0.001 & 0.2716 &  Mann-Whitney & 0.8274 \\ 
+Packages & 20 & Core vs. Non Core &  13.00 & 58 & 12.37 & 179 & 95.19 & \textless 0.001 & \textless 0.001 & 0.2640 &  Mann-Whitney & 0.0461 \\ 
+\bottomrule
+\end{tabular}%
+} 
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_statistical_significance_test_normal_packages} 
+\end{table}
+\newpage 

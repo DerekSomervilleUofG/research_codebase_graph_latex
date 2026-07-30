@@ -19,14 +19,12 @@ developer_id,packages_touched,category
 2,1,transient founder
 4,1,transient founder
 7,1,transient founder
-225,1,transient founder
 366,1,transient founder
 367,1,transient founder
 369,1,transient founder
 370,3,transient founder
 379,1,transient founder
 383,1,transient founder
-646,1,transient founder
 765,1,transient founder
 766,2,transient founder
 768,2,transient founder
@@ -43,8 +41,6 @@ developer_id,packages_touched,category
 786,1,transient founder
 787,1,transient founder
 789,1,transient founder
-1412,1,transient founder
-1414,1,transient founder
 1656,1,transient founder
 1657,1,transient founder
 1658,1,transient founder
@@ -131,11 +127,6 @@ developer_id,packages_touched,category
 6040,2,transient founder
 6041,1,transient founder
 6042,4,transient founder
-209,1,transient founder
-2367,1,transient founder
-6444,1,transient founder
-6812,1,transient founder
-6813,1,transient founder
 6848,1,transient founder
 6849,1,transient founder
 6870,1,transient founder
@@ -157,10 +148,6 @@ developer_id,packages_touched,category
 7454,1,transient founder
 7455,1,transient founder
 7456,1,transient founder
-8071,1,transient founder
-8073,1,transient founder
-8074,1,transient founder
-8075,1,transient founder
 8099,1,transient founder
 8101,1,transient founder
 8102,1,transient founder
@@ -1252,58 +1239,6 @@ developer_id,packages_touched,category
 216,1,transient later joiner
 217,1,transient later joiner
 218,1,transient later joiner
-234,1,transient later joiner
-243,1,transient later joiner
-247,1,transient later joiner
-248,1,transient later joiner
-251,1,transient later joiner
-252,1,transient later joiner
-253,1,transient later joiner
-256,1,transient later joiner
-257,1,transient later joiner
-259,1,transient later joiner
-262,1,transient later joiner
-264,1,transient later joiner
-266,1,transient later joiner
-270,1,transient later joiner
-274,1,transient later joiner
-275,1,transient later joiner
-283,1,transient later joiner
-288,1,transient later joiner
-292,1,transient later joiner
-295,1,transient later joiner
-297,1,transient later joiner
-298,1,transient later joiner
-304,1,transient later joiner
-305,1,transient later joiner
-306,1,transient later joiner
-307,1,transient later joiner
-309,1,transient later joiner
-310,1,transient later joiner
-312,1,transient later joiner
-313,1,transient later joiner
-315,1,transient later joiner
-316,1,transient later joiner
-318,1,transient later joiner
-322,1,transient later joiner
-325,1,transient later joiner
-326,1,transient later joiner
-327,1,transient later joiner
-328,1,transient later joiner
-332,1,transient later joiner
-333,1,transient later joiner
-334,1,transient later joiner
-339,1,transient later joiner
-344,1,transient later joiner
-347,1,transient later joiner
-349,1,transient later joiner
-353,1,transient later joiner
-354,1,transient later joiner
-357,1,transient later joiner
-358,1,transient later joiner
-360,1,transient later joiner
-361,1,transient later joiner
-362,1,transient later joiner
 384,1,transient later joiner
 385,1,transient later joiner
 387,1,transient later joiner
@@ -1514,101 +1449,6 @@ developer_id,packages_touched,category
 629,1,transient later joiner
 630,1,transient later joiner
 631,1,transient later joiner
-38,1,transient later joiner
-43,1,transient later joiner
-47,1,transient later joiner
-132,1,transient later joiner
-649,1,transient later joiner
-652,1,transient later joiner
-653,1,transient later joiner
-654,1,transient later joiner
-655,1,transient later joiner
-657,1,transient later joiner
-658,1,transient later joiner
-659,1,transient later joiner
-661,1,transient later joiner
-662,1,transient later joiner
-663,1,transient later joiner
-664,1,transient later joiner
-665,1,transient later joiner
-667,1,transient later joiner
-669,1,transient later joiner
-672,1,transient later joiner
-673,1,transient later joiner
-674,1,transient later joiner
-675,1,transient later joiner
-677,1,transient later joiner
-678,1,transient later joiner
-679,1,transient later joiner
-680,1,transient later joiner
-681,1,transient later joiner
-682,1,transient later joiner
-683,1,transient later joiner
-684,1,transient later joiner
-685,1,transient later joiner
-686,1,transient later joiner
-687,1,transient later joiner
-688,1,transient later joiner
-690,1,transient later joiner
-691,1,transient later joiner
-692,1,transient later joiner
-694,1,transient later joiner
-695,1,transient later joiner
-696,1,transient later joiner
-697,1,transient later joiner
-698,1,transient later joiner
-699,1,transient later joiner
-700,1,transient later joiner
-701,1,transient later joiner
-702,1,transient later joiner
-703,1,transient later joiner
-704,1,transient later joiner
-705,1,transient later joiner
-708,1,transient later joiner
-709,1,transient later joiner
-711,1,transient later joiner
-712,1,transient later joiner
-713,1,transient later joiner
-714,1,transient later joiner
-716,1,transient later joiner
-717,1,transient later joiner
-718,1,transient later joiner
-719,1,transient later joiner
-721,1,transient later joiner
-722,1,transient later joiner
-723,1,transient later joiner
-724,1,transient later joiner
-725,1,transient later joiner
-726,1,transient later joiner
-727,1,transient later joiner
-728,1,transient later joiner
-729,1,transient later joiner
-730,1,transient later joiner
-731,1,transient later joiner
-732,1,transient later joiner
-733,1,transient later joiner
-734,1,transient later joiner
-735,1,transient later joiner
-737,1,transient later joiner
-738,1,transient later joiner
-740,1,transient later joiner
-741,1,transient later joiner
-742,1,transient later joiner
-744,1,transient later joiner
-745,1,transient later joiner
-746,1,transient later joiner
-747,1,transient later joiner
-748,1,transient later joiner
-749,1,transient later joiner
-750,1,transient later joiner
-751,1,transient later joiner
-752,1,transient later joiner
-754,1,transient later joiner
-755,1,transient later joiner
-756,1,transient later joiner
-758,1,transient later joiner
-759,1,transient later joiner
-760,1,transient later joiner
 792,1,transient later joiner
 793,1,transient later joiner
 795,1,transient later joiner
@@ -2063,17 +1903,6 @@ developer_id,packages_touched,category
 1405,1,transient later joiner
 1407,9,transient later joiner
 1409,1,transient later joiner
-1418,1,transient later joiner
-1419,1,transient later joiner
-1420,1,transient later joiner
-1421,1,transient later joiner
-1422,1,transient later joiner
-1423,1,transient later joiner
-1424,1,transient later joiner
-1425,1,transient later joiner
-1426,1,transient later joiner
-1429,1,transient later joiner
-1430,1,transient later joiner
 1434,1,transient later joiner
 1441,4,transient later joiner
 1451,7,transient later joiner
@@ -4302,6 +4131,7 @@ developer_id,packages_touched,category
 4878,4,transient later joiner
 4879,1,transient later joiner
 154,1,transient later joiner
+659,1,transient later joiner
 4983,1,transient later joiner
 4986,1,transient later joiner
 4987,1,transient later joiner
@@ -4641,7 +4471,7 @@ developer_id,packages_touched,category
 5382,1,transient later joiner
 5383,3,transient later joiner
 5385,1,transient later joiner
-5386,1,transient later joiner
+5386,2,transient later joiner
 5387,1,transient later joiner
 5388,1,transient later joiner
 5390,1,transient later joiner
@@ -5343,39 +5173,6 @@ developer_id,packages_touched,category
 6241,1,transient later joiner
 6242,1,transient later joiner
 6243,3,transient later joiner
-583,1,transient later joiner
-6814,1,transient later joiner
-6815,1,transient later joiner
-6816,1,transient later joiner
-6817,1,transient later joiner
-6818,1,transient later joiner
-6819,1,transient later joiner
-6820,1,transient later joiner
-6821,1,transient later joiner
-6822,1,transient later joiner
-6823,1,transient later joiner
-6824,1,transient later joiner
-6825,1,transient later joiner
-6826,1,transient later joiner
-6827,1,transient later joiner
-6828,1,transient later joiner
-6829,1,transient later joiner
-6831,1,transient later joiner
-6832,1,transient later joiner
-6833,1,transient later joiner
-6835,1,transient later joiner
-6836,1,transient later joiner
-6837,1,transient later joiner
-6838,1,transient later joiner
-6839,1,transient later joiner
-6840,1,transient later joiner
-6841,1,transient later joiner
-6842,1,transient later joiner
-6843,1,transient later joiner
-6844,1,transient later joiner
-6845,1,transient later joiner
-6846,1,transient later joiner
-6847,1,transient later joiner
 6851,1,transient later joiner
 6852,1,transient later joiner
 6853,1,transient later joiner
@@ -6429,21 +6226,6 @@ developer_id,packages_touched,category
 8068,2,transient later joiner
 8069,4,transient later joiner
 8070,2,transient later joiner
-8078,1,transient later joiner
-8079,1,transient later joiner
-8081,1,transient later joiner
-8082,1,transient later joiner
-8083,1,transient later joiner
-8085,1,transient later joiner
-8086,1,transient later joiner
-8087,1,transient later joiner
-8088,1,transient later joiner
-8089,1,transient later joiner
-8090,1,transient later joiner
-8091,1,transient later joiner
-8093,1,transient later joiner
-8095,1,transient later joiner
-8096,1,transient later joiner
 8109,1,transient later joiner
 8110,1,transient later joiner
 8113,1,transient later joiner
@@ -15547,6 +15329,7 @@ developer_id,packages_touched,category
 16171,1,moderate founder
 16173,4,moderate founder
 16177,4,moderate founder
+18628,1,moderate founder
 17804,2,moderate founder
 17806,3,moderate founder
 17810,1,moderate founder

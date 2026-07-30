@@ -1,0 +1,29 @@
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[Shapiro-Wilk and Levene's variance tests for classes for  sample A category versus sample B category ]{A Shapiro-Wilk test of classes for  sample A category versus sample B category  sample normality and a Levene's variance test between samples}
+\resizebox{\textwidth}{!}{% 
+\begin{tabular}{l r p{4cm} c c c c r r r r l r}
+\toprule
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \multicolumn{4}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Percentage}\\\textbf{Difference}\\\textbf{in $\mu$}} & \multicolumn{2}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[t]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
+\cmidrule(lr){4-7} \cmidrule(lr){9-10}
+ &  &  & \textbf{A $\mu$} & \textbf{A number} & \textbf{B $\mu$} & \textbf{B number} &  & \makecell[t]{\textbf{A}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[t]{\textbf{B}\\\textbf{Normality}\\\textbf{$P$}} &  &  &  \\ 
+\midrule
+Classes & 1 & Transient vs. moderate &  1.15 & 15292 & 3.24 & 688 & 281.11 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Classes & 1 & Transient vs. sustained &  1.15 & 15292 & 5.19 & 237 & 450.89 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Classes & 1 & Transient vs. moderate \& sustained &  1.15 & 15292 & 3.74 & 925 & 324.61 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+Classes & 1 & Moderate vs. sustained &  3.24 & 688 & 5.19 & 237 & 160.39 & \textless 0.001 & \textless 0.001 & 0.1246 &  Mann-Whitney & 0.2623 \\ 
+Classes & 1 & Core vs. Non Core &  3.67 & 198 & 1.28 & 16019 & 34.99 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0001 \\ 
+Classes & 2 & Moderate vs. sustained &  8.47 & 688 & 9.88 & 237 & 116.65 & \textless 0.001 & \textless 0.001 & 0.3965 &  Mann-Whitney & 0.3370 \\ 
+Classes & 2 & Core vs. Non Core &  12.88 & 112 & 6.01 & 2976 & 46.64 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0105 \\ 
+Classes & 5 & Moderate vs. sustained &  23.99 & 688 & 30.92 & 237 & 128.88 & \textless 0.001 & \textless 0.001 & 0.0208 &  Brunner-Münzel & 0.6889 \\ 
+Classes & 5 & Core vs. Non Core &  30.73 & 107 & 22.98 & 1256 & 74.78 & \textless 0.001 & \textless 0.001 & 0.0219 &  Brunner-Münzel & 0.7285 \\ 
+Classes & 10 & Moderate vs. sustained &  43.15 & 621 & 50.94 & 237 & 118.05 & \textless 0.001 & \textless 0.001 & 0.0197 &  Brunner-Münzel & 0.6812 \\ 
+Classes & 10 & Core vs. Non Core &  54.99 & 104 & 43.96 & 754 & 79.95 & \textless 0.001 & \textless 0.001 & 0.0157 &  Brunner-Münzel & 0.9861 \\ 
+Classes & 20 & Core vs. Non Core &  104.21 & 58 & 79.55 & 179 & 76.34 & \textless 0.001 & \textless 0.001 & 0.5019 &  Mann-Whitney & 0.0014 \\ 
+\bottomrule
+\end{tabular}%
+} 
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_statistical_significance_test_normal_classes} 
+\end{table}
+\newpage 

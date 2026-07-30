@@ -45,7 +45,7 @@ def get_section_start(file_name, sub_type=""):
     return "\\" + sub_type + "section{" + file_name.split(".")[-1].replace("_", " ").title() + " - "
 
 
-def __add_graph_latex(file_path, caption, figure="subfigure", size=0.45, placement="b"):
+def __add_graph_latex(file_path, caption, figure="subfigure", size=0.45, placement="b", short_caption=None):
     global figure_counter
     label = "subfig:" + file_path.replace(".", "_")
     latex = "  \\begin{" + figure + "}["+ placement + "]"
@@ -56,13 +56,16 @@ def __add_graph_latex(file_path, caption, figure="subfigure", size=0.45, placeme
     if size > 0:
         latex += "[width=\\textwidth]"
     latex += "{" + file_path + "}\n"
-    latex += "    \\caption{" + caption.replace("_", " ") + "}\n"
+    latex += "    \\caption"
+    if short_caption is not None:
+        latex += "[" + short_caption + "]"
+    latex += "{" + caption.replace("_", " ") + "}\n"
     latex += "    \\label{" + label + "}\n"
     latex += "  \\end{" + figure + "}\n"
     return latex
 
-def latex_add_graph(file_path, caption):
-    return __add_graph_latex(file_path, caption, "figure", 0, "h!") + "\n "
+def latex_add_graph(file_path, caption, short_caption=None):
+    return __add_graph_latex(file_path, caption, "figure", 0, "h!", short_caption) + "\n "
 
 def latex_add_sub_graph(file_path, caption):
     global graph_number, figure_counter

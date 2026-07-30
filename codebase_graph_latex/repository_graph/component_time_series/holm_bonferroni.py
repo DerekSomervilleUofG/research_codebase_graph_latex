@@ -3,7 +3,7 @@ import numpy as np
 from itertools import combinations
 from scipy.stats import mannwhitneyu
 from statsmodels.stats.multitest import multipletests
-from codebase_graph_latex.repository_graph.component_time_series.generated_ART_anova import get_data_frame
+from codebase_graph_latex.repository_graph.component_time_series.ART_anova import get_data_frame
 from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.latex_table import *
@@ -12,7 +12,7 @@ FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 
 def section_heading(time_series):
-    latex = get_section_start(FILE_NAME, "") 
+    latex = get_section_start(FILE_NAME, "").replace(" ", "-") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
     latex += "A Pairwise Post-hoc Analysis with Holm-Bonferroni Correction table for all components touched on average. \n"
@@ -145,18 +145,23 @@ def generate_and_save(component, developers, number_of_commits):
         save_to_latex_file(not_sig_file_name, base_file_name + ".tex", "", DIRECTORY)
     
     if number_of_commits == START_COMMIT_NUMBER:
-        latex = start_latex_table("Significant " + table_name, headings, "l r r l l r r")
+        latex = start_latex_table("Significant " + table_name, headings, "l r r l l r r", "Significant Holm-Bonferroni Pairwise results for " + component)
         read_write_file.append_to_file(sig_file_name + ".tex", latex, DIRECTORY)
-        latex = start_latex_table("Not Significant " + table_name, headings, "l r r l l r r")
+        latex = start_latex_table("Not Significant one and two commits " + table_name, headings, "l r r l l r r", "Not Significant Holm-Bonferroni Pairwise one and two commits results" + component)
         read_write_file.append_to_file(not_sig_file_name + ".tex", latex, DIRECTORY)
         
     sig_latex_table, not_sig_latex_table = generate_holm_latex(df, component, number_of_commits)
     read_write_file.append_to_file(sig_file_name + ".tex", sig_latex_table, DIRECTORY)
     read_write_file.append_to_file(not_sig_file_name + ".tex", not_sig_latex_table, DIRECTORY)
     
+    if number_of_commits == 2:
+        read_write_file.append_to_file(not_sig_file_name + ".tex", table_end(FILE_NAME  + "_no_sig_one_and_two" + component), DIRECTORY)
+        latex = start_latex_table("Not Significant five and ten comits " + table_name, headings, "l r r l l r r", "Not Significant Holm-Bonferroni Pairwise five and ten commits results" + component)
+        read_write_file.append_to_file(not_sig_file_name + ".tex", latex, DIRECTORY)
+ 
     if number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(sig_file_name + ".tex", table_end(FILE_NAME + "_sig"), DIRECTORY)
-        read_write_file.append_to_file(not_sig_file_name + ".tex", table_end(FILE_NAME + "_no_sig"), DIRECTORY)
+        read_write_file.append_to_file(sig_file_name + ".tex", table_end(FILE_NAME + "_sig_" + component ), DIRECTORY)
+        read_write_file.append_to_file(not_sig_file_name + ".tex", table_end(FILE_NAME  + "_no_sig_five_and_ten" + component), DIRECTORY)
     
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(base_file_name + ".tex", generate_holm_formula_latex() + "\n\\newpage \n", DIRECTORY)

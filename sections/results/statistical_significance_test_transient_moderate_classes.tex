@@ -1,0 +1,29 @@
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[Statistical Significance tests for classesfor  sample A category versus sample B category ]{Statistical significance tests of  sample A category versus sample B category  touches of different granularities of classes after 1, 5 and 10  commits for contributors. The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. }
+\resizebox{\textwidth}{!}{% 
+\begin{tabular}{l r p{4cm} c c c c r r r r r r r r r r r r}
+\toprule
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributor}\\\textbf{Category}} & \multicolumn{4}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Percentage}\\\textbf{Difference}\\\textbf{in $\mu$}} & \multicolumn{2}{c}{\textbf{Welch}} & \textbf{MWU $P$} & \textbf{BM $P$} & \makecell[t]{\textbf{}\\\textbf{Brunner-Münzel}\\\textbf{$W$}} & \makecell[t]{\textbf{Cliff's}\\\textbf{$\delta$}} & \makecell[t]{\textbf{Prob. Sup.}\\\textbf{($PS$)}} \\ 
+\cmidrule(lr){4-7} \cmidrule(lr){9-10}
+ &  &  & \textbf{A $\mu$} & \textbf{A Number} & \textbf{B $\mu$} & \textbf{B Number} &  & \textbf{Statistic} & \textbf{$P$} &  &  &  &  &  \\ 
+\midrule
+Classes & 1 & Transient vs. moderate &  1.15 & 15292 & 3.24 & 688 & 281.11 & -6.43 & 0.0000 & 0.0000 & 0.0000 & 14.28 & -0.244 & 0.378 \\ 
+Classes & 1 & Transient vs. sustained &  1.15 & 15292 & 5.19 & 237 & 450.89 & -2.07 & 0.0398 & 0.0000 & 0.0000 & 7.54 & -0.209 & 0.395 \\ 
+Classes & 1 & Transient vs. moderate \& sustained &  1.15 & 15292 & 3.74 & 925 & 324.61 & -4.65 & 0.0000 & 0.0000 & 0.0000 & 16.12 & -0.235 & 0.382 \\ 
+Classes & 1 & Moderate vs. sustained &  3.24 & 688 & 5.19 & 237 & 160.39 & -0.99 & 0.3247 & 0.2623 & 0.2499 & -1.15 & 0.038 & 0.519 \\ 
+Classes & 1 & Core vs. Non Core &  3.67 & 198 & 1.28 & 16019 & 34.99 & 2.27 & 0.0242 & 0.0000 & 0.0001 & -3.99 & 0.100 & 0.550 \\ 
+Classes & 2 & Moderate vs. sustained &  8.47 & 688 & 9.88 & 237 & 116.65 & -0.56 & 0.5754 & 0.3370 & 0.3344 & -0.97 & 0.041 & 0.521 \\ 
+Classes & 2 & Core vs. Non Core &  12.88 & 112 & 6.01 & 2976 & 46.64 & 1.77 & 0.0802 & 0.0084 & 0.0105 & -2.60 & 0.142 & 0.571 \\ 
+Classes & 5 & Moderate vs. sustained &  23.99 & 688 & 30.92 & 237 & 128.88 & -1.54 & 0.1256 & 0.6877 & 0.6889 & -0.40 & 0.017 & 0.509 \\ 
+Classes & 5 & Core vs. Non Core &  30.73 & 107 & 22.98 & 1256 & 74.78 & 1.24 & 0.2161 & 0.7104 & 0.7285 & 0.35 & -0.022 & 0.489 \\ 
+Classes & 10 & Moderate vs. sustained &  43.15 & 621 & 50.94 & 237 & 118.05 & -1.53 & 0.1282 & 0.6770 & 0.6812 & -0.41 & 0.018 & 0.509 \\ 
+Classes & 10 & Core vs. Non Core &  54.99 & 104 & 43.96 & 754 & 79.95 & 1.38 & 0.1697 & 0.9853 & 0.9861 & -0.02 & 0.001 & 0.501 \\ 
+Classes & 20 & Core vs. Non Core &  104.21 & 58 & 79.55 & 179 & 76.34 & 1.94 & 0.0557 & 0.0014 & 0.0011 & -3.36 & 0.280 & 0.640 \\ 
+\bottomrule
+\end{tabular}%
+} 
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_statistical_significance_test_classes} 
+\end{table}
+\newpage 

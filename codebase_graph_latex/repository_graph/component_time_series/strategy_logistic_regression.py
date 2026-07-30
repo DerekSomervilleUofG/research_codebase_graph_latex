@@ -51,7 +51,7 @@ def write_hits(component, sus_hit, non_sus_hit, output_file="hits.csv"):
 
 
 
-def generate_logistic_regression_explanation():
+def generate_logistic_regression_explanation(label):
     percent_label = int(100 * P_THRESHOLD)
     
     # By using a variable for itemize, we can use standard f-string evaluation
@@ -66,8 +66,8 @@ To identify early indicators of long-term developer engagement, a Logistic Regre
     \item \textbf{{Std. Err (Standard Error):}} Measures the accuracy of the coefficient estimate. A lower standard error relative to the coefficient indicates a more precise estimate.
     \item \textbf{{p-Value ($P>|z|$):}} Indicates the statistical significance of the predictor. In this study, a p-Value $< 0.05$ suggests that the specific component count is a significant predictor of whether a developer will transition into a sustained role.
     \item \textbf{{{percent_label}\% Threshold:}} The threshold number of components to touch to achieve a {percent_label}\% empirical probability of transitioning into a sustained contributor.
-    \item \textbf{{Moderate Met Threshold:}} The moderate number of developers to have met the threshold, the percentage of developers in brackets.
-    \item \textbf{{Sustained Met Threshold:}} The sustained number of developers to have met the threshold, the percentage of developers in brackets.
+    \item \textbf{{Not {label} Met Threshold:}} The not {label} number of developers to have met the threshold, the percentage of developers in brackets.
+    \item \textbf{{{label} Met Threshold:}} The {label} number of developers to have met the threshold, the percentage of developers in brackets.
 \end{{{list_env}}}
 """
 
@@ -80,11 +80,11 @@ To identify early indicators of long-term developer engagement, a Logistic Regre
 """
     return latex
 
-def section_heading(time_series):
+def section_heading(time_series, label):
     latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + time_series + "} \n"
-    latex += generate_logistic_regression_explanation()
+    latex += generate_logistic_regression_explanation(label)
     return latex
 
 def generate_predictive_model_latex():
@@ -119,21 +119,27 @@ The predictive power is evaluated using the Area Under the Receiver Operating Ch
 """
     return latex
 
-def prepare_data(developers_dict):
+def prepare_data(developers_dict, sustained):
     rows = []
     # 1. Prepare the data: Binary classification (Sustained vs Not)
     for cat_name, dev_data in developers_dict.items():
         # Target: 1 if developer became Sustained, 0 otherwise
         is_sustained = 1 if "sustained" in cat_name.lower() else 0
+
         
         touched_data, developers = populate_touched_data_with_developers(dev_data, KNOWN_Y_AXIS)
 
         counter = 0
         for series in touched_data:
             # We use the final value in this commit window as the predictor
+            if sustained:
+                local_is_sustained = is_sustained
+            else:
+                local_is_sustained = dev_data[developers[counter]][-1]
+
             rows.append({
                 'developer_id': developers[counter],
-                'is_sustained': is_sustained,
+                'is_sustained': local_is_sustained,
                 'metric_value': series[-1]
             })
             counter += 1
@@ -161,9 +167,9 @@ def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_
         latex_rows += f"\\\\ \n"
     return latex_rows
 
-def generate_predictive_identification_latex(developers, component, number_of_commits):
+def generate_predictive_identification_latex(developers, component, number_of_commits, sustained):
     # Check if we have both classes (0 and 1) to run the model
-    df = pd.DataFrame(prepare_data(developers))
+    df = pd.DataFrame(prepare_data(developers, sustained))
     if df['is_sustained'].nunique() < 2:
         return f"% Skip {component}: Not enough diversity in classes for Logistic Regression."
         
@@ -187,7 +193,7 @@ def generate_predictive_identification_latex(developers, component, number_of_co
     # Calculate the threshold value where predicted probability crosses P_THRESHOLD
     logit_p = math.log(P_THRESHOLD / (1 - P_THRESHOLD))
     x30_threshold = (logit_p - intercept_val) / coeff_val if coeff_val != 0 else 0
-    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
+    if component == "packages" and number_of_commits == START_COMMIT_NUMBER and not sustained:
         seaborn_stripplot_generate_and_save(developers, x30_threshold)
     # Calculate Sustained metrics matching/exceeding threshold
     sustained_df = df[df['is_sustained'] == 1]
@@ -216,21 +222,28 @@ def generate_predictive_identification_latex(developers, component, number_of_co
     return generate_latex(component, summary, avg_non_sus, avg_sus, number_of_commits, 
                           x30_threshold, non_sus_hit, non_sus_pct, sus_hit, sus_pct, len(df))
 
-def generate_and_save(component, developers, number_of_commits):
+def generate_and_save(component, developers, number_of_commits, sustained=True):
     path = DIRECTORY
     file_name = FILE_NAME
-    commit_prefix = "all commits"
+    commit_prefix = "all commits "
+    label = "Sustained"
+    if not sustained:
+        label = "Core"
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_heading(commit_prefix)
-        
-        headings = ["Component", "Number of First Commits", "Model Parameter", "Number of Developers", "Not Sustained $\mu$", "Sustained $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", str(P_THRESHOLD * 100) + "\% Threshold", "Not Sustained Met Threshold", "Sustained Met Threshold"]
-        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits for developers", headings, "l r l r r r r r r r r r r")
-        save_to_latex_file(get_base_file_name(file_name), 
+        if sustained:
+            latex = section_heading(commit_prefix, label)
+        else:
+            latex = "" 
+        headings = ["Component", "Number of First Commits", "Model Parameter", "Number of Developers", "Not " + label + " $\mu$", label + " $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", str(P_THRESHOLD * 100) + "\% Threshold", "Not " + label + " Met Threshold", label + " Met Threshold"]
+        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits to predict " + label + " developers", headings, "l r l r r r r r r r r r r", "Strategy Logistic Regression " + label)
+        save_to_latex_file(get_base_file_name(file_name) + "_" + str(sustained), 
                            BASE_FILE_NAME,
                                latex, path)
 
-    latex_table = generate_predictive_identification_latex(developers, component, number_of_commits).replace("_", "\\_")
-    read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", latex_table, path)
+    latex_table = generate_predictive_identification_latex(developers, component, number_of_commits, sustained).replace("_", "\\_")
+    read_write_file.append_to_file(get_base_file_name(file_name) + "_" + str(sustained) + ".tex", latex_table, path)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(get_base_file_name(file_name) + ".tex", table_end(FILE_NAME) + generate_predictive_model_latex() + "\n \\newpage \n", path)
-    
+        read_write_file.append_to_file(get_base_file_name(file_name) + "_" + str(sustained) + ".tex", table_end(FILE_NAME + label + "_" + str(sustained)) + "\n \\newpage \n", path)
+    if component == "methods" and number_of_commits == END_COMMIT_NUMBER and not sustained:
+        read_write_file.append_to_file(get_base_file_name(file_name) + "_" + str(sustained) + ".tex", generate_predictive_model_latex() + "\n \\newpage \n", path)
+ 

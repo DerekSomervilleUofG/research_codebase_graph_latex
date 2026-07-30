@@ -15,20 +15,45 @@ from utility.DictUtility import DictUtility
 
 read_write_file = ReadWriteFile()
 repo_contribution = {}
-
+CORE_LIMIT = 0.80
 
 def create_repository_directory(repository_id, component):
     path = DIRECTORY + str(repository_id) + "/" + component + "/"
     read_write_file.create_directory(path)
 
+def mark_core_contributors(developers_dict, total_commits):
+    sorted_devs = sorted(
+        developers_dict.items(), 
+        key=lambda item: item[1][3][-1], 
+        reverse=True
+    )
+    
+    # 2. Calculate the 80% threshold target
+    threshold_target = total_commits * 0.80
+    running_commits = 0
+    
+    # 3. Iterate through the sorted developers and update the original dictionary rows
+    for name, row in sorted_devs:
+        latest_commits = row[3][-1]
+        
+        # If we haven't crossed the 80% cumulative threshold yet, they are a core contributor
+        if running_commits < threshold_target and latest_commits > 0:
+            developers_dict[name][-1] = 1  # Set last column to 1 (Core)
+            running_commits += latest_commits
+        else:
+            developers_dict[name][-1] = 0
+
 def get_developers(repository_id, component):
     global developer_total_commit, max_total_known
     founder_developers, developer_total_commit, max_total_known = get_data_from_database(repository_id, component, FOUNDER)
+    founder_total_commits = developer_total_commit
     sustained_founder_developers = filter_developers(founder_developers)
     transient_founder_developers = DictUtility.dict_remove_items(founder_developers, sustained_founder_developers)
     moderate_founder_developers = filter_developers_by_commits(transient_founder_developers, TRANSIENT_COMMITS)
     transient_founder_developers = DictUtility.dict_remove_items(transient_founder_developers, moderate_founder_developers)
     joiner_developers, developer_total_commit, max_total_known  = get_data_from_database(repository_id, component, JOINER)
+    mark_core_contributors(founder_developers, founder_total_commits + developer_total_commit )
+    mark_core_contributors(joiner_developers, founder_total_commits + developer_total_commit )
     sustained_joiner_developers = filter_developers(joiner_developers)
     transient_joiner_developers = DictUtility.dict_remove_items(joiner_developers, sustained_joiner_developers)
     moderate_joiner = filter_developers_by_commits(transient_joiner_developers, TRANSIENT_COMMITS)
@@ -78,7 +103,7 @@ def latex_repository():
         read_write_file.write_file(base_summary_file_name + suffix, "", DIRECTORY)
         generate_glossary(base_summary_file_name + suffix)
         read_write_file.write_file(base_file_name + suffix, "", DIRECTORY) 
-        read_write_file.write_file(appendix_file_name + suffix, "", DIRECTORY) 
+        read_write_file.write_file(appendix_file_name + suffix, "\\begin{appendices}\n\\chapter{Supplementary Statistical Results}\n", DIRECTORY) 
 
 def start_generate_repo_latex(control_populate):
     initialise_populate_table(control_populate)
@@ -87,6 +112,7 @@ def start_generate_repo_latex(control_populate):
 def finish_repo_latex():
     number_of_repositories = repository_summary_table_generate_and_save(repo_contribution)
     generate_final_graph_generate_and_save(number_of_repositories)
+    read_write_file.append_to_file("appendix_1.tex", "\\end{appendices}\n", DIRECTORY) 
 
 def get_repository(repository_id):
     repositories = []

@@ -91,16 +91,16 @@ def generate_component_summary_historgram_by_component(component, number_of_repo
                                     max_y_axis=get_max_y_axis(frequency, category, component),
                                     bins=get_bins(frequency, category, component),
                                     log_x=False)
-    latex += "\\caption{" + FIGURE_CAPTION.format(component=component, number_of_repositories=number_of_repositories, freq=frequency) 
+    latex += "\\caption[Hstogram of " + component + " Touched By Developer for " + frequency + "]{" + FIGURE_CAPTION.format(component=component, number_of_repositories=number_of_repositories, freq=frequency) 
     latex += "} \n"
-    latex += latex_end_graph(FILE_NAME)
+    latex += latex_end_graph(FILE_NAME + "_" + component + "_" + frequency)
 
     return latex
 
 def generate_component_summary_historgram(file_name, number_of_repositories, frequency):
     latex = get_section_start(FILE_NAME, "sub") + "For components touched " + frequency
     latex += "} \n"
-    latex += "\\label{subsec:" + FILE_NAME.replace(" ", "_") + "_daily} \n"
+    latex += "\\label{subsec:" + FILE_NAME.replace(" ", "_") + frequency + "} \n"
     for component in COMPONENTS:
         latex += generate_component_summary_historgram_by_component(component, number_of_repositories, frequency)
     save_to_latex_file(file_name + "_" + frequency, file_name + ".tex", latex, DIRECTORY)

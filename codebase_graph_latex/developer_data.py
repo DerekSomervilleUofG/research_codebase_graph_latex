@@ -65,7 +65,7 @@ def populate_remaining_periods(value, period_touched):
 
 def generate_data(commits, developers, developers_start, start_known, from_month = 0, to_month = NUMBER_OF_MONTHS):
     global max_commits, developer_total_commit, max_total_known
-    template = [[1],[],[],[1],[1],[],[1],[],[1],[], "" ]
+    template = [[1],[],[],[1],[1],[],[1],[],[1],[], "", 0 ]
     developer_id = 0
     period_touched = {NUMBER_OF_WEEKS:[], NUMBER_OF_MONTHS:[], TIME_SERIES_NUMBER_OF_COMMIT:[], str(NUMBER_OF_WEEKS) + PERIOD:0, str(NUMBER_OF_MONTHS) + PERIOD:0}
     previous_day = 1

@@ -16,7 +16,7 @@ FIGURE_CAPTION = "Scatter plots of the log total number of components touched (y
 def section_heading(file_name, sub_section="", title="", x_axis="commits"):
     latex =  get_section_start(file_name, sub_section) + title 
     latex += "} \n"
-    latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
+    latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + x_axis.replace(" ", "_") + "} \n"
     return latex    
 
 def get_developer_knowledge(developers):
@@ -105,11 +105,14 @@ def compare_developers(path, component,
     file_name = save_graph(path, component, file_name_suffix, log_switch=True, x_axis=x_axis)
     return file_name
 
-def save_graph(path, component, file_suffix="", log_switch=False, x_axis="Number of commits"):
+def save_graph(path, component, file_suffix="", log_switch=False, x_axis="Number of commits", y_axis_param="touched"):
     read_write_file.create_directory(path)
     plt.subplots_adjust(left=0.15)
     plt.xlabel(x_axis)
-    y_axis = component.capitalize() + " touched "
+    if component in y_axis_param:
+        y_axis = y_axis_param.capitalize()
+    else:
+        y_axis = component.capitalize() + " " + y_axis_param
     if log_switch:
         y_axis += "(log)"
     plt.ylabel(y_axis)
@@ -153,7 +156,7 @@ def generate_compare_for_component(path):
                                                         len(get_sustained_joiner_component(component).values())
                                                         ), 
                                                         GRAPH_CAPTION.format(component=component).capitalize())
-    latex += "\\caption{"
+    latex += "\\caption[Scatter plots of the log total number of components]{"
     founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained = get_total_sample_numbers(component)
     latex += FIGURE_CAPTION
     latex += get_figure_caption_numbers_suffix(FIGURE_CAPTION_NUMBERS, [founder_transient, founder_moderate, founder_sustained, joiner_transient, joiner_moderate, joiner_sustained]) 
@@ -210,5 +213,5 @@ def repository_generate_and_save(repository_id, component,
                                                         joiner_sustained_no])
         latex_repo += "\\end{minipage}"
         latex_repo += "} \n"
-        latex_repo += latex_end_graph(FILE_NAME)
+        latex_repo += latex_end_graph(FILE_NAME + "_" + str(repository_id))
     read_write_file.append_to_file(base_file_name, latex_repo, path)

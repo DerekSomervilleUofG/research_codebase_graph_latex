@@ -105,7 +105,7 @@ def generate_latex_heading(headings):
     
     return latex_output
 
-def start_latex_table(caption, headings, column_setup=""):
+def start_latex_table(caption, headings, column_setup="", short_caption=None):
     num_r_columns = len(headings)
     latex_column_setup = "" 
     if column_setup == "":
@@ -114,7 +114,10 @@ def start_latex_table(caption, headings, column_setup=""):
     section = "\\begin{table}[H]\n"
     section += "\\centering\n"
     section += "\\setlength{\\tabcolsep}{2pt}\n"
-    section += f"\\caption{{{caption}}}\n"
+    section += f"\\caption"
+    if short_caption is not None:
+        section += "[" + short_caption + "]"
+    section += f"{{{caption}}}\n"
     section += "\\resizebox{\\textwidth}{!}{% \n"
     section += f"\\begin{{tabular}}{{{latex_column_setup.strip()}}}\n"
     section += "\\toprule\n"

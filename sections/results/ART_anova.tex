@@ -1,0 +1,53 @@
+\section{ART Anova - For all components touched for all commits} 
+\label{sec:codebase_graph_latex.repository_graph.component_time_series.ART_anovaall commits} 
+An \textbf{Aligned Rank Transform (ART)} Anova table for all components touched on average. 
+The statistical significance of architectural exploration is evaluated using a dual-framework modeling methodology. A standard parametric ordinary least squares (\textbf{OLS}) ANOVA is presented alongside a robust non-parametric ANOVA. This side-by-side presentation explicitly demonstrates where extreme right-skew and outlier-induced variance in repository mining data mask true behavioral effects in traditional linear models, which the rank-transformed framework uncovers.
+
+\paragraph{Explanation of Combined Table Columns:}
+\begin{itemize}
+    \item \textbf{Component / Commits ($n$) / Devs ($N$):} Define the experimental scope, tracking the architectural tier (packages, classes, or methods), the longitudinal lifecycle snapshot threshold, and the active developer population size.
+    \item \textbf{Factor:} The independent categorical variables or interactions being tested for statistical significance.
+    
+    \item \textbf{OLS df:} Parametric numerator degrees of freedom based on factor grouping configurations.
+    \item \textbf{OLS F-Stat:} The traditional variance ratio metric calculated from raw values.
+    \item \textbf{OLS $P$-Value:} Parametric significance probability. Note how heteroscedastic noise frequently inflates these values toward non-significance ($p > 0.05$).
+    \item \textbf{OLS $\eta^2$ (Eta-Squared):} The total proportion of raw variance explained exclusively by this standalone factor.
+    
+    \item \textbf{ART df (Resid):} Formatted as $df_{\mathrm{effect}}~(df_{\mathrm{residual}})$. Because the ART methodology conducts independent alignment procedures for each factor before ranking, it assigns the exact denominator error degrees of freedom dynamically alongside its numerator.
+    \item \textbf{ART F-Stat:} The robust variance ratio calculated over the aligned, ranked data layers.
+    \item \textbf{ART $P$-Value:} Non-parametric significance probability, providing the authoritative test for heavy-tailed software metrics.
+    \item \textbf{ART Part. $\eta^2$ (Partial Eta-Squared):} The effect size over ranked data layers, indicating the proportion of variance explained by this specific factor after controlling for alternate main effects.
+\end{itemize}
+
+\paragraph{Explanation of Fixed Table Rows:}
+\begin{itemize}
+    \item \textbf{Role (F/LJ):} Isolates the \textit{Main Role Effect} to evaluate whether the timing of project entry (Founder vs. Later Joiner) significantly alters exploration breadth on its own.
+    \item \textbf{Category (T/M/S or M/S):} Isolates the \textit{Main Category Effect} to determine whether a contributor's eventual longevity footprint (Transient, Moderate, or Sustained) dictates early behavior.
+    \item \textbf{Interaction:} Evaluates the \textit{Interaction Effect} ($\mathrm{Role} \times \mathrm{Category}$). A significant interaction indicates that the impact of entry role is not uniform, but behaves completely differently depending on the eventual tenure category of the contributor.
+\end{itemize}
+\input{sections/results/ART_anova_transient}
+
+\subsubsection*{Statistical Model}
+The differences between developer categories are assessed using a Two-Way ANOVA 
+with interaction. The value for any individual developer metric ($Y_{ijk}$) 
+is modeled as:
+
+\begin{equation}
+    Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \epsilon_{ijk}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $\mu$ is the grand mean of the touched components.
+    \item $\alpha_i$ represents the effect of the \textbf{Role} (Founder vs. Later Joiner).
+    \item $\beta_j$ represents the effect of the \textbf{Tenure} (Transient, Moderate, Sustained).
+    \item $(\alpha\beta)_{ij}$ is the interaction effect between Role and Tenure.
+    \item $\epsilon_{ijk}$ is the residual error.
+\end{itemize}
+
+The $F$-statistic for each factor is calculated by:
+\begin{equation}
+    F = \frac{SS_{factor} / df_{factor}}{SS_{residual} / df_{residual}}
+\end{equation}
+
+\newpage 

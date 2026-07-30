@@ -1,0 +1,54 @@
+\section{Standard Anova - For all components touched for all commits} 
+\label{sec:codebase_graph_latex.repository_graph.component_time_series.standard_anovaall commits} 
+An Anova table for all components touched on average. 
+
+The Two-Way ANOVA evaluates the influence of two independent categorical variables—\textit{Role} (Founder vs. Late Joiner) and \textit{Tenure} (Moderate vs. Sustained)—on the number of unique architectural components touched. The analysis excludes and includes Transient developers to isolate the behaviors of contributors with established project engagement.
+
+\paragraph{Explanation of Table Columns:}
+\begin{itemize}
+    \item \textbf{Sum Sq (Sum of Squares):} Represents the total variation explained by that specific factor. A higher Sum Sq relative to the Residual indicates that the factor has a strong influence on the outcome.
+    \item \textbf{df (Degrees of Freedom):} The number of independent values that can vary in the calculation. For categorical variables, this is typically $N-1$ levels.
+    \item \textbf{F (F-statistic):} The ratio of the variance explained by the factor to the variance unexplained (Residual). A larger F-value suggests the factor is more likely to be significant.
+    \item \textbf{p-Value ($PR(>F)$):} The probability that the observed differences occurred by chance. Using a significance threshold of $\alpha = 0.05$, values above this indicate no statistically significant effect.
+    \item \textbf{ETA Sq} The effect size, quantifies the proportion of the total variance in your dependent variable. 
+\end{itemize}
+
+\paragraph{Explanation of Table Rows:}
+\begin{itemize}
+    \item \textbf{Intercept:} Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.
+    \item \textbf{Role(F/L):} Tests the \textit{Main Role Effect} of being a Founder versus a Late Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage component exploration.
+    \item \textbf{Category(M/S):} Tests the \textit{Main Category Effect} of the eventual contributor catregory (Transient vs Moderate vs. Sustained). 
+    \item \textbf{Interaction:} Tests the \textit{Interaction Effect}. It evaluates if the effect of being a Founder is different for the different categories. 
+    \item \textbf{Residual:} Represents the ``noise'' or variance within the groups that cannot be explained by Role or Tenure. 
+\end{itemize}
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[Standard Anova Results for packages]{Anova results for packages for number of commits and categories of developers}
+\resizebox{\textwidth}{!}{% 
+\begin{tabular}{l r r l r r r r r}
+\toprule
+\textbf{Component} & \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \textbf{Factor} & \makecell[t]{\textbf{Sum}\\\textbf{Squared}} & \textbf{df} & \textbf{F-Stat} & \textbf{$P$ Value} & \textbf{ETA Sq} \\ 
+\midrule
+packages & 1 & 16217 & Role (F/LJ) & 0.09 & 1 & 0.07 & 0.7976 & 0.0000 \\ 
+packages & 1 & 16217 & Category (T/M/S) & 79.08 & 2 & 30.11 & 0.0000 & 0.0037 \\ 
+packages & 1 & 16217 & Interaction & 1.82 & 2 & 0.69 & 0.5007 & 0.0001 \\ 
+packages & 1 & 16217 & Residual & 21288.02 & 16211 & - & -  \\ 
+packages & 2 & 3088 & Role (F/LJ) & 0.43 & 1 & 0.04 & 0.8354 & 0.0000 \\ 
+packages & 2 & 3088 & Category (M/S) & 12.35 & 2 & 0.62 & 0.5375 & 0.0004 \\ 
+packages & 2 & 3088 & Interaction & 4.91 & 2 & 0.25 & 0.7812 & 0.0002 \\ 
+packages & 2 & 3088 & Residual & 30641.08 & 3082 & - & -  \\ 
+packages & 5 & 1363 & Role (F/LJ) & 50.89 & 1 & 1.49 & 0.2227 & 0.0011 \\ 
+packages & 5 & 1363 & Category (M/S) & 6.99 & 2 & 0.10 & 0.9028 & 0.0001 \\ 
+packages & 5 & 1363 & Interaction & 1.37 & 2 & 0.02 & 0.9802 & 0.0000 \\ 
+packages & 5 & 1363 & Residual & 46399.69 & 1357 & - & -  \\ 
+packages & 10 & 858 & Role (F/LJ) & 145.95 & 1 & 2.65 & 0.1036 & 0.0029 \\ 
+packages & 10 & 858 & Category (M/S) & 25.13 & 1 & 0.46 & 0.4992 & 0.0005 \\ 
+packages & 10 & 858 & Interaction & 0.11 & 1 & 0.00 & 0.9649 & 0.0000 \\ 
+packages & 10 & 858 & Residual & 46952.80 & 854 & - & -  \\ 
+\bottomrule
+\end{tabular}%
+} 
+\label{tab:standard_anova_packages} 
+\end{table}
+\newpage 

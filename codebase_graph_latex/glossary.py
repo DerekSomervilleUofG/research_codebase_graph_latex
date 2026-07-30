@@ -10,8 +10,8 @@ def glossary_latex():
     latex += "\\begin{itemize} \n "
     latex += "\\item A " + FOUNDER + " developer starts in the first six months of a project. \n"
     latex += "\\item  A Later " + JOINER + " developers start after six months. \n"
-    latex += "\\item " + TRANSIENT.capitalize() + " developers have less than " + word_engine.number_to_words(TRANSIENT_COMMITS) + " (" + str(TRANSIENT_COMMITS) + ")"
-    latex += " commits. \n"
+    latex += "\\item " + TRANSIENT.capitalize() + " developers have " + word_engine.number_to_words(TRANSIENT_COMMITS) + " (" + str(TRANSIENT_COMMITS) + ")"
+    latex += " or less commits. \n"
     latex += "\\item " + MODERATE.capitalize() + " developers have more than " + word_engine.number_to_words(TRANSIENT_COMMITS) + " (" + str(TRANSIENT_COMMITS) + ")"
     latex += " commits but fewer than " + str(DEVELOPER_HAS_NUMNER_OF_COMMITS) 
     latex += " commits or commits for less than " + str(DEVELOPER_PERIOD) + " days. \n"

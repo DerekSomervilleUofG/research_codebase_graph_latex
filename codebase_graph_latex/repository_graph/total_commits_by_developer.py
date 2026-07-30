@@ -81,7 +81,7 @@ def generate_developer_commit(number_of_repositories):
     latex_graph += generate_developer_commit_latex(MODERATE_JOINER, moderate_joiner, BINS, max_x_axis=MAX_X_AXIS_MODERATE, max_y_axis=MAX_Y_AXIS_MODERATE)
     latex_graph += generate_developer_commit_latex(SUSTAINED_FOUNDER, sustained_founder, math.ceil(BINS * (max(sustained_founder)/max(sustained_joiner))), max_y_axis=MAX_Y_AXIS_SUSTAINED)
     latex_graph += generate_developer_commit_latex(SUSTAINED_JOINER, sustained_joiner, BINS, max_y_axis=MAX_Y_AXIS_SUSTAINED)
-    latex_graph += "\\caption{" + FIGURE_CAPTION.format(number__of_repositories=number_of_repositories) + "} \n"
+    latex_graph += "\\caption[Total Commits By Developer]{" + FIGURE_CAPTION.format(number__of_repositories=number_of_repositories) + "} \n"
     latex_graph += latex_end_graph(FILE_NAME)
     return latex_graph
 

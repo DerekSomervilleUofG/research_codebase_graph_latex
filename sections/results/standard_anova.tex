@@ -1,0 +1,28 @@
+\input{sections/results/standard_anova_packages}
+\input{sections/results/standard_anova_classes}
+\input{sections/results/standard_anova_methods}
+
+\subsubsection*{Statistical Model}
+The differences between developer categories are assessed using a Two-Way ANOVA 
+with interaction. The value for any individual developer metric ($Y_{ijk}$) 
+is modeled as:
+
+\begin{equation}
+    Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \epsilon_{ijk}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $\mu$ is the grand mean of the touched components.
+    \item $\alpha_i$ represents the effect of the \textbf{Role} (Founder vs. Late Joiner).
+    \item $\beta_j$ represents the effect of the \textbf{Tenure} (Transient, Moderate, Sustained).
+    \item $(\alpha\beta)_{ij}$ is the interaction effect between Role and Tenure.
+    \item $\epsilon_{ijk}$ is the residual error.
+\end{itemize}
+
+The $F$-statistic for each factor is calculated by:
+\begin{equation}
+    F = \frac{SS_{factor} / df_{factor}}{SS_{residual} / df_{residual}}
+\end{equation}
+
+\newpage 

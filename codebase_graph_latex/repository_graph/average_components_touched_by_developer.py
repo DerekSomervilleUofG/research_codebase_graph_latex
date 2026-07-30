@@ -44,7 +44,7 @@ def generate_average(number_of_repository):
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), daily_class_average, "classes", 0, "Daily", "", param_caption=GRAPH_CAPTION.format(period="Daily", component="classes"), max_x_axis=math.ceil(max(commit_class_average)), max_y_axis=MAX_Y_AXIS, bins=math.ceil(BINS*(max(daily_class_average)/max(commit_class_average))))
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), commit_method_average, "methods", 0, "Commit", "", param_caption=GRAPH_CAPTION.format(period="Commit", component="methods"), max_x_axis=math.ceil(max(commit_method_average)), max_y_axis=MAX_Y_AXIS)
     latex_repo += developer_graph(get_base_file_name(FILE_NAME), daily_method_average, "methods", 0, "Daily", "", param_caption=GRAPH_CAPTION.format(period="Daily", component="methods"), max_x_axis=max(commit_method_average), max_y_axis=MAX_Y_AXIS, bins=math.ceil(BINS*(max(daily_method_average)/max(commit_method_average))))
-    latex_repo += "    \\caption{" + FIGURE_CAPTION.format(num=len(commit_method_average), number_of_repository_word=word_engine.number_to_words(number_of_repository), number_of_repository=number_of_repository) +"} \n"
+    latex_repo += "    \\caption[Average Components Topuched By Developer]{" + FIGURE_CAPTION.format(num=len(commit_method_average), number_of_repository_word=word_engine.number_to_words(number_of_repository), number_of_repository=number_of_repository) +"} \n"
     latex_repo += latex_end_graph(FILE_NAME)
     read_write_file.write_file(get_file_name(FILE_NAME), latex_repo, DIRECTORY)
 

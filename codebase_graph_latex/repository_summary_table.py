@@ -13,38 +13,31 @@ BASE_FILE_NAME = "repository_summary_1.tex"
 read_write_file = ReadWriteFile()
 
 
-def section_heading(number_of_repository):
+def section_heading():
     section = "\\section{Repository Summary Table} \n"
     section += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
-    section += "\\begin{table}\n"
-    
-    section += "\\centering\n"
-    section += "\\caption{Summary of " + word_engine.number_to_words(number_of_repository) + " open-source repositories identified from GitHub "
-    section +=  SUSTAINED_JOINER_DESC
-    section += "Five developers each worked on two repositories. "
-    section += " } \n"
     return section
 
-def summary_table_start():
-    table = "\\resizebox{\\textwidth}{!}{% \n"
-    table += "\\begin{tabular}{rlrrrrrrrrl}\n"
-    table += "\\toprule\n"
-    table += "\\textbf{ID} & \\textbf{Repo Name} "
-    table += " & \\makecell{\\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
-    table += " & \\makecell{\\textbf{" + MODERATE.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
-    table += " & \\makecell{\\textbf{" + SUSTAINED.capitalize() + "} \\\\ \\textbf{" + FOUNDER.capitalize() + "} } " 
-    table += " & \\makecell{\\textbf{" + TRANSIENT.capitalize() + "} \\\\ \\textbf{Later " + JOINER.capitalize() + "} } " 
-    table += " & \\makecell{\\textbf{" + MODERATE.capitalize() + "} \\\\ \\textbf{Later " + JOINER.capitalize() + "} } " 
-    table += " & \\makecell{\\textbf{" + SUSTAINED.capitalize() + "} \\\\ \\textbf{Later " + JOINER.capitalize() + "} } " 
-    table += " & \\textbf{Commit} & \\textbf{Start} & \\textbf{End} \\\\ \n"
-    table += "\\midrule\n"
-    return table
+def summary_table_start(number_of_repository):
+    table_name = "Summary of " + word_engine.number_to_words(number_of_repository) + " open-source repositories identified from GitHub "
+    table_name +=  SUSTAINED_JOINER_DESC
+    table_name += "Five developers each worked on two repositories. "
+    headings = ["ID", "Repo Name", 
+                TRANSIENT.capitalize() + " " + FOUNDER.capitalize(),
+                MODERATE.capitalize() + " " + FOUNDER.capitalize(),
+                SUSTAINED.capitalize() + " " + FOUNDER.capitalize(),
+                TRANSIENT.capitalize() + " Later " + JOINER.capitalize(),
+                MODERATE.capitalize() + " Later " + JOINER.capitalize(),
+                SUSTAINED.capitalize() + " Later " + JOINER.capitalize(),
+                "Commit", "Start", "End"]
+    return start_latex_table(table_name, headings, "rlrrrrrrrrl", "Summary of OOS GitHub Repositories")
         
 def summary_table_end():
     table = "\\bottomrule\n"
     table += "\\end{tabular}\n"
     table += "}\n"
     table += "\\end{table} \n"
+    table += "\\label{" + FILE_NAME + "}\n"
     table += "\\newpage \n"
     return table
 
@@ -96,8 +89,9 @@ def create_repository_summary_page(repositories, repo_contribution):
     return latex_table, number_of_repository
 
 def generate_and_save(repo_contribution):
-    latex_table, number_of_repository = create_repository_summary_page(get_all_data(query()), repo_contribution)
-    latex_table = section_heading(number_of_repository) + summary_table_start() + latex_table
+    repositories = get_all_data(query())
+    latex_table, number_of_repository = create_repository_summary_page(repositories, repo_contribution)
+    latex_table = section_heading() + summary_table_start(number_of_repository) + latex_table
     latex_table += table_end(FILE_NAME)
     save_to_latex_file(get_base_file_name(FILE_NAME), BASE_FILE_NAME, latex_table, DIRECTORY)
     return number_of_repository
