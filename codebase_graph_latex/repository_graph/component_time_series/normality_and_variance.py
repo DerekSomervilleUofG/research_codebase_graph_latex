@@ -15,7 +15,6 @@ def section_sub_heading(time_series):
     latex += "Columns below:  \n"
 
     latex += r"""\begin{itemize}
-                    \item{\textbf{Component} - Packages, classes or methods touched.}
                     \item{\textbf{First *n* commits} - A sample of the first x number of commits for developers. }
                     \item{\textbf{Contributor Category} Transient, Moderate or Sustained. "vs." equals versus.}
                     \item{\textbf{Sample A $\mu$} - The mean average of the first sample A. }
@@ -60,14 +59,14 @@ def get_table_name(component, category_compare):
     return "A Shapiro-Wilk test of " + component + " for " + category_compare + " sample normality and a Levene's variance test between samples"
 
 def get_headings(sample_a, sample_b):
-    headings = ["Component", "First $n$ commits", "Contributory Category", sample_a + r" $\mu$", sample_a + r" number", sample_b + r" $\mu$", sample_b + r" number", r"Percentage Difference in $\mu$", sample_a + " Normality $P$", sample_b + " Normality $P$", "Variance Equality $P$", "Statistical Models", "Model $P$"]
+    headings = ["First $n$ commits", "Contributory Category", sample_a + r" $\mu$", sample_a + r" number", sample_b + r" $\mu$", sample_b + r" number", sample_a + " Normality $P$", sample_b + " Normality $P$", "Variance Equality $P$", "Statistical Models", "Model $P$"]
     return headings
 
 def get_latex_heading():
-    return "l r p{4cm} c c c c r r r r l r "
+    return "r p{4cm} c c c c r r r l r "
 
 def get_table_latex(component, category_compare, sample_a, sample_b):
-    return start_latex_table(get_table_name(component, category_compare), get_headings(sample_a, sample_b), get_latex_heading(), "Shapiro-Wilk and Levene's variance tests for " + component + " for " + category_compare)
+    return start_landscape() + start_latex_table(get_table_name(component, category_compare), get_headings(sample_a, sample_b), get_latex_heading(), "Shapiro-Wilk and Levene's variance tests for " + component + " for " + category_compare)
 
 def format_p(val):
         if val < 0.001:

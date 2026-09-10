@@ -1,0 +1,25 @@
+\begin{landscape}
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[Strategy Logistic Regression Sustained]{Strategy Logistic Regression for classes against number of commits to predict Sustained developers}
+\begin{tabular}{r l r r r r r r r r r}
+\toprule
+\makecell[t]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \makecell[t]{\textbf{Model}\\\textbf{Parameter}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \makecell[t]{\textbf{Not}\\\textbf{Sustained}\\\textbf{$\mu$}} & \makecell[t]{\textbf{Sustained}\\\textbf{$\mu$}} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[t]{\textbf{30.0\%}\\\textbf{Threshold}} & \makecell[t]{\textbf{Not}\\\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[t]{\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} \\ 
+\midrule
+1 & Intercept & 16074 & 1.24 & 5.18 & 0.0135 & 0.0686 & 0.0000 & - & - & - \\ 
+1 & Classes Count & 16074 & 1.24 & 5.18 & 1.0393 & 0.0071 & 0.0000 & \textbf{89.6231} & 5 (0.03\%) & 2 (0.87\%) \\ 
+2 & Intercept & 3054 & 2.34 & 5.18 & 0.0781 & 0.0712 & 0.0000 & - & - & - \\ 
+2 & Classes Count & 3054 & 2.34 & 5.18 & 1.0139 & 0.0058 & 0.0177 & \textbf{123.3830} & 1 (0.04\%) & 2 (0.87\%) \\ 
+5 & Intercept & 1342 & 2.73 & 5.18 & 0.2002 & 0.0750 & 0.0000 & - & - & - \\ 
+5 & Classes Count & 1342 & 2.73 & 5.18 & 1.0094 & 0.0055 & 0.0903 & \textbf{81.1038} & 4 (0.36\%) & 2 (0.87\%) \\ 
+10 & Intercept & 842 & 3.26 & 5.18 & 0.3677 & 0.0794 & 0.0000 & - & - & - \\ 
+10 & Classes Count & 842 & 3.26 & 5.18 & 1.0055 & 0.0045 & 0.2239 & \textbf{27.7465} & 10 (1.63\%) & 4 (1.74\%) \\ 
+% Skip classes: Not enough diversity in classes for Logistic Regression.\bottomrule
+\end{tabular}%
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_strategy_logistic_regressionSustained_True_classes} 
+\end{table}
+\end{landscape}
+\newpage 
+
+ \newpage 

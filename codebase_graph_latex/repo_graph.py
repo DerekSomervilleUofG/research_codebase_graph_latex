@@ -103,7 +103,7 @@ def latex_repository():
         read_write_file.write_file(base_summary_file_name + suffix, "", DIRECTORY)
         generate_glossary(base_summary_file_name + suffix)
         read_write_file.write_file(base_file_name + suffix, "", DIRECTORY) 
-        read_write_file.write_file(appendix_file_name + suffix, "\\begin{appendices}\n\\chapter{Supplementary Statistical Results}\n", DIRECTORY) 
+        read_write_file.write_file(appendix_file_name + suffix, "\\begin{appendices}\n%%\\chapter{Supplementary Statistical Results}\n", DIRECTORY) 
 
 def start_generate_repo_latex(control_populate):
     initialise_populate_table(control_populate)

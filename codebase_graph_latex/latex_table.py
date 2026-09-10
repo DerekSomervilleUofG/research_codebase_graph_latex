@@ -1,5 +1,8 @@
 COLUMN_MAX_WIDTH = 10
 
+def start_landscape():
+    return "\\begin{landscape}\n"
+
 def format_cell_text(text, vertical_align="t"):
         if len(text) <= COLUMN_MAX_WIDTH:
             return r"\textbf{" + text + "}"
@@ -105,32 +108,35 @@ def generate_latex_heading(headings):
     
     return latex_output
 
-def start_latex_table(caption, headings, column_setup="", short_caption=None):
+def start_latex_table(caption, headings, column_setup="", short_caption=None, rotate=False):
     num_r_columns = len(headings)
     latex_column_setup = "" 
     if column_setup == "":
         column_setup = "r " * num_r_columns
     latex_column_setup += column_setup
-    section = "\\begin{table}[H]\n"
+    section = ""
+    if rotate:
+        section += "\\begin{sidewaystable}\n"
+    section += "\\begin{table}[H]\n"
     section += "\\centering\n"
     section += "\\setlength{\\tabcolsep}{2pt}\n"
     section += f"\\caption"
     if short_caption is not None:
         section += "[" + short_caption + "]"
     section += f"{{{caption}}}\n"
-    section += "\\resizebox{\\textwidth}{!}{% \n"
     section += f"\\begin{{tabular}}{{{latex_column_setup.strip()}}}\n"
     section += "\\toprule\n"
     section += generate_latex_heading(headings)
     section += "\\midrule\n"
     return section
 
-def table_end(file_path):
+def table_end(file_path, rotate=False):
     table = "\\bottomrule\n"
     table += "\\end{tabular}%\n"
-    table += "} \n"
     table += "\\label{tab:" + file_path.replace(".", "_")
     table += "} \n"
-    table += "\\end{table}\n"    
+    table += "\\end{table}\n"   
+    if rotate:
+        table += "\\end{landscape}\n" 
     table += "\\newpage \n"
     return table

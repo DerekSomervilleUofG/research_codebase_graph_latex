@@ -11,29 +11,27 @@ To evaluate the operational strategies employed by developers when entering a co
 This ratio serves as a quantitative proxy for codebase exploration tactics during a contributor's initial commits. We categorize exploration strategies using empirical threshold boundaries:
 
 \begin{itemize}
-    \item \textbf{Breadth-First Strategy ($\text{Ratio}_{m/p} < 25$):} Indicates a structural approach where edits are distributed across package boundaries without heavy localized method churn.
-    \item \textbf{Moderate Exploration ($25 \le \text{Ratio}_{m/p} \le 100$):} Represents a balanced mix of architectural traversal and module-level implementation.
-    \item \textbf{Depth-First Strategy ($\text{Ratio}_{m/p} > 100$):} Signifies a highly localized strategy where engineering effort is concentrated deep within a narrow set of architectural packages.
+    \item \textbf{Breadth-First Strategy ($\text{Ratio}_{m/p} < 10$):} Indicates a structural approach where edits are distributed across package boundaries without heavy localized method churn.
+    \item \textbf{Moderate Exploration ($25 \le \text{Ratio}_{m/p} \le 25$):} Represents a balanced mix of architectural traversal and module-level implementation.
+    \item \textbf{Depth-First Strategy ($\text{Ratio}_{m/p} > 25$):} Signifies a highly localized strategy where engineering effort is concentrated deep within a narrow set of architectural packages.
 \end{itemize}
 
 To test whether sustained developers systematically adopt a predominant strategy or bifurcate into distinct archetypes, we execute Hartigan's Dip Test for multimodality alongside two-sample non-parametric tests (Mann-Whitney U and Brunner--Münzel).
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Ratio Strategy Table]{Method-to-Package Exploration Strategy Distribution and Multimodality Test}
-\resizebox{\textwidth}{!}{% 
-\begin{tabular}{c r r r r r r r}
+\caption[Ratio Strategy Table]{Method-to-Package Exploration Strategy Distribution and Multimodality Test for 203 sustained later joiner}
+\begin{tabular}{c r r r r r r}
 \toprule
-\textbf{Commits} & \makecell[t]{\textbf{Sustained}\\\textbf{Devs}} & \makecell[t]{\textbf{Median}\\\textbf{$Ratio_{m/p}$}} & \makecell[t]{\textbf{}\\\textbf{Breadth-First}\\\textbf{($<25$)}} & \makecell[t]{\textbf{}\\\textbf{Depth-First}\\\textbf{($>100$)}} & \makecell[t]{\textbf{Dip Stat}\\\textbf{($p$-val)}} & \makecell[t]{\textbf{MWU}\\\textbf{$p$-val}} & \makecell[t]{\textbf{Binomial}\\\textbf{$p$-val}} \\ 
+\textbf{Commits} & \makecell[t]{\textbf{Median}\\\textbf{$Ratio_{m/p}$}} & \makecell[t]{\textbf{}\\\textbf{Breadth-First}\\\textbf{($<10.0$)}} & \makecell[t]{\textbf{}\\\textbf{Depth-First}\\\textbf{($>25.0$)}} & \makecell[t]{\textbf{Dip Stat}\\\textbf{($p$-val)}} & \makecell[t]{\textbf{MWU}\\\textbf{$p$-val}} & \makecell[t]{\textbf{Binomial}\\\textbf{$p$-val}} \\ 
 \midrule
-1 & 237 & 1.00 & 232 (97.9\%) & 2 (0.8\%) & 0.8850 (0.0450) & 0.0214 & 0.0000 \\ 
-2 & 237 & 2.17 & 217 (91.6\%) & 6 (2.5\%) & 0.5951 (0.0450) & 0.0805 & 0.0000 \\ 
-5 & 237 & 8.00 & 186 (78.5\%) & 12 (5.1\%) & 0.4874 (0.0450) & 0.0566 & 0.0000 \\ 
-10 & 237 & 15.00 & 164 (69.2\%) & 24 (10.1\%) & 0.4802 (0.0450) & 0.0078 & 0.0000 \\ 
-20 & 237 & 20.60 & 134 (56.5\%) & 28 (11.8\%) & 0.3311 (0.0450) & nan & 0.0000 \\ 
+1 & 1.00 & 53 (23.0\%) & 3 (1.3\%) & 0.9140 (0.0450) & 0.0184 & 0.0000 \\ 
+2 & 2.08 & 61 (26.5\%) & 15 (6.5\%) & 0.6069 (0.0450) & 0.1125 & 0.0000 \\ 
+5 & 8.00 & 78 (33.9\%) & 38 (16.5\%) & 0.4955 (0.0450) & 0.0353 & 0.0003 \\ 
+10 & 15.00 & 45 (19.6\%) & 51 (22.2\%) & 0.4830 (0.0450) & 0.0045 & 0.6101 \\ 
+20 & 20.69 & 36 (15.7\%) & 47 (20.4\%) & 0.3394 (0.0450) & nan & 0.2723 \\ 
 \bottomrule
 \end{tabular}%
-} 
 \label{tab:codebase_graph_latex_repository_graph_component_time_series_breadth_or_depth} 
 \end{table}
 \newpage 

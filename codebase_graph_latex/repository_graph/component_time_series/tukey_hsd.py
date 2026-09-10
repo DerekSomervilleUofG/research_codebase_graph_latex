@@ -88,7 +88,7 @@ def generate_tukey_latex(df, component, number_of_commits):
         group2 = str(row['group2']).replace("_", "\\_")
         
         # Formatting for your LaTeX table structure
-        latex =  f"{component} & {number_of_commits} & {number_of_developers} & "
+        latex =  f"{number_of_commits} & {number_of_developers} & "
         latex += f"{group1} & {group2} & "
         latex += f"{row['meandiff']:.2f} & {p_val:.4f} \\\\ \n"
         if row['reject']:
@@ -105,7 +105,7 @@ def generate_and_save(component, developers, number_of_commits):
     df = get_data_frame(developers,   TIME_SERIES_NUMBER_OF_COMMIT)
     table_name = "Tukey HSD results for " + component + " and number of commits"
     commit_prefix = "all commits"
-    headings = ["Component", "Commits", "Number of Developers", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
+    headings = ["Commits", "Number of Developers", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
     
     if component == "classes" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_heading(commit_prefix).replace("Hsd", "HSD")
@@ -113,9 +113,9 @@ def generate_and_save(component, developers, number_of_commits):
         save_to_latex_file(sig_file_name, base_file_name + ".tex", latex, DIRECTORY)
         save_to_latex_file(not_sig_file_name, base_file_name + ".tex", "", DIRECTORY)
     if number_of_commits == START_COMMIT_NUMBER:
-        latex = start_latex_table("Significant " + table_name, headings, "l r r l l r r", "Significant Tukey HSD Results for " + component)
+        latex = start_latex_table("Significant " + table_name, headings, "r r l l r r", "Significant Tukey HSD Results for " + component)
         read_write_file.append_to_file(sig_file_name + ".tex", latex, DIRECTORY)
-        latex = start_latex_table("Not Significant " + table_name, headings, "l r r l l r r", "Not Significant Tukey HSD Results for " + component)
+        latex = start_latex_table("Not Significant " + table_name, headings, "r r l l r r", "Not Significant Tukey HSD Results for " + component)
         read_write_file.append_to_file(not_sig_file_name + ".tex", latex, DIRECTORY)
     sig_latex_table, not_sig_latex_table = generate_tukey_latex(df, component, number_of_commits)
     read_write_file.append_to_file(sig_file_name + ".tex", sig_latex_table, DIRECTORY)

@@ -1,0 +1,52 @@
+\begin{landscape}
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[Strategy Logistic Regression Core]{Strategy Logistic Regression for methods against number of commits to predict Core developers}
+\begin{tabular}{r l r r r r r r r r r}
+\toprule
+\makecell[t]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \makecell[t]{\textbf{Model}\\\textbf{Parameter}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \makecell[t]{\textbf{Not Core}\\\textbf{$\mu$}} & \textbf{Core $\mu$} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[t]{\textbf{30.0\%}\\\textbf{Threshold}} & \makecell[t]{\textbf{Not Core}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[t]{\textbf{Core Met}\\\textbf{Threshold}} \\ 
+\midrule
+1 & Intercept & 16074 & 1.98 & 10.32 & 0.0113 & 0.0749 & 0.0000 & - & - & - \\ 
+1 & Methods Count & 16074 & 1.98 & 10.32 & 1.0013 & 0.0006 & 0.0322 & \textbf{2807.8037} & 1 (0.01\%) & 0 (0.00\%) \\ 
+1 & Intercept & 16074 & 1.15 & 3.61 & 0.0110 & 0.0759 & 0.0000 & - & - & - \\ 
+1 & Methods : packages Count & 16074 & 1.15 & 3.61 & 1.0222 & 0.0064 & 0.0005 & \textbf{166.6467} & 1 (0.01\%) & 1 (0.55\%) \\ 
+1 & Intercept & 16074 & 1.94 & 1.86 & 0.0302 & 0.1885 & 0.0000 & - & - & - \\ 
+1 & Breadth First & 16074 & 1.94 & 1.86 & 1.0000 & nan & nan & - & - & - \\ 
+1 & Depth First & 16074 & 1.94 & 1.86 & 5.2323 & 0.6492 & 0.0108 & - & - & - \\ 
+2 & Intercept & 3054 & 6.31 & 17.07 & 0.0353 & 0.0997 & 0.0000 & - & - & - \\ 
+2 & Methods Count & 3054 & 6.31 & 17.07 & 1.0008 & 0.0006 & 0.1940 & \textbf{3070.3714} & 1 (0.03\%) & 0 (0.00\%) \\ 
+2 & Intercept & 3054 & 1.78 & 4.24 & 0.0342 & 0.1015 & 0.0000 & - & - & - \\ 
+2 & Methods : packages Count & 3054 & 1.78 & 4.24 & 1.0154 & 0.0059 & 0.0100 & \textbf{165.0072} & 1 (0.03\%) & 1 (0.95\%) \\ 
+2 & Intercept & 3054 & 1.77 & 1.66 & 0.0549 & 0.1645 & 0.0000 & - & - & - \\ 
+2 & Breadth First & 3054 & 1.77 & 1.66 & 1.0000 & nan & nan & - & - & - \\ 
+2 & Depth First & 3054 & 1.77 & 1.66 & 2.8745 & 0.6427 & 0.1004 & - & - & - \\ 
+5 & Intercept & 1342 & 8.73 & 17.05 & 0.0818 & 0.1035 & 0.0000 & - & - & - \\ 
+5 & Methods Count & 1342 & 8.73 & 17.05 & 1.0005 & 0.0006 & 0.4395 & \textbf{3301.3251} & 0 (0.00\%) & 0 (0.00\%) \\ 
+5 & Intercept & 1342 & 1.32 & 3.35 & 0.0787 & 0.1057 & 0.0000 & - & - & - \\ 
+5 & Methods : packages Count & 1342 & 1.32 & 3.35 & 1.0225 & 0.0096 & 0.0198 & \textbf{76.0953} & 1 (0.08\%) & 1 (0.98\%) \\ 
+5 & Intercept & 1342 & 1.51 & 1.49 & 0.0906 & 0.1408 & 0.0000 & - & - & - \\ 
+5 & Breadth First & 1342 & 1.51 & 1.49 & 1.0000 & nan & nan & - & - & - \\ 
+5 & Depth First & 1342 & 1.51 & 1.49 & 6.6218 & 0.7437 & 0.0110 & - & - & - \\ 
+10 & Intercept & 842 & 11.75 & 16.96 & 0.1327 & 0.1075 & 0.0000 & - & - & - \\ 
+10 & Methods Count & 842 & 11.75 & 16.96 & 1.0003 & 0.0007 & 0.6912 & \textbf{4306.9858} & 0 (0.00\%) & 0 (0.00\%) \\ 
+10 & Intercept & 842 & 1.12 & 2.19 & 0.1289 & 0.1098 & 0.0000 & - & - & - \\ 
+10 & Methods : packages Count & 842 & 1.12 & 2.19 & 1.0219 & 0.0136 & 0.1099 & \textbf{55.4311} & 1 (0.13\%) & 1 (1.01\%) \\ 
+10 & Intercept & 842 & 1.53 & 1.59 & 0.1193 & 0.1632 & 0.0000 & - & - & - \\ 
+10 & Breadth First & 842 & 1.53 & 1.59 & 1.0000 & nan & nan & - & - & - \\ 
+10 & Depth First & 842 & 1.53 & 1.59 & 4.1905 & 1.2356 & 0.2462 & - & - & - \\ 
+20 & Intercept & 230 & 23.05 & 18.77 & 0.3225 & 0.1544 & 0.0000 & - & - & - \\ 
+20 & Methods Count & 230 & 23.05 & 18.77 & 0.9999 & 0.0008 & 0.8998 & \textbf{-2978.2890} & 174 (100.00\%) & 56 (100.00\%) \\ 
+20 & Intercept & 230 & 1.08 & 2.09 & 0.3160 & 0.1560 & 0.0000 & - & - & - \\ 
+20 & Methods : packages Count & 230 & 1.08 & 2.09 & 1.0123 & 0.0162 & 0.4520 & \textbf{25.0150} & 1 (0.57\%) & 2 (3.57\%) \\ 
+20 & Intercept & 230 & 1.70 & 1.57 & 0.4717 & 0.2426 & 0.0020 & - & - & - \\ 
+20 & Breadth First & 230 & 1.70 & 1.57 & 1.0000 & nan & nan & - & - & - \\ 
+20 & Depth First & 230 & 1.70 & 1.57 & 2124278995.8842 & 31654.6738 & 0.9995 & - & - & - \\ 
+\bottomrule
+\end{tabular}%
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_strategy_logistic_regressionCore_False_methods} 
+\end{table}
+\end{landscape}
+\newpage 
+
+ \newpage 

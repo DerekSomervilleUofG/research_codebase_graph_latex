@@ -326,10 +326,9 @@ def generate_simple_comparison_latex(sample_a_values, sample_b_values, component
     # Build a simple DataFrame for the LaTeX table
     a_number = str(len(sample_a_values))
     b_number = str(len(sample_b_values))
-    component_clean = component.replace("_", "-").capitalize() 
-    latex =  f"{component_clean} & {number_of_commits} & "
+    latex =  f"{number_of_commits} & "
     latex +=  f"{a_category} & "
-    latex += f" {mean_a:.2f} & {a_number} & {mean_b:.2f} & {b_number} & {mean_diff:.2f} & "
+    latex += f" {mean_a:.2f} & {a_number} & {mean_b:.2f} & {b_number} & "
     generate_normal_comparison_latex(latex, sample_a_values, sample_b_values, normal_file_name, u_p, bm_p)
     latex += f"{t_stat:.2f} & {t_p:.4f} & "
     latex += f"{u_p:.4f} & "
@@ -344,8 +343,8 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
     category_compare = ""
     sample_a_values, sample_b_values, a_category = filter_data(developers, sample_a_b, number_of_commits, number_of_commits)
     if sample_a_b[0] == MODERATE and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(previous_file_name + ".tex", table_end(FILE_NAME + "_" + component +"_previous"), path)
-        read_write_file.append_to_file(previous_normal_file_name + ".tex", table_end(FILE_NAME + "_" + component + "normal_previous"), path)
+        read_write_file.append_to_file(previous_file_name + ".tex", table_end(FILE_NAME + "_" + component +"_previous", True), path)
+        read_write_file.append_to_file(previous_normal_file_name + ".tex", table_end(FILE_NAME + "_" + component + "normal_previous", True), path)
     if FOUNDER in file_name:
         category_compare = "different categories of " + FOUNDER + " versus different categories of late " + JOINER + " "
         sample_a = sample_a_b[0].capitalize()
@@ -369,11 +368,12 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
             a_category = sample_a_b[0].capitalize() + r" vs. " + sample_a_b[1][0] + r" \& " + sample_a_b[1][1]
     
     if (sample_a_b[0] in [FOUNDER] or sample_a_b[1] in [MODERATE]) and number_of_commits == START_COMMIT_NUMBER:
-        headings = ["Component", "First $n$ commits", "Contributor Category", sample_a + r" $\mu$", sample_a + r" Number", sample_b + r" $\mu$", sample_b + r" Number", r"Percentage Difference in $\mu$", "Welch Statistic", "Welch $P$", "MWU $P$", "BM $P$", "Brunner-Münzel $W$", "Cliff's $\\delta$", "Prob. Sup. ($PS$)" ]
+        headings = ["First $n$ commits", "Contributor Category", sample_a + r" $\mu$", sample_a + r" Number", sample_b + r" $\mu$", sample_b + r" Number", "Welch Statistic", "Welch $P$", "MWU $P$", "BM $P$", "Brunner-Münzel $W$", "Cliff's $\\delta$", "Prob. Sup. ($PS$)" ]
         table_name = "Statistical significance tests of " + category_compare
         table_name += " touches of different granularities of " + component + " after " + number_of_commit_desc + " commits for contributors. "
         table_name += "The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. "    
-        latex = start_latex_table(table_name , headings, "l r p{4cm} c c c c r r r r r r r r r r r r", "Statistical Significance tests for " + component + "for " + category_compare)
+        latex = start_landscape()
+        latex += start_latex_table(table_name , headings, "r p{4cm} c c c c r r r r r r r r r r r r", "Statistical Significance tests for " + component + "for " + category_compare)
         read_write_file.append_to_file(file_name + ".tex", latex, path)
         latex = get_table_latex(component, category_compare, sample_a, sample_b)
         read_write_file.append_to_file(normal_file_name + ".tex", latex, path)
@@ -384,8 +384,8 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
         read_write_file.append_to_file(file_name + ".tex", latex_table, path)
         previous_a_category = a_category
     if sample_a_b[0] == "Core" and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(file_name + ".tex", table_end(FILE_NAME + "_" + component), path)
-        read_write_file.append_to_file(normal_file_name + ".tex", table_end(FILE_NAME + "_normal" + "_" + component), path)
+        read_write_file.append_to_file(file_name + ".tex", table_end(FILE_NAME + "_" + component, True), path)
+        read_write_file.append_to_file(normal_file_name + ".tex", table_end(FILE_NAME + "_normal" + "_" + component, True), path)
     if component == "methods" and sample_a_b[0] == "Core" and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(file_name + ".tex", generate_formula_latex(sample_a_b) + "\n\\newpage \n", path)
 

@@ -1,0 +1,27 @@
+\begin{landscape}
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[Strategy Logistic Regression Core]{Strategy Logistic Regression for classes against number of commits to predict Core developers}
+\begin{tabular}{r l r r r r r r r r r}
+\toprule
+\makecell[t]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \makecell[t]{\textbf{Model}\\\textbf{Parameter}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \makecell[t]{\textbf{Not Core}\\\textbf{$\mu$}} & \textbf{Core $\mu$} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[t]{\textbf{30.0\%}\\\textbf{Threshold}} & \makecell[t]{\textbf{Not Core}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[t]{\textbf{Core Met}\\\textbf{Threshold}} \\ 
+\midrule
+1 & Intercept & 16074 & 1.26 & 3.92 & 0.0111 & 0.0761 & 0.0000 & - & - & - \\ 
+1 & Classes Count & 16074 & 1.26 & 3.92 & 1.0178 & 0.0076 & 0.0209 & \textbf{207.4511} & 1 (0.01\%) & 0 (0.00\%) \\ 
+2 & Intercept & 3054 & 2.43 & 6.04 & 0.0344 & 0.1012 & 0.0000 & - & - & - \\ 
+2 & Classes Count & 3054 & 2.43 & 6.04 & 1.0102 & 0.0046 & 0.0280 & \textbf{248.8141} & 1 (0.03\%) & 0 (0.00\%) \\ 
+5 & Intercept & 1342 & 2.91 & 6.14 & 0.0799 & 0.1050 & 0.0000 & - & - & - \\ 
+5 & Classes Count & 1342 & 2.91 & 6.14 & 1.0074 & 0.0044 & 0.0945 & \textbf{227.5778} & 1 (0.08\%) & 0 (0.00\%) \\ 
+10 & Intercept & 842 & 3.49 & 6.02 & 0.1304 & 0.1091 & 0.0000 & - & - & - \\ 
+10 & Classes Count & 842 & 3.49 & 6.02 & 1.0050 & 0.0042 & 0.2375 & \textbf{239.3208} & 1 (0.13\%) & 0 (0.00\%) \\ 
+20 & Intercept & 230 & 4.49 & 7.32 & 0.3172 & 0.1560 & 0.0000 & - & - & - \\ 
+20 & Classes Count & 230 & 4.49 & 7.32 & 1.0026 & 0.0044 & 0.5607 & \textbf{117.7201} & 1 (0.57\%) & 1 (1.79\%) \\ 
+\bottomrule
+\end{tabular}%
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_strategy_logistic_regressionCore_False_classes} 
+\end{table}
+\end{landscape}
+\newpage 
+
+ \newpage 

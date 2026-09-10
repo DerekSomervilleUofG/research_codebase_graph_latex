@@ -9,12 +9,12 @@ import statsmodels.api as sm
 # Import custom LaTeX helper modules matching your codebase structure
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.latex_table import *
+from codebase_graph_latex.calculate import *
+from codebase_graph_latex.constants import *
 from codebase_graph_latex.repository_graph.master_graph import *
 
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
-BREADTH_THRESHOLD = 25.0
-DEPTH_THRESHOLD = 100.0
 packages_developers = {}
 
 
@@ -97,9 +97,10 @@ def prepare_ratio_data(component, developers_dict, package_developers, commit_wi
             ratio = methods_touched / packages_touched
 
             # Strategy classification
-            if ratio < BREADTH_THRESHOLD:
+            breath_depth = categorize_ratio(ratio, packages_touched, commit_window)
+            if breath_depth == BREADTH:
                 strategy = "Breadth-First"
-            elif ratio > DEPTH_THRESHOLD:
+            elif breath_depth == DEPTH:
                 strategy = "Depth-First"
             else:
                 strategy = "Moderate"
@@ -113,6 +114,7 @@ def prepare_ratio_data(component, developers_dict, package_developers, commit_wi
                     "packages_touched": packages_touched,
                     "methods_touched": methods_touched,
                     "ratio": ratio,
+                    "number_of_commits": commit_window,
                     "strategy": strategy,
                 }
             )
@@ -139,9 +141,16 @@ def run_statistical_tests(df):
         ratios_sus, ratios_non_sus, alternative="two-sided"
     )
 
+    categories = sustained_df.apply(
+    lambda row: categorize_ratio(
+        row["ratio"], row["packages_touched"], row["number_of_commits"]
+    ),
+    axis=1,
+)
+
     # 3. Binomial Test on Sustained Cohort (Breadth vs Depth)
-    n_breadth = len(sustained_df[sustained_df["ratio"] < BREADTH_THRESHOLD])
-    n_depth = len(sustained_df[sustained_df["ratio"] > DEPTH_THRESHOLD])
+    n_breadth = (categories == BREADTH).sum()
+    n_depth = (categories == DEPTH).sum()
     total_classified = n_breadth + n_depth
 
     binomial_p = (
@@ -171,7 +180,7 @@ def run_statistical_tests(df):
 def generate_latex_summary_table(component, stats_dict, commit_window):
     """Generates LaTeX table row for Method-to-Package strategy analysis."""
     latex_row = (
-        f"{commit_window} & {stats_dict['total_sustained']} & "
+        f"{commit_window} & "
     )
     latex_row += f"{stats_dict['median_ratio_sus']:.2f} & "
     latex_row += (
@@ -201,18 +210,17 @@ def generate_and_save_ratio_analysis(
             latex_header = generate_ratio_explanation()
             headings = [
                 "Commits",
-                "Sustained Devs",
                 "Median $Ratio_{m/p}$",
-                "Breadth-First ($<25$)",
-                "Depth-First ($>100$)",
+                "Breadth-First ($<" + str(BREADTH_THRESHOLD) + "$)",
+                "Depth-First ($>" + str(DEPTH_THRESHOLD) + "$)",
                 "Dip Stat ($p$-val)",
                 "MWU $p$-val",
                 "Binomial $p$-val",
             ]
             latex_header += start_latex_table(
-                "Method-to-Package Exploration Strategy Distribution and Multimodality Test",
+                "Method-to-Package Exploration Strategy Distribution and Multimodality Test for " + str(len(developers_dict[SUSTAINED_JOINER])) + " " + SUSTAINED_JOINER,
                 headings,
-                "c r r r r r r r",
+                "c r r r r r r",
                 "Ratio Strategy Table",
             )
             save_to_latex_file(

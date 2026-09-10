@@ -126,13 +126,13 @@ def generate_anova_latex(df, component, commit_prefix, number_of_commits, catego
         p_val = row['PR(>F)']
         
         # Follows your requested format: Component & Window & Label & SumSq & df & F & P & EtaSq
-        latex =  f"{component} & {number_of_commits} & {number_of_developers} & {label} & "
+        latex =  f"{number_of_commits} & {number_of_developers} & {label} & "
         latex += f"{row['sum_sq']:.2f} & {row['df']:.0f} & "
         latex += f"{row['F']:.2f} & {p_val:.4f} & "
         
         # Handle the Residual row (which has no F or P)
         if index == 'Residual':
-            latex = f"{component} & {number_of_commits} & {number_of_developers} & {label} & {row['sum_sq']:.2f} & {row['df']:.0f} & - & -  \\\\ \n"
+            latex = f"{number_of_commits} & {number_of_developers} & {label} & {row['sum_sq']:.2f} & {row['df']:.0f} & - & -  \\\\ \n"
         else:
             latex += f"{row['eta_sq']:.4f} \\\\ \n"
             
@@ -152,8 +152,8 @@ def generate_and_save(component, developers, number_of_commits):
     else:
         latex = ""
     if number_of_commits == START_COMMIT_NUMBER:
-        headings = ["Component", "First $n$ commits", "Number of Developers", "Factor", "Sum Squared", "df", "F-Stat", "$P$ Value", "ETA Sq"]
-        latex += start_latex_table(table_name, headings, "l r r l r r r r r", "Standard Anova Results for " + component)
+        headings = ["First $n$ commits", "Number of Developers", "Factor", "Sum Squared", "df", "F-Stat", "$P$ Value", "ETA Sq"]
+        latex += start_latex_table(table_name, headings, "r r l r r r r r", "Standard Anova Results for " + component)
         save_to_latex_file(file_name, base_file_name + ".tex", latex, path)   
     if number_of_commits == 1:     
         category = "Category (T/M/S)"
@@ -162,6 +162,6 @@ def generate_and_save(component, developers, number_of_commits):
     latex_table = generate_anova_latex(df, component, commit_prefix, number_of_commits, category).replace("_", "\\_")
     read_write_file.append_to_file(file_name + ".tex", latex_table, path)
     if number_of_commits == 10:
-        read_write_file.append_to_file(file_name + ".tex", table_end(file_name), path)
+        read_write_file.append_to_file(file_name + ".tex", table_end(file_name, False), path)
     if component == "methods" and number_of_commits == 10:
         read_write_file.append_to_file(base_file_name + ".tex", generate_statistical_formula_latex() + "\n\\newpage \n", path)

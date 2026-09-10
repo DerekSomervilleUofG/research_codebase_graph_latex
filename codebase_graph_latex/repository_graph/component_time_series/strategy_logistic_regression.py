@@ -1,5 +1,6 @@
 import pandas as pd
 import statsmodels.api as sm
+import statsmodels.formula.api as smf
 import numpy as np
 import math
 from codebase_graph_latex.repository_graph.master_graph import *
@@ -12,8 +13,9 @@ import csv, os
 FILE_NAME = __name__
 BASE_FILE_NAME = "repository_summary_1.tex"
 P_THRESHOLD = 0.30
-
-
+package_developers = {}
+PACKAGE_METHOD_RATIO = "methods : packages"
+EXPLORATION_STRATEGY_CAT = "exploration strategy"
 
 def write_hits(component, sus_hit, non_sus_hit, output_file="hits.csv"):
     file_exists = os.path.exists(output_file)
@@ -119,7 +121,7 @@ The predictive power is evaluated using the Area Under the Receiver Operating Ch
 """
     return latex
 
-def prepare_data(developers_dict, sustained):
+def prepare_data(component, number_of_commts, developers_dict, sustained):
     rows = []
     # 1. Prepare the data: Binary classification (Sustained vs Not)
     for cat_name, dev_data in developers_dict.items():
@@ -136,11 +138,38 @@ def prepare_data(developers_dict, sustained):
                 local_is_sustained = is_sustained
             else:
                 local_is_sustained = dev_data[developers[counter]][-1]
+            # Determine the current metric at milestone number_of_commts
+            if isinstance(number_of_commts, int) and number_of_commts > 0:
+                idx = min(len(series) - 1, number_of_commts - 1)
+                curr_metric = series[idx]
+            else:
+                curr_metric = series[-1]
+
+            metric_value = curr_metric
+
+            if component in (PACKAGE_METHOD_RATIO, EXPLORATION_STRATEGY_CAT):
+                pkg_series = package_developers[number_of_commts][cat_name][
+                    developers[counter]
+                ][KNOWN_Y_AXIS]
+                if isinstance(number_of_commts, int) and number_of_commts > 0:
+                    p_idx = min(len(pkg_series) - 1, number_of_commts - 1)
+                    pkg_val = pkg_series[p_idx]
+                else:
+                    pkg_val = pkg_series[-1]
+
+                ratio = (curr_metric / pkg_val) if pkg_val > 0 else 0
+
+                if component == PACKAGE_METHOD_RATIO:
+                    metric_value = ratio
+                else:
+                    metric_value = categorize_ratio(
+                        ratio, pkg_val, number_of_commts
+                    )
 
             rows.append({
                 'developer_id': developers[counter],
                 'is_sustained': local_is_sustained,
-                'metric_value': series[-1]
+                'metric_value': metric_value
             })
             counter += 1
     return rows
@@ -154,9 +183,10 @@ def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_
     for index, row in summary.iterrows():
         
         # Build the columns: Component & Commits & Label & Total Devs & Mod Mean & Sus Mean ...
-        latex_rows += f"{component_clean} & {number_of_commits} & {index} & {total_developers} & "
+        latex_rows += f"{number_of_commits} & {index} & {total_developers} & "
         latex_rows += f"{avg_mod:.2f} & {avg_sus:.2f} & "
-        latex_rows += f"{row['Coef.']:.4f} & {row['Odds Ratio']:.4f} & "
+        #latex_rows += f"{row['Coef.']:.4f} & "
+        latex_rows += f"{row['Odds Ratio']:.4f} & "
         latex_rows += f"{row['Std.Err.']:.4f} & {row['P>|z|']:.4f} & "
         if "Count" in index:
             latex_rows += f"\\textbf{{{x30_threshold:.4f}}} & "
@@ -169,7 +199,7 @@ def generate_latex(component, summary, avg_mod, avg_sus, number_of_commits, x30_
 
 def generate_predictive_identification_latex(developers, component, number_of_commits, sustained):
     # Check if we have both classes (0 and 1) to run the model
-    df = pd.DataFrame(prepare_data(developers, sustained))
+    df = pd.DataFrame(prepare_data(component, number_of_commits, developers, sustained))
     if df['is_sustained'].nunique() < 2:
         return f"% Skip {component}: Not enough diversity in classes for Logistic Regression."
         
@@ -177,73 +207,117 @@ def generate_predictive_identification_latex(developers, component, number_of_co
     avg_non_sus = df[df['is_sustained'] == 0]['metric_value'].mean()
     avg_sus = df[df['is_sustained'] == 1]['metric_value'].mean()
 
-    # 2. Run Logistic Regression
-    X = sm.add_constant(df['metric_value'])
-    logit_model = sm.Logit(df['is_sustained'], X).fit(disp=0)
-    summary = logit_model.summary2().tables[1] # Extract the coefficients table
-    
-    # 3. Calculate Odds Ratio (OR = exp(coeff))
-    summary['Odds Ratio'] = np.exp(summary['Coef.'])
-    
-    # Rename rows for the LaTeX table
-    summary.index = ['Intercept', f'{component.replace("_", " ").capitalize()} Count']
-    intercept_val = summary.iloc[0]['Coef.']
-    coeff_val = summary.iloc[1]['Coef.']
 
-    # Calculate the threshold value where predicted probability crosses P_THRESHOLD
-    logit_p = math.log(P_THRESHOLD / (1 - P_THRESHOLD))
-    x30_threshold = (logit_p - intercept_val) / coeff_val if coeff_val != 0 else 0
-    if component == "packages" and number_of_commits == START_COMMIT_NUMBER and not sustained:
-        seaborn_stripplot_generate_and_save(developers, x30_threshold)
-    # Calculate Sustained metrics matching/exceeding threshold
-    sustained_df = df[df['is_sustained'] == 1]
-    sus_hit_df = sustained_df[
-        sustained_df['metric_value'] >= x30_threshold
-    ]
-    sus_hit = sus_hit_df['developer_id'].nunique()
-    sus_total = sustained_df['developer_id'].nunique()
+    if component == EXPLORATION_STRATEGY_CAT:
+        try:
+            # Baseline reference is set to 1 (Breadth-First)
+            logit_model = smf.logit('is_sustained ~ C(metric_value, Treatment(reference=1))', data=df).fit(disp=0)
+        except Exception:
+            # Fallback for quasi-complete separation handling
+            logit_model = smf.logit('is_sustained ~ C(metric_value, Treatment(reference=1))', data=df).fit_regularized(disp=0)
+            
+        summary = logit_model.summary2().tables[1]
+        summary['Odds Ratio'] = np.exp(summary['Coef.'])
+        cat1_row = pd.DataFrame({
+            'Coef.': [0.0],
+            'Std.Err.': [np.nan],
+            'z': [np.nan],
+            'P>|z|': [np.nan],
+            '[0.025': [np.nan],
+            '0.975]': [np.nan],
+            'Odds Ratio': [1.0]
+        }, index=['Breadth First'])
+        
+        # 2. Reconstruct table with Intercept, Category 1 (T.1), and Category 3 (T.3) only
+        # Filter out T.2 (Category 2)
+        summary_filtered = summary[~summary.index.str.contains('\[T\.2\]')]
+        
+        # Combine Intercept, explicit T.1, and remaining rows (T.3)
+        summary = pd.concat([summary_filtered.iloc[:1], cat1_row, summary_filtered.iloc[1:]])
+        rename_map = {
+            "C(metric_value, Treatment(reference=1))[T.3]": "Depth First",
+            "C(metric_value, Treatment(reference=1))[T.1]": "Breadth First",
+        }
+        summary.index = [rename_map.get(idx, idx) for idx in summary.index]
+        x30_threshold = 0
+        non_sus_hit, non_sus_pct, sus_hit, sus_pct = 0, 0, 0, 0
+    else:
+        # 2. Run Logistic Regression
+        X = sm.add_constant(df['metric_value'])
+        logit_model = sm.Logit(df['is_sustained'], X).fit(disp=0)
+        summary = logit_model.summary2().tables[1] # Extract the coefficients table
+        
+        # 3. Calculate Odds Ratio (OR = exp(coeff))
+        summary['Odds Ratio'] = np.exp(summary['Coef.'])
+        
+        # Rename rows for the LaTeX table
+        summary.index = ['Intercept', f'{component.replace("_", " ").capitalize()} Count']
+        intercept_val = summary.iloc[0]['Coef.']
+        coeff_val = summary.iloc[1]['Coef.']
 
-    sus_pct = (sus_hit / sus_total * 100) if sus_total > 0 else 0
+        # Calculate the threshold value where predicted probability crosses P_THRESHOLD
+        logit_p = math.log(P_THRESHOLD / (1 - P_THRESHOLD))
+        x30_threshold = (logit_p - intercept_val) / coeff_val if coeff_val != 0 else 0
+        if component == "packages" and number_of_commits == START_COMMIT_NUMBER and sustained:
+            seaborn_stripplot_generate_and_save(developers, x30_threshold)
+        # Calculate Sustained metrics matching/exceeding threshold
+        sustained_df = df[df['is_sustained'] == 1]
+        sus_hit_df = sustained_df[
+            sustained_df['metric_value'] >= x30_threshold
+        ]
+        sus_hit = sus_hit_df['developer_id'].nunique()
+        sus_total = sustained_df['developer_id'].nunique()
 
-    # Calculate Baseline Non-Sustained metrics matching/exceeding threshold
-    non_sustained_df = df[df['is_sustained'] == 0]
-    non_sus_total = non_sustained_df['developer_id'].nunique()
-    non_sus_hit_df = non_sustained_df[non_sustained_df['metric_value'] >= x30_threshold]
-    non_sus_hit = non_sus_hit_df['developer_id'].nunique()
-    non_sus_pct = (non_sus_hit / non_sus_total * 100) if non_sus_total > 0 else 0
+        sus_pct = (sus_hit / sus_total * 100) if sus_total > 0 else 0
 
-    write_hits(component, sus_hit_df, non_sus_hit_df)
+        # Calculate Baseline Non-Sustained metrics matching/exceeding threshold
+        non_sustained_df = df[df['is_sustained'] == 0]
+        non_sus_total = non_sustained_df['developer_id'].nunique()
+        non_sus_hit_df = non_sustained_df[non_sustained_df['metric_value'] >= x30_threshold]
+        non_sus_hit = non_sus_hit_df['developer_id'].nunique()
+        non_sus_pct = (non_sus_hit / non_sus_total * 100) if non_sus_total > 0 else 0
 
-    # Clean up columns for the paper
-    results_df = summary[['Coef.', 'Odds Ratio', 'Std.Err.', 'P>|z|']]
-    results_df.columns = ['Coefficient', 'Odds Ratio', 'Std. Err', 'p-Value']
+        write_hits(component, sus_hit_df, non_sus_hit_df)
+
+        # Clean up columns for the paper
+        results_df = summary[['Coef.', 'Odds Ratio', 'Std.Err.', 'P>|z|']]
+        results_df.columns = ['Coefficient', 'Odds Ratio', 'Std. Err', 'p-Value']
 
     # 4. Generate LaTeX - Appending len(df) to match the new signature of generate_latex
     return generate_latex(component, summary, avg_non_sus, avg_sus, number_of_commits, 
                           x30_threshold, non_sus_hit, non_sus_pct, sus_hit, sus_pct, len(df))
 
 def generate_and_save(component, developers, number_of_commits, sustained=True):
+    global package_developers
     path = DIRECTORY
     file_name = FILE_NAME
     commit_prefix = "all commits "
     label = "Sustained"
+    latex = "" 
     if not sustained:
         label = "Core"
-    if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        if sustained:
-            latex = section_heading(commit_prefix, label)
-        else:
-            latex = "" 
-        headings = ["Component", "Number of First Commits", "Model Parameter", "Number of Developers", "Not " + label + " $\mu$", label + " $\mu$", "Coefficient", "Odds Ratio", "Std. Err", "$p$-Value", str(P_THRESHOLD * 100) + "\% Threshold", "Not " + label + " Met Threshold", label + " Met Threshold"]
-        latex += start_latex_table("Strategy Logistic Regression for all components against number of commits to predict " + label + " developers", headings, "l r l r r r r r r r r r r", "Strategy Logistic Regression " + label)
-        save_to_latex_file(get_base_file_name(file_name) + "_" + str(sustained), 
-                           BASE_FILE_NAME,
-                               latex, path)
+    if component == "packages":
+        package_developers[number_of_commits] = developers
+        if number_of_commits == START_COMMIT_NUMBER:
+            save_to_latex_file(get_base_file_name(file_name) + "_" + str(sustained), 
+                                    BASE_FILE_NAME,
+                                        latex, path)
+            if sustained:
+                latex = section_heading(commit_prefix, label)
+    if number_of_commits == START_COMMIT_NUMBER:
+        headings = ["Number of First Commits", "Model Parameter", "Number of Developers", "Not " + label + " $\mu$", label + " $\mu$", "Odds Ratio", "Std. Err", "$p$-Value", str(P_THRESHOLD * 100) + "\% Threshold", "Not " + label + " Met Threshold", label + " Met Threshold"]
+        latex += start_landscape() + start_latex_table("Strategy Logistic Regression for " + component + " against number of commits to predict " + label + " developers", headings, "r l r r r r r r r r r", "Strategy Logistic Regression " + label)
+        save_to_latex_file(get_base_file_name(file_name) + "_" + str(sustained) + "_" + component, 
+                            get_base_file_name(file_name) + "_" + str(sustained) + ".tex",
+                            latex, path)
 
     latex_table = generate_predictive_identification_latex(developers, component, number_of_commits, sustained).replace("_", "\\_")
-    read_write_file.append_to_file(get_base_file_name(file_name) + "_" + str(sustained) + ".tex", latex_table, path)
-    if component == "methods" and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(get_base_file_name(file_name) + "_" + str(sustained) + ".tex", table_end(FILE_NAME + label + "_" + str(sustained)) + "\n \\newpage \n", path)
+    if component == "methods":
+        latex_table += generate_predictive_identification_latex(developers, PACKAGE_METHOD_RATIO, number_of_commits, sustained).replace("_", "\\_")
+        latex_table += generate_predictive_identification_latex(developers, EXPLORATION_STRATEGY_CAT, number_of_commits, sustained).replace("_", "\\_")
+    read_write_file.append_to_file(get_base_file_name(file_name) + "_" + str(sustained) + "_" + component + ".tex", latex_table, path)
+    if number_of_commits == END_COMMIT_NUMBER:
+        read_write_file.append_to_file(get_base_file_name(file_name) + "_" + str(sustained) + "_" + component + ".tex", table_end(FILE_NAME + label + "_" + str(sustained) + "_" + component, True) + "\n \\newpage \n", path)
     if component == "methods" and number_of_commits == END_COMMIT_NUMBER and not sustained:
         read_write_file.append_to_file(get_base_file_name(file_name) + "_" + str(sustained) + ".tex", generate_predictive_model_latex() + "\n \\newpage \n", path)
  

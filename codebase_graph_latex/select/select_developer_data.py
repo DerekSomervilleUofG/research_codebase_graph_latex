@@ -16,6 +16,7 @@ def query(repository_id, module, type):
         developer_{type} dn 
         WHERE dc.commit_id = ptc.commit_id 
         AND dc.repository_id = dn.repository_id 
+        AND dn.status in ('A')
         AND dc.status in ('A', 'L') """
  #       AND dn.number_of_commits >= {str(MINIMUM_NUMBER_OF_COMMTIS)}
     select_statement += f"""AND dc.developer_id = dn.developer_id 

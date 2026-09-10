@@ -8,7 +8,7 @@ FILE_NAME = __name__
 def glossary_latex():
     latex = get_section_start(FILE_NAME, "") + "Summary} \n"
     latex += "\\begin{itemize} \n "
-    latex += "\\item A " + FOUNDER + " developer starts in the first six months of a project. \n"
+    latex += "\\item A " + FOUNDER + " developer starts in the first three months of a project. \n"
     latex += "\\item  A Later " + JOINER + " developers start after six months. \n"
     latex += "\\item " + TRANSIENT.capitalize() + " developers have " + word_engine.number_to_words(TRANSIENT_COMMITS) + " (" + str(TRANSIENT_COMMITS) + ")"
     latex += " or less commits. \n"

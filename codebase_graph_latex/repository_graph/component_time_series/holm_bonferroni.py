@@ -119,7 +119,7 @@ def generate_holm_latex(df, component, number_of_commits):
         group1 = g1.replace("_", "\\_")
         group2 = g2.replace("_", "\\_")
         
-        latex =  f"{component} & {number_of_commits} & {number_of_developers} & "
+        latex =  f"{number_of_commits} & {number_of_developers} & "
         latex += f"{group1} & {group2} & "
         latex += f"{mean_differences[i]:.2f} & {adj_p_values[i]:.4f} \\\\ \n"
         
@@ -137,7 +137,7 @@ def generate_and_save(component, developers, number_of_commits):
     df = get_data_frame(developers, KNOWN_Y_AXIS)
     table_name = "Holm-Bonferroni Pairwise results for " + component + " and number of commits"
     commit_prefix = "all commits"
-    headings = ["Component", "Commits", "Number of Developers", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
+    headings = ["Commits", "Number of Developers", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
     
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_heading(commit_prefix)
@@ -145,7 +145,7 @@ def generate_and_save(component, developers, number_of_commits):
         save_to_latex_file(not_sig_file_name, base_file_name + ".tex", "", DIRECTORY)
     
     if number_of_commits == START_COMMIT_NUMBER:
-        latex = start_latex_table("Significant " + table_name, headings, "l r r l l r r", "Significant Holm-Bonferroni Pairwise results for " + component)
+        latex = start_latex_table("Significant " + table_name, headings, "r r l l r r", "Significant Holm-Bonferroni Pairwise results for " + component)
         read_write_file.append_to_file(sig_file_name + ".tex", latex, DIRECTORY)
         latex = start_latex_table("Not Significant one and two commits " + table_name, headings, "l r r l l r r", "Not Significant Holm-Bonferroni Pairwise one and two commits results" + component)
         read_write_file.append_to_file(not_sig_file_name + ".tex", latex, DIRECTORY)
@@ -156,7 +156,7 @@ def generate_and_save(component, developers, number_of_commits):
     
     if number_of_commits == 2:
         read_write_file.append_to_file(not_sig_file_name + ".tex", table_end(FILE_NAME  + "_no_sig_one_and_two" + component), DIRECTORY)
-        latex = start_latex_table("Not Significant five and ten comits " + table_name, headings, "l r r l l r r", "Not Significant Holm-Bonferroni Pairwise five and ten commits results" + component)
+        latex = start_latex_table("Not Significant five to twenty comits " + table_name, headings, "l r r l l r r", "Not Significant Holm-Bonferroni Pairwise five and ten commits results" + component)
         read_write_file.append_to_file(not_sig_file_name + ".tex", latex, DIRECTORY)
  
     if number_of_commits == END_COMMIT_NUMBER:

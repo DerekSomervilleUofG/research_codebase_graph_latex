@@ -14,7 +14,8 @@ read_write_file = ReadWriteFile()
 
 
 def section_heading():
-    section = "\\section{Repository Summary Table} \n"
+    section = start_landscape()
+    section += "\\section{Repository Summary Table} \n"
     section += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
     return section
 
@@ -31,15 +32,6 @@ def summary_table_start(number_of_repository):
                 SUSTAINED.capitalize() + " Later " + JOINER.capitalize(),
                 "Commit", "Start", "End"]
     return start_latex_table(table_name, headings, "rlrrrrrrrrl", "Summary of OOS GitHub Repositories")
-        
-def summary_table_end():
-    table = "\\bottomrule\n"
-    table += "\\end{tabular}\n"
-    table += "}\n"
-    table += "\\end{table} \n"
-    table += "\\label{" + FILE_NAME + "}\n"
-    table += "\\newpage \n"
-    return table
 
 def total_row(total_transient_founder, total_moderate_founder, total_sustained_founder, total_transient_joiner, total_moderate_joiner, total_sustained_joiner, total_commit):
     latex = "\\hline \n"
@@ -92,7 +84,7 @@ def generate_and_save(repo_contribution):
     repositories = get_all_data(query())
     latex_table, number_of_repository = create_repository_summary_page(repositories, repo_contribution)
     latex_table = section_heading() + summary_table_start(number_of_repository) + latex_table
-    latex_table += table_end(FILE_NAME)
+    latex_table += table_end(FILE_NAME, True)
     save_to_latex_file(get_base_file_name(FILE_NAME), BASE_FILE_NAME, latex_table, DIRECTORY)
     return number_of_repository
 

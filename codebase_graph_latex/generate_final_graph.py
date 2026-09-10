@@ -148,7 +148,8 @@ def generate_and_save(number_of_repositories):
                     art_anova_generate_and_save(component, filtered_developers, number_of_commits)
                 generate_tukey_hsd(component, filtered_developers, number_of_commits)
                 generate_holm_bonferroni(component, filtered_developers, number_of_commits)
-                strategy_generate_and_save(component, filtered_developers, number_of_commits, True)
-                strategy_generate_and_save(component, filtered_developers, number_of_commits, False)
                 if component in ["packages", "methods"]:
                     generate_and_save_ratio_analysis(component, filtered_developers, number_of_commits)
+                strategy_generate_and_save(component, filtered_developers, number_of_commits, True)
+                strategy_generate_and_save(component, filtered_developers, number_of_commits, False)
+

@@ -1,7 +1,14 @@
+import pandas as pd
 import datetime
 from codebase_graph_latex.constants import *
 import numpy as np
 CAPTION_LENGTH = 100
+BREADTH = 1
+INTER = 2
+DEPTH = 3
+BREADTH_THRESHOLD = 10.0
+DEPTH_THRESHOLD = 25.0
+MINIMUM_DEPTH = 5
 
 def filter_developers(developers):
     return {key: value for key, value in developers.items() if len(value[NUMBER_OF_COMMIT]) >= DEVELOPER_HAS_NUMNER_OF_COMMITS and value[YEAR_PERIOD][-1] >= DEVELOPER_PERIOD}
@@ -54,3 +61,11 @@ def find_developer_unit(unit):
 def add_extra(target_list, number_extra, value=0):
     for counter in range(0, number_extra):
         target_list.append(value)
+
+def categorize_ratio(ratio, packages_touched, number_of_commits):
+    if (pd.isna(ratio) or ratio < BREADTH_THRESHOLD) and packages_touched > (number_of_commits//2) + 2:
+        return BREADTH
+    elif ratio >= DEPTH_THRESHOLD and packages_touched <= min((number_of_commits//2) + 2, MINIMUM_DEPTH):
+        return DEPTH
+    else:
+        return INTER
