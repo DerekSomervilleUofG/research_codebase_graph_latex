@@ -1,0 +1,43 @@
+\contentsline {table}{\numberline {1}{\ignorespaces Summary of OOS GitHub Repositories}}{7}{}%
+\contentsline {table}{\numberline {2}{\ignorespaces Statistical Significance Normality and Variance tests for packages for different categories of founder versus different categories of late joiner for 1 to 5, 10 and 20}}{20}{}%
+\contentsline {table}{\numberline {3}{\ignorespaces Statistical Significance Normality and Variance tests for packages for sample A category versus sample B category for 1 to 5, 10 and 20}}{21}{}%
+\contentsline {table}{\numberline {4}{\ignorespaces Statistical Significance Normality and Variance tests for classes for different categories of founder versus different categories of late joiner for 1 to 5, 10 and 20}}{22}{}%
+\contentsline {table}{\numberline {5}{\ignorespaces Statistical Significance Normality and Variance tests for classes for sample A category versus sample B category for 1 to 5, 10 and 20}}{23}{}%
+\contentsline {table}{\numberline {6}{\ignorespaces Statistical Significance Normality and Variance tests for methods for different categories of founder versus different categories of late joiner for 1 to 5, 10 and 20}}{24}{}%
+\contentsline {table}{\numberline {7}{\ignorespaces Statistical Significance Normality and Variance tests for methods for sample A category versus sample B category for 1 to 5, 10 and 20}}{25}{}%
+\contentsline {table}{\numberline {8}{\ignorespaces ART Anova for all packages}}{28}{}%
+\contentsline {table}{\numberline {9}{\ignorespaces ART Anova for all classes}}{30}{}%
+\contentsline {table}{\numberline {10}{\ignorespaces ART Anova for all methods}}{32}{}%
+\contentsline {table}{\numberline {11}{\ignorespaces Significant Holm-Bonferroni Pairwise results for packages}}{34}{}%
+\contentsline {table}{\numberline {12}{\ignorespaces Significant Holm-Bonferroni Pairwise results for classes}}{35}{}%
+\contentsline {table}{\numberline {13}{\ignorespaces Significant Holm-Bonferroni Pairwise results for methods}}{36}{}%
+\contentsline {table}{\numberline {14}{\ignorespaces Not Significant Holm-Bonferroni Pairwise one and two commits results packages}}{37}{}%
+\contentsline {table}{\numberline {15}{\ignorespaces Not Significant Holm-Bonferroni Pairwise five and ten commits results packages}}{38}{}%
+\contentsline {table}{\numberline {16}{\ignorespaces Not Significant Holm-Bonferroni Pairwise one and two commits results classes}}{39}{}%
+\contentsline {table}{\numberline {17}{\ignorespaces Not Significant Holm-Bonferroni Pairwise five and ten commits results classes}}{40}{}%
+\contentsline {table}{\numberline {18}{\ignorespaces Not Significant Holm-Bonferroni Pairwise one and two commits results methods}}{41}{}%
+\contentsline {table}{\numberline {19}{\ignorespaces Not Significant Holm-Bonferroni Pairwise five and ten commits results methods}}{42}{}%
+\contentsline {table}{\numberline {20}{\ignorespaces Ratio Strategy Table}}{44}{}%
+\contentsline {table}{\numberline {21}{\ignorespaces Strategy Logistic Regression Sustained for packages for 1 to 5 and 10}}{45}{}%
+\contentsline {table}{\numberline {22}{\ignorespaces Strategy Logistic Regression Sustained for classes for 1 to 5 and 10}}{46}{}%
+\contentsline {table}{\numberline {23}{\ignorespaces Strategy Logistic Regression Sustained for methods for 1 to 5 and 10}}{47}{}%
+\contentsline {table}{\numberline {24}{\ignorespaces Strategy Logistic Regression Core for packages for 1 to 5 and 10}}{48}{}%
+\contentsline {table}{\numberline {25}{\ignorespaces Strategy Logistic Regression Core for classes for 1 to 5 and 10}}{49}{}%
+\contentsline {table}{\numberline {26}{\ignorespaces Strategy Logistic Regression Core for methods for 1 to 5 and 10}}{51}{}%
+\contentsline {table}{\numberline {27}{\ignorespaces Table of first 4 sustained founder developers in the Scatter Developer graphs. }}{53}{}%
+\contentsline {table}{\numberline {28}{\ignorespaces Table of first 21 sustained later joiner developers in the Scatter Developer graphs. }}{54}{}%
+\contentsline {table}{\numberline {29}{\ignorespaces Table of first 7 sustained founder developers in the Scatter Developer graphs. }}{59}{}%
+\contentsline {table}{\numberline {30}{\ignorespaces Table of first 50 sustained later joiner developers in the Scatter Developer graphs. }}{60}{}%
+\contentsline {table}{\numberline {31}{\ignorespaces Statistical Significance tests for packages for different categories of founder versus different categories of late joiner for 1 to 5, 10 and 20}}{90}{}%
+\contentsline {table}{\numberline {32}{\ignorespaces Statistical Significance tests for packages for sample A category versus sample B category for 1 to 5, 10 and 20}}{91}{}%
+\contentsline {table}{\numberline {33}{\ignorespaces Statistical Significance tests for classes for different categories of founder versus different categories of late joiner for 1 to 5, 10 and 20}}{92}{}%
+\contentsline {table}{\numberline {34}{\ignorespaces Statistical Significance tests for classes for sample A category versus sample B category for 1 to 5, 10 and 20}}{93}{}%
+\contentsline {table}{\numberline {35}{\ignorespaces Statistical Significance tests for methods for different categories of founder versus different categories of late joiner for 1 to 5, 10 and 20}}{94}{}%
+\contentsline {table}{\numberline {36}{\ignorespaces Statistical Significance tests for methods for sample A category versus sample B category for 1 to 5, 10 and 20}}{95}{}%
+\contentsline {table}{\numberline {37}{\ignorespaces Standard Anova Results for packages}}{98}{}%
+\contentsline {table}{\numberline {38}{\ignorespaces Standard Anova Results for classes}}{99}{}%
+\contentsline {table}{\numberline {39}{\ignorespaces Standard Anova Results for methods}}{100}{}%
+\contentsline {table}{\numberline {40}{\ignorespaces Significant Tukey HSD Results for classes}}{102}{}%
+\contentsline {table}{\numberline {41}{\ignorespaces Significant Tukey HSD Results for methods}}{103}{}%
+\contentsline {table}{\numberline {42}{\ignorespaces Not Significant Tukey HSD Results for classes}}{104}{}%
+\contentsline {table}{\numberline {43}{\ignorespaces Not Significant Tukey HSD Results for methods}}{105}{}%

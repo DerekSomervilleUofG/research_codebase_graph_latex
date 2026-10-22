@@ -1,0 +1,20 @@
+\section{Strategy Logistic Regression - For all components touched for all commits } 
+\label{sec:codebase_graph_latex.repository_graph.component_time_series.strategy_logistic_regressionall commits } 
+
+To identify early indicators of long-term developer engagement, a Logistic Regression model was employed. The model treats the developer category (Sustained vs. Non-Sustained) as a binary dependent variable. The following metrics are reported:
+
+\begin{itemize}
+    \item \textbf{Coefficient ($\beta$):} This value represents the change in the log-odds of a developer becoming 'Sustained' for every unit increase in the component count. A positive coefficient indicates that higher activity in that component increases the likelihood of long-term retention.
+    \item \textbf{Odds Ratio ($e^\beta$):} Perhaps the most interpretable metric, the Odds Ratio quantifies the relative increase in the likelihood of being a Sustained developer. For example, an Odds Ratio of $1.05$ implies a $5\%$ increase in the odds of becoming sustained for each additional component touched.
+    \item \textbf{Std. Err (Standard Error):} Measures the accuracy of the coefficient estimate. A lower standard error relative to the coefficient indicates a more precise estimate.
+    \item \textbf{p-Value ($P>|z|$):} Indicates the statistical significance of the predictor. In this study, a p-Value $< 0.05$ suggests that the specific component count is a significant predictor of whether a developer will transition into a sustained role.
+    \item \textbf{30\% Threshold:} The threshold number of components to touch to achieve a 30\% empirical probability of transitioning into a sustained contributor.
+    \item \textbf{Not Sustained Met Threshold:} The not Sustained number of developers to have met the threshold, the percentage of developers in brackets.
+    \item \textbf{Sustained Met Threshold:} The Sustained number of developers to have met the threshold, the percentage of developers in brackets.
+\end{itemize}
+
+\textbf{Interpretation of Intercept vs. Component Count:}
+\begin{itemize}
+    \item \textbf{Intercept:} Represents the baseline log-odds of the dependent variable (Sustained Status) when the independent variable (e.g., Package Count) is zero. In this study, the consistently negative intercepts indicate that the probability of a developer becoming 'Sustained' is statistically low without active engagement in the codebase.
+    \item \textbf{Component Count (Slope):} Represents the effect size of architectural engagement. The positive coefficients and Odds Ratios greater than 1.0 demonstrate that every additional unique component touched by a developer significantly increases their likelihood of transitioning into a sustained contributor.
+\end{itemize}

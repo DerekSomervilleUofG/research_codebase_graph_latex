@@ -23,4 +23,4 @@ def glossary_latex():
 
 def generate_glossary(base_file_name):
     latex = glossary_latex()
-    save_to_latex_file(get_base_file_name(FILE_NAME), base_file_name, latex, DIRECTORY)
+    read_write_file.write_file(get_file_name(FILE_NAME), latex, DIRECTORY)

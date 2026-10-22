@@ -2,10 +2,13 @@
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Strategy Logistic Regression Core]{Strategy Logistic Regression for packages against number of commits to predict Core developers}
+\caption[Strategy Logistic Regression Core for packages for 1 to 5 and 10]{Strategy Logistic Regression for packages against 1 to 5 and 10 commits to predict Core developers. 
+    To identify early indicators of long-term developer engagement, a Logistic Regression model was employed. The model treats the developer category (Sustained vs. Non-Sustained) as a binary dependent variable. \\ \textbf{Metrics reported}:   \textbf{First $n$ Commits}: A sample of the first $n$ commits evaluated for developers;  \textbf{Model Parameter}: The specific model predictor or component metric evaluated in the regression;  \textbf{Developers \#}: The number of developers included in the sample cohort;  \textbf{Not Sustained $\mu$}: The mean average component count touched by developers who are not Sustained.;  \textbf{Sustained $\mu$}: The mean average component count touched by Sustained developers.;  \textbf{Odds Ratio}: The Odds Ratio ($e^\beta$) quantifies the relative increase in the likelihood of being a Sustained developer ;  \textbf{Std. Err}: Measures the accuracy of the coefficient estimate ;  \textbf{$p$-Value}: Indicates the statistical significance of the predictor ($P > |z|$). ;  \textbf{30\% Threshold}: The threshold number of components to touch to achieve a 30\% probability of transitioning into a sustained contributor.;  \textbf{Not Sustained Met Threshold}: The number of non-Sustained developers who met the threshold, with the percentage of developers reported in brackets.;  \textbf{Sustained Met Threshold}: The number of Sustained developers who met the threshold, with the percentage of developers reported in brackets.
+\\ \textbf{Row}:   \textbf{Intercept}: Represents the baseline log-odds of the dependent variable (Sustained Status) when the independent variable (e.g., Package Count) is zero ;  \textbf{Component Count (Slope)}: Represents the effect size of architectural engagement 
+}
 \begin{tabular}{r l r r r r r r r r r}
 \toprule
-\makecell[t]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \makecell[t]{\textbf{Model}\\\textbf{Parameter}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \makecell[t]{\textbf{Not Core}\\\textbf{$\mu$}} & \textbf{Core $\mu$} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[t]{\textbf{30.0\%}\\\textbf{Threshold}} & \makecell[t]{\textbf{Not Core}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[t]{\textbf{Core Met}\\\textbf{Threshold}} \\ 
+\makecell[t]{\textbf{First $n$}\\\textbf{Commits}} & \makecell[t]{\textbf{Model}\\\textbf{Parameter}} & \makecell[t]{\textbf{Developers}\\\textbf{\#}} & \makecell[t]{\textbf{Not}\\\textbf{Sustained}\\\textbf{$\mu$}} & \makecell[t]{\textbf{Sustained}\\\textbf{$\mu$}} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[t]{\textbf{30\%}\\\textbf{Threshold}} & \makecell[t]{\textbf{Not}\\\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[t]{\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} \\ 
 \midrule
 1 & Intercept & 16074 & 1.22 & 1.90 & 0.0097 & 0.0833 & 0.0000 & - & - & - \\ 
 1 & Packages Count & 16074 & 1.22 & 1.90 & 1.1212 & 0.0221 & 0.0000 & \textbf{33.1038} & 3 (0.02\%) & 0 (0.00\%) \\ 
@@ -19,7 +22,7 @@
 20 & Packages Count & 230 & 2.29 & 2.64 & 1.0462 & 0.0533 & 0.3962 & \textbf{8.7887} & 4 (2.30\%) & 2 (3.57\%) \\ 
 \bottomrule
 \end{tabular}%
-\label{tab:codebase_graph_latex_repository_graph_component_time_series_strategy_logistic_regressionCore_False_packages} 
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_strategy_logistic_regressionCore_False_packages_20} 
 \end{table}
 \end{landscape}
 \newpage 

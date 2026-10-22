@@ -2,15 +2,16 @@
 \usepackage{graphicx} % Required for inserting images
 \usepackage{caption}
 \usepackage{float}
+\usepackage{flafter}
 \usepackage{subcaption}
+\usepackage[toc,page]{appendix}
 \usepackage[margin=1in]{geometry}
 \usepackage{booktabs}
-\usepackage{makecell}
-\usepackage[dvipsnames]{xcolor}
-\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
-\usepackage{booktabs}
-\usepackage{geometry}
+\usepackage{makecell}
+\usepackage{rotating}
+\usepackage{pdflscape}
+\usepackage[dvipsnames]{xcolor}
 \definecolor{Azure}{RGB}{240,255,255}
 \definecolor{Beige}{RGB}{245,245,220}
 \definecolor{Chocolate}{RGB}{210,105,30}
@@ -40,9 +41,9 @@
 \definecolor{Tan}{RGB}{210,180,140}
 \definecolor{Teal}{HTML}{008080}
 \definecolor{Tomato}{RGB}{255,99,71}
-\usepackage{pdflscape}
 
-\title{Learning a Codebase}
+
+\title{Exploring a Codebase}
 \author{Derek Somerville}
 \date{\today}
 
@@ -53,12 +54,10 @@
 \newpage 
 \tableofcontents  % Generates the Table of Contents
 \newpage 
-\section{Statistics}
-\input{repository/glossary}
-\input{repository/repository_summary_table}
-\input{repository/welch_t_test}
-\input{repository/anova_generate}
-\input{repository/tukey_hsd}
-\input{repository/strategy_logistic_regression}
-%\input{statistical_findings}
+\listoftables
+\newpage 
+\input{sections/results/glossary}
+\input{sections/results/repository_summary_1}
+\input{sections/results/repository_1}
+\input{sections/results/appendix_1}
 \end{document}

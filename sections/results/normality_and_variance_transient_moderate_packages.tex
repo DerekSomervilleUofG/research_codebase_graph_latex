@@ -1,29 +1,28 @@
-\begin{landscape}
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Shapiro-Wilk and Levene's variance tests for packages for  sample A category versus sample B category ]{A Shapiro-Wilk test of packages for  sample A category versus sample B category  sample normality and a Levene's variance test between samples}
-\begin{tabular}{r p{4cm} c c c c r r r l r}
+\caption[Statistical Significance Normality and Variance tests for packages for  sample A category versus sample B category  for 1 to 5, 10 and 20]{Statistical significance tests of the difference of number of packages touched by  sample A category versus sample B category  after various first 1 to 5, 10 and 20 commits and for different cohorts of contributors (all, moderate and sustained). All distributions were found to be non-normal, so statistical tests were selected based on the variance equality of distributions (Brumner-Munzel or Mann-Whitney). \\ \textbf{Metrics reported}:   \textbf{First $n$ commits}: A sample of the first x number of commits for developers.;  \textbf{Contributory Category}: Transient, Moderate or Sustained. "vs." equals versus.;  \textbf{Sample A $\mu$}: The mean average of the first sample (Sample A).;  \textbf{Sample A \#}: The number of developers in the first sample (Sample A).;  \textbf{Sample B $\mu$}: The mean average of the second sample (Sample B).;  \textbf{Sample B \#}: The number of developers in the second sample (Sample B).;  \textbf{Variance Equality $P$}: The Levene variance equality $p$-value between Sample A and Sample B.;  \textbf{Statistical Models}: A recommended statistical model of Welch $t$-test; Mann-Whitney; Brunner Münzel.;  \textbf{Model $P$}: The $P$-value of the recommended statistical test.
+}
+\begin{tabular}{r p{4cm} c c c c r l r}
 \toprule
-\makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \multicolumn{4}{c}{\textbf{Sample}} & \multicolumn{2}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[t]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
-\cmidrule(lr){3-6} \cmidrule(lr){7-8}
- &  & \textbf{A $\mu$} & \textbf{A number} & \textbf{B $\mu$} & \textbf{B number} & \makecell[t]{\textbf{A}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[t]{\textbf{B}\\\textbf{Normality}\\\textbf{$P$}} &  &  &  \\ 
+\makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \multicolumn{4}{c}{\textbf{Sample}} & \makecell[t]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[t]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
+\cmidrule(lr){3-6}
+ &  & \textbf{A $\mu$} & \textbf{A \#} & \textbf{B $\mu$} & \textbf{B \#} &  &  &  \\ 
 \midrule
-1 & Transient vs. moderate &  1.15 & 15166 & 2.60 & 678 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
-1 & Transient vs. sustained &  1.15 & 15166 & 2.38 & 230 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
-1 & Transient vs. moderate \& sustained &  1.15 & 15166 & 2.54 & 908 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
-1 & Moderate vs. sustained &  2.60 & 678 & 2.38 & 230 & \textless 0.001 & \textless 0.001 & 0.5994 &  Mann-Whitney & 0.1101 \\ 
-1 & Core vs. Non Core &  1.93 & 181 & 1.34 & 15893 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
-2 & Moderate vs. sustained &  3.59 & 678 & 3.47 & 230 & \textless 0.001 & \textless 0.001 & 0.9505 &  Mann-Whitney & 0.1163 \\ 
-2 & Core vs. Non Core &  3.81 & 105 & 2.95 & 2949 & \textless 0.001 & \textless 0.001 & 0.2683 &  Mann-Whitney & 0.0000 \\ 
-5 & Moderate vs. sustained &  6.35 & 678 & 5.93 & 230 & \textless 0.001 & \textless 0.001 & 0.6890 &  Mann-Whitney & 0.0705 \\ 
-5 & Core vs. Non Core &  6.31 & 102 & 6.01 & 1240 & \textless 0.001 & \textless 0.001 & 0.4264 &  Mann-Whitney & 0.1221 \\ 
-10 & Moderate vs. sustained &  9.63 & 612 & 8.33 & 230 & \textless 0.001 & \textless 0.001 & 0.4828 &  Mann-Whitney & 0.0003 \\ 
-10 & Core vs. Non Core &  9.18 & 99 & 9.29 & 743 & \textless 0.001 & \textless 0.001 & 0.3272 &  Mann-Whitney & 0.8708 \\ 
-20 & Core vs. Non Core &  13.14 & 56 & 12.28 & 174 & \textless 0.001 & \textless 0.001 & 0.3303 &  Mann-Whitney & 0.0331 \\ 
+1 & Transient vs. moderate &  1.15 & 15166 & 2.60 & 678 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+1 & Transient vs. sustained &  1.15 & 15166 & 2.38 & 230 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+1 & Transient vs. moderate \& sustained &  1.15 & 15166 & 2.54 & 908 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+1 & Moderate vs. sustained &  2.60 & 678 & 2.38 & 230 & 0.5994 &  Mann-Whitney & 0.1101 \\ 
+1 & Core vs. Non Core &  1.93 & 181 & 1.34 & 15893 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+2 & Moderate vs. sustained &  3.59 & 678 & 3.47 & 230 & 0.9505 &  Mann-Whitney & 0.1163 \\ 
+2 & Core vs. Non Core &  3.81 & 105 & 2.95 & 2949 & 0.2683 &  Mann-Whitney & 0.0000 \\ 
+5 & Moderate vs. sustained &  6.35 & 678 & 5.93 & 230 & 0.6890 &  Mann-Whitney & 0.0705 \\ 
+5 & Core vs. Non Core &  6.31 & 102 & 6.01 & 1240 & 0.4264 &  Mann-Whitney & 0.1221 \\ 
+10 & Moderate vs. sustained &  9.63 & 612 & 8.33 & 230 & 0.4828 &  Mann-Whitney & 0.0003 \\ 
+10 & Core vs. Non Core &  9.18 & 99 & 9.29 & 743 & 0.3272 &  Mann-Whitney & 0.8708 \\ 
+20 & Core vs. Non Core &  13.14 & 56 & 12.28 & 174 & 0.3303 &  Mann-Whitney & 0.0331 \\ 
 \bottomrule
 \end{tabular}%
 \label{tab:codebase_graph_latex_repository_graph_component_time_series_statistical_significance_test_normal_packages} 
 \end{table}
-\end{landscape}
 \newpage 

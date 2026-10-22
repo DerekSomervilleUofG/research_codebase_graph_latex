@@ -1,0 +1,31 @@
+\begin{landscape}
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\caption[ART Anova for all methods]{ART Anova results for methods, number of commits and categories of developers. The statistical significance of architectural exploration is evaluated using a dual-framework modeling methodology. A standard parametric ordinary least squares (	extbf{OLS}) ANOVA is presented alongside a robust non-parametric ANOVA. This side-by-side presentation explicitly demonstrates where extreme right-skew and outlier-induced variance in repository mining data mask true behavioral effects in traditional linear models, which the rank-transformed framework uncovers.\\ \textbf{Metrics reported}:   \textbf{First $n$ commits}: Nnmber of commits;  \textbf{Number of Developers}: The active developer population size.;  \textbf{Factor}: The independent categorical variables or interactions being tested for statistical significance.;  \textbf{OLS df}: Parametric numerator degrees of freedom based on factor grouping configurations.;  \textbf{OLS F-Stat}: The traditional variance ratio metric calculated from raw values.;  \textbf{OLS $P$-Value}: Parametric significance probability. Note how heteroscedastic noise frequently inflates these values toward non-significance ($p > 0.05$).;  \textbf{OLS $\eta^2$ (Eta-Squared)}: The total proportion of raw variance explained exclusively by this standalone factor.;  \textbf{ART df (Resid)}: Formatted as $df_{\mathrm{effect}}~(df_{\mathrm{residual}})$. Because the ART methodology conducts independent alignment procedures for each factor before ranking, it assigns the exact denominator error degrees of freedom dynamically alongside its numerator.;  \textbf{ART F-Stat}: The robust variance ratio calculated over the aligned, ranked data layers.;  \textbf{ART $P$-Value}: Non-parametric significance probability, providing the authoritative test for heavy-tailed software metrics.;  \textbf{ART Part. $\eta^2$ (Partial Eta-Squared)}: The effect size over ranked data layers, indicating the proportion of variance explained by this specific factor after controlling for alternate main effects.
+\\ \textbf{Row}:   \textbf{Role (F/LJ)}: Isolates the \textit{Main Role Effect} to evaluate whether the timing of project entry (Founder vs. Later Joiner) significantly alters exploration breadth on its own.;  \textbf{Category (T/M/S or M/S)}: Isolates the \textit{Main Category Effect} to determine whether a contributor's eventual longevity footprint (Transient, Moderate, or Sustained) dictates early behavior.;  \textbf{Interaction}: Evaluates the \textit{Interaction Effect} ($\mathrm{Role} \times \mathrm{Category}$). A significant interaction indicates that the impact of entry role is not uniform, but behaves completely differently depending on the eventual tenure category of the contributor.
+}
+\begin{tabular}{l r r l ccc r ccc r}
+\toprule
+\makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \textbf{Factor} & \multicolumn{4}{c}{\textbf{OLS}} & \multicolumn{4}{c}{\textbf{ART}} \\ 
+\cmidrule(lr){4-7} \cmidrule(lr){8-11}
+ &  &  & \textbf{df} & \textbf{F-Stat} & \textbf{$P$-Value} & \makecell[t]{\textbf{$\eta^2$}\\\textbf{(Eta-Squared)}} & \textbf{df (Resid)} & \textbf{F-Stat} & \textbf{$P$-Value} & \makecell[t]{\textbf{Part.}\\\textbf{$\eta^2$}\\\textbf{(Partial}\\\textbf{Eta-Squared)}} \\ 
+\midrule
+1 & 16074 & Role (F/LJ) & 1 & 11.15 & 0.0008 & 0.0007 & 1 (16068) & 1535.90 & 0.0000 & 0.0872 \\ 
+1 & 16074 & Category (T/M/S) & 2 & 5.70 & 0.0033 & 0.0007 & 2 (16068) & 484.45 & 0.0000 & 0.0569 \\ 
+1 & 16074 & Interaction & 2 & 9.97 & 0.0000 & 0.0012 & 2 (16068) & 227.63 & 0.0000 & 0.0276 \\ 
+2 & 3054 & Role (F/LJ) & 1 & 2.12 & 0.1456 & 0.0007 & 1 (3048) & 58.43 & 0.0000 & 0.0188 \\ 
+2 & 3054 & Category (M/S) & 2 & 0.60 & 0.5492 & 0.0004 & 2 (3048) & 26.47 & 0.0000 & 0.0171 \\ 
+2 & 3054 & Interaction & 2 & 2.06 & 0.1278 & 0.0013 & 2 (3048) & 12.53 & 0.0000 & 0.0082 \\ 
+5 & 1342 & Role (F/LJ) & 1 & 1.03 & 0.3109 & 0.0008 & 1 (1336) & 23.31 & 0.0000 & 0.0171 \\ 
+5 & 1342 & Category (M/S) & 2 & 0.29 & 0.7474 & 0.0004 & 2 (1336) & 24.27 & 0.0000 & 0.0351 \\ 
+5 & 1342 & Interaction & 2 & 0.94 & 0.3921 & 0.0014 & 2 (1336) & 6.11 & 0.0023 & 0.0091 \\ 
+10 & 842 & Role (F/LJ) & 1 & 0.65 & 0.4192 & 0.0008 & 1 (838) & 59.34 & 0.0000 & 0.0661 \\ 
+10 & 842 & Category (M/S) & 1 & 0.37 & 0.5447 & 0.0004 & 1 (838) & 65.77 & 0.0000 & 0.0728 \\ 
+10 & 842 & Interaction & 1 & 1.16 & 0.2819 & 0.0014 & 1 (838) & 9.80 & 0.0018 & 0.0116 \\ 
+\bottomrule
+\end{tabular}%
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_ART_anova_methods} 
+\end{table}
+\end{landscape}
+\newpage 

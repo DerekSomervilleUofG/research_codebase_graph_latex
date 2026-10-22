@@ -1,21 +1,11 @@
-\section{Holm-Bonferroni---For all components touched for all commits} 
-\label{sec:codebase_graph_latex.repository_graph.component_time_series.holm_bonferroni} 
-A Pairwise Post-hoc Analysis with Holm-Bonferroni Correction table for all components touched on average. 
-
-\paragraph{Post-hoc Pairwise Analysis (Holm-Bonferroni):}
-Following the multi-factor significance analysis, non-parametric pairwise comparisons 
-were executed to isolate directional stochastic dominance patterns between groups. 
-To counteract family-wise Type I error inflation across multiple group permutations 
-without experiencing the severe statistical power depletion of a traditional 
-Bonferroni adjustment, a sequentially rejective Holm-Bonferroni step-down 
-correction is applied.
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Significant Holm-Bonferroni Pairwise results for packages]{Significant Holm-Bonferroni Pairwise results for packages and number of commits}
+\caption[Significant Holm-Bonferroni Pairwise results for packages]{Significant Holm-Bonferroni Pairwise results for packages and number of commits. \\ \textbf{Metrics reported}:   \textbf{First $n$ Commits}: The initial number of commits evaluated for each developer in the sample cohort.;  \textbf{Number of Developers}: The total number of unique developers included in the analysis for this commit threshold.;  \textbf{Group A}: The baseline or reference cohort of contributors (e.g., founders or sustained developers).;  \textbf{Group B}: The comparison cohort of contributors (e.g., late joiners or transient developers).;  \textbf{Mean Diff}: The difference between the sample means ($\mu_A - \mu_B$) for the metric evaluated.;  \textbf{Adj $P$ Value}: The statistical significance value adjusted for multiple comparisons (e.g., using Holm-Bonferroni or Benjamini-Hochberg FDR correction).
+}
 \begin{tabular}{r r l l r r}
 \toprule
-\textbf{Commits} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \multicolumn{2}{c}{\textbf{Group}} & \textbf{Mean Diff} & \makecell[t]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
+\makecell[t]{\textbf{First $n$}\\\textbf{Commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \multicolumn{2}{c}{\textbf{Group}} & \textbf{Mean Diff} & \makecell[t]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
 \cmidrule(lr){3-4}
  &  & \textbf{A} & \textbf{B} &  &  \\ 
 \midrule
@@ -37,10 +27,11 @@ correction is applied.
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Significant Holm-Bonferroni Pairwise results for classes]{Significant Holm-Bonferroni Pairwise results for classes and number of commits}
+\caption[Significant Holm-Bonferroni Pairwise results for classes]{Significant Holm-Bonferroni Pairwise results for classes and number of commits. \\ \textbf{Metrics reported}:   \textbf{First $n$ Commits}: The initial number of commits evaluated for each developer in the sample cohort.;  \textbf{Number of Developers}: The total number of unique developers included in the analysis for this commit threshold.;  \textbf{Group A}: The baseline or reference cohort of contributors (e.g., founders or sustained developers).;  \textbf{Group B}: The comparison cohort of contributors (e.g., late joiners or transient developers).;  \textbf{Mean Diff}: The difference between the sample means ($\mu_A - \mu_B$) for the metric evaluated.;  \textbf{Adj $P$ Value}: The statistical significance value adjusted for multiple comparisons (e.g., using Holm-Bonferroni or Benjamini-Hochberg FDR correction).
+}
 \begin{tabular}{r r l l r r}
 \toprule
-\textbf{Commits} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \multicolumn{2}{c}{\textbf{Group}} & \textbf{Mean Diff} & \makecell[t]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
+\makecell[t]{\textbf{First $n$}\\\textbf{Commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \multicolumn{2}{c}{\textbf{Group}} & \textbf{Mean Diff} & \makecell[t]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
 \cmidrule(lr){3-4}
  &  & \textbf{A} & \textbf{B} &  &  \\ 
 \midrule
@@ -60,10 +51,11 @@ correction is applied.
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Significant Holm-Bonferroni Pairwise results for methods]{Significant Holm-Bonferroni Pairwise results for methods and number of commits}
+\caption[Significant Holm-Bonferroni Pairwise results for methods]{Significant Holm-Bonferroni Pairwise results for methods and number of commits. \\ \textbf{Metrics reported}:   \textbf{First $n$ Commits}: The initial number of commits evaluated for each developer in the sample cohort.;  \textbf{Number of Developers}: The total number of unique developers included in the analysis for this commit threshold.;  \textbf{Group A}: The baseline or reference cohort of contributors (e.g., founders or sustained developers).;  \textbf{Group B}: The comparison cohort of contributors (e.g., late joiners or transient developers).;  \textbf{Mean Diff}: The difference between the sample means ($\mu_A - \mu_B$) for the metric evaluated.;  \textbf{Adj $P$ Value}: The statistical significance value adjusted for multiple comparisons (e.g., using Holm-Bonferroni or Benjamini-Hochberg FDR correction).
+}
 \begin{tabular}{r r l l r r}
 \toprule
-\textbf{Commits} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \multicolumn{2}{c}{\textbf{Group}} & \textbf{Mean Diff} & \makecell[t]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
+\makecell[t]{\textbf{First $n$}\\\textbf{Commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \multicolumn{2}{c}{\textbf{Group}} & \textbf{Mean Diff} & \makecell[t]{\textbf{Adj $P$}\\\textbf{Value}} \\ 
 \cmidrule(lr){3-4}
  &  & \textbf{A} & \textbf{B} &  &  \\ 
 \midrule

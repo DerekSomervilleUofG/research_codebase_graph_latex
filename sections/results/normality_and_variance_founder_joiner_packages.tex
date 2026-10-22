@@ -1,30 +1,29 @@
-\begin{landscape}
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Shapiro-Wilk and Levene's variance tests for packages for different categories of founder versus different categories of late joiner ]{A Shapiro-Wilk test of packages for different categories of founder versus different categories of late joiner  sample normality and a Levene's variance test between samples}
-\begin{tabular}{r p{4cm} c c c c r r r l r}
+\caption[Statistical Significance Normality and Variance tests for packages for different categories of founder versus different categories of late joiner  for 1 to 5, 10 and 20]{Statistical significance tests of the difference of number of packages touched by different categories of founder versus different categories of late joiner  after various first 1 to 5, 10 and 20 commits and for different cohorts of contributors (all, moderate and sustained). All distributions were found to be non-normal, so statistical tests were selected based on the variance equality of distributions (Brumner-Munzel or Mann-Whitney). \\ \textbf{Metrics reported}:   \textbf{First $n$ commits}: A sample of the first x number of commits for developers.;  \textbf{Contributory Category}: Transient, Moderate or Sustained. "vs." equals versus.;  \textbf{Founder $\mu$}: The mean average of the first sample (Founder).;  \textbf{Founder \#}: The number of developers in the first sample (Founder).;  \textbf{Joiner $\mu$}: The mean average of the second sample (Joiner).;  \textbf{Joiner \#}: The number of developers in the second sample (Joiner).;  \textbf{Variance Equality $P$}: The Levene variance equality $p$-value between Founder and Joiner.;  \textbf{Statistical Models}: A recommended statistical model of Welch $t$-test; Mann-Whitney; Brunner Münzel.;  \textbf{Model $P$}: The $P$-value of the recommended statistical test.
+}
+\begin{tabular}{r p{4cm} c c c c r l r}
 \toprule
-\makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \multicolumn{2}{c}{\textbf{Founder}} & \multicolumn{2}{c}{\textbf{Joiner}} & \makecell[t]{\textbf{Founder}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[t]{\textbf{Joiner}\\\textbf{Normality}\\\textbf{$P$}} & \makecell[t]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[t]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
+\makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributory}\\\textbf{Category}} & \multicolumn{2}{c}{\textbf{Founder}} & \multicolumn{2}{c}{\textbf{Joiner}} & \makecell[t]{\textbf{Variance}\\\textbf{Equality}\\\textbf{$P$}} & \makecell[t]{\textbf{}\\\textbf{Statistical}\\\textbf{Models}} & \textbf{Model $P$} \\ 
 \cmidrule(lr){3-4} \cmidrule(lr){5-6}
- &  & \textbf{$\mu$} & \textbf{number} & \textbf{$\mu$} & \textbf{number} &  &  &  &  &  \\ 
+ &  & \textbf{$\mu$} & \textbf{\#} & \textbf{$\mu$} & \textbf{\#} &  &  &  \\ 
 \midrule
-1 & All &  1.84 & 126 & 1.22 & 15948 & \textless 0.001 & \textless 0.001 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
-1 & Moderate &  2.69 & 32 & 2.59 & 646 & \textless 0.001 & \textless 0.001 & 0.9790 &  Mann-Whitney & 0.8354 \\ 
-1 & Sustained &  2.19 & 27 & 2.40 & 203 & \textless 0.001 & \textless 0.001 & 0.6855 &  Mann-Whitney & 0.8744 \\ 
-2 & All &  3.25 & 76 & 2.97 & 2978 & \textless 0.001 & \textless 0.001 & 0.6337 &  Mann-Whitney & 0.3196 \\ 
-2 & Moderate &  3.75 & 32 & 3.58 & 646 & \textless 0.001 & \textless 0.001 & 0.7277 &  Mann-Whitney & 0.7740 \\ 
-2 & Sustained &  2.78 & 27 & 3.57 & 203 & \textless 0.001 & \textless 0.001 & 0.3435 &  Mann-Whitney & 0.7094 \\ 
-5 & Transient with five or more; moderate \& sustained &  4.92 & 64 & 6.09 & 1278 & \textless 0.001 & \textless 0.001 & 0.3134 &  Mann-Whitney & 0.0209 \\ 
-5 & Moderate &  5.47 & 32 & 6.40 & 646 & \textless 0.001 & \textless 0.001 & 0.6642 &  Mann-Whitney & 0.0813 \\ 
-5 & Sustained &  4.44 & 27 & 6.13 & 203 & \textless 0.001 & \textless 0.001 & 0.3299 &  Mann-Whitney & 0.1354 \\ 
-10 & Moderate \& sustained &  6.93 & 59 & 9.45 & 783 & \textless 0.001 & \textless 0.001 & 0.3054 &  Mann-Whitney & 0.0002 \\ 
-10 & Moderate &  7.75 & 32 & 9.73 & 580 & \textless 0.001 & \textless 0.001 & 0.7520 &  Mann-Whitney & 0.0111 \\ 
-10 & Sustained &  5.96 & 27 & 8.65 & 203 & \textless 0.001 & \textless 0.001 & 0.3473 &  Mann-Whitney & 0.0198 \\ 
-20 & Sustained &  8.19 & 27 & 13.06 & 203 & \textless 0.001 & \textless 0.001 & 0.1885 &  Mann-Whitney & 0.0078 \\ 
+1 & Transient,sustained \& moderate &  1.84 & 126 & 1.22 & 15948 & \textless 0.001 &  Brunner-Münzel & 0.0000 \\ 
+1 & Moderate &  2.69 & 32 & 2.59 & 646 & 0.9790 &  Mann-Whitney & 0.8354 \\ 
+1 & Sustained &  2.19 & 27 & 2.40 & 203 & 0.6855 &  Mann-Whitney & 0.8744 \\ 
+2 & Transient,sustained \& moderate &  3.25 & 76 & 2.97 & 2978 & 0.6337 &  Mann-Whitney & 0.3196 \\ 
+2 & Moderate &  3.75 & 32 & 3.58 & 646 & 0.7277 &  Mann-Whitney & 0.7740 \\ 
+2 & Sustained &  2.78 & 27 & 3.57 & 203 & 0.3435 &  Mann-Whitney & 0.7094 \\ 
+5 & All &  4.92 & 64 & 6.09 & 1278 & 0.3134 &  Mann-Whitney & 0.0209 \\ 
+5 & Moderate &  5.47 & 32 & 6.40 & 646 & 0.6642 &  Mann-Whitney & 0.0813 \\ 
+5 & Sustained &  4.44 & 27 & 6.13 & 203 & 0.3299 &  Mann-Whitney & 0.1354 \\ 
+10 & Moderate \& sustained &  6.93 & 59 & 9.45 & 783 & 0.3054 &  Mann-Whitney & 0.0002 \\ 
+10 & Moderate &  7.75 & 32 & 9.73 & 580 & 0.7520 &  Mann-Whitney & 0.0111 \\ 
+10 & Sustained &  5.96 & 27 & 8.65 & 203 & 0.3473 &  Mann-Whitney & 0.0198 \\ 
+20 & Sustained &  8.19 & 27 & 13.06 & 203 & 0.1885 &  Mann-Whitney & 0.0078 \\ 
 \bottomrule
 \end{tabular}%
 \label{tab:codebase_graph_latex_repository_graph_component_time_series_statistical_significance_test_packagesnormal_previous} 
 \end{table}
-\end{landscape}
 \newpage 

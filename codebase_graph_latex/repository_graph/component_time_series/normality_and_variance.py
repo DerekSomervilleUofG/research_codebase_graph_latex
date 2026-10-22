@@ -8,27 +8,7 @@ SIGNIFICANT_P = 0.05
 def section_sub_heading(time_series):
     latex = get_section_start(FILE_NAME, "") 
     latex += "For all components touched for " + time_series + "} \n\n"
-    latex += "Certain statistical methods require normality of each sample or the equality of variance. "
-    latex += "A Shapiro-Wilk Test evaluates whether a sample distribution significantly differs from the normal distribution. "
-    latex += "A Levene's test evaluates if the independent samples have equal variance.  \n\n"  
     #latex += diagnostic_table()
-    latex += "Columns below:  \n"
-
-    latex += r"""\begin{itemize}
-                    \item{\textbf{First *n* commits} - A sample of the first x number of commits for developers. }
-                    \item{\textbf{Contributor Category} Transient, Moderate or Sustained. "vs." equals versus.}
-                    \item{\textbf{Sample A $\mu$} - The mean average of the first sample A. }
-                    \item{\textbf{Sample A Number} - The number of developers the first sample A.  }
-                    \item{\textbf{Sample B $\mu$} - The mean average of the second sample B.}
-                    \item{\textbf{Sample B Number} - The number of developers the first sample B.}
-                    \item{\textbf{Percentage Difference in $\mu$} - The percentage difference in means between samples.}
-                    \item{\textbf{Sample A Normality $P$} - Shapiro normality $P$ value of sample A. } 
-                    \item{\textbf{Sample B Normality $P$} - Shapiro normality $P$ value of sample B. }
-                    \item{\textbf{Variance Equality $P$} - The Levene variance equality p-value between sample A and B. }
-                    \item{\textbf{Statistical Model} - A recommended statistical model of Welch $t$ test; Mann-Whitney; Brunner Münzel }
-                    \item{\textbf{Model $P$} - The $P$ value of the recommended test Welch $t$ test; Mann-Whitney; Brunner Münzel }
-                \end{itemize}
-    """
     latex += "\n"
     return latex
 
@@ -55,18 +35,33 @@ def diagnostic_table():
 """
     return latex
 
-def get_table_name(component, category_compare):
-    return "A Shapiro-Wilk test of " + component + " for " + category_compare + " sample normality and a Levene's variance test between samples"
+def get_table_name(component, category_compare, commit_describe, headings):
+    latex = "Statistical significance tests of the difference of number of " + component + " touched "
+    latex += "by " + category_compare + " after various first " + commit_describe + " commits and for "
+    latex += rf"different cohorts of contributors (all, moderate and sustained). "
+    latex += "All distributions were found to be non-normal, so statistical tests were selected "
+    latex += "based on the variance equality of distributions (Brumner-Munzel or Mann-Whitney). "
+    latex += generate_table_name_headings(headings)
+    return latex
 
 def get_headings(sample_a, sample_b):
-    headings = ["First $n$ commits", "Contributory Category", sample_a + r" $\mu$", sample_a + r" number", sample_b + r" $\mu$", sample_b + r" number", sample_a + " Normality $P$", sample_b + " Normality $P$", "Variance Equality $P$", "Statistical Models", "Model $P$"]
-    return headings
+    return {
+        "First $n$ commits": "A sample of the first x number of commits for developers.",
+        "Contributory Category": 'Transient, Moderate or Sustained. "vs." equals versus.',
+        rf"{sample_a} $\mu$": f"The mean average of the first sample ({sample_a}).",
+        rf"{sample_a} \#": f"The number of developers in the first sample ({sample_a}).",
+        rf"{sample_b} $\mu$": f"The mean average of the second sample ({sample_b}).",
+        rf"{sample_b} \#": f"The number of developers in the second sample ({sample_b}).",
+        "Variance Equality $P$": f"The Levene variance equality $p$-value between {sample_a} and {sample_b}.",
+        "Statistical Models": "A recommended statistical model of Welch $t$-test; Mann-Whitney; Brunner Münzel.",
+        "Model $P$": "The $P$-value of the recommended statistical test.",
+    }
 
 def get_latex_heading():
-    return "r p{4cm} c c c c r r r l r "
+    return "r p{4cm} c c c c r l r "
 
-def get_table_latex(component, category_compare, sample_a, sample_b):
-    return start_landscape() + start_latex_table(get_table_name(component, category_compare), get_headings(sample_a, sample_b), get_latex_heading(), "Shapiro-Wilk and Levene's variance tests for " + component + " for " + category_compare)
+def get_table_latex(component, category_compare, headings, number_of_commits_description, heading_def):
+    return start_latex_table(get_table_name(component, category_compare, number_of_commits_description, heading_def), headings, get_latex_heading(), "Statistical Significance Normality and Variance tests for " + component + " for " + category_compare + " for " + number_of_commits_description)
 
 def format_p(val):
         if val < 0.001:
@@ -95,6 +90,5 @@ def generate_normal_comparison_latex(latex, sample_a_values, sample_b_values, fi
     shapiro_p_a = format_p(shapiro_p_a)
     shapiro_p_b = format_p(shapiro_p_b)
     levene_p = format_p(levene_p)
-    latex += f"{shapiro_p_a} & {shapiro_p_b} & "
     latex += f"{levene_p} &  {recommended} & {p_value:.4f} \\\\ \n"
     read_write_file.append_to_file(file_name + ".tex", latex, DIRECTORY)

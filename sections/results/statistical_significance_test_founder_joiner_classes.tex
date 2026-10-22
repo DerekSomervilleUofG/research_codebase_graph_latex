@@ -2,20 +2,21 @@
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Statistical Significance tests for classesfor different categories of founder versus different categories of late joiner ]{Statistical significance tests of different categories of founder versus different categories of late joiner  touches of different granularities of classes after 1, 5, 10 and 20  commits for contributors. The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. }
-\begin{tabular}{r p{4cm} c c c c r r r r r r r r r r r r}
+\caption[Statistical Significance tests for classes for different categories of founder versus different categories of late joiner  for 1 to 5, 10 and 20]{Statistical significance tests of different categories of founder versus different categories of late joiner  touches of different granularities of classes after 1 to 5, 10 and 20 commits for contributors. The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. \\ \textbf{Metrics reported}:   \textbf{First $n$ commits}: A sample of the first $n$ commits evaluated for developers.;  \textbf{Contributor Category}: The developer activity cohort: Transient, Moderate, or Sustained. "vs." equals versus.;  \textbf{Founder $\mu$}: The mean average metric value for the Founder sample cohort.;  \textbf{Founder Number}: The total number of unique Founder developers included in the sample.;  \textbf{Joiner $\mu$}: The mean average metric value for the Joiner sample cohort.;  \textbf{Joiner Number}: The total number of unique Joiner developers included in the sample.;  \textbf{Welch Statistic}: The test statistic ($t$) for Welch's $t$-test. Absolute values greater than approximately $2.0$ generally indicate a significant difference between groups.;  \textbf{Welch $P$}: The $p$-value from Welch's $t$-test assessing the difference in means between Founder and Joiner. A $p < 0.05$ indicates a statistically significant difference.;  \textbf{MWU $P$}: The Mann-Whitney $U$ test $p$-value assessing rank-sum differences between Founder and Joiner. A $p < 0.05$ indicates a statistically significant distributional difference.;  \textbf{BM $P$}: The Brunner-Münzel test asymptotic $p$-value. A $p < 0.05$ indicates a statistically significant difference in relative stochastic effects, robust to heteroscedasticity.;  \textbf{Brunner-Münzel $W$}: The robust Brunner-Münzel test statistic ($W$). Large absolute values indicate a significant structural shift in rank distribution between samples.;  \textbf{Cliff's $\delta$}: A non-parametric effect size bounded between $-1$ and $+1$, quantifying the degree of directional dominance of Founder relative to Joiner.;  \textbf{Prob. Sup. ($PS$)}: The probability of superiority: the empirical probability ($0$ to $1$) that a randomly selected developer from Founder scored higher than a randomly selected developer from Joiner.
+}
+\begin{tabular}{r p{4cm} c c c c r r r r r r r r}
 \toprule
 \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributor}\\\textbf{Category}} & \multicolumn{2}{c}{\textbf{Founder}} & \multicolumn{2}{c}{\textbf{Joiner}} & \multicolumn{2}{c}{\textbf{Welch}} & \textbf{MWU $P$} & \textbf{BM $P$} & \makecell[t]{\textbf{}\\\textbf{Brunner-Münzel}\\\textbf{$W$}} & \makecell[t]{\textbf{Cliff's}\\\textbf{$\delta$}} & \makecell[t]{\textbf{Prob. Sup.}\\\textbf{($PS$)}} \\ 
 \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
  &  & \textbf{$\mu$} & \textbf{Number} & \textbf{$\mu$} & \textbf{Number} & \textbf{Statistic} & \textbf{$P$} &  &  &  &  &  \\ 
 \midrule
-1 & All &  3.95 & 126 & 1.27 & 15948 & 2.22 & 0.0280 & 0.0000 & 0.0001 & -3.99 & 0.136 & 0.568 \\ 
+1 & Transient,sustained \& moderate &  3.95 & 126 & 1.27 & 15948 & 2.22 & 0.0280 & 0.0000 & 0.0001 & -3.99 & 0.136 & 0.568 \\ 
 1 & Moderate &  8.44 & 32 & 2.95 & 646 & 1.26 & 0.2170 & 0.6752 & 0.6818 & 0.41 & -0.034 & 0.483 \\ 
 1 & Sustained &  2.85 & 27 & 5.49 & 203 & -1.06 & 0.2881 & 0.2562 & 0.3003 & -1.05 & 0.099 & 0.550 \\ 
-2 & All &  14.68 & 76 & 6.03 & 2978 & 1.63 & 0.1070 & 0.0135 & 0.0245 & -2.29 & 0.161 & 0.580 \\ 
+2 & Transient,sustained \& moderate &  14.68 & 76 & 6.03 & 2978 & 1.63 & 0.1070 & 0.0135 & 0.0245 & -2.29 & 0.161 & 0.580 \\ 
 2 & Moderate &  13.78 & 32 & 8.14 & 646 & 1.36 & 0.1822 & 0.2519 & 0.3036 & -1.04 & 0.118 & 0.559 \\ 
 2 & Sustained &  21.00 & 27 & 8.25 & 203 & 0.90 & 0.3775 & 0.0709 & 0.0940 & -1.73 & 0.210 & 0.605 \\ 
-5 & Transient with five or more; moderate \& sustained &  39.38 & 64 & 22.77 & 1278 & 1.75 & 0.0852 & 0.1692 & 0.2192 & -1.24 & 0.102 & 0.551 \\ 
+5 & All &  39.38 & 64 & 22.77 & 1278 & 1.75 & 0.0852 & 0.1692 & 0.2192 & -1.24 & 0.102 & 0.551 \\ 
 5 & Moderate &  44.84 & 32 & 22.96 & 646 & 1.55 & 0.1309 & 0.2573 & 0.3588 & -0.93 & 0.119 & 0.559 \\ 
 5 & Sustained &  37.89 & 27 & 30.01 & 203 & 0.50 & 0.6193 & 0.5287 & 0.5272 & -0.64 & 0.075 & 0.537 \\ 
 10 & Moderate \& sustained &  67.85 & 59 & 43.51 & 783 & 1.98 & 0.0526 & 0.1105 & 0.1744 & -1.37 & 0.124 & 0.562 \\ 

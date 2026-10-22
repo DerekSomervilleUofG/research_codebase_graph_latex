@@ -22,7 +22,7 @@ def section_sub_sub_heading(component, time_series):
 
 def generate_tukey_explanation_latex():
     return r"""
-\paragraph{Post-hoc Analysis (Tukey HSD):}
+\textbf{Post-hoc Analysis (Tukey HSD):}
 Following the ANOVA, a Tukey Honestly Significant Difference (HSD) test was performed. 
 While ANOVA identifies if at least one group differs, Tukey HSD performs pairwise 
 comparisons to identify specific differences between developer roles and tenure 
@@ -106,11 +106,12 @@ def generate_and_save(component, developers, number_of_commits):
     table_name = "Tukey HSD results for " + component + " and number of commits"
     commit_prefix = "all commits"
     headings = ["Commits", "Number of Developers", "Group A", "Group B", "Mean Diff", "Adj $P$ Value"]
-    
+    latex = ""
     if component == "classes" and number_of_commits == START_COMMIT_NUMBER:
         latex = section_heading(commit_prefix).replace("Hsd", "HSD")
         latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + "} \n"
-        save_to_latex_file(sig_file_name, base_file_name + ".tex", latex, DIRECTORY)
+        read_write_file.write_file(base_file_name + ".tex", latex, DIRECTORY)
+        save_to_latex_file(sig_file_name, base_file_name + ".tex", "", DIRECTORY)
         save_to_latex_file(not_sig_file_name, base_file_name + ".tex", "", DIRECTORY)
     if number_of_commits == START_COMMIT_NUMBER:
         latex = start_latex_table("Significant " + table_name, headings, "r r l l r r", "Significant Tukey HSD Results for " + component)

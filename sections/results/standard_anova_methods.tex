@@ -1,27 +1,29 @@
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Standard Anova Results for methods]{Anova results for methods for number of commits and categories of developers}
+\caption[Standard Anova Results for methods]{Anova results for methods for number of commits and categories of developers\\ \textbf{Metrics reported}:   \textbf{First $n$ commits}: Nnmber of commits;  \textbf{Number of Developers}: The active developer population size.;  \textbf{Factor}: The independent categorical variables or interactions being tested for statistical significance.;  \textbf{Sum of Squares}: Represents the total variation explained by that specific factor. A higher Sum Sq relative to the Residual indicates that the factor has a strong influence on the outcome.;  \textbf{df}: The number of independent values that can vary in the calculation. For categorical variables, this is typically N-1 levels.;  \textbf{F-statistic}: The ratio of the variance explained by the factor to the variance unexplained (Residual). A larger F-value suggests the factor is more likely to be significant.;  \textbf{$p$-Value}: The probability that the observed differences occurred by chance. ;  \textbf{ETA Sq}: The effect size, quantifies the proportion of the total variance in your dependent variable.
+\\ \textbf{Row}:   \textbf{Intercept}: Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.;  \textbf{Role(F/L)}: Tests the Main Role Effect of being a Founder versus a Late Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage component exploration.;  \textbf{Category(M/S)}: Tests the Main Category Effect of the eventual contributor category (Transient vs Moderate vs. Sustained).;  \textbf{Interaction}: Tests the Interaction Effect. It evaluates if the effect of being a Founder is different for the different categories.;  \textbf{Residual}: Represents the "noise" or variance within the groups that cannot be explained by Role or Tenure.
+}
 \begin{tabular}{r r l r r r r r}
 \toprule
-\makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \textbf{Factor} & \makecell[t]{\textbf{Sum}\\\textbf{Squared}} & \textbf{df} & \textbf{F-Stat} & \textbf{$P$ Value} & \textbf{ETA Sq} \\ 
+\makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \textbf{Factor} & \makecell[t]{\textbf{Sum of}\\\textbf{Squares}} & \textbf{df} & \makecell[t]{\textbf{}\\\textbf{F-statistic}} & \textbf{$p$-Value} & \textbf{ETA Sq} \\ 
 \midrule
 1 & 16074 & Role (F/LJ) & 9218.70 & 1 & 11.15 & 0.0008 & 0.0007 \\ 
 1 & 16074 & Category (T/M/S) & 9426.46 & 2 & 5.70 & 0.0033 & 0.0007 \\ 
 1 & 16074 & Interaction & 16483.80 & 2 & 9.97 & 0.0000 & 0.0012 \\ 
-1 & 16074 & Residual & 13283494.15 & 16068 & - & -  \\ 
+1 & 16074 & Residual & 13283494.15 & 16068 & - & - & -   \\ 
 2 & 3054 & Role (F/LJ) & 33628.65 & 1 & 6.54 & 0.0106 & 0.0021 \\ 
 2 & 3054 & Category (M/S) & 64575.83 & 2 & 6.28 & 0.0019 & 0.0041 \\ 
 2 & 3054 & Interaction & 48490.07 & 2 & 4.72 & 0.0090 & 0.0030 \\ 
-2 & 3054 & Residual & 15665852.09 & 3048 & - & -  \\ 
+2 & 3054 & Residual & 15665852.09 & 3048 & - & - & -   \\ 
 5 & 1342 & Role (F/LJ) & 473091.31 & 1 & 11.96 & 0.0006 & 0.0086 \\ 
 5 & 1342 & Category (M/S) & 154907.10 & 2 & 1.96 & 0.1415 & 0.0028 \\ 
 5 & 1342 & Interaction & 179670.00 & 2 & 2.27 & 0.1035 & 0.0033 \\ 
-5 & 1342 & Residual & 52834591.11 & 1336 & - & -  \\ 
+5 & 1342 & Residual & 52834591.11 & 1336 & - & - & -   \\ 
 10 & 842 & Role (F/LJ) & 676235.34 & 1 & 8.58 & 0.0035 & 0.0097 \\ 
 10 & 842 & Category (M/S) & 13190.85 & 1 & 0.17 & 0.6825 & 0.0002 \\ 
 10 & 842 & Interaction & 57263.56 & 1 & 0.73 & 0.3942 & 0.0008 \\ 
-10 & 842 & Residual & 66026935.96 & 838 & - & -  \\ 
+10 & 842 & Residual & 66026935.96 & 838 & - & - & -   \\ 
 \bottomrule
 \end{tabular}%
 \label{tab:standard_anova_methods} 

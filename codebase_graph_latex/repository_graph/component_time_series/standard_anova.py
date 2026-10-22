@@ -24,27 +24,69 @@ def section_sub_heading(commit_prefix):
     latex += "\\label{subsec:" + FILE_NAME.replace(" ", "_") + commit_prefix + "} \n"
     return latex
 
+def get_headings():
+    return {
+    r"First $n$ commits": (
+            "Nnmber of commits"
+        ),
+    rf"Number of Developers": (
+            "The active developer population size."
+        ),
+    "Factor": (
+            "The independent categorical variables or interactions being "
+            "tested for statistical significance."
+        ),
+    "Sum of Squares": (
+        "Represents the total variation explained by that specific factor. "
+        "A higher Sum Sq relative to the Residual indicates that the factor "
+        "has a strong influence on the outcome."
+    ),
+    "df": (
+        "The number of independent values that can vary in the calculation. "
+        "For categorical variables, this is typically N-1 levels."
+    ),
+    "F-statistic": (
+        "The ratio of the variance explained by the factor to the variance "
+        "unexplained (Residual). A larger F-value suggests the factor is more "
+        "likely to be significant."
+    ),
+    rf"$p$-Value": (
+        "The probability that the observed differences occurred by chance. "
+    ),
+    "ETA Sq": (
+        "The effect size, quantifies the proportion of the total variance in "
+        "your dependent variable."
+    )
+}
+def get_row_names():
+    return {
+    "Intercept": (
+        "Represents the baseline value of the dependent variable when all "
+        "categorical factors are at their reference levels."
+    ),
+    "Role(F/L)": (
+        "Tests the Main Role Effect of being a Founder versus a Late Joiner. "
+        "The p-Value above 0.05 indicates that the timing of project entry "
+        "does not significantly change the breadth of early-stage component "
+        "exploration."
+    ),
+    "Category(M/S)": (
+        "Tests the Main Category Effect of the eventual contributor category "
+        "(Transient vs Moderate vs. Sustained)."
+    ),
+    "Interaction": (
+        "Tests the Interaction Effect. It evaluates if the effect of being a "
+        "Founder is different for the different categories."
+    ),
+    "Residual": (
+        'Represents the "noise" or variance within the groups that cannot be '
+        "explained by Role or Tenure."
+    ),
+}
+
 def generate_anova_explanation_latex():
     latex = r"""
 The Two-Way ANOVA evaluates the influence of two independent categorical variables—\textit{Role} (Founder vs. Late Joiner) and \textit{Tenure} (Moderate vs. Sustained)—on the number of unique architectural components touched. The analysis excludes and includes Transient developers to isolate the behaviors of contributors with established project engagement.
-
-\paragraph{Explanation of Table Columns:}
-\begin{itemize}
-    \item \textbf{Sum Sq (Sum of Squares):} Represents the total variation explained by that specific factor. A higher Sum Sq relative to the Residual indicates that the factor has a strong influence on the outcome.
-    \item \textbf{df (Degrees of Freedom):} The number of independent values that can vary in the calculation. For categorical variables, this is typically $N-1$ levels.
-    \item \textbf{F (F-statistic):} The ratio of the variance explained by the factor to the variance unexplained (Residual). A larger F-value suggests the factor is more likely to be significant.
-    \item \textbf{p-Value ($PR(>F)$):} The probability that the observed differences occurred by chance. Using a significance threshold of $\alpha = 0.05$, values above this indicate no statistically significant effect.
-    \item \textbf{ETA Sq} The effect size, quantifies the proportion of the total variance in your dependent variable. 
-\end{itemize}
-
-\paragraph{Explanation of Table Rows:}
-\begin{itemize}
-    \item \textbf{Intercept:} Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.
-    \item \textbf{Role(F/L):} Tests the \textit{Main Role Effect} of being a Founder versus a Late Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage component exploration.
-    \item \textbf{Category(M/S):} Tests the \textit{Main Category Effect} of the eventual contributor catregory (Transient vs Moderate vs. Sustained). 
-    \item \textbf{Interaction:} Tests the \textit{Interaction Effect}. It evaluates if the effect of being a Founder is different for the different categories. 
-    \item \textbf{Residual:} Represents the ``noise'' or variance within the groups that cannot be explained by Role or Tenure. 
-\end{itemize}
 """
     return latex
 
@@ -132,7 +174,7 @@ def generate_anova_latex(df, component, commit_prefix, number_of_commits, catego
         
         # Handle the Residual row (which has no F or P)
         if index == 'Residual':
-            latex = f"{number_of_commits} & {number_of_developers} & {label} & {row['sum_sq']:.2f} & {row['df']:.0f} & - & -  \\\\ \n"
+            latex = f"{number_of_commits} & {number_of_developers} & {label} & {row['sum_sq']:.2f} & {row['df']:.0f} & - & - & -   \\\\ \n"
         else:
             latex += f"{row['eta_sq']:.4f} \\\\ \n"
             
@@ -145,15 +187,17 @@ def generate_and_save(component, developers, number_of_commits):
     base_file_name = get_base_file_name(FILE_NAME)
     file_name = base_file_name + "_" + component
     df = get_data_frame(developers, TIME_SERIES_NUMBER_OF_COMMIT)
+    headings = get_headings()
     table_name = "Anova results for " + component + " for number of commits and categories of developers"
+    table_name += generate_table_name_headings(headings)
+    table_name += generate_table_name_headings(get_row_names(), "Row")
     commit_prefix = "all commits"
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_heading(commit_prefix)
-    else:
-        latex = ""
+        read_write_file.write_file(base_file_name + ".tex", section_heading(commit_prefix), DIRECTORY)
+
+    latex = ""
     if number_of_commits == START_COMMIT_NUMBER:
-        headings = ["First $n$ commits", "Number of Developers", "Factor", "Sum Squared", "df", "F-Stat", "$P$ Value", "ETA Sq"]
-        latex += start_latex_table(table_name, headings, "r r l r r r r r", "Standard Anova Results for " + component)
+        latex += start_latex_table(table_name, list(headings.keys()), "r r l r r r r r", "Standard Anova Results for " + component)
         save_to_latex_file(file_name, base_file_name + ".tex", latex, path)   
     if number_of_commits == 1:     
         category = "Category (T/M/S)"

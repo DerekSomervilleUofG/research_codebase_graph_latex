@@ -2,8 +2,9 @@
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Statistical Significance tests for methodsfor  sample A category versus sample B category ]{Statistical significance tests of  sample A category versus sample B category  touches of different granularities of methods after 1, 5 and 10  commits for contributors. The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. }
-\begin{tabular}{r p{4cm} c c c c r r r r r r r r r r r r}
+\caption[Statistical Significance tests for methods for  sample A category versus sample B category  for 1 to 5, 10 and 20]{Statistical significance tests of  sample A category versus sample B category  touches of different granularities of methods after 1 to 5, 10 and 20 commits for contributors. The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. \\ \textbf{Metrics reported}:   \textbf{First $n$ commits}: A sample of the first $n$ commits evaluated for developers.;  \textbf{Contributor Category}: The developer activity cohort: Transient, Moderate, or Sustained. "vs." equals versus.;  \textbf{Sample A $\mu$}: The mean average metric value for the Sample A sample cohort.;  \textbf{Sample A Number}: The total number of unique Sample A developers included in the sample.;  \textbf{Sample B $\mu$}: The mean average metric value for the Sample B sample cohort.;  \textbf{Sample B Number}: The total number of unique Sample B developers included in the sample.;  \textbf{Welch Statistic}: The test statistic ($t$) for Welch's $t$-test. Absolute values greater than approximately $2.0$ generally indicate a significant difference between groups.;  \textbf{Welch $P$}: The $p$-value from Welch's $t$-test assessing the difference in means between Sample A and Sample B. A $p < 0.05$ indicates a statistically significant difference.;  \textbf{MWU $P$}: The Mann-Whitney $U$ test $p$-value assessing rank-sum differences between Sample A and Sample B. A $p < 0.05$ indicates a statistically significant distributional difference.;  \textbf{BM $P$}: The Brunner-Münzel test asymptotic $p$-value. A $p < 0.05$ indicates a statistically significant difference in relative stochastic effects, robust to heteroscedasticity.;  \textbf{Brunner-Münzel $W$}: The robust Brunner-Münzel test statistic ($W$). Large absolute values indicate a significant structural shift in rank distribution between samples.;  \textbf{Cliff's $\delta$}: A non-parametric effect size bounded between $-1$ and $+1$, quantifying the degree of directional dominance of Sample A relative to Sample B.;  \textbf{Prob. Sup. ($PS$)}: The probability of superiority: the empirical probability ($0$ to $1$) that a randomly selected developer from Sample A scored higher than a randomly selected developer from Sample B.
+}
+\begin{tabular}{r p{4cm} c c c c r r r r r r r r}
 \toprule
 \makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{}\\\textbf{Contributor}\\\textbf{Category}} & \multicolumn{4}{c}{\textbf{Sample}} & \multicolumn{2}{c}{\textbf{Welch}} & \textbf{MWU $P$} & \textbf{BM $P$} & \makecell[t]{\textbf{}\\\textbf{Brunner-Münzel}\\\textbf{$W$}} & \makecell[t]{\textbf{Cliff's}\\\textbf{$\delta$}} & \makecell[t]{\textbf{Prob. Sup.}\\\textbf{($PS$)}} \\ 
 \cmidrule(lr){3-6} \cmidrule(lr){7-8}
@@ -30,7 +31,7 @@
 
 \subsubsection*{Statistical Models}
 
-\paragraph{Welch's t-test}
+\textbf{Welch's t-test}
 To specifically compare the two primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming equal variances or sample sizes, Welch's $t$-test is employed. The $t$-statistic is defined as:
 
 \begin{equation}
@@ -50,7 +51,7 @@ The degrees of freedom ($\nu$) for this test are calculated using the Welch-Satt
 \end{equation}
 
 
-\paragraph{Mann-Whitney U Test}
+\textbf{Mann-Whitney U Test}
 To evaluate the differences in the stochastic dominance of architectural component exploration between primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming a normal distribution, the non-parametric Mann-Whitney $U$ test (Wilcoxon rank-sum test) is employed. 
 
 The data from both independent groups are combined and ranked globally from lowest ($1$) to highest ($N_1 + N_2$), resolving ties by assigning the average rank. The $U$ statistic for Sample A ($U_1$) is calculated as:
@@ -66,7 +67,7 @@ Where:
     \item The total number of pairwise comparisons (maximum possible pairs) is defined by $N_1 \times N_2$.
 \end{itemize}
 
-\paragraph{Normal Approximation for Large Samples}
+\textbf{Normal Approximation for Large Samples}
 Given the substantial sample sizes present in repository participant metrics, the distribution of the $U$ statistic rapidly approaches a normal distribution. The asymptotic significance is determined using a standard normal $Z$-score approximation:
 
 \begin{equation}
@@ -83,7 +84,7 @@ Where the expected mean ($\mu_U$) and standard deviation ($\sigma_U$) under the 
 A calculated $p$-value lower than the alpha threshold ($p < 0.05$) indicates a statistically significant difference in the rank-order distributions of the two groups, demonstrating that one developer role systematically outranks the other in codebase exploration.
 
 
-\paragraph{Brunner-Münzel Test}
+\textbf{Brunner-Münzel Test}
 To test for differences in the stochastic distributions of primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming normal distribution or variance homogeneity, the Brunner-Münzel test is applied. The test statistic $W$ is defined as:
 
 \begin{equation}
@@ -92,7 +93,7 @@ To test for differences in the stochastic distributions of primary roles (\textb
 
 Where $\hat{p}$ represents the relative treatment effect (Probability of Superiority), reflecting the probability that a random observation from Sample A is larger than one from Sample B plus half the probability that they are equal.
 
-\paragraph{Cliff's $\delta$ Effect Size}
+\textbf{Cliff's $\delta$ Effect Size}
 To complement hypothesis significance testing with a distribution-free magnitude metric, Cliff's $\delta$ is tracked to express the degree of dominance of one sample over the other:
 
 \begin{equation}

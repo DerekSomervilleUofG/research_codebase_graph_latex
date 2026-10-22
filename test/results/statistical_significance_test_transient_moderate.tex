@@ -38,7 +38,7 @@ Methods & 10 & Moderate vs. sustained &  153.35 & 620 & 191.16 & 237 & 124.66 & 
 
 \subsubsection*{Statistical Models}
 
-\paragraph{Welch's t-test}
+\textbf{Welch's t-test}
 To specifically compare the two primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming equal variances or sample sizes, Welch's $t$-test is employed. The $t$-statistic is defined as:
 
 \begin{equation}
@@ -58,7 +58,7 @@ The degrees of freedom ($\nu$) for this test are calculated using the Welch-Satt
 \end{equation}
 
 
-\paragraph{Mann-Whitney U Test}
+\textbf{Mann-Whitney U Test}
 To evaluate the differences in the stochastic dominance of architectural component exploration between primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming a normal distribution, the non-parametric Mann-Whitney $U$ test (Wilcoxon rank-sum test) is employed. 
 
 The data from both independent groups are combined and ranked globally from lowest ($1$) to highest ($N_1 + N_2$), resolving ties by assigning the average rank. The $U$ statistic for Sample A ($U_1$) is calculated as:
@@ -74,7 +74,7 @@ Where:
     \item The total number of pairwise comparisons (maximum possible pairs) is defined by $N_1 \times N_2$.
 \end{itemize}
 
-\paragraph{Normal Approximation for Large Samples}
+\textbf{Normal Approximation for Large Samples}
 Given the substantial sample sizes present in repository participant metrics, the distribution of the $U$ statistic rapidly approaches a normal distribution. The asymptotic significance is determined using a standard normal $Z$-score approximation:
 
 \begin{equation}
@@ -91,7 +91,7 @@ Where the expected mean ($\mu_U$) and standard deviation ($\sigma_U$) under the 
 A calculated $p$-value lower than the alpha threshold ($p < 0.05$) indicates a statistically significant difference in the rank-order distributions of the two groups, demonstrating that one developer role systematically outranks the other in codebase exploration.
 
 
-\paragraph{Brunner-Münzel Test}
+\textbf{Brunner-Münzel Test}
 To test for differences in the stochastic distributions of primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming normal distribution or variance homogeneity, the Brunner-Münzel test is applied. The test statistic $W$ is defined as:
 
 \begin{equation}
@@ -100,7 +100,7 @@ To test for differences in the stochastic distributions of primary roles (\textb
 
 Where $\hat{p}$ represents the relative treatment effect (Probability of Superiority), reflecting the probability that a random observation from Sample A is larger than one from Sample B plus half the probability that they are equal.
 
-\paragraph{Cliff's $\delta$ Effect Size}
+\textbf{Cliff's $\delta$ Effect Size}
 To complement hypothesis significance testing with a distribution-free magnitude metric, Cliff's $\delta$ is tracked to express the degree of dominance of one sample over the other:
 
 \begin{equation}

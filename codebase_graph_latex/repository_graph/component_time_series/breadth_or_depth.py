@@ -18,6 +18,33 @@ BASE_FILE_NAME = "repository_summary_1.tex"
 packages_developers = {}
 
 
+def get_headings():
+    return {
+        "First $n$ Commits": (
+            "The initial number of commits evaluated for each developer in the sample cohort."
+        ),
+        # Using raw multiline string for LaTeX math blocks
+        r"Median $Ratio_{m/p}$": (
+            r"$\displaystyle \text{Ratio}_{m/p} = \frac{\text{Methods Touched}}{\text{Packages Touched}}$"
+        ),
+        # Using raw f-strings to inject thresholds cleanly into LaTeX
+        rf"Breadth-First ($<{BREADTH_THRESHOLD}$)": (
+            "Indicates a structural approach where edits are distributed across package boundaries without heavy localized method churn."
+        ),
+        rf"Depth-First ($>{DEPTH_THRESHOLD}$)": (
+            "Signifies a highly localized strategy where engineering effort is concentrated deep within a narrow set of architectural packages."
+        ),
+        r"Dip Stat ($p$-val)": (
+            "Hartigan's Dip Test for multimodality"
+        ),
+        r"MWU $p$-val": (
+            r"Mann-Whitney U $p$-value"
+        ),
+        r"Binomial $p$-val": (
+            r"Brunner--Münzel $p$-value"
+        ),
+    }
+
 def hartigans_dip_test(data):
     """Calculates Hartigan's Dip Statistic for multimodality testing.
 
@@ -57,23 +84,9 @@ def generate_ratio_explanation():
     latex = fr"""
 \section{{Granular Exploration Profiles: Evaluating the Method-to-Package Ratio}}
 \label{{sec:method_package_ratio_analysis}}
-
-To evaluate the operational strategies employed by developers when entering a codebase, we analyse the structural ratio of unique methods modified relative to unique packages touched:
-
-\begin{{equation}}
-    \text{{Ratio}}_{{m/p}} = \frac{{\text{{Methods Touched}}}}{{\text{{Packages Touched}}}}
-\end{{equation}}
-
-This ratio serves as a quantitative proxy for codebase exploration tactics during a contributor's initial commits. We categorize exploration strategies using empirical threshold boundaries:
-
-\begin{{{list_env}}}
-    \item \textbf{{Breadth-First Strategy ($\text{{Ratio}}_{{m/p}} < {int(BREADTH_THRESHOLD)}$):}} Indicates a structural approach where edits are distributed across package boundaries without heavy localized method churn.
-    \item \textbf{{Moderate Exploration ($25 \le \text{{Ratio}}_{{m/p}} \le {int(DEPTH_THRESHOLD)}$):}} Represents a balanced mix of architectural traversal and module-level implementation.
-    \item \textbf{{Depth-First Strategy ($\text{{Ratio}}_{{m/p}} > {int(DEPTH_THRESHOLD)}$):}} Signifies a highly localized strategy where engineering effort is concentrated deep within a narrow set of architectural packages.
-\end{{{list_env}}}
-
-To test whether sustained developers systematically adopt a predominant strategy or bifurcate into distinct archetypes, we execute Hartigan's Dip Test for multimodality alongside two-sample non-parametric tests (Mann-Whitney U and Brunner--Münzel).
 """
+
+
     return latex
 
 
@@ -202,31 +215,30 @@ def generate_and_save_ratio_analysis(
 
 
     # 3. Output LaTeX structure
-    output_filename = get_file_name(FILE_NAME)
-
+    output_filename = get_base_file_name(FILE_NAME) + "_table.tex"
+    table_name = "Method-to-Package Exploration Strategy Distribution and Multimodality Test for " + str(len(developers_dict[SUSTAINED_JOINER])) + " " + SUSTAINED_JOINER
+    table_name += generate_table_name_headings(get_headings())
 
     if component == "packages": 
         if commit_window == START_COMMIT_NUMBER:
             latex_header = generate_ratio_explanation()
-            headings = [
-                "Commits",
-                "Median $Ratio_{m/p}$",
-                "Breadth-First ($<" + str(BREADTH_THRESHOLD) + "$)",
-                "Depth-First ($>" + str(DEPTH_THRESHOLD) + "$)",
-                "Dip Stat ($p$-val)",
-                "MWU $p$-val",
-                "Binomial $p$-val",
-            ]
-            latex_header += start_latex_table(
-                "Method-to-Package Exploration Strategy Distribution and Multimodality Test for " + str(len(developers_dict[SUSTAINED_JOINER])) + " " + SUSTAINED_JOINER,
+            save_to_latex_file(
+                            get_base_file_name(FILE_NAME),
+                            BASE_FILE_NAME,
+                            latex_header,
+                            DIRECTORY,
+                        )
+            headings = list(get_headings().keys())
+            latex = start_latex_table(
+                table_name,
                 headings,
                 "c r r r r r r",
                 "Ratio Strategy Table",
             )
             save_to_latex_file(
-                get_base_file_name(FILE_NAME),
-                BASE_FILE_NAME,
-                latex_header,
+                get_base_file_name(FILE_NAME) + "_table",
+                get_file_name(FILE_NAME),
+                latex,
                 DIRECTORY,
             )
         packages_developers[commit_window] = developers_dict

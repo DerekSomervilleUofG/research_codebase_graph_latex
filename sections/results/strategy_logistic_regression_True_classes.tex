@@ -2,10 +2,11 @@
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Strategy Logistic Regression Sustained]{Strategy Logistic Regression for classes against number of commits to predict Sustained developers}
+\caption[Strategy Logistic Regression Sustained for classes for 1 to 5 and 10]{Strategy Logistic Regression for classes against 1 to 5 and 10 commits to predict Sustained developers. 
+    To identify early indicators of long-term developer engagement, a Logistic Regression model was employed. The model treats the developer category (Sustained vs. Non-Sustained) as a binary dependent variable. }
 \begin{tabular}{r l r r r r r r r r r}
 \toprule
-\makecell[t]{\textbf{Number of}\\\textbf{First}\\\textbf{Commits}} & \makecell[t]{\textbf{Model}\\\textbf{Parameter}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \makecell[t]{\textbf{Not}\\\textbf{Sustained}\\\textbf{$\mu$}} & \makecell[t]{\textbf{Sustained}\\\textbf{$\mu$}} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[t]{\textbf{30.0\%}\\\textbf{Threshold}} & \makecell[t]{\textbf{Not}\\\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[t]{\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} \\ 
+\makecell[t]{\textbf{First $n$}\\\textbf{Commits}} & \makecell[t]{\textbf{Model}\\\textbf{Parameter}} & \makecell[t]{\textbf{Developers}\\\textbf{\#}} & \makecell[t]{\textbf{Not}\\\textbf{Sustained}\\\textbf{$\mu$}} & \makecell[t]{\textbf{Sustained}\\\textbf{$\mu$}} & \textbf{Odds Ratio} & \textbf{Std. Err} & \textbf{$p$-Value} & \makecell[t]{\textbf{30\%}\\\textbf{Threshold}} & \makecell[t]{\textbf{Not}\\\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} & \makecell[t]{\textbf{Sustained}\\\textbf{Met}\\\textbf{Threshold}} \\ 
 \midrule
 1 & Intercept & 16074 & 1.24 & 5.18 & 0.0135 & 0.0686 & 0.0000 & - & - & - \\ 
 1 & Classes Count & 16074 & 1.24 & 5.18 & 1.0393 & 0.0071 & 0.0000 & \textbf{89.6231} & 5 (0.03\%) & 2 (0.87\%) \\ 
@@ -17,7 +18,7 @@
 10 & Classes Count & 842 & 3.26 & 5.18 & 1.0055 & 0.0045 & 0.2239 & \textbf{27.7465} & 10 (1.63\%) & 4 (1.74\%) \\ 
 % Skip classes: Not enough diversity in classes for Logistic Regression.\bottomrule
 \end{tabular}%
-\label{tab:codebase_graph_latex_repository_graph_component_time_series_strategy_logistic_regressionSustained_True_classes} 
+\label{tab:codebase_graph_latex_repository_graph_component_time_series_strategy_logistic_regressionSustained_True_classes_20} 
 \end{table}
 \end{landscape}
 \newpage 

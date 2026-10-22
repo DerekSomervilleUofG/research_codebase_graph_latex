@@ -1,50 +1,29 @@
-\section{Standard Anova - For all components touched for all commits} 
-\label{sec:codebase_graph_latex.repository_graph.component_time_series.standard_anovaall commits} 
-An Anova table for all components touched on average. 
-
-The Two-Way ANOVA evaluates the influence of two independent categorical variables—\textit{Role} (Founder vs. Late Joiner) and \textit{Tenure} (Moderate vs. Sustained)—on the number of unique architectural components touched. The analysis excludes and includes Transient developers to isolate the behaviors of contributors with established project engagement.
-
-\paragraph{Explanation of Table Columns:}
-\begin{itemize}
-    \item \textbf{Sum Sq (Sum of Squares):} Represents the total variation explained by that specific factor. A higher Sum Sq relative to the Residual indicates that the factor has a strong influence on the outcome.
-    \item \textbf{df (Degrees of Freedom):} The number of independent values that can vary in the calculation. For categorical variables, this is typically $N-1$ levels.
-    \item \textbf{F (F-statistic):} The ratio of the variance explained by the factor to the variance unexplained (Residual). A larger F-value suggests the factor is more likely to be significant.
-    \item \textbf{p-Value ($PR(>F)$):} The probability that the observed differences occurred by chance. Using a significance threshold of $\alpha = 0.05$, values above this indicate no statistically significant effect.
-    \item \textbf{ETA Sq} The effect size, quantifies the proportion of the total variance in your dependent variable. 
-\end{itemize}
-
-\paragraph{Explanation of Table Rows:}
-\begin{itemize}
-    \item \textbf{Intercept:} Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.
-    \item \textbf{Role(F/L):} Tests the \textit{Main Role Effect} of being a Founder versus a Late Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage component exploration.
-    \item \textbf{Category(M/S):} Tests the \textit{Main Category Effect} of the eventual contributor catregory (Transient vs Moderate vs. Sustained). 
-    \item \textbf{Interaction:} Tests the \textit{Interaction Effect}. It evaluates if the effect of being a Founder is different for the different categories. 
-    \item \textbf{Residual:} Represents the ``noise'' or variance within the groups that cannot be explained by Role or Tenure. 
-\end{itemize}
 \begin{table}[H]
 \centering
 \setlength{\tabcolsep}{2pt}
-\caption[Standard Anova Results for packages]{Anova results for packages for number of commits and categories of developers}
+\caption[Standard Anova Results for packages]{Anova results for packages for number of commits and categories of developers\\ \textbf{Metrics reported}:   \textbf{First $n$ commits}: Nnmber of commits;  \textbf{Number of Developers}: The active developer population size.;  \textbf{Factor}: The independent categorical variables or interactions being tested for statistical significance.;  \textbf{Sum of Squares}: Represents the total variation explained by that specific factor. A higher Sum Sq relative to the Residual indicates that the factor has a strong influence on the outcome.;  \textbf{df}: The number of independent values that can vary in the calculation. For categorical variables, this is typically N-1 levels.;  \textbf{F-statistic}: The ratio of the variance explained by the factor to the variance unexplained (Residual). A larger F-value suggests the factor is more likely to be significant.;  \textbf{$p$-Value}: The probability that the observed differences occurred by chance. ;  \textbf{ETA Sq}: The effect size, quantifies the proportion of the total variance in your dependent variable.
+\\ \textbf{Row}:   \textbf{Intercept}: Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.;  \textbf{Role(F/L)}: Tests the Main Role Effect of being a Founder versus a Late Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage component exploration.;  \textbf{Category(M/S)}: Tests the Main Category Effect of the eventual contributor category (Transient vs Moderate vs. Sustained).;  \textbf{Interaction}: Tests the Interaction Effect. It evaluates if the effect of being a Founder is different for the different categories.;  \textbf{Residual}: Represents the "noise" or variance within the groups that cannot be explained by Role or Tenure.
+}
 \begin{tabular}{r r l r r r r r}
 \toprule
-\makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \textbf{Factor} & \makecell[t]{\textbf{Sum}\\\textbf{Squared}} & \textbf{df} & \textbf{F-Stat} & \textbf{$P$ Value} & \textbf{ETA Sq} \\ 
+\makecell[t]{\textbf{First $n$}\\\textbf{commits}} & \makecell[t]{\textbf{Number of}\\\textbf{Developers}} & \textbf{Factor} & \makecell[t]{\textbf{Sum of}\\\textbf{Squares}} & \textbf{df} & \makecell[t]{\textbf{}\\\textbf{F-statistic}} & \textbf{$p$-Value} & \textbf{ETA Sq} \\ 
 \midrule
 1 & 16074 & Role (F/LJ) & 0.26 & 1 & 0.20 & 0.6545 & 0.0000 \\ 
 1 & 16074 & Category (T/M/S) & 45.85 & 2 & 17.38 & 0.0000 & 0.0021 \\ 
 1 & 16074 & Interaction & 2.41 & 2 & 0.91 & 0.4010 & 0.0001 \\ 
-1 & 16074 & Residual & 21193.32 & 16068 & - & -  \\ 
+1 & 16074 & Residual & 21193.32 & 16068 & - & - & -   \\ 
 2 & 3054 & Role (F/LJ) & 0.88 & 1 & 0.09 & 0.7673 & 0.0000 \\ 
 2 & 3054 & Category (M/S) & 14.64 & 2 & 0.73 & 0.4812 & 0.0005 \\ 
 2 & 3054 & Interaction & 16.55 & 2 & 0.83 & 0.4374 & 0.0005 \\ 
-2 & 3054 & Residual & 30500.77 & 3048 & - & -  \\ 
+2 & 3054 & Residual & 30500.77 & 3048 & - & - & -   \\ 
 5 & 1342 & Role (F/LJ) & 26.32 & 1 & 0.76 & 0.3832 & 0.0006 \\ 
 5 & 1342 & Category (M/S) & 19.97 & 2 & 0.29 & 0.7493 & 0.0004 \\ 
 5 & 1342 & Interaction & 8.19 & 2 & 0.12 & 0.8883 & 0.0002 \\ 
-5 & 1342 & Residual & 46215.37 & 1336 & - & -  \\ 
+5 & 1342 & Residual & 46215.37 & 1336 & - & - & -   \\ 
 10 & 842 & Role (F/LJ) & 119.22 & 1 & 2.15 & 0.1430 & 0.0025 \\ 
 10 & 842 & Category (M/S) & 46.77 & 1 & 0.84 & 0.3588 & 0.0010 \\ 
 10 & 842 & Interaction & 6.62 & 1 & 0.12 & 0.7298 & 0.0001 \\ 
-10 & 842 & Residual & 46484.71 & 838 & - & -  \\ 
+10 & 842 & Residual & 46484.71 & 838 & - & - & -   \\ 
 \bottomrule
 \end{tabular}%
 \label{tab:standard_anova_packages} 

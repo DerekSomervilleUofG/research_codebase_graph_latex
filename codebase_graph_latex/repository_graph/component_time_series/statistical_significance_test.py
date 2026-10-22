@@ -5,6 +5,7 @@ from codebase_graph_latex.repository_graph.master_graph import *
 from codebase_graph_latex.latex_graph import *
 from codebase_graph_latex.latex_table import *
 from codebase_graph_latex.repository_graph.component_time_series.normality_and_variance import get_table_latex
+from codebase_graph_latex.repository_graph.component_time_series.normality_and_variance import get_headings as normal_get_headings
 from codebase_graph_latex.repository_graph.component_time_series.normality_and_variance import generate_normal_comparison_latex
 from codebase_graph_latex.repository_graph.component_time_series.normality_and_variance import FILE_NAME as normal_file_name
 FILE_NAME = __name__
@@ -15,6 +16,10 @@ previous_graph_file_name = None
 previous_a_category = None
 previous_component = None
 previous_number_of_commits = None
+header_sample_a = None
+header_sample_b = None
+previous_sample_a = None
+previous_sample_b = None
 graph_file_names = {}
 
 def set_previous():
@@ -63,6 +68,62 @@ def section_heading(time_series):
     latex += "\n"
     return latex
 
+def get_headings(sample_a: str, sample_b: str) -> dict[str, str]:
+    """Generates a mapping of table column headings to their definitions.
+
+    Parameters:
+        sample_a: Name/label of the first cohort (e.g., 'Founder').
+        sample_b: Name/label of the second cohort (e.g., 'Joiner').
+    """
+    return {
+        "First $n$ commits": (
+            "A sample of the first $n$ commits evaluated for developers."
+        ),
+        "Contributor Category": (
+            'The developer activity cohort: Transient, Moderate, or Sustained. "vs." equals versus.'
+        ),
+        rf"{sample_a} $\mu$": (
+            f"The mean average metric value for the {sample_a} sample cohort."
+        ),
+        rf"{sample_a} Number": (
+            f"The total number of unique {sample_a} developers included in the sample."
+        ),
+        rf"{sample_b} $\mu$": (
+            f"The mean average metric value for the {sample_b} sample cohort."
+        ),
+        rf"{sample_b} Number": (
+            f"The total number of unique {sample_b} developers included in the sample."
+        ),
+        "Welch Statistic": (
+            "The test statistic ($t$) for Welch's $t$-test. Absolute values greater than "
+            "approximately $2.0$ generally indicate a significant difference between groups."
+        ),
+        r"Welch $P$": (
+            r"The $p$-value from Welch's $t$-test assessing the difference in means between "
+            rf"{sample_a} and {sample_b}. A $p < 0.05$ indicates a statistically significant difference."
+        ),
+        r"MWU $P$": (
+            r"The Mann-Whitney $U$ test $p$-value assessing rank-sum differences between "
+            rf"{sample_a} and {sample_b}. A $p < 0.05$ indicates a statistically significant distributional difference."
+        ),
+        r"BM $P$": (
+            r"The Brunner-Münzel test asymptotic $p$-value. A $p < 0.05$ indicates "
+            r"a statistically significant difference in relative stochastic effects, robust to heteroscedasticity."
+        ),
+        r"Brunner-Münzel $W$": (
+            "The robust Brunner-Münzel test statistic ($W$). Large absolute values "
+            "indicate a significant structural shift in rank distribution between samples."
+        ),
+        r"Cliff's $\delta$": (
+            r"A non-parametric effect size bounded between $-1$ and $+1$, quantifying the degree "
+            rf"of directional dominance of {sample_a} relative to {sample_b}."
+        ),
+        "Prob. Sup. ($PS$)": (
+            rf"The probability of superiority: the empirical probability ($0$ to $1$) that a randomly "
+            rf"selected developer from {sample_a} scored higher than a randomly selected developer from {sample_b}."
+        ),
+    }
+
 def generate_mann_whitney_formula_latex(sample_a_b):
     """
     Returns a LaTeX string defining the Mann-Whitney U test model
@@ -72,7 +133,7 @@ def generate_mann_whitney_formula_latex(sample_a_b):
     group_b = sample_a_b[1].capitalize()
     latex = r"""
 
-\paragraph{Mann-Whitney U Test}
+\textbf{Mann-Whitney U Test}
 To evaluate the differences in the stochastic dominance of architectural component exploration between primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming a normal distribution, the non-parametric Mann-Whitney $U$ test (Wilcoxon rank-sum test) is employed. 
 
 The data from both independent groups are combined and ranked globally from lowest ($1$) to highest ($N_1 + N_2$), resolving ties by assigning the average rank. The $U$ statistic for Sample A ($U_1$) is calculated as:
@@ -88,7 +149,7 @@ Where:
     \item The total number of pairwise comparisons (maximum possible pairs) is defined by $N_1 \times N_2$.
 \end{itemize}
 
-\paragraph{Normal Approximation for Large Samples}
+\textbf{Normal Approximation for Large Samples}
 Given the substantial sample sizes present in repository participant metrics, the distribution of the $U$ statistic rapidly approaches a normal distribution. The asymptotic significance is determined using a standard normal $Z$-score approximation:
 
 \begin{equation}
@@ -115,7 +176,7 @@ def generate_bruner_Münzel_formula_latex(sample_a_b):
     group_b = sample_a_b[1].capitalize()
     latex = r"""
 
-\paragraph{Brunner-Münzel Test}
+\textbf{Brunner-Münzel Test}
 To test for differences in the stochastic distributions of primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming normal distribution or variance homogeneity, the Brunner-Münzel test is applied. The test statistic $W$ is defined as:
 
 \begin{equation}
@@ -124,7 +185,7 @@ To test for differences in the stochastic distributions of primary roles (\textb
 
 Where $\hat{p}$ represents the relative treatment effect (Probability of Superiority), reflecting the probability that a random observation from Sample A is larger than one from Sample B plus half the probability that they are equal.
 
-\paragraph{Cliff's $\delta$ Effect Size}
+\textbf{Cliff's $\delta$ Effect Size}
 To complement hypothesis significance testing with a distribution-free magnitude metric, Cliff's $\delta$ is tracked to express the degree of dominance of one sample over the other:
 
 \begin{equation}
@@ -145,7 +206,7 @@ def generate_welch_formula_latex(sample_a_b):
     latex = r"""
 \subsubsection*{Statistical Models}
 
-\paragraph{Welch's t-test}
+\textbf{Welch's t-test}
 To specifically compare the two primary roles (\textbf{Sample A} vs. \textbf{Sample B}) without assuming equal variances or sample sizes, Welch's $t$-test is employed. The $t$-statistic is defined as:
 
 \begin{equation}
@@ -257,8 +318,6 @@ def determine_category(cat_name, categories):
 
 def formate_list(sample_list, samples, number_of_commits):
     if len(sample_list) == 4 and number_of_commits == 5:
-        category = TRANSIENT + " with five or more; " + MODERATE + " \& " + SUSTAINED
-    elif len(sample_list) == 4:
         category = "All"
     elif len(sample_list) == 2:
         category = sample_list[0]
@@ -337,19 +396,26 @@ def generate_simple_comparison_latex(sample_a_values, sample_b_values, component
     return latex
 
 def generate_and_save(component, developers, number_of_commits, sample_a_b, file_name, graph_file_name, normal_file_name):
-    global previous_file_name, previous_a_category, previous_normal_file_name, previous_graph_file_name
+    global previous_file_name, previous_a_category, previous_normal_file_name, previous_graph_file_name, previous_sample_a, previous_sample_b
     path = DIRECTORY
     commit_prefix = "all commits"
     category_compare = ""
     sample_a_values, sample_b_values, a_category = filter_data(developers, sample_a_b, number_of_commits, number_of_commits)
-    if sample_a_b[0] == MODERATE and number_of_commits == END_COMMIT_NUMBER:
-        read_write_file.append_to_file(previous_file_name + ".tex", table_end(FILE_NAME + "_" + component +"_previous", True), path)
-        read_write_file.append_to_file(previous_normal_file_name + ".tex", table_end(FILE_NAME + "_" + component + "normal_previous", True), path)
     if FOUNDER in file_name:
         category_compare = "different categories of " + FOUNDER + " versus different categories of late " + JOINER + " "
         sample_a = sample_a_b[0].capitalize()
+        if len(sample_a.split(" ")) == 2:
+            sample_a = sample_a.split(" ")[1].capitalize()
+        elif len(sample_a.split(" ")) == 3:
+            sample_split = sample_a.split(" ")
+            sample_a = sample_split[1].capitalize() + " " + sample_split[2]
         if isinstance(sample_a_b[1], str):
             sample_b = sample_a_b[1].capitalize()
+            if len(sample_b.split(" ")) == 2:
+                sample_b = sample_b.split(" ")[1].capitalize()
+            elif len(sample_b.split(" ")) == 3:
+                sample_split = sample_b.split(" ")
+                sample_b = sample_split[1].capitalize() + " " + sample_split[2]
         elif len(sample_a_b[1]) == 2:
             sample_b = sample_a_b[1][0].capitalize() + r" \& " + sample_a_b[1][1]
     else:
@@ -357,35 +423,39 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
         sample_a = "Sample A"
         sample_b = "Sample B"
 
-    if sample_a_b[0] in [FOUNDER] and number_of_commits == START_COMMIT_NUMBER:
-        number_of_commit_desc = "1, 5, 10 and 20 "    
-    if sample_a_b[0] in [TRANSIENT] and number_of_commits == START_COMMIT_NUMBER:
-        number_of_commit_desc = "1, 5 and 10 "
+    number_of_commit_desc = "1 to 5, 10 and 20"
+
     if sample_a_b[0] in [TRANSIENT, MODERATE, "Core"]:
         if isinstance(sample_a_b[1], str):
             a_category = sample_a_b[0].capitalize() + r" vs. " + sample_a_b[1]
         elif len(sample_a_b[1]) == 2:
             a_category = sample_a_b[0].capitalize() + r" vs. " + sample_a_b[1][0] + r" \& " + sample_a_b[1][1]
+    if sample_a_b[0] == MODERATE and (number_of_commits == END_COMMIT_NUMBER):
+        read_write_file.append_to_file(previous_file_name + ".tex", table_end(FILE_NAME + "_" + component +"_previous", True), path)
+        normal_headings = normal_get_headings(previous_sample_a, previous_sample_b)
+        read_write_file.append_to_file(previous_normal_file_name + ".tex", table_end(FILE_NAME + "_" + component + "normal_previous", False), path)
+    normal_headings = normal_get_headings(sample_a, sample_b)
+    headings = get_headings(sample_a, sample_b)
     
     if (sample_a_b[0] in [FOUNDER] or sample_a_b[1] in [MODERATE]) and number_of_commits == START_COMMIT_NUMBER:
-        headings = ["First $n$ commits", "Contributor Category", sample_a + r" $\mu$", sample_a + r" Number", sample_b + r" $\mu$", sample_b + r" Number", "Welch Statistic", "Welch $P$", "MWU $P$", "BM $P$", "Brunner-Münzel $W$", "Cliff's $\\delta$", "Prob. Sup. ($PS$)" ]
         table_name = "Statistical significance tests of " + category_compare
         table_name += " touches of different granularities of " + component + " after " + number_of_commit_desc + " commits for contributors. "
         table_name += "The significance has been calculated for the following statistical tests: Welch $t$-test, Mann-Whitney and Brunner Münzel. "    
+        table_name += generate_table_name_headings(headings)
         latex = start_landscape()
-        latex += start_latex_table(table_name , headings, "r p{4cm} c c c c r r r r r r r r r r r r", "Statistical Significance tests for " + component + "for " + category_compare)
-        read_write_file.append_to_file(file_name + ".tex", latex, path)
-        latex = get_table_latex(component, category_compare, sample_a, sample_b)
-        read_write_file.append_to_file(normal_file_name + ".tex", latex, path)
+        latex += start_latex_table(table_name , list(headings.keys()), "r p{4cm} c c c c r r r r r r r r", "Statistical Significance tests for " + component + " for " + category_compare + " for " + number_of_commit_desc)
+        read_write_file.append_to_file(file_name + ".tex", latex, DIRECTORY)       
+        latex = get_table_latex(component, category_compare, list(normal_headings.keys()), number_of_commit_desc, normal_headings)
+        read_write_file.append_to_file(normal_file_name + ".tex", latex, DIRECTORY)
         
     if len(sample_a_values) > 0 and (previous_a_category is None or previous_a_category != a_category):
         latex_table = generate_simple_comparison_latex(sample_a_values, sample_b_values, component, a_category, number_of_commits, normal_file_name).replace("_", "\\_")
         generate_graphs(graph_file_name, number_of_commits, component, category_compare, sample_a_b[0], sample_a_values, sample_a_b[1], sample_b_values)
         read_write_file.append_to_file(file_name + ".tex", latex_table, path)
         previous_a_category = a_category
-    if sample_a_b[0] == "Core" and number_of_commits == END_COMMIT_NUMBER:
+    if sample_a_b[0] == "Core" and (number_of_commits == END_COMMIT_NUMBER):
         read_write_file.append_to_file(file_name + ".tex", table_end(FILE_NAME + "_" + component, True), path)
-        read_write_file.append_to_file(normal_file_name + ".tex", table_end(FILE_NAME + "_normal" + "_" + component, True), path)
+        read_write_file.append_to_file(normal_file_name + ".tex", table_end(FILE_NAME + "_normal" + "_" + component, False), path)
     if component == "methods" and sample_a_b[0] == "Core" and number_of_commits == END_COMMIT_NUMBER:
         read_write_file.append_to_file(file_name + ".tex", generate_formula_latex(sample_a_b) + "\n\\newpage \n", path)
 
@@ -394,4 +464,6 @@ def generate_and_save(component, developers, number_of_commits, sample_a_b, file
     previous_file_name = file_name
     previous_normal_file_name = normal_file_name
     previous_graph_file_name = graph_file_name
+    previous_sample_a = sample_a
+    previous_sample_b = sample_b
          

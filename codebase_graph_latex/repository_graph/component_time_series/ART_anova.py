@@ -26,8 +26,6 @@ def section_heading(time_series):
     latex = get_section_start(FILE_NAME, "").replace("Art", "ART") 
     latex += "For all components touched for " + time_series + "} \n"
     latex += "\\label{sec:" + FILE_NAME.replace(" ", "_") + time_series  + "} \n"
-    latex += "An \\textbf{Aligned Rank Transform (ART)} Anova table for all components touched on average. "
-    latex += generate_art_anova_explanation_latex()
     return latex
 
 def section_sub_heading(commit_prefix):
@@ -36,34 +34,77 @@ def section_sub_heading(commit_prefix):
     latex += "\\label{subsec:" + FILE_NAME.replace(" ", "_") + commit_prefix  + "} \n"
     return latex
 
-def generate_art_anova_explanation_latex():
-    latex = r"""
-The statistical significance of architectural exploration is evaluated using a dual-framework modeling methodology. A standard parametric ordinary least squares (\textbf{OLS}) ANOVA is presented alongside a robust non-parametric ANOVA. This side-by-side presentation explicitly demonstrates where extreme right-skew and outlier-induced variance in repository mining data mask true behavioral effects in traditional linear models, which the rank-transformed framework uncovers.
+def get_headings():
+    return {
+    r"First $n$ commits": (
+        "Nnmber of commits"
+    ),
+    rf"Number of Developers": (
+        "The active developer population size."
+    ),
+    "Factor": (
+        "The independent categorical variables or interactions being "
+        "tested for statistical significance."
+    ),
+    "OLS df": (
+        "Parametric numerator degrees of freedom based on factor "
+        "grouping configurations."
+    ),
+    "OLS F-Stat": (
+        "The traditional variance ratio metric calculated from raw values."
+    ),
+    "OLS $P$-Value": (
+        "Parametric significance probability. Note how heteroscedastic "
+        "noise frequently inflates these values toward non-significance "
+        r"($p > 0.05$)."
+    ),
+    r"OLS $\eta^2$ (Eta-Squared)": (
+        "The total proportion of raw variance explained exclusively by "
+        "this standalone factor."
+    ),
+    "ART df (Resid)": (
+        r"Formatted as $df_{\mathrm{effect}}~(df_{\mathrm{residual}})$. "
+        "Because the ART methodology conducts independent alignment procedures "
+        "for each factor before ranking, it assigns the exact denominator error "
+        "degrees of freedom dynamically alongside its numerator."
+    ),
+    "ART F-Stat": (
+        "The robust variance ratio calculated over the aligned, ranked data layers."
+    ),
+    "ART $P$-Value": (
+        "Non-parametric significance probability, providing the authoritative "
+        "test for heavy-tailed software metrics."
+    ),
+    r"ART Part. $\eta^2$ (Partial Eta-Squared)": (
+        "The effect size over ranked data layers, indicating the proportion "
+        "of variance explained by this specific factor after controlling for "
+        "alternate main effects."
+    ),
+    } 
 
-\paragraph{Explanation of Combined Table Columns:}
-\begin{itemize}
-    \item \textbf{Component / Commits ($n$) / Devs ($N$):} Define the experimental scope, tracking the architectural tier (packages, classes, or methods), the longitudinal lifecycle snapshot threshold, and the active developer population size.
-    \item \textbf{Factor:} The independent categorical variables or interactions being tested for statistical significance.
-    
-    \item \textbf{OLS df:} Parametric numerator degrees of freedom based on factor grouping configurations.
-    \item \textbf{OLS F-Stat:} The traditional variance ratio metric calculated from raw values.
-    \item \textbf{OLS $P$-Value:} Parametric significance probability. Note how heteroscedastic noise frequently inflates these values toward non-significance ($p > 0.05$).
-    \item \textbf{OLS $\eta^2$ (Eta-Squared):} The total proportion of raw variance explained exclusively by this standalone factor.
-    
-    \item \textbf{ART df (Resid):} Formatted as $df_{\mathrm{effect}}~(df_{\mathrm{residual}})$. Because the ART methodology conducts independent alignment procedures for each factor before ranking, it assigns the exact denominator error degrees of freedom dynamically alongside its numerator.
-    \item \textbf{ART F-Stat:} The robust variance ratio calculated over the aligned, ranked data layers.
-    \item \textbf{ART $P$-Value:} Non-parametric significance probability, providing the authoritative test for heavy-tailed software metrics.
-    \item \textbf{ART Part. $\eta^2$ (Partial Eta-Squared):} The effect size over ranked data layers, indicating the proportion of variance explained by this specific factor after controlling for alternate main effects.
-\end{itemize}
+def get_row_headings():
+    return {
+    "Role (F/LJ)": (
+        r"Isolates the \textit{Main Role Effect} to evaluate whether the "
+        "timing of project entry (Founder vs. Later Joiner) significantly "
+        "alters exploration breadth on its own."
+    ),
+    "Category (T/M/S or M/S)": (
+        r"Isolates the \textit{Main Category Effect} to determine whether "
+        "a contributor's eventual longevity footprint (Transient, Moderate, "
+        "or Sustained) dictates early behavior."
+    ),
+    "Interaction": (
+        r"Evaluates the \textit{Interaction Effect} "
+        r"($\mathrm{Role} \times \mathrm{Category}$). A significant interaction "
+        "indicates that the impact of entry role is not uniform, but behaves "
+        "completely differently depending on the eventual tenure category of "
+        "the contributor."
+    ),
+}
 
-\paragraph{Explanation of Fixed Table Rows:}
-\begin{itemize}
-    \item \textbf{Role (F/LJ):} Isolates the \textit{Main Role Effect} to evaluate whether the timing of project entry (Founder vs. Later Joiner) significantly alters exploration breadth on its own.
-    \item \textbf{Category (T/M/S or M/S):} Isolates the \textit{Main Category Effect} to determine whether a contributor's eventual longevity footprint (Transient, Moderate, or Sustained) dictates early behavior.
-    \item \textbf{Interaction:} Evaluates the \textit{Interaction Effect} ($\mathrm{Role} \times \mathrm{Category}$). A significant interaction indicates that the impact of entry role is not uniform, but behaves completely differently depending on the eventual tenure category of the contributor.
-\end{itemize}
-"""
-    return latex
+def get_description():
+    return "The statistical significance of architectural exploration is evaluated using a dual-framework modeling methodology. A standard parametric ordinary least squares (\textbf{OLS}) ANOVA is presented alongside a robust non-parametric ANOVA. This side-by-side presentation explicitly demonstrates where extreme right-skew and outlier-induced variance in repository mining data mask true behavioral effects in traditional linear models, which the rank-transformed framework uncovers."
 
 def generate_statistical_formula_latex():
     """
@@ -195,7 +236,7 @@ def generate_anova_latex(df, component, commit_prefix, number_of_commits, catego
 
         # 3. Concatenate side-by-side data columns cleanly into 12 total columns
         latex_output += (
-            f"{component} & {number_of_commits} & {number_of_developers} & {lbl} & "
+            f"{number_of_commits} & {number_of_developers} & {lbl} & "
             f"{ols_df} & {ols_f} & {ols_p} & {ols_eta} & "
             f"{art_df} & {art_f} & {art_p} & {art_eta_p} \\\\ \n"
         )
@@ -205,35 +246,32 @@ def generate_anova_latex(df, component, commit_prefix, number_of_commits, catego
 def generate_and_save(component, developers, number_of_commits):
     path = DIRECTORY
     base_file_name = get_base_file_name(FILE_NAME)
-    file_name = base_file_name + "_transient"
+    file_name = base_file_name + "_table"
     df = get_data_frame(developers, KNOWN_Y_AXIS)
-    table_name = "ART Anova results for all components, number of commits and categories of developers"
     commit_prefix = "all commits"
+    headings = get_headings()
+    description = get_description()
+    headings = get_headings()
+    row_headings = get_row_headings()
+    table_name = "ART Anova results for " + component + ", number of commits and categories of developers. "
+    table_name += description
+    table_name += generate_table_name_headings(headings)
+    table_name += generate_table_name_headings(row_headings, "Row")
+    latex = ""
     if component == "packages" and number_of_commits == START_COMMIT_NUMBER:
-        latex = section_heading(commit_prefix)
-        read_write_file.append_to_file(base_file_name + ".tex", latex, DIRECTORY)
-        headings = [
-            "Component", 
-            "First $n$ commits", 
-            "Number of Developers", 
-            "Factor", 
-            "OLS df", 
-            "OLS F-Stat", 
-            "OLS $P$ Value", 
-            "OLS $\eta^2$", 
-            "ART df (Resid)", 
-            "ART F-Stat", 
-            "ART $P$ Value", 
-            "ART Part. $\eta^2$"]
-        latex = start_landscape() + start_latex_table(table_name, headings, "l r r l ccc r ccc r", "ART Anova for all components")
-        save_to_latex_file(file_name, base_file_name + ".tex", latex, path)   
+        read_write_file.append_to_file(base_file_name + ".tex", section_heading(commit_prefix), DIRECTORY)
+        save_to_latex_file(base_file_name + "_column", base_file_name + ".tex", description, DIRECTORY)
+    if number_of_commits == START_COMMIT_NUMBER:
+        latex = start_landscape() + start_latex_table(table_name, list(headings.keys()), "l r r l ccc r ccc r", "ART Anova for all " + component)
+        save_to_latex_file(file_name + "_" + component, base_file_name + ".tex", latex, path)   
     if number_of_commits == 1:     
         category = "Category (T/M/S)"
     else:
         category = "Category (M/S)"
     latex_table = generate_anova_latex(df, component, commit_prefix, number_of_commits, category).replace("_", "\\_")
-    read_write_file.append_to_file(file_name + ".tex", latex_table, path)
+    read_write_file.append_to_file(file_name + "_" + component  + ".tex", latex_table, path)
+    if number_of_commits == 10:
+        read_write_file.append_to_file(file_name + "_" + component + ".tex", table_end(FILE_NAME + "_" + component, True), path)
     if component == "methods" and number_of_commits == 10:
-        read_write_file.append_to_file(file_name + ".tex", table_end(FILE_NAME, True), path)
         read_write_file.append_to_file(base_file_name + ".tex", generate_statistical_formula_latex() + "\n\\newpage \n", path)
          

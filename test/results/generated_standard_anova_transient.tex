@@ -3,7 +3,7 @@ An Anova table for all components touched on average.
 
 The Two-Way ANOVA evaluates the influence of two independent categorical variables—\textit{Role} (Founder vs. Late Joiner) and \textit{Tenure} (Moderate vs. Sustained)—on the number of unique architectural components touched. The analysis excludes and includes Transient developers to isolate the behaviors of contributors with established project engagement.
 
-\paragraph{Explanation of Table Columns:}
+\textbf{Explanation of Table Columns:}
 \begin{itemize}
     \item \textbf{Sum Sq (Sum of Squares):} Represents the total variation explained by that specific factor. A higher Sum Sq relative to the Residual indicates that the factor has a strong influence on the outcome.
     \item \textbf{df (Degrees of Freedom):} The number of independent values that can vary in the calculation. For categorical variables, this is typically $N-1$ levels.
@@ -12,7 +12,7 @@ The Two-Way ANOVA evaluates the influence of two independent categorical variabl
     \item \textbf{ETA Sq} The effect size, quantifies the proportion of the total variance in your dependent variable. 
 \end{itemize}
 
-\paragraph{Explanation of Table Rows:}
+\textbf{Explanation of Table Rows:}
 \begin{itemize}
     \item \textbf{Intercept:} Represents the baseline value of the dependent variable when all categorical factors are at their reference levels.
     \item \textbf{Role(F/L):} Tests the \textit{Main Role Effect} of being a Founder versus a Late Joiner. The p-Value above 0.05 indicates that the timing of project entry does not significantly change the breadth of early-stage component exploration.

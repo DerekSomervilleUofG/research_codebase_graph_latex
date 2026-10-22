@@ -108,6 +108,33 @@ def generate_latex_heading(headings):
     
     return latex_output
 
+def generate_definition(definitions):
+    latex_items = [
+    f"    \\item \\textbf{{{col}}}: {desc}"
+    for col, desc in definitions.items()
+    ]
+    return "\n".join(latex_items) + "\n"
+
+def generate_heading(headings):
+    latex_items = [
+        f"  \\textbf{{{col}}}: {desc}"
+        for col, desc in headings.items()
+        ]
+    return ";".join(latex_items) + "\n"
+
+def generate_table_name_headings(headings, name="Metrics reported"):
+    return f"\\\\ \\textbf{{{name}}}: " + generate_heading(headings)
+    
+def generate_footnote(description, columns, rows):
+    latex = "\\begin{tablenotes}[flushleft]\n\\footnotesize\n"
+    if description is not None:
+        latex += "\\item " + description 
+    latex += " \n\\item \\textbf{Columns:}\n" + generate_definition(columns)
+    if rows is not None:
+        latex += "\\item \\textbf{Rows:}\n" + generate_definition(rows)
+    latex += "\\end{tablenotes}\n"
+    return latex
+
 def start_latex_table(caption, headings, column_setup="", short_caption=None, rotate=False):
     num_r_columns = len(headings)
     latex_column_setup = "" 
